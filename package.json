@@ -1,0 +1,38 @@
+{
+  "name": "pubnow-frontend",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/@pubnow/*"
+    ]
+  },
+  "scripts": {
+    "build": "lerna run build",
+    "dev": "lerna run --parallel dev",
+    "clean": "rimraf packages/**/dist packages/**/.nuxt",
+    "prebuild": "yarn clean"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.0.0",
+    "@commitlint/config-conventional": "^8.0.0",
+    "autoprefixer": "^9.6.0",
+    "husky": "^2.4.0",
+    "lerna": "^3.15.0",
+    "postcss-url": "^8.0.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.15.1",
+    "rollup-plugin-buble": "^0.19.6",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.1",
+    "rollup-plugin-nodent": "^0.2.2",
+    "rollup-plugin-uglify": "^6.0.2",
+    "rollup-plugin-vue": "^5.0.0",
+    "vue": "^2.6.10",
+    "vue-template-compiler": "^2.6.10"
+  }
+}
