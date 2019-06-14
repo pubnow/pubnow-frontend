@@ -1,11 +1,12 @@
 <template>
-  <div class="text">This is the text component</div>
+  <div class="text">
+    <slot/>
+  </div>
 </template>
 
 <script>
-// anh khong biet
 export default {
-  name: 'pn-text',
+  name: 'p-text',
 }
 </script>
 

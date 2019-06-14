@@ -1,1 +1,1 @@
-export { default as PnText } from './Text'
+export { default as PText } from './Text'
