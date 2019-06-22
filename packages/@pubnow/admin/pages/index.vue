@@ -1,18 +1,18 @@
 <template>
   <div class="container">
     Import single component
-    <i-pn-text/>
+    <i-p-text>xxx</i-p-text>
     <br>Global component
-    <pn-text/>
+    <p-text>fdfdd</p-text>
   </div>
 </template>
 
 <script>
-import { PnText } from '@pubnow/ui'
+import { PText } from '@pubnow/ui'
 
 export default {
   components: {
-    IPnText: PnText,
+    IPText: PText,
   },
 }
 </script>
