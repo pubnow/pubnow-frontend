@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    Import single component
-    <i-p-text>xxx</i-p-text>
-    <br>Global component
-    <p-text>fdfdd</p-text>
+    <b-button>Bootstrap Button</b-button>
   </div>
 </template>
 
