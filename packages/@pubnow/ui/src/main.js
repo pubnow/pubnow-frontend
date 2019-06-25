@@ -1,11 +1,9 @@
-import * as components from './components'
+import PText from './components/Text'
 
 export default {
   install(v) {
-    for (let _ in components) {
-      v.component(components[_].name, components[_])
-    }
+    v.component(PText.name, PText)
   },
 }
 
-export * from './components'
+export { PText }
