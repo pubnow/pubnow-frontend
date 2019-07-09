@@ -1,0 +1,20 @@
+@import '@pubnow/ui/scss/_colors.scss';
+
+.material-design-icon.icon-2x {
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.material-design-icon.icon-2x > .material-design-icon__svg {
+  height: 1.5em;
+  width: 1.5em;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.5s;
+}
+.page-enter,
+.page-leave-active {
+  opacity: 0;
+}
