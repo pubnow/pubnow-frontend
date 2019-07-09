@@ -15,5 +15,8 @@
     "@pubnow/ui": "^0.0.0",
     "bootstrap-vue": "^2.0.0-rc.24",
     "nuxt": "^2.8.1"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.9.0"
   }
 }
