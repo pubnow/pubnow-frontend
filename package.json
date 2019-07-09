@@ -12,7 +12,7 @@
     "dev:web": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/website}",
     "dev:admin": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/admin}",
     "clean": "rimraf packages/**/dist packages/**/.nuxt",
-    "storybook": "concurrently \"lerna run dev --scope=@pubnow/ui\" \"lerna run storybook --scope=@pubnow/storybook\"",
+    "docs": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/docs}",
     "prebuild": "yarn clean",
     "test": "jest",
     "test-ci": "yarn build && yarn test --coverage --ci --maxWorkers=4 --no-cache"

@@ -1,0 +1,21 @@
+{
+  "name": "@pubnow/docs",
+  "version": "0.0.0",
+  "description": "The PubNow's playground for UI components",
+  "main": "index.js",
+  "author": "Pubnow Team",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vuepress dev src"
+  },
+  "devDependencies": {
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0",
+    "vuepress": "^1.0.0-rc.1"
+  },
+  "dependencies": {
+    "@pubnow/ui": "^0.0.0",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.0-rc.25"
+  }
+}

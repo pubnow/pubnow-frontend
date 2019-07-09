@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "files": [
     "dist",
+    "scss",
     "README.MD"
   ],
   "main": "dist/pubnowui.common.js",
@@ -12,6 +13,8 @@
     "build": "rollup -c"
   },
   "peerDependencies": {
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.0.0-rc.25"
   }
 }

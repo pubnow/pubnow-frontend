@@ -1,0 +1,91 @@
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: 'Roboto', sans-serif;
+  color: $instagram;
+  display: block;
+}
+
+h1,
+.h1 {
+  font-weight: 300;
+  font-size: 36px;
+  line-height: 60px;
+}
+
+h2,
+.h2 {
+  font-size: 30px;
+  line-height: 50px;
+}
+
+h3,
+.h3 {
+  font-size: 24px;
+  letter-spacing: 0;
+  line-height: 40px;
+}
+
+h4,
+.h4 {
+  font-size: 18px;
+  line-height: 30px;
+}
+
+h5,
+.h5 {
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 30px;
+}
+
+h6,
+.h6 {
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 30px;
+}
+
+.text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: $instagram;
+  letter-spacing: 0;
+  line-height: 30px;
+}
+
+.text-lead {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  color: $instagram;
+  letter-spacing: 0;
+  line-height: 30px;
+}
+
+ul {
+  list-style: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+li.list-item {
+  padding-left: 1em;
+  text-indent: -1em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  color: $instagram;
+  letter-spacing: 0;
+  line-height: 30px;
+}
+
+ul > li.list-item {
+  &:before {
+    content: '•';
+    color: $gray85;
+    padding-right: 20px;
+  }
+}
