@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap&subset=vietnamese');
+
+@import 'colors';
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: $instagram;
+  letter-spacing: 0;
+  line-height: 30px;
+}
+
+@import 'text';
