@@ -1,15 +1,19 @@
 <template>
   <div class="container">
-    <b-button>Bootstrap Button</b-button>
+    <breadcrumb :items="breadcrumb" />
+    <h1>{{ breadcrumb[breadcrumb.length - 1] }}</h1>
   </div>
 </template>
 
 <script>
-import { PText } from '@pubnow/ui'
+import { Breadcrumb } from '@/components/commons'
 
 export default {
   components: {
-    IPText: PText,
+    Breadcrumb,
   },
+  data: () => ({
+    breadcrumb: ['Dashboard'],
+  }),
 }
 </script>
