@@ -1,3 +1,11 @@
 @mixin box-shadow {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.05);
 }
+
+@mixin radius-sm {
+  border-radius: 4px;
+}
+
+@mixin radius-md {
+  border-radius: 6px;
+}
