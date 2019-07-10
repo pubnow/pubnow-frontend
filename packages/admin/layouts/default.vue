@@ -9,6 +9,7 @@
 <script>
 import { Navigation, SideMenu } from '@/components/commons'
 export default {
+  middleware: ['auth'],
   components: {
     Navigation,
     SideMenu,
