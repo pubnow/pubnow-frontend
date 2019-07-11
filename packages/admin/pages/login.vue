@@ -26,7 +26,7 @@
             @click="login"
           >
             <b-spinner small v-if="loading"></b-spinner>
-            <span :class="loading && 'ml-1'">Login</span>
+            <span :class="loading && 'ml-1'">Đăng nhập</span>
           </b-button>
         </div>
       </form>
@@ -108,7 +108,7 @@ export default {
 
     .forgot {
       font-weight: 500;
-      color: $primary;
+      font-style: normal;
       text-decoration: none;
     }
 
@@ -116,8 +116,9 @@ export default {
       height: 50px;
       padding-left: 30px;
       padding-right: 30px;
-      background: $primary;
-      font-weight: 500;
+      font-weight: 900;
+      font-size: 12px;
+      text-transform: uppercase;
     }
   }
 }
