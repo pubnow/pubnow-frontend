@@ -1,0 +1,30 @@
+.table {
+  margin-bottom: 0px;
+}
+
+.table th,
+.table td {
+  padding: $unit / 2 $unit;
+}
+
+.table thead th {
+  border-top: 0;
+  border-bottom: 2px solid $border;
+  color: $table-heading-text;
+  font-weight: 500;
+}
+
+.table td {
+  cursor: pointer;
+  color: $table-text;
+  font-weight: 500;
+}
+
+.table tbody tr {
+  &:not(:last-child) {
+    border-bottom: 2px solid $border;
+  }
+  &:hover {
+    background-color: $hover;
+  }
+}

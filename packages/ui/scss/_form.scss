@@ -1,0 +1,9 @@
+.custom-control-label::before,
+.custom-control-label::after {
+  width: $unit;
+  height: $unit;
+}
+.custom-control-label::before {
+  border-color: $gray90;
+  border-width: 2px;
+}
