@@ -9,6 +9,9 @@ $blue: $primary;
 @import '~bootstrap-vue/src/index.scss';
 
 @import 'text';
+@import 'sizes';
+@import 'form';
+@import 'table';
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -17,4 +20,24 @@ body {
   color: $text;
   letter-spacing: 0;
   line-height: 30px;
+}
+
+.btn {
+  text-transform: uppercase;
+  font-size: 12px;
+  line-height: 50px;
+  padding: 0 30px;
+  font-weight: 900;
+}
+
+.material-design-icon.icon-2x {
+  height: 24px;
+  width: 24px;
+  bottom: 0px;
+}
+
+.material-design-icon.icon-2x > .material-design-icon__svg {
+  height: 24px;
+  width: 24px;
+  bottom: 0px;
 }
