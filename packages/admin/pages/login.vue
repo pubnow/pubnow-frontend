@@ -113,9 +113,6 @@ export default {
     }
 
     .login-btn {
-      height: 50px;
-      padding-left: 30px;
-      padding-right: 30px;
       font-weight: 900;
       font-size: 12px;
       text-transform: uppercase;
