@@ -1,6 +1,14 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap&subset=vietnamese');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,900&display=swap&subset=vietnamese');
 
 @import 'colors';
+
+$blue: $primary;
+
+// Include Bootstrap and BootstrapVue SCSS files
+@import '~bootstrap/scss/bootstrap.scss';
+@import '~bootstrap-vue/src/index.scss';
+
+@import 'text';
 
 body {
   font-family: 'Roboto', sans-serif;
@@ -10,5 +18,3 @@ body {
   letter-spacing: 0;
   line-height: 30px;
 }
-
-@import 'text';
