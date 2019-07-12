@@ -64,7 +64,7 @@ export default {
 }
 
 .login-form {
-  width: 450px;
+  width: 365px;
   background-color: $white;
   .logo {
     display: block;
