@@ -1,7 +1,6 @@
 <template>
   <div class="user-wrapper">
     <div class="avatar" :alt="username" :style="`background-image: url(${avatar})`" />
-    <span class="username">{{username}}</span>
   </div>
 </template>
 
@@ -23,13 +22,10 @@ export default {
 
 <style lang="scss" scoped>
 .user-wrapper {
-  display: flex;
-  align-items: center;
-  margin-right: 30px;
   .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 18px;
     background-size: cover;
   }
   .username {

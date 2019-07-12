@@ -32,6 +32,10 @@ export default {
       src: '~/plugins/pubnow-ui',
       ssr: false,
     },
+    {
+      src: '~/plugins/vue-atlas',
+      ssr: false,
+    },
   ],
   /*
    ** Nuxt.js modules

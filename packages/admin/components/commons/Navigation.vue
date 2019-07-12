@@ -1,23 +1,33 @@
 <template>
-  <b-navbar class="nav">
-    <img :src="require('@/assets/images/logo.svg')" />
-    <b-container fluid>
-      <b-navbar-nav>
-        <b-nav-item href="#">Dashboard</b-nav-item>
-        <b-nav-item href="#">Statistic</b-nav-item>
-      </b-navbar-nav>
-      <b-navbar-nav>
-        <b-nav-form>
-          <search-icon class="icon-2x" />
-          <input placeholder="Tìm kiếm" />
-        </b-nav-form>
-        <b-nav-item to="/notifications">
-          <notification-icon class="icon-2x notification" />
-        </b-nav-item>
-      </b-navbar-nav>
-    </b-container>
-    <user-info />
-  </b-navbar>
+  <va-minibar class="minibar" theme="white" :top-items="minibarTopItems">
+    <div slot="top">
+      <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
+      <div v-for="(item, index) in minibarTopItems" :key="index">
+        <va-minibar-item
+          v-if="item.method"
+          :tooltip="item.tooltip"
+          :brand="item.brand"
+          @click.native="item.method"
+        >
+          <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+        </va-minibar-item>
+        <va-minibar-item v-else :brand="item.brand" :tooltip="item.tooltip">
+          <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+        </va-minibar-item>
+      </div>
+    </div>
+    <div slot="bottom">
+      <div v-for="(item, index) in minibarBottomItems" :key="index">
+        <va-minibar-item v-if="item.method" @click.native="item.method" :tooltip="item.tooltip">
+          <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+        </va-minibar-item>
+        <va-minibar-item v-else :tooltip="item.tooltip">
+          <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+        </va-minibar-item>
+      </div>
+      <user-info />
+    </div>
+  </va-minibar>
 </template>
 
 <script>
@@ -31,6 +41,27 @@ export default {
     NotificationIcon,
     SearchIcon,
   },
+  data() {
+    return {
+      minibarTopItems: [
+        {
+          icon: 'search',
+          size: '1.5em',
+        },
+        {
+          icon: 'plus',
+          size: '1.25em',
+        },
+      ],
+      minibarBottomItems: [
+        {
+          icon: 'cog',
+          size: '1.5em',
+          method: this.demoMethod,
+        },
+      ],
+    }
+  },
 }
 </script>
 
@@ -40,50 +71,24 @@ export default {
 @import '@pubnow/ui/scss/_mixins.scss';
 @import '@pubnow/ui/scss/_sizes.scss';
 
-.nav {
-  position: fixed;
-  top: 0;
-  height: 90px;
-  width: 100%;
-  padding-left: $side-menu-w;
-  z-index: 2;
-  background-color: $white;
+.minibar {
   @include box-shadow;
-}
-.container-fluid {
-  margin-left: $side-menu-w;
-  margin-right: $side-menu-w / 2;
-}
+  .logo {
+    width: 36px;
+    height: 36px;
+  }
 
-.form-inline {
-  width: 200px;
-  height: 50px;
-  border-radius: 30px;
-  border: 2px solid $border;
-  overflow: hidden;
-  padding-left: 20px;
-  display: flex;
+  .site-name {
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: $unit / 2;
+  }
 
-  .material-design-icon {
+  i.notification {
     color: $gray85;
+    font-size: $unit !important;
+    margin-left: $unit !important;
+    margin-right: $unit !important;
   }
-  input {
-    border: 0;
-
-    &:focus {
-      outline: 0;
-    }
-  }
-  ::placeholder {
-    color: $text;
-    font-size: 12px;
-    font-weight: 500;
-  }
-}
-
-.notification {
-  margin-top: 3px;
-  margin-left: 20px;
-  color: $gray85;
 }
 </style>

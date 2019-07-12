@@ -1,37 +1,26 @@
 <template>
-  <b-container>
-    <div class="form-wrapper d-flex align-items-center justify-content-center">
-      <form class="login-form">
+  <div class="form-wrapper d-flex align-items-center justify-content-center">
+    <va-card class="login-form" :elevation="3">
+      <va-form type="vertical">
         <img class="logo" :src="require('@/assets/images/logo.svg')" alt="Pubnow logo" />
-        <b-form-group>
-          <b-form-input v-model="username" placeholder="Tên tài khoản" class="username" required />
-        </b-form-group>
-        <b-form-group>
-          <b-form-input
-            type="password"
-            v-model="password"
-            placeholder="Mật khẩu"
-            class="password"
-            required
-          />
-        </b-form-group>
-
-        <div class="form-footer">
-          <a class="forgot" href="#">Bạn quên mật khẩu?</a>
-          <b-button
-            type="submit"
-            class="login-btn"
-            variant="primary"
-            :disabled="loading"
-            @click="login"
-          >
-            <b-spinner small v-if="loading"></b-spinner>
-            <span :class="loading && 'ml-1'">Đăng nhập</span>
-          </b-button>
+        <div class="form-body">
+          <va-form-item label="Tên tài khoản" need>
+            <va-input v-model="username" class="username" required />
+          </va-form-item>
+          <va-form-item label="Mật khẩu" need>
+            <va-input type="password" v-model="password" class="password" required />
+          </va-form-item>
         </div>
-      </form>
-    </div>
-  </b-container>
+
+        <div class="form-footer va-col-sm-12">
+          <va-button class="forgot" href="#">Bạn quên mật khẩu?</va-button>
+          <va-button type="primary" :disabled="loading" :loading="loading" @click="login">
+            <span>Đăng nhập</span>
+          </va-button>
+        </div>
+      </va-form>
+    </va-card>
+  </div>
 </template>
 
 <script>
@@ -77,33 +66,26 @@ export default {
 .login-form {
   width: 450px;
   background-color: $white;
-  @include box-shadow;
-  @include radius-md;
-  padding: 48px 40px 50px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   .logo {
-    width: $side-menu-w;
-    height: $side-menu-w;
-    margin-bottom: 30px;
+    display: block;
+    width: 3 * $unit;
+    height: 3 * $unit;
+    margin: $unit auto;
   }
 
-  .form-group {
+  form {
     width: 100%;
-    .username,
-    .password {
-      border-color: $border;
-      border-width: 2px;
-      @include radius-sm;
-    }
+  }
+
+  .form-body {
+    width: 100%;
   }
 
   .form-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
+    margin: $unit * 1.5 auto $unit;
     width: 100%;
 
     .forgot {
