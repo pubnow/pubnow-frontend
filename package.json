@@ -32,7 +32,7 @@
     },
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "packages/@pubnow/ui/src/**/*.{vue,js}"
+      "packages/ui/src/**/*.{vue,js}"
     ],
     "snapshotSerializers": [
       "jest-serializer-vue"
