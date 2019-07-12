@@ -8,6 +8,7 @@
   },
   "scripts": {
     "build": "lerna run build",
+    "build:admin": "lerna run build --scope={@pubnow/ui,@pubnow/admin}",
     "dev": "lerna run --parallel dev",
     "dev:web": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/website}",
     "dev:admin": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/admin}",
