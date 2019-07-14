@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { delay } from 'bluebird'
+import { mapActions } from 'vuex'
 import Cookie from 'js-cookie'
 
 export default {
@@ -40,15 +40,20 @@ export default {
   methods: {
     async login() {
       this.loading = true
-      await delay(1000)
-      const auth = {
-        user: this.username,
-        token: 'kh@banh',
-      }
-      Cookie.set('auth', auth)
-      this.$store.commit('auth/setAuth', auth)
+      const logged = await this.$store.dispatch('auth/login', {
+        username: this.username,
+        password: this.password,
+      })
       this.loading = false
-      this.$router.push('/')
+      if (logged) {
+        this.$router.push('/')
+      } else {
+        this.notification.danger({
+          title: `Lỗi xác thực`,
+          message: `Vui lòng kiểm tra lại tài khoản và mật khẩu.`,
+          duration: 2000,
+        })
+      }
     },
   },
 }
