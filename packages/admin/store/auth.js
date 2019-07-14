@@ -1,3 +1,5 @@
+import Cookie from 'js-cookie'
+
 export const state = () => ({
   user: null,
   token: null,
@@ -9,8 +11,33 @@ export const getters = {
 }
 
 export const mutations = {
-  setAuth(state, payload) {
-    state.user = payload.user
-    state.token = payload.token
+  setToken(state, token) {
+    this.$http.setHeader('Authorization', `Bearer ${token}`)
+    state.token = token
+  },
+  setUser(state, user) {
+    state.user = user
+  },
+  clear(state) {
+    state.user = null
+    state.token = null
+    Cookie.remove('token')
+  },
+}
+
+export const actions = {
+  async login({ commit }, user) {
+    this.$http.setHeader('Accept', 'application/json')
+    try {
+      const result = await this.$http.$post('api/auth/login', {
+        user,
+      })
+      commit('setUser', result.data)
+      commit('setToken', result.token)
+      Cookie.set('token', result.token)
+      return result.data
+    } catch (e) {
+      return false
+    }
   },
 }
