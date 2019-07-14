@@ -40,13 +40,21 @@ export default {
   methods: {
     async login() {
       this.loading = true
-      const logged = await this.$store.dispatch('auth/login', {
+      const user = await this.$store.dispatch('auth/login', {
         username: this.username,
         password: this.password,
       })
       this.loading = false
-      if (logged) {
-        this.$router.push('/')
+      if (user) {
+        if (user.isAdmin) {
+          this.$router.push('/')
+        } else {
+          this.notification.danger({
+            title: `Lỗi xác thực`,
+            message: `Bạn không được phép truy cập khu vực này.`,
+            duration: 2000,
+          })
+        }
       } else {
         this.notification.danger({
           title: `Lỗi xác thực`,
