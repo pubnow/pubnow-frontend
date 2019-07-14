@@ -11,9 +11,11 @@ export const getters = {
 }
 
 export const mutations = {
-  setAuth(state, payload) {
-    state.user = payload.user
-    state.token = payload.token
+  setToken(state, token) {
+    state.token = token
+  },
+  setUser(state, user) {
+    state.user = user
   },
 }
 
@@ -24,8 +26,9 @@ export const actions = {
       const result = await this.$http.$post('api/auth/login', {
         user,
       })
-      commit('setAuth', result)
-      Cookie.set('auth', result)
+      commit('setUser', result.user)
+      commit('setToken', result.token)
+      Cookie.set('token', result.token)
       return true
     } catch (e) {
       return false
