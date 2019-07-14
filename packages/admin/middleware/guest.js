@@ -1,9 +1,8 @@
 import Cookie from 'js-cookie'
 
 export default function({ req, store, redirect }) {
-  const auth = Cookie.get('auth')
-  console.log({ auth })
-  if (auth) {
+  const token = Cookie.get('token')
+  if (token) {
     return redirect('/')
   }
 }
