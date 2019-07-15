@@ -25,11 +25,16 @@ export default {
   /*
    ** Customize the progress-bar color
    */
-  loading: { color: '#fff' },
+  loading: { color: '#0052cc', height: '3px' },
+  loadingIndicator: {
+    name: 'cube-grid',
+    color: '#0052cc',
+    background: '#fafafa',
+  },
   /*
    ** Global CSS
    */
-  css: [],
+  css: ['@/assets/scss/main.scss'],
   /*
    ** Plugins to load before mounting the App
    */
