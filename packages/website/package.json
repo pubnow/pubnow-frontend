@@ -8,7 +8,9 @@
     "dev": "nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "run:staging": "pm2 start ecosystem.config.js --only pubnow-staging",
+    "run:prod": "pm2 start ecosystem.config.js --only pubnow-production"
   },
   "dependencies": {
     "@nuxtjs/pwa": "^2.6.0",
