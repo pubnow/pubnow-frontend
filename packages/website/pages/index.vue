@@ -37,19 +37,7 @@
       </b-row>
       <div class="line-split-section" />
       <b-row>
-        <b-col md="4">
-          <div class="basedon mb-1">Top popular on Pubnow</div>
-          <card-horizontal-home
-            v-for="i in 3"
-            :key="i"
-            title="Your Focus Is Priceless. Stop Giving It Away. it is the eyeball economy."
-            shortyBody="This is the eyeball economy, and your eyeballs are for sale"
-            authorName="Mark Allen"
-            groupName="Force"
-            doc="June 19"
-            timeReading="7 min read"
-          />
-        </b-col>
+        
         <b-col md=8>
           <card-vertical-text
             v-for="i in 20"
@@ -63,19 +51,36 @@
             timeReading="7 min read"
           />
         </b-col>
+        <b-col md="4">
+          <div class="basedon mb-1">Top popular on Pubnow</div>
+          <card-horizontal-home
+            v-for="i in 3"
+            :key="i"
+            title="Your Focus Is Priceless. Stop Giving It Away. it is the eyeball economy."
+            shortyBody="This is the eyeball economy, and your eyeballs are for sale"
+            authorName="Mark Allen"
+            groupName="Force"
+            doc="June 19"
+            timeReading="7 min read"
+          />
+        </b-col>
       </b-row>
     </div>
   </div>
 </template>
 
 <script>
-import { CardVerticalHome, CardHorizontalHome, CardVerticalText } from '../components/common'
+import {
+  CardVerticalHome,
+  CardHorizontalHome,
+  CardVerticalText,
+} from '../components/common'
 export default {
   components: {
     CardVerticalHome,
     CardHorizontalHome,
     CardVerticalText,
-  }
+  },
 }
 </script>
 
