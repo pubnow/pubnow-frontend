@@ -1,0 +1,5 @@
+export { default as Information } from './information'
+
+export { default as Header } from './header'
+
+export { default as Content } from './content'
