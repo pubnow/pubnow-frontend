@@ -15,9 +15,11 @@
         </div>
       </div>
     </va-minibar>
-    <va-sidebar>
-      <va-input placeholder="Tìm kiếm thành viên, bài viết,..."></va-input>
-      <va-button class="mt-2" icon-before="search">Tìm kiếm</va-button>
+    <va-sidebar style="width: 430px;">
+    <div class="d-flex">
+        <va-input class="pr-2" placeholder="Tìm kiếm thành viên, bài viết,..."></va-input>
+        <va-button  icon-before="search">Tìm kiếm</va-button>
+    </div>
     </va-sidebar>
   </div>
 </template>

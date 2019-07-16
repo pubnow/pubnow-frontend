@@ -29,7 +29,7 @@
         <user-info />
       </div>
     </va-minibar>
-    <va-aside placement="left" ref="myAside">
+    <va-aside style="background-color: #f3f4f6;" width="500px" placement="left" ref="myAside">
       <AsideSearch :closeSearch="closeSearch"></AsideSearch>
     </va-aside>
   </div>
