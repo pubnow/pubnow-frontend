@@ -5,7 +5,7 @@
   "author": "PubNow Team",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "API_URL=https://api.staging.pubnow.co nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -13,6 +13,7 @@
     "run:prod": "pm2 start ecosystem.config.js --only pubnow-production"
   },
   "dependencies": {
+    "@nuxt/http": "^0.3.2",
     "@nuxtjs/pwa": "^2.6.0",
     "@pubnow/ui": "^0.0.0",
     "bootstrap-vue": "^2.0.0-rc.24",
