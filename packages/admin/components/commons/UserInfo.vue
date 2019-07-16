@@ -1,6 +1,10 @@
 <template>
   <div class="user-wrapper">
-    <div class="avatar" :alt="username" :style="`background-image: url(${avatar})`" />
+    <div class="avatar" id="popover-button-open" :alt="username" :style="`background-image: url(${avatar})`" />
+    <b-popover show target="popover-button-open" :title="username">
+      <va-button type="subtle-link">View Profile</va-button><br/>
+      <va-button type="subtle-link">Log out</va-button>
+    </b-popover>
   </div>
 </template>
 
