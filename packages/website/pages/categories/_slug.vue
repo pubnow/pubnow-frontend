@@ -1,14 +1,14 @@
 <template>
   <div class="detail-category">
-    <div class="container">
+    <va-container >
      <header-detail-category></header-detail-category>
-      <b-row>
-        <b-col sm="8">
+      <va-row>
+         <va-column :sm="8" >
           <LeftDetailCategory></LeftDetailCategory>
-        </b-col>
-        <b-col sm="4">dddddd</b-col>
-      </b-row>
-    </div>
+        </va-column>
+        <va-column :sm="4">dddddd</va-column>
+      </va-row>
+    </va-container>
   </div>
 </template>
 <script>

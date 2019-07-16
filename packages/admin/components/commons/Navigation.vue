@@ -31,15 +31,11 @@
 </template>
 
 <script>
-import NotificationIcon from 'vue-material-design-icons/Bell'
-import SearchIcon from 'vue-material-design-icons/Magnify'
 import UserInfo from './UserInfo'
 
 export default {
   components: {
     UserInfo,
-    NotificationIcon,
-    SearchIcon,
   },
   data() {
     return {

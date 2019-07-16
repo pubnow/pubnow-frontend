@@ -74,5 +74,8 @@
   user-select: none;
   border: 1px solid transparent;
 }
+.action-button {
+  padding-top: 8px;
+}
 </style>
 

@@ -38,7 +38,9 @@
          </a>
          <div class="tags">
            <ul class="list-unstyled">
-             <li></li>
+             <li>
+               <a href="">thị trường</a>
+             </li>
            </ul>
          </div>
        </div>
@@ -127,5 +129,22 @@ li {
 .list-unstyled {
   padding-left: 0;
   list-style: none;
+}
+.tags {
+  margin-top: 10px;
+}
+.tags > ul > li > a {
+  display: block;
+  background: #f9f9f9;
+  padding: 3px 8px;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: #999;
+  font-family: Arial;
+}
+.tags > ul > li {
+  float: left;
+  margin-left: 5px;
+  margin-bottom: 5px;
 }
 </style>

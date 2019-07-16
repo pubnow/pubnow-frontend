@@ -1,26 +1,37 @@
 <template>
   <div class="categories">
-    <div class="container">
-      <b-row v-for="i in 2" :key="i" class="a">
-        <b-col class="d">
+    <va-container>
+      <va-row v-for="(i,index) in listCategory" :key="index" class="a">
+        <va-column class="d" :xs="6">
           <card-category
-          title="Your Focus Is Priceless. Stop Giving It Away."
+          title="i.name"
           image="https://spiderum.com/assets/images/categories/business-min.jpg"
           ></card-category>
-        </b-col>
-        <b-col class="c"><card-category
+        </va-column>
+        <!-- <va-column class="c" :xs="6"><card-category
         title="Your Focus "
           image="https://spiderum.com/assets/images/categories/inspirational-min.jpg"
-          ></card-category></b-col>
-      </b-row>
-    </div>
+          ></card-category></va-column> -->
+      </va-row>
+    </va-container>
   </div>
 </template>
 <script>
 import { CardCategory } from '~/components/category'
 export default {
+  data() {
+    return {
+      listCategory: [],
+    }
+  },
   components: {
     CardCategory,
+  },
+  async asyncData({ query }) {
+    const response = await this.$http.$get('categories')
+    return {
+      listCategory: response.data.data,
+    }
   },
 }
 </script>

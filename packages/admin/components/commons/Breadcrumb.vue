@@ -8,12 +8,7 @@
 </template>
 
 <script>
-import ArrowIcon from 'vue-material-design-icons/ChevronRight'
-
 export default {
-  components: {
-    ArrowIcon,
-  },
   props: {
     items: {
       type: Array,
