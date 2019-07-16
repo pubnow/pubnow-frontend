@@ -1,9 +1,11 @@
 <template>
-  <div class="wrap-header d-flex justify-content-end flex-column">
+  <div
+    class="wrap-header d-flex justify-content-end flex-column"
+    :style="`background-image: url('${image}')`">
     <div class="container">
-      <h1 class="title">{{ title }}</h1>
-      <span class="more">{{ date }} &nbsp; · &nbsp; {{ time }}</span>
-      <p class="description">{{ description }}</p>
+      <h1 class="title text-white">{{ title }}</h1>
+      <span class="more text-secondary">{{ date }} &nbsp; · &nbsp; {{ time }}</span>
+      <p class="description text-white">{{ description }}</p>
     </div>
   </div>
 </template>
@@ -15,62 +17,28 @@ export default {
       title: 'Nghĩ Lớn Qua Các Góc Nhìn Vĩ Mô',
       date: '28 tháng 3 2018',
       time: '17 phút đọc',
-      description: '"Nghĩ lớn" có lẽ không còn là khái niệm "hot" nữa cho nên gần đây mình theo dõi báo chí thấy ít được nhắc đến. Thời Việt Nam mới hội nhập khi...'
+      description: '"Nghĩ lớn" có lẽ không còn là khái niệm "hot" nữa cho nên gần đây mình theo dõi báo chí thấy ít được nhắc đến. Thời Việt Nam mới hội nhập khi...',
+      image: 'https://bulma.io/images/placeholders/720x240.png'
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@pubnow/ui/scss/_sizes.scss';
+
 .wrap-header {
-  background-image: url('http://www.timeline-covers.net/-/pics/laptop-background/5153-laptop-background-facebook-cover.jpg');
   background-size:cover;
-  padding: 6rem 0 0.5rem 0;
-  color: white;
-  width: 100vw;
+  padding: $unit * 8 0 $unit 0;
   .title {
-    font-size: 34px;
-    line-height: 42px;
+    font-size: $unit * 1.7;
+    line-height: $unit * 2;
   }
   .more {
-    font-size: 14px;
-    color: #ffffffe0;
+    font-size: $unit / 1.4;
   }
   .description {
     max-width: 550px;
-  }
-  @media (max-width: 575.98px) {
-    padding-top: 1rem;
-    .title {
-      font-size: 20px;
-    }
-    .more {
-      font-size: 13px;
-    }
-    .description {
-      font-size: 14px;
-    }
-  }
-  @media (min-width: 576px) and (max-width: 767.98px) {
-    padding-top: 2rem;
-    .title {
-      font-size: 26px;
-    }
-    .more {
-      font-size: 14px;
-    }
-    .description {
-      font-size: 15px;
-    }
-  }
-  @media (min-width: 768px) and (max-width: 991.98px) {
-    padding-top: 4rem;
-    .description {
-      font-size: 16px;
-    }
-    .more {
-      font-size: 15px;
-    }
   }
 }
 </style>
