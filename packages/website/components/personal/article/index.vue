@@ -1,42 +1,32 @@
 <template>
   <div class="d-flex flex-column mr-4 mb-4">
-    <img
-      :src="image"
-      alt="hot post"
-      class="image"
-    />
+    <img :src="image" alt="hot post" class="image" />
     <nuxt-link to="#" class="text-uppercase mt-2">{{ category }}</nuxt-link>
-    <h2 class="title mb-0"><nuxt-link to="#">{{ title }}</nuxt-link></h2>
-    <span class="small">{{ date }}  &nbsp; · &nbsp; {{ time }}</span>
+    <h2 class="title mb-0">
+      <nuxt-link to="#">{{ title }}</nuxt-link>
+    </h2>
+    <span class="small">{{ date }} &nbsp; · &nbsp; {{ time }}</span>
     <p class="text-body">{{ description }}</p>
     <div class="d-flex justify-content-between mt-4">
       <div>
-        <Clap />
+        <img :src="require('@/assets/images/icons/clap.svg')" alt="clap icon" />
         <span class="clap">{{ clap }}</span>
       </div>
       <div class="d-flex wrap-right">
         <nuxt-link to="#" class="link">{{ comment }} Bình luận</nuxt-link>
         <nuxt-link class="mx-3 link" to="#">Chia sẻ</nuxt-link>
-        <Bookmark/>
+        <img :src="require('@/assets/images/icons/bookmark.svg')" alt="bookmark icon" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Clap from './clap'
-import Bookmark from './bookmark'
-import { type } from 'os';
-
 export default {
-  components: {
-    Clap,
-    Bookmark
-  },
   props: {
     image: {
       type: String,
-      required: true
+      required: true,
     },
     category: {
       type: String,
@@ -44,29 +34,29 @@ export default {
     },
     title: {
       type: String,
-      required: true
+      required: true,
     },
     date: {
       type: String,
-      required: true
+      required: true,
     },
     time: {
       type: String,
-      required: true
+      required: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     clap: {
       type: Number,
-      required: true
+      required: true,
     },
     comment: {
       type: Number,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 }
 </script>
 

@@ -1,18 +1,18 @@
 <template>
   <div>
-    <Header />
-    <Information />
-    <Content />
+    <the-header />
+    <information />
+    <the-content />
   </div>
 </template>
 
 <script>
-import { Header, Content, Information } from '../../components/personal'
+import { TheHeader, TheContent, Information } from '../../components/personal'
 export default {
   components: {
-    Header,
-    Content,
+    TheHeader,
+    TheContent,
     Information,
-  }
+  },
 }
 </script>

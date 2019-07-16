@@ -2,7 +2,7 @@
   <div class="container">
     <va-row>
       <va-column :xs="12" :sm="6" :md="4" v-for="(article, index) in articles" :key="index">
-        <Article 
+        <Article
           :image="article.image"
           :category="article.category"
           :title="article.title"
@@ -21,7 +21,7 @@
 import Article from '../article'
 export default {
   components: {
-    Article
+    Article,
   },
   data() {
     return {
@@ -32,9 +32,10 @@ export default {
           title: 'Có mắt như mù',
           date: '6 tháng 7',
           time: '17 phút đọc',
-          description: 'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
+          description:
+            'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
           clap: 3556,
-          comment: 125
+          comment: 125,
         },
         {
           image: 'https://bulma.io/images/placeholders/640x360.png',
@@ -42,9 +43,10 @@ export default {
           title: 'Có mắt như mù',
           date: '6 tháng 7',
           time: '17 phút đọc',
-          description: 'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
+          description:
+            'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
           clap: 3556,
-          comment: 125
+          comment: 125,
         },
         {
           image: 'https://bulma.io/images/placeholders/640x360.png',
@@ -52,9 +54,10 @@ export default {
           title: 'Có mắt như mù',
           date: '6 tháng 7',
           time: '17 phút đọc',
-          description: 'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
+          description:
+            'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
           clap: 3556,
-          comment: 125
+          comment: 125,
         },
         {
           image: 'https://bulma.io/images/placeholders/640x360.png',
@@ -62,9 +65,10 @@ export default {
           title: 'Có mắt như mù',
           date: '6 tháng 7',
           time: '17 phút đọc',
-          description: 'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
+          description:
+            'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
           clap: 3556,
-          comment: 125
+          comment: 125,
         },
         {
           image: 'https://bulma.io/images/placeholders/640x360.png',
@@ -72,9 +76,10 @@ export default {
           title: 'Có mắt như mù',
           date: '6 tháng 7',
           time: '17 phút đọc',
-          description: 'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
+          description:
+            'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
           clap: 3556,
-          comment: 125
+          comment: 125,
         },
         {
           image: 'https://bulma.io/images/placeholders/640x360.png',
@@ -82,9 +87,10 @@ export default {
           title: 'Có mắt như mù',
           date: '6 tháng 7',
           time: '17 phút đọc',
-          description: 'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
+          description:
+            'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
           clap: 3556,
-          comment: 125
+          comment: 125,
         },
         {
           image: 'https://bulma.io/images/placeholders/640x360.png',
@@ -92,9 +98,10 @@ export default {
           title: 'Có mắt như mù',
           date: '6 tháng 7',
           time: '17 phút đọc',
-          description: 'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
+          description:
+            'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
           clap: 3556,
-          comment: 125
+          comment: 125,
         },
         {
           image: 'https://bulma.io/images/placeholders/640x360.png',
@@ -102,16 +109,16 @@ export default {
           title: 'Có mắt như mù',
           date: '6 tháng 7',
           time: '17 phút đọc',
-          description: 'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
+          description:
+            'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
           clap: 3556,
-          comment: 125
+          comment: 125,
         },
-      ]
+      ],
     }
-  }
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-
 </style>
