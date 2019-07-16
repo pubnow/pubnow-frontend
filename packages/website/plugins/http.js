@@ -1,9 +1,5 @@
 export default function({ $http }) {
-  $http.onRequest(config => {
-    console.log('Making request to ' + config.url)
-  })
-
   $http.onError(error => {
-    console.log({ error })
+    if (process.env.NODE_ENV !== 'production') console.log({ error })
   })
 }

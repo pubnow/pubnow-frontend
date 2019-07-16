@@ -38,7 +38,7 @@
         </va-form-item>
         <va-form-item>
           <span class="mr-1">Không có tài khoản?</span>
-          <nuxt-link to="register" class="register">Đăng ký ngay</nuxt-link>
+          <nuxt-link to="dang-ky" class="register">Đăng ký ngay</nuxt-link>
         </va-form-item>
       </va-form>
     </div>
@@ -50,6 +50,7 @@ import { BackToHome } from '@/components/common'
 
 export default {
   layout: 'empty',
+  middleware: ['guest'],
   components: {
     BackToHome,
   },
@@ -61,12 +62,15 @@ export default {
   },
   methods: {
     submit() {
-      this.$refs.form.validateFields(result => {
+      this.$refs.form.validateFields(async result => {
         if (result.isvalid) {
-          this.$store.dispatch('auth/login', {
+          const ok = await this.$store.dispatch('auth/login', {
             username: this.username,
             password: this.password,
           })
+          if (ok) {
+            this.$router.push('/')
+          }
         }
       })
     },

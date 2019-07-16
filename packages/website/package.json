@@ -18,6 +18,8 @@
     "@nuxtjs/pwa": "^2.6.0",
     "@pubnow/ui": "^0.0.0",
     "bootstrap-vue": "^2.0.0-rc.24",
+    "cookieparser": "^0.1.0",
+    "js-cookie": "^2.2.0",
     "nuxt": "^2.8.1",
     "vue-atlas": "^2.0.14",
     "vue-wait": "^1.4.6"

@@ -1,3 +1,5 @@
+const Cookie = process.client ? require('js-cookie') : undefined
+
 export const state = () => ({
   user: null,
   token: null,
@@ -24,10 +26,15 @@ export const actions = {
       const result = await this.$http.$post('auth/login', {
         user: { username, password },
       })
+      const { token, data: user } = result
+      commit('setUser', user)
+      commit('setToken', token)
+      Cookie.set('token', token)
       dispatch('wait/end', 'auth.login', { root: true })
-      console.log({ result })
+      return true
     } catch (e) {
       dispatch('wait/end', 'auth.login', { root: true })
+      return false
     }
   },
 }

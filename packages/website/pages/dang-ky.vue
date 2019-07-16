@@ -55,7 +55,7 @@
         </va-form-item>
         <va-form-item>
           <span class="mr-1">Bạn đã có tài khoản?</span>
-          <nuxt-link to="login" class="register">Đăng nhập ngay</nuxt-link>
+          <nuxt-link to="dang-nhap" class="register">Đăng nhập ngay</nuxt-link>
         </va-form-item>
       </va-form>
     </div>
@@ -67,6 +67,7 @@ import { BackToHome } from '@/components/common'
 
 export default {
   layout: 'empty',
+  middleware: ['guest'],
   components: {
     BackToHome,
   },
