@@ -32,17 +32,22 @@
     <va-aside style="background-color: #f3f4f6;" width="500px" placement="left" ref="myAside">
       <AsideSearch :closeSearch="closeSearch"></AsideSearch>
     </va-aside>
+    <va-aside placement="left" ref="myAsideCreate">
+      <AsideCreate :closeCreate="closeCreate"></AsideCreate>
+    </va-aside>
   </div>
 </template>
 
 <script>
 import UserInfo from './UserInfo'
 import AsideSearch from './AsideSearch'
+import AsideCreate from './AsideCreate'
 
 export default {
   components: {
     UserInfo,
     AsideSearch,
+    AsideCreate
   },
   data() {
     return {
@@ -56,6 +61,8 @@ export default {
         {
           icon: 'plus',
           size: '1.25em',
+          tooltip: 'Create',
+          method: this.handleCreate,
         },
       ],
       minibarBottomItems: [
@@ -74,6 +81,12 @@ export default {
     closeSearch() {
       this.$refs.myAside.close()
     },
+    handleCreate() {
+      this.$refs.myAsideCreate.open()
+    },
+    closeCreate() {
+      this.$refs.myAsideCreate.close()
+    }
   }
 }
 </script>
