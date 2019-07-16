@@ -1,45 +1,52 @@
 <template>
-  <va-minibar class="minibar" theme="white" :top-items="minibarTopItems">
-    <div slot="top">
-      <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
-      <div v-for="(item, index) in minibarTopItems" :key="index">
-        <va-minibar-item
-          v-if="item.method"
-          :tooltip="item.tooltip"
-          :brand="item.brand"
-          @click.native="item.method"
-        >
-          <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
-        </va-minibar-item>
-        <va-minibar-item v-else :brand="item.brand" :tooltip="item.tooltip">
-          <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
-        </va-minibar-item>
+  <div>
+    <va-minibar class="minibar" theme="white" :top-items="minibarTopItems">
+      <div slot="top">
+        <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
+        <div v-for="(item, index) in minibarTopItems" :key="index">
+          <va-minibar-item
+            v-if="item.method"
+            :tooltip="item.tooltip"
+            :brand="item.brand"
+            @click.native="item.method"
+          >
+            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+          </va-minibar-item>
+          <va-minibar-item v-else :brand="item.brand" :tooltip="item.tooltip">
+            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+          </va-minibar-item>
+        </div>
       </div>
-    </div>
-    <div slot="bottom">
-      <div v-for="(item, index) in minibarBottomItems" :key="index">
-        <va-minibar-item v-if="item.method" @click.native="item.method" :tooltip="item.tooltip">
-          <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
-        </va-minibar-item>
-        <va-minibar-item v-else :tooltip="item.tooltip">
-          <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
-        </va-minibar-item>
+      <div slot="bottom">
+        <div v-for="(item, index) in minibarBottomItems" :key="index">
+          <va-minibar-item v-if="item.method" @click.native="item.method" :tooltip="item.tooltip">
+            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+          </va-minibar-item>
+          <va-minibar-item v-else :tooltip="item.tooltip">
+            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+          </va-minibar-item>
+        </div>
+        <user-info />
       </div>
-      <user-info />
-    </div>
-  </va-minibar>
+    </va-minibar>
+    <va-aside placement="left" ref="myAsideCreate">
+      <AsideCreate :closeCreate="closeCreate"></AsideCreate>
+    </va-aside>
+  </div>
 </template>
 
 <script>
 import NotificationIcon from 'vue-material-design-icons/Bell'
 import SearchIcon from 'vue-material-design-icons/Magnify'
 import UserInfo from './UserInfo'
+import AsideCreate from './AsideCreate'
 
 export default {
   components: {
     UserInfo,
     NotificationIcon,
     SearchIcon,
+    AsideCreate
   },
   data() {
     return {
@@ -51,6 +58,7 @@ export default {
         {
           icon: 'plus',
           size: '1.25em',
+          method: this.handleCreate,
         },
       ],
       minibarBottomItems: [
@@ -62,6 +70,14 @@ export default {
       ],
     }
   },
+  methods: {
+    handleCreate() {
+      this.$refs.myAsideCreate.open()
+    },
+    closeCreate() {
+      this.$refs.myAsideCreate.close()
+    }
+  }
 }
 </script>
 
