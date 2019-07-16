@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { TheHeader, TheContent, Information } from '../../components/personal'
+import { TheHeader, TheContent, Information } from '@/components/personal'
 export default {
   components: {
     TheHeader,
