@@ -36,6 +36,11 @@
          <a href="#" class="body">
             Hằng ngày, trên trang chia sẻ của các trường đại học, chúng ta vẫn thường đọc được những confession tâm sự về chuyện học – chuyện nghề của các bạn...
          </a>
+         <div class="tags">
+           <ul class="list-unstyled">
+             <li></li>
+           </ul>
+         </div>
        </div>
      </li>
     </ul>
@@ -118,5 +123,9 @@ li {
   color: inherit;
   font-size: 14px;
   color: #34495e !important;
+}
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
 }
 </style>
