@@ -1,6 +1,6 @@
 <template>
   <div>
-    <va-minibar class="minibar" theme="white" :top-items="minibarTopItems">
+    <va-minibar class="minibar" theme="default" :top-items="minibarTopItems">
       <div slot="top">
         <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
         <div v-for="(item, index) in minibarTopItems" :key="index">
@@ -36,16 +36,12 @@
 </template>
 
 <script>
-import NotificationIcon from 'vue-material-design-icons/Bell'
-import SearchIcon from 'vue-material-design-icons/Magnify'
 import UserInfo from './UserInfo'
 import AsideCreate from './AsideCreate'
 
 export default {
   components: {
     UserInfo,
-    NotificationIcon,
-    SearchIcon,
     AsideCreate
   },
   data() {
@@ -58,6 +54,7 @@ export default {
         {
           icon: 'plus',
           size: '1.25em',
+          tooltip: 'Create',
           method: this.handleCreate,
         },
       ],

@@ -1,6 +1,6 @@
 <template>
 <div>
-  <va-minibar class="minibar" theme="white" :top-items="minibarTopItem">
+  <va-minibar class="minibar" theme="default" :top-items="minibarTopItem">
     <div slot="top">
       <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
       <div v-for="(item, index) in minibarTopItem" :key="index">
