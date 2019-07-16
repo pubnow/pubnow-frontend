@@ -14,7 +14,7 @@
         <Clap />
         <span class="clap">{{ clap }}</span>
       </div>
-      <div class="d-flex">
+      <div class="d-flex wrap-right">
         <nuxt-link to="#" class="link">{{ comment }} Bình luận</nuxt-link>
         <nuxt-link class="mx-3 link" to="#">Chia sẻ</nuxt-link>
         <Bookmark/>
@@ -85,8 +85,11 @@ export default {
   vertical-align: bottom;
 }
 
-.link {
-  color: $text !important;
+.wrap-right {
+  line-height: 25px;
+  .link {
+    color: $text !important;
+  }
 }
 
 .image {

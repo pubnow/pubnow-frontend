@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <va-row :gutter="gutter">
+    <va-row>
       <va-column :xs="12" :sm="6" :md="4" v-for="(article, index) in articles" :key="index">
         <Article 
           :image="article.image"

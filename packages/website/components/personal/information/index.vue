@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <va-row :gutter="gutter" class="mt-4">
+    <va-row class="mt-4">
       <va-column :xs="12" :sm="6" :md="8">
         <Article 
           :image="article.image"
