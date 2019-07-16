@@ -1,5 +1,5 @@
 <template>
   <div>
-    cá nhân (thông tin tài khoản)
+    <h1>Trang viết bài mới</h1>
   </div>
 </template>
