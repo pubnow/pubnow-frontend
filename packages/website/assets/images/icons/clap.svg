@@ -3,6 +3,10 @@
   <style type="text/css">
     .clap {
       fill: #808080;
+      cursor: pointer;
+    }
+    .clap:hover {
+      fill: #0052cc;
     }
   </style>
   <g fill-rule="evenodd" class="clap">

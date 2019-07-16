@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-column mr-4 mb-4">
+  <div class="d-flex flex-column mb-4">
     <img :src="image" alt="hot post" class="image" />
     <nuxt-link to="#" class="text-uppercase mt-2">{{ category }}</nuxt-link>
     <h2 class="title mb-0">

@@ -3,6 +3,10 @@
   <style type="text/css">
     .bookmark {
       fill: #808080;
+      cursor: pointer;
+    }
+    .clap:hover {
+      fill: #0052cc;
     }
   </style>
   <g class="bookmark" fill-rule="evenodd" stroke="none" stroke-width="1">
