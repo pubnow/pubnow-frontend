@@ -18,15 +18,16 @@ export const mutations = {
 }
 
 export const actions = {
-  async login({ commit }, { username, password }) {
-    console.log({ username, password })
+  async login({ commit, dispatch }, { username, password }) {
     try {
+      dispatch('wait/start', 'auth.login', { root: true })
       const result = await this.$http.$post('auth/login', {
         user: { username, password },
       })
+      dispatch('wait/end', 'auth.login', { root: true })
       console.log({ result })
     } catch (e) {
-      console.log({ e })
+      dispatch('wait/end', 'auth.login', { root: true })
     }
   },
 }

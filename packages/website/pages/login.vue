@@ -1,7 +1,7 @@
 <template>
   <no-ssr>
     <div class="login-form-inner">
-      <back-to-home />
+      <BackToHome />
       <va-form ref="form" type="vertical">
         <img class="logo mx-auto d-block mb-4" :src="require('@/assets/images/logo.svg')" />
         <va-form-item label="Tài khoản" need>
@@ -27,7 +27,14 @@
           <nuxt-link to="#" class="forgot">Bạn quên mật khẩu?</nuxt-link>
         </va-form-item>
         <va-form-item>
-          <va-button block type="primary" size="lg" @click="submit">Đăng nhập</va-button>
+          <va-button
+            type="primary"
+            size="lg"
+            block
+            @click="submit"
+            :disabled="$wait.is('auth.login')"
+            :loading="$wait.is('auth.login')"
+          >Đăng nhập</va-button>
         </va-form-item>
         <va-form-item>
           <span class="mr-1">Không có tài khoản?</span>

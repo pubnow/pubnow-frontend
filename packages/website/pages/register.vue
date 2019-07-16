@@ -1,7 +1,7 @@
 <template>
   <no-ssr>
     <div class="login-form-inner">
-      <back-to-home />
+      <BackToHome />
       <va-form ref="form" type="vertical">
         <img class="logo mx-auto d-block mb-4" :src="require('@/assets/images/logo.svg')" />
         <va-form-item label="Tài khoản" need>
