@@ -10,11 +10,12 @@
     "build": "lerna run build",
     "build:admin": "lerna run build --scope={@pubnow/ui,@pubnow/admin}",
     "build:website": "lerna run build --scope={@pubnow/ui,@pubnow/website}",
+    "build:docs": "lerna run build --parallel --scope=@pubnow/docs",
     "dev": "lerna run --parallel dev",
     "dev:web": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/website}",
     "dev:admin": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/admin}",
     "clean": "rimraf packages/**/dist packages/**/.nuxt",
-    "docs": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/docs}",
+    "docs": "lerna run dev --parallel --scope=@pubnow/docs",
     "prebuild": "yarn clean",
     "test": "jest",
     "test-ci": "yarn build && yarn test --coverage --ci --maxWorkers=4 --no-cache"
