@@ -2,7 +2,7 @@
   <div class="container">
     <va-row :gutter="30">
       <va-column :xs="12" :sm="6" :md="4" v-for="(article, index) in articles" :key="index">
-        <Article
+        <the-article
           :image="article.image"
           :category="article.category"
           :title="article.title"
@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import Article from '../article'
+import TheArticle from '../article'
 export default {
   components: {
-    Article,
+    TheArticle,
   },
   data() {
     return {
