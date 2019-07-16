@@ -29,7 +29,7 @@ export const actions = {
   async login({ commit }, user) {
     this.$http.setHeader('Accept', 'application/json')
     try {
-      const result = await this.$http.$post('api/auth/login', {
+      const result = await this.$http.$post('auth/login', {
         user,
       })
       commit('setUser', result.data)

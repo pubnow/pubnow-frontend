@@ -1,6 +1,6 @@
 <template>
   <div>
-    <va-minibar class="minibar" theme="white" :top-items="minibarTopItems">
+    <va-minibar class="minibar" theme="default" :top-items="minibarTopItems">
       <div slot="top">
         <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
         <div v-for="(item, index) in minibarTopItems" :key="index">
@@ -29,23 +29,19 @@
         <user-info />
       </div>
     </va-minibar>
-    <va-aside width="600px" placement="left" ref="myAside">
+    <va-aside placement="left" ref="myAside">
       <AsideSearch :closeSearch="closeSearch"></AsideSearch>
     </va-aside>
   </div>
 </template>
 
 <script>
-import NotificationIcon from 'vue-material-design-icons/Bell'
-import SearchIcon from 'vue-material-design-icons/Magnify'
 import UserInfo from './UserInfo'
 import AsideSearch from './AsideSearch'
 
 export default {
   components: {
     UserInfo,
-    NotificationIcon,
-    SearchIcon,
     AsideSearch,
   },
   data() {
@@ -54,6 +50,7 @@ export default {
         {
           icon: 'search',
           size: '1.5em',
+          tooltip: 'Search',
           method: this.handleSearch,
         },
         {

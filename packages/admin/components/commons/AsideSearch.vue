@@ -1,19 +1,25 @@
 <template>
-  <va-minibar class="minibar" theme="white" :top-items="minibarTopItem">
-    <div slot="top">
-      <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
-      <div v-for="(item, index) in minibarTopItem" :key="index">
-        <va-minibar-item
-          v-if="item.method"
-          :tooltip="item.tooltip"
-          :brand="item.brand"
-          @click.native="item.method"
-        >
-          <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
-        </va-minibar-item>
+  <div>
+    <va-minibar class="minibar" theme="default" :top-items="minibarTopItem">
+      <div slot="top">
+        <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
+        <div v-for="(item, index) in minibarTopItem" :key="index">
+          <va-minibar-item
+            v-if="item.method"
+            :tooltip="item.tooltip"
+            :brand="item.brand"
+            @click.native="item.method"
+          >
+            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+          </va-minibar-item>
+        </div>
       </div>
-    </div>
-  </va-minibar>
+    </va-minibar>
+    <va-sidebar>
+      <va-input placeholder="Tìm kiếm thành viên, bài viết,..."></va-input>
+      <va-button class="mt-2" icon-before="search">Tìm kiếm</va-button>
+    </va-sidebar>
+  </div>
 </template>
 <script>
 export default {
@@ -28,7 +34,7 @@ export default {
       minibarTopItem: [
         {
           icon: 'arrow-left',
-          size: '1.5em',
+          size: '1.2em',
           method: this.closeSearch,
         },
       ],
