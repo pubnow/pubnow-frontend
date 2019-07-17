@@ -3,7 +3,7 @@
     <author :avatar="author.avatar" :fullname="author.fullname" :time="time" :category="category" />
     <navbar :clap="clap" :comment="comment" />
     <div v-html="content" class="text-body mt-4 content-article" />
-    <comment />
+    <comment :comments="listComment" />
   </div>
 </template>
 
@@ -29,6 +29,45 @@ export default {
       category: 'Quan điểm - Tranh luận',
       clap: 125,
       comment: 15,
+      listComment: [
+        {
+          clap: 128,
+          avatar: 'https://bulma.io/images/placeholders/256x256.png',
+          fullname: 'Nguyễn Đắc Sang',
+          time: 'Đã chỉnh sửa 20 tháng 3 năm 2019',
+          content:
+            'Khi một chính sách thất bại, thường sẽ có các nguyên nhân lớn sau, chính sách không thực tế: tức ngay từ đầu bản chất của chính sách đã không phù hợp với văn hóa, tình hình kinh tế, chính trị, xã hội ở địa phương, cho nên áp dụng vào không những không cải thiện tình hình mà còn làm tình hình tồi tệ. Lỗi ở đây là ở người thiết kế và làm chính sách.',
+          reply: [
+            {
+              clap: 124,
+              avatar: 'https://bulma.io/images/placeholders/256x256.png',
+              fullname: 'Phạm Văn Phong',
+              time: 'Đã chỉnh sửa 20 tháng 3 năm 2020',
+              content:
+                'Mình xin nói qua 1 chút vụ Sừng tê, ngà voi. Cites đã chủ trì bán ngà voi tịch thu công khai: 49 tấn năm 1997, 60 tấn năm 2006, và 108 tấn năm 2008. Và hậu quả thì càng ngày càng nghiêm trọng. Nếu bán rẻ đúng là ai cũng sẽ mua được nhưng cũng nhờ vậy các tay buôn sẽ gom được rất nhiều hàng. Nếu bán đắt thì cũng chỉ các tay buôn mua hàng vì chúng đảm bảo được đầu ra sau khi mua.',
+              reply: [],
+            },
+            {
+              clap: 12,
+              avatar: 'https://bulma.io/images/placeholders/256x256.png',
+              fullname: 'Trần Tuấn Mạnh',
+              time: 'Đã chỉnh sửa 20 tháng 3 năm 2020',
+              content:
+                'Cộng hòa xã hội chủ nghĩa việt nam độc lập tự do hạnh phúc',
+              reply: [],
+            },
+          ],
+        },
+        {
+          clap: 200,
+          avatar: 'https://bulma.io/images/placeholders/256x256.png',
+          fullname: 'Phạm Ngọc Hòa',
+          time: 'Đã chỉnh sửa 20 tháng 3 năm 2019',
+          content:
+            'Mình xin nói qua 1 chút vụ Sừng tê, ngà voi. Cites đã chủ trì bán ngà voi tịch thu công khai: 49 tấn năm 1997, 60 tấn năm 2006, và 108 tấn năm 2008. Và hậu quả thì càng ngày càng nghiêm trọng. Nếu bán rẻ đúng là ai cũng sẽ mua được nhưng cũng nhờ vậy các tay buôn sẽ gom được rất nhiều hàng. Nếu bán đắt thì cũng chỉ các tay buôn mua hàng vì chúng đảm bảo được đầu ra sau khi mua.',
+          reply: [],
+        },
+      ],
     }
   },
 }

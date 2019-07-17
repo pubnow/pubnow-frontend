@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex wrap-all">
+  <div class="d-flex wrap-all mt-3">
     <div class="d-flex flex-column mr-2">
       <img :src="require('@/assets/images/icons/clap.svg')" alt="clap icon" class="icon" />
       <span>{{ clap }}</span>
@@ -74,7 +74,7 @@ $size-image: 40px;
 
 .wrap-all {
   padding-left: $unit / 2;
-  border-left: 1px solid $gray70;
+  border-left: 1px solid $gray85;
 }
 </style>
 

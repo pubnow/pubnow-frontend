@@ -20,13 +20,29 @@
         <nuxt-link to="#" class="ml-4 tab">Mới nhất</nuxt-link>
       </div>
       <!-- View comment -->
-      <view-comment
-        :clap="128"
-        :avatar="'https://bulma.io/images/placeholders/256x256.png'"
-        :fullname="'Phạm Ngọc Hòa'"
-        :time="'Đã chỉnh sửa 20 tháng 3 năm 2019'"
-        :content="'Cộng hòa xã hội chủ nghĩa việt nam'"
-      />
+      <template v-for="(comment, index) in comments">
+        <view-comment
+          :key="index"
+          :clap="comments.clap"
+          :avatar="comment.avatar"
+          :fullname="comment.fullname"
+          :time="comment.time"
+          :content="comment.content"
+        />
+        <template v-if="comment.reply.length !== 0">
+          <template v-for="(comment, index) in comment.reply">
+            <view-comment
+              class="ml-5"
+              :key="index"
+              :clap="comments.clap"
+              :avatar="comment.avatar"
+              :fullname="comment.fullname"
+              :time="comment.time"
+              :content="comment.content"
+            />
+          </template>
+        </template>
+      </template>
     </div>
   </div>
 </template>
@@ -34,6 +50,12 @@
 <script>
 import ViewComment from './view'
 export default {
+  props: {
+    comments: {
+      type: Array,
+      required: true,
+    },
+  },
   components: {
     ViewComment,
   },
