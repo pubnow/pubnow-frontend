@@ -69,7 +69,20 @@ export default {
             password: this.password,
           })
           if (ok) {
-            this.$router.push('/')
+            this.notification.info({
+              title: `Đăng nhập thành công`,
+              message: `Chào mừng bạn quay trở lại. Bạn đang được chuyển về Trang chủ.`,
+              duration: 1690,
+              onHide: () => {
+                this.$router.push('/')
+              },
+            })
+          } else {
+            this.notification.danger({
+              title: `Lỗi xác thực`,
+              message: `Vui lòng kiểm tra lại thông tin đăng nhập`,
+              duration: 2000,
+            })
           }
         }
       })

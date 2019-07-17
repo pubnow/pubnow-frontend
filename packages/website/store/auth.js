@@ -5,6 +5,10 @@ export const state = () => ({
   token: null,
 })
 
+export const getters = {
+  user: s => s.user,
+}
+
 export const mutations = {
   setUser(state, user) {
     state.user = user
