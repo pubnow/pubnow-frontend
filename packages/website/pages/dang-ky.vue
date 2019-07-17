@@ -6,11 +6,12 @@
         <img class="logo mx-auto d-block mb-4" :src="require('@/assets/images/logo.svg')" />
         <va-form-item label="Tài khoản" need>
           <va-input
-            name="username"
             v-model="username"
+            name="username"
             size="lg"
             placeholder="Tài khoản"
             :rules="[{type:'required', tip:'Bạn vui lòng nhập tài khoản'}]"
+            :custom-validate="checkUsername"
           />
         </va-form-item>
         <va-form-item label="Email" need>
@@ -19,7 +20,7 @@
             v-model="email"
             size="lg"
             placeholder="Email"
-            :rules="[{type:'required', tip:'Bạn vui lòng nhập email'}]"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập email'}, {type:'email', tip:'Bạn vui lòng nhập email'}]"
           />
         </va-form-item>
         <va-form-item label="Tên đầy đủ" need>
@@ -38,20 +39,29 @@
             type="password"
             size="lg"
             placeholder="Mật khẩu"
-            :rules="[{type:'required', tip:'Sorry, I need to know your name'}]"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập mật khẩu'}]"
           />
         </va-form-item>
-        <va-form-item label="Nhập lại mật khẩu" need :custom-validate="reCheckPassword">
+        <va-form-item label="Nhập lại mật khẩu" need>
           <va-input
             name="repassword"
             v-model="repassword"
             type="password"
             size="lg"
             placeholder="Nhập lại mật khẩu"
+            :custom-validate="reCheckPassword"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập lại mật khẩu'}]"
           />
         </va-form-item>
         <va-form-item>
-          <va-button block type="primary" size="lg" @click="submit">Đăng ký</va-button>
+          <va-button
+            block
+            type="primary"
+            size="lg"
+            @click="submit"
+            :disabled="$wait.is('auth.register')"
+            :loading="$wait.is('auth.register')"
+          >Đăng ký</va-button>
         </va-form-item>
         <va-form-item>
           <span class="mr-1">Bạn đã có tài khoản?</span>
@@ -82,11 +92,55 @@ export default {
   },
   methods: {
     submit() {
-      this.$refs.form.validateFields(result => {
-        console.log(result)
+      this.$refs.form.validateFields(async result => {
+        if (result.isvalid) {
+          const ok = await this.$store.dispatch('auth/register', {
+            username: this.username,
+            password: this.password,
+            name: this.name,
+            email: this.email,
+          })
+          if (ok) {
+            this.notification.info({
+              title: `Đăng ký thành công`,
+              message: `Cảm ơn bạn đã sử dụng Pubnow. Bạn đang được chuyển về Trang chủ.`,
+              duration: 1690,
+              onHide: () => {
+                this.$router.push('/')
+              },
+            })
+          } else {
+            this.notification.danger({
+              title: `Lỗi đăng ký`,
+              message: `Vui lòng kiểm tra lại thông tin đăng ký`,
+              duration: 2000,
+            })
+          }
+        }
       })
     },
-    reCheckPassword(val) {},
+    reCheckPassword(val) {
+      if (val !== this.password) {
+        return {
+          validStatus: 'error',
+          tips: 'Mật khẩu không khớp.',
+        }
+      }
+      return {
+        validStatus: 'success',
+      }
+    },
+    checkUsername(val) {
+      const regex = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/g
+      if (!regex.test(val)) {
+        return {
+          validStatus: 'error',
+        }
+      }
+      return {
+        validStatus: 'success',
+      }
+    },
   },
 }
 </script>

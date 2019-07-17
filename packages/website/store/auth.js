@@ -39,4 +39,21 @@ export const actions = {
       return false
     }
   },
+  async register({ commit, dispatch }, { username, password, name, email }) {
+    try {
+      dispatch('wait/start', 'auth.register', { root: true })
+      const result = await this.$http.$post('auth/register', {
+        user: { username, email, name, password },
+      })
+      const { token, data: user } = result
+      commit('setUser', user)
+      commit('setToken', token)
+      this.$cookiz.set('token', token)
+      dispatch('wait/end', 'auth.register', { root: true })
+      return true
+    } catch (e) {
+      dispatch('wait/end', 'auth.register', { root: true })
+      return false
+    }
+  },
 }
