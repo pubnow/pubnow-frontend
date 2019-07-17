@@ -47,12 +47,19 @@ export default {
       src: '~/plugins/vue-atlas',
       ssr: false,
     },
+    '~/plugins/http',
   ],
   /*
    ** Nuxt.js modules
    */
-  modules: ['bootstrap-vue/nuxt', '@nuxt/http'],
+  modules: [
+    'bootstrap-vue/nuxt',
+    '@nuxt/http',
+    'vue-wait/nuxt',
+    ['cookie-universal-nuxt', { alias: 'cookiz' }],
+  ],
   http: {},
+  wait: { useVuex: true },
   /*
    ** Build configuration
    */
