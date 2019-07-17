@@ -1,4 +1,4 @@
-import Cookie from 'js-cookie';
+import Cookie from 'js-cookie'
 
 export default async function({ req, store, redirect, $http }) {
   const token = Cookie.get('token')
@@ -6,8 +6,7 @@ export default async function({ req, store, redirect, $http }) {
     store.commit('auth/setToken', token)
     try {
       const me = await $http.$get('auth/me')
-      store.commit('auth/setUser', me.data.username)
-      store.commit('auth/setAvatar', me.data.avatar)
+      store.commit('auth/setUser', me.data)
       if (!me.data.isAdmin) {
         store.commit('auth/clear')
         return redirect('/login')

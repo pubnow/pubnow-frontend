@@ -1,15 +1,13 @@
-import Cookie from 'js-cookie';
+import Cookie from 'js-cookie'
 
 export const state = () => ({
   user: null,
   token: null,
-  avatar: null
 })
 
 export const getters = {
   user: state => state.user,
   token: state => state.token,
-  avatar: state => state.avatar,
 }
 
 export const mutations = {
@@ -19,9 +17,6 @@ export const mutations = {
   },
   setUser(state, user) {
     state.user = user
-  },
-  setAvatar (state, avatar) {
-    state.avatar = avatar
   },
   clear(state) {
     state.user = null

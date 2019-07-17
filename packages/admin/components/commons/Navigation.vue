@@ -2,7 +2,10 @@
   <div>
     <va-minibar class="minibar" theme="default" :top-items="minibarTopItems">
       <div slot="top">
-        <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
+        <img
+          :src="require('@/assets/images/logo.svg')"
+          class="logo va-minibar-item-brand"
+        />
         <div v-for="(item, index) in minibarTopItems" :key="index">
           <va-minibar-item
             v-if="item.method"
@@ -10,20 +13,40 @@
             :brand="item.brand"
             @click.native="item.method"
           >
-            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+            <va-icon
+              :type="item.icon"
+              :size="item.size"
+              :icon-style="item.iconStyle || 'solid'"
+            />
           </va-minibar-item>
           <va-minibar-item v-else :brand="item.brand" :tooltip="item.tooltip">
-            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+            <va-icon
+              :type="item.icon"
+              :size="item.size"
+              :icon-style="item.iconStyle || 'solid'"
+            />
           </va-minibar-item>
         </div>
       </div>
       <div slot="bottom">
         <div v-for="(item, index) in minibarBottomItems" :key="index">
-          <va-minibar-item v-if="item.method" @click.native="item.method" :tooltip="item.tooltip">
-            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+          <va-minibar-item
+            v-if="item.method"
+            @click.native="item.method"
+            :tooltip="item.tooltip"
+          >
+            <va-icon
+              :type="item.icon"
+              :size="item.size"
+              :icon-style="item.iconStyle || 'solid'"
+            />
           </va-minibar-item>
           <va-minibar-item v-else :tooltip="item.tooltip">
-            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
+            <va-icon
+              :type="item.icon"
+              :size="item.size"
+              :icon-style="item.iconStyle || 'solid'"
+            />
           </va-minibar-item>
         </div>
         <user-info />
@@ -42,7 +65,7 @@ import AsideCreate from './AsideCreate'
 export default {
   components: {
     UserInfo,
-    AsideCreate
+    AsideCreate,
   },
   data() {
     return {
@@ -73,8 +96,8 @@ export default {
     },
     closeCreate() {
       this.$refs.myAsideCreate.close()
-    }
-  }
+    },
+  },
 }
 </script>
 
