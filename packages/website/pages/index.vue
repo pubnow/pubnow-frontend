@@ -50,7 +50,7 @@
             timeReading="7 min read"
           />
         </b-col>
-        <b-col md=8>
+        <b-col md="8">
           <card-vertical-text
             v-for="i in 20"
             :key="i"
@@ -69,13 +69,20 @@
 </template>
 
 <script>
-import { CardVerticalHome, CardHorizontalHome, CardVerticalText } from '../components/common'
+import {
+  CardVerticalHome,
+  CardHorizontalHome,
+  CardVerticalText,
+} from '../components/common'
 export default {
   components: {
     CardVerticalHome,
     CardHorizontalHome,
     CardVerticalText,
-  }
+  },
+  asyncData() {
+    console.log(process.env)
+  },
 }
 </script>
 
