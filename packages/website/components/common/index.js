@@ -6,4 +6,6 @@ export { default as CardVerticalText } from './card-vertical-text.vue'
 
 export { default as BackToHome } from './BackToHome.vue'
 
-export { default as Navbar } from './Navbar.vue'
+export { default as Navbar } from './Nav/Navbar.vue'
+
+export { default as AffixNavbar } from './Nav/AffixNavbar.vue'
