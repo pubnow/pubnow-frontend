@@ -3,8 +3,9 @@ export const state = () => ({})
 export const mutations = {}
 
 export const actions = {
-  async nuxtServerInit({ commit }, { req }) {
+  async nuxtServerInit({ commit, dispatch }, { req }) {
     let token = null
+    await dispatch('category/list')
     if (req.headers.cookie) {
       try {
         token = this.$cookiz.get('token')
