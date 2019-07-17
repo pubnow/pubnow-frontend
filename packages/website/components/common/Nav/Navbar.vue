@@ -15,7 +15,7 @@
       <b-navbar-nav class="ml-auto d-flex align-items-center">
         <va-icon v-if="user" type="bell" class="icon" iconStyle="regular" color="#97a0af" />
         <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
-          <va-button type="primary" active icon-before="feather-alt">Viết bài</va-button>
+          <va-button type="primary" icon-before="feather-alt">Viết bài</va-button>
         </nuxt-link>
         <UserAvatar :user="user" />
       </b-navbar-nav>
@@ -59,8 +59,6 @@ export default {
 
   .write-btn {
     margin-left: $unit !important;
-    border: 1px solid $primary;
-    border-radius: 5px;
     &:hover {
       text-decoration: none !important;
     }
