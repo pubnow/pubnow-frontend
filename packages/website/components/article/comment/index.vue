@@ -1,5 +1,5 @@
 <template>
-  <div class="my-5">
+  <div class="mb-5 mt-2">
     <p class="mb-2">30 Bình luận</p>
     <div class="wrap-comment text-dark">
       <!-- Comment -->
