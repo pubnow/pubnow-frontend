@@ -1,17 +1,13 @@
 <template>
   <div class="categories">
     <va-container>
-      <va-row v-for="(i,index) in listCategory" :key="index" class="a">
-        <va-column class="d" :xs="6">
+      <va-row class="a">
+       <va-column v-for="(i,index) in 3" :key="index" class="d" :xs="6"> 
           <card-category
-          title="i.name"
+          title="Your Focus"
           image="https://spiderum.com/assets/images/categories/business-min.jpg"
           ></card-category>
         </va-column>
-        <!-- <va-column class="c" :xs="6"><card-category
-        title="Your Focus "
-          image="https://spiderum.com/assets/images/categories/inspirational-min.jpg"
-          ></card-category></va-column> -->
       </va-row>
     </va-container>
   </div>
@@ -26,12 +22,6 @@ export default {
   },
   components: {
     CardCategory,
-  },
-  async asyncData({ query }) {
-    const response = await this.$http.$get('categories')
-    return {
-      listCategory: response.data.data,
-    }
   },
 }
 </script>

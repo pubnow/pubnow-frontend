@@ -10,13 +10,12 @@
              </a>
            </div>
            <div>
-             <hover-profile>
                <span class="hover-username">
                  <a href="#" class="name">Ma kết</a>
                </span>
-             </hover-profile> trong 
+              trong 
              <a class="category-name">Quan điểm-tranh luận</a>
-           </div>
+           </div>          
            <div class="created">
               <span class="date">
                 hôm qua
@@ -25,23 +24,54 @@
          </div>
          <div class="image">
            <a href="#">
-             <ng-img>
                <img src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-thumbnails/5b357c90a6ee11e9941c35ca1bbe261d.jpg" alt="">
-             </ng-img>
            </a>
          </div>
          <h3 class="title">
            <a href="#">Thị trường tuyển dụng hiện nay – Ngành nào “an toàn” nhất?</a>
          </h3>
-         <a href="#" class="body">
+         <p class="content">
+           <a href="#" class="body">
             Hằng ngày, trên trang chia sẻ của các trường đại học, chúng ta vẫn thường đọc được những confession tâm sự về chuyện học – chuyện nghề của các bạn...
          </a>
+         </p>
          <div class="tags">
            <ul class="list-unstyled">
              <li>
                <a href="">thị trường</a>
              </li>
+             <li>
+               <a href="">thị trường</a>
+             </li><li>
+               <a href="">thị trường</a>
+             </li><li>
+               <a href="">thị trường</a>
+             </li>
            </ul>
+         </div>
+         <div class="toolbar">
+           <div class="pull-left">
+             <div class="vote-box">
+               <span class="icon">
+                 <i class="fas fa-sign-language"></i>
+               </span>
+               <a>5k</a>
+             </div>
+           </div>
+           <div class="pull-right">
+             <span class="views">
+               <span class="icon">
+              <i class="fas fa-eye"></i>
+               </span>
+             <span class="text">622</span>
+             </span>
+             <a href="#" class="comment">
+               <span class="icon">
+                 <i class="fas fa-comment-dots"></i>
+               </span>
+               <span class="text">4</span>
+             </a>
+           </div>
          </div>
        </div>
      </li>
@@ -61,6 +91,9 @@
   border-radius: 3px;
   position: relative;
   box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.25);
+}
+.image img {
+  width: 792px;
 }
 .author {
   font-size: 13px;
@@ -119,7 +152,6 @@ li {
   display: block;
 }
 .body {
-  padding-top: 15px;
   display: block;
   word-break: break-word;
   color: inherit;
@@ -132,6 +164,7 @@ li {
 }
 .tags {
   margin-top: 10px;
+  height: 30px;
 }
 .tags > ul > li > a {
   display: block;
@@ -144,7 +177,44 @@ li {
 }
 .tags > ul > li {
   float: left;
-  margin-left: 5px;
+  margin-right: 5px;
   margin-bottom: 5px;
+}
+.toolbar {
+  margin-top: 10px;
+  /* font-size: 13px; */
+  height: 30px;
+}
+.pull-left {
+  float: left;
+}
+.vote-box {
+  position: relative;
+  padding-right: 55px;
+}
+/* i {
+  font-size: 20px;
+} */
+.views {
+  color: #99a3ad;
+  line-height: 20px;
+  display: inline-block;
+  margin-right: 20px;
+}
+.icon {
+  color: #99a3ad;
+  font-size: 20px;
+}
+.text {
+  color: #99a3ad;
+}
+.title a:hover {
+  text-decoration: none !important;
+}
+.body a:hover {
+  text-decoration: none !important;
+}
+.content a:hover {
+  text-decoration: none !important;
 }
 </style>
