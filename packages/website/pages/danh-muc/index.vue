@@ -2,10 +2,10 @@
   <div class="categories">
     <va-container>
       <va-row class="a">
-       <va-column v-for="(i,index) in 3" :key="index" class="d" :xs="6"> 
+       <va-column v-for="(i,index) in listCategory" :key="index" class="d" :xs="6"> 
           <card-category
-          title="Your Focus"
-          image="https://spiderum.com/assets/images/categories/business-min.jpg"
+          :title="i.name"
+          :image="i.image"
           ></card-category>
         </va-column>
       </va-row>
@@ -13,15 +13,24 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import { CardCategory } from '~/components/category'
 export default {
-  data() {
-    return {
-      listCategory: [],
-    }
-  },
+  // data() {
+  //   return {
+  //     listCategory: [],
+  //   }
+  // },
   components: {
     CardCategory,
+  },
+  computed: {
+    ...mapGetters({
+      listCategory: 'category/listCategory',
+    }),
+  },
+  async mounted() {
+    await this.$store.dispatch('category/getListCategory')
   },
 }
 </script>
