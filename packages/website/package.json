@@ -5,18 +5,29 @@
   "author": "PubNow Team",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "API_URL=https://api.staging.pubnow.co/api nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "nuxt generate"
+    "generate": "nuxt generate",
+    "run:staging": "pm2 start ecosystem.config.js --only pubnow-staging",
+    "run:prod": "pm2 start ecosystem.config.js --only pubnow-production"
   },
   "dependencies": {
+    "@nuxt/http": "^0.3.2",
+    "@nuxtjs/axios": "^5.5.4",
     "@nuxtjs/pwa": "^2.6.0",
     "@pubnow/ui": "^0.0.0",
     "bootstrap-vue": "^2.0.0-rc.24",
-    "nuxt": "^2.8.1"
+    "cookie-universal-nuxt": "^2.0.16",
+    "cookieparser": "^0.1.0",
+    "js-cookie": "^2.2.0",
+    "nuxt": "^2.8.1",
+    "vue-atlas": "^2.0.14",
+    "vue-wait": "^1.4.6"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^5.9.0"
+    "@fortawesome/fontawesome-free": "^5.9.0",
+    "node-sass": "^4.12.0",
+    "sass-loader": "^7.1.0"
   }
 }
