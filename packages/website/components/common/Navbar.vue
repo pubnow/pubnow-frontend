@@ -1,7 +1,10 @@
 <template>
   <va-topbar class="nav-wrapper" theme="white">
     <div slot="left">
-      <img class="mr-3" :src="require('@/assets/images/logo.svg')" />
+      <nuxt-link to="/">
+        <img class="mr-3" :src="require('@/assets/images/logo.svg')" />
+      </nuxt-link>
+
       <va-input
         icon="search"
         width="lg"
@@ -11,9 +14,9 @@
     </div>
     <div slot="right">
       <va-icon v-if="user" type="bell" class="icon" iconStyle="regular" color="#97a0af" />
-      <va-button type="primary" active class="write-btn" icon-before="feather-alt">
-        <nuxt-link to="/bai-viet/tao-moi">Viết bài</nuxt-link>
-      </va-button>
+      <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
+        <va-button type="primary" active icon-before="feather-alt">Viết bài</va-button>
+      </nuxt-link>
       <UserAvatar :user="user" />
     </div>
   </va-topbar>
@@ -48,11 +51,19 @@ export default {
   .icon {
     font-size: 1.25em !important;
     margin-left: $unit !important;
+    cursor: pointer;
   }
 
   .write-btn {
     margin-left: $unit !important;
-    border: 2px solid $primary;
+    border: 1px solid $primary;
+    border-radius: 5px;
+    &:hover {
+      text-decoration: none !important;
+    }
+    a {
+      cursor: pointer;
+    }
   }
 }
 </style>
