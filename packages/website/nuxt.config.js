@@ -52,7 +52,12 @@ export default {
   /*
    ** Nuxt.js modules
    */
-  modules: ['bootstrap-vue/nuxt', '@nuxt/http', 'vue-wait/nuxt'],
+  modules: [
+    'bootstrap-vue/nuxt',
+    '@nuxt/http',
+    'vue-wait/nuxt',
+    ['cookie-universal-nuxt', { alias: 'cookiz' }],
+  ],
   http: {},
   wait: { useVuex: true },
   /*

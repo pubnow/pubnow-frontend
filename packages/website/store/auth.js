@@ -1,5 +1,3 @@
-const Cookie = process.client ? require('js-cookie') : undefined
-
 export const state = () => ({
   user: null,
   token: null,
@@ -19,7 +17,7 @@ export const mutations = {
   clear(state) {
     state.user = null
     state.token = null
-    // Clear cookie
+    this.$cookiz.remove('token')
   },
 }
 
@@ -33,7 +31,7 @@ export const actions = {
       const { token, data: user } = result
       commit('setUser', user)
       commit('setToken', token)
-      Cookie.set('token', token)
+      this.$cookiz.set('token', token)
       dispatch('wait/end', 'auth.login', { root: true })
       return true
     } catch (e) {
