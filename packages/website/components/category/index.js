@@ -1,8 +1,8 @@
 export { default as CardCategory }
-from './card-category.vue'
+from './CardCategory.vue'
 export { default as HeaderDetailCategory }
-from './header-detail-category.vue'
+from './HeaderDetailCategory.vue'
 export { default as LeftDetailCategory }
-from './left-detail-category.vue'
+from './LeftDetailCategory.vue'
 export { default as RightDetailCategory }
-from './right-detail-category.vue'
+from './RightDetailCategory.vue'

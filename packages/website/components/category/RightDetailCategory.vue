@@ -70,7 +70,7 @@
       </div>
     </div>
 </template>
-<style scoped>
+<style lang="scss" scoped>
 .box .box-top {
   padding-bottom: 15px;
 }
@@ -163,4 +163,3 @@
   color: #2fb5fa !important;
 }
 </style>
-

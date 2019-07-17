@@ -2,11 +2,11 @@
   <div class="categories">
     <va-container>
       <va-row class="a">
-       <va-column v-for="(i,index) in listCategory" :key="index" class="d" :xs="6"> 
-          <card-category
+       <va-column v-for="(i,index) in listCategory" :key="index" :gutter="5" class="d" :xs="6"> 
+          <CardCategory
           :title="i.name"
           :image="i.image"
-          ></card-category>
+          ></CardCategory>
         </va-column>
       </va-row>
     </va-container>
@@ -16,11 +16,6 @@
 import { mapGetters } from 'vuex'
 import { CardCategory } from '~/components/category'
 export default {
-  // data() {
-  //   return {
-  //     listCategory: [],
-  //   }
-  // },
   components: {
     CardCategory,
   },
@@ -35,19 +30,11 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .d {
-  /* background: red; */
   padding: 5px 5px 5px 10px !important;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-}
-.c {
-  padding: 5px 5px 5px 10px !important;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  /* background: blue; */
 }
 </style>
