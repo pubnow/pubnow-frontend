@@ -1,5 +1,5 @@
 export const state = () => ({
-    listCategory: {}
+    listCategory: []
 })
 
 export const getters = {

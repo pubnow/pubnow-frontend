@@ -13,16 +13,18 @@
     :rtl="rtl"
   >
     <Navbar />
+    <AffixNavbar />
     <nuxt class="app" />
   </va-app>
 </template>
 
 <script>
-import { Navbar } from '@/components/common'
+import { Navbar, AffixNavbar } from '@/components/common'
 
 export default {
   components: {
     Navbar,
+    AffixNavbar,
   },
   data() {
     return {
@@ -46,6 +48,6 @@ export default {
 
 <style lang="scss" scoped>
 .app {
-  padding-top: 80px;
+  padding-top: 20px;
 }
 </style>
