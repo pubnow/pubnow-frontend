@@ -30,7 +30,7 @@ export const actions = {
     this.$http.setHeader('Accept', 'application/json')
     try {
       const result = await this.$http.$post('auth/login', {
-        user,
+        ...user,
       })
       commit('setUser', result.data)
       commit('setToken', result.token)
