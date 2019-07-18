@@ -2,11 +2,8 @@
   <div class="categories">
     <va-container>
       <va-row class="a">
-       <va-column v-for="(i,index) in listCategory" :key="index" :gutter="5" class="d" :xs="6"> 
-          <CardCategory
-          :title="i.name"
-          :image="i.image"
-          ></CardCategory>
+        <va-column v-for="(i,index) in listCategory" :key="index" :gutter="5" class="d" :xs="6">
+          <CardCategory :title="i.name" :image="i.image"></CardCategory>
         </va-column>
       </va-row>
     </va-container>
@@ -23,9 +20,6 @@ export default {
     ...mapGetters({
       listCategory: 'category/categories',
     }),
-  },
-  async mounted() {
-    await this.$store.dispatch('category/list')
   },
 }
 </script>
