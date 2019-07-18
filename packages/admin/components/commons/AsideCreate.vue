@@ -50,7 +50,7 @@ export default {
       menuItems: [
         {
           name: 'Tài khoản',
-          route: '/create-acount',
+          route: '/create-account',
           icon: 'user',
         },
         {
