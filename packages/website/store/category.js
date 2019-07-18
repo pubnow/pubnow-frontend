@@ -7,7 +7,7 @@ export const getters = {
 }
 
 export const mutations = {
-  setCategories: (state, categories) => {
+  setCategories(state, categories) {
     state.categories = categories
   },
 }

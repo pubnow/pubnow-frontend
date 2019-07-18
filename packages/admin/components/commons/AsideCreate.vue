@@ -54,19 +54,9 @@ export default {
           icon: 'user',
         },
         {
-          name: 'Bài viết',
-          route: '/create-post',
-          icon: 'file',
-        },
-        {
           name: 'Chuyên mục',
           route: '/create-category',
           icon: 'archive',
-        },
-        {
-          name: 'Thẻ',
-          route: '/create-tag',
-          icon: 'tags',
         },
       ],
     }
