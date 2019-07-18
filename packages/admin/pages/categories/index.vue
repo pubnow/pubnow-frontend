@@ -20,7 +20,14 @@
     <va-row>
       <va-column :xs="12">
         <va-table size="lg">
-          <b-table :fields="fields" :items="categories" responsive>
+          <b-table
+            :fields="fields"
+            :items="categories"
+            selectable
+            select-mode="range"
+            @row-selected="rowSelected"
+            responsive
+          >
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -31,15 +38,29 @@
         </va-table>
       </va-column>
     </va-row>
+    <va-aside
+      style="background-color: #f3f4f6;"
+      width="500px"
+      placement="right"
+      ref="myAsideCate"
+    >
+      <EditCategory
+        v-if="selected"
+        :boolean="boolean"
+        :selected="selected[0]"
+      />
+    </va-aside>
   </div>
 </template>
 
 <script>
 import { Breadcrumb } from '@/components/commons'
+import EditCategory from './EditCategory'
 
 export default {
   components: {
     Breadcrumb,
+    EditCategory,
   },
   data: () => ({
     breadcrumb: ['Dashboard', 'Chuyên mục'],
@@ -51,7 +72,16 @@ export default {
       { key: 'latest', label: 'Bài viết mới nhất' },
       { key: 'count', label: 'Số lượng bài viết' },
     ],
+    selected: '',
+    boolean: true,
   }),
+  methods: {
+    rowSelected(items) {
+      this.selected = items
+      this.$refs.myAsideCate.open()
+      this.boolean = true
+    },
+  },
   async asyncData({ $http }) {
     const temp = await $http.$get('categories')
     const categories = temp.data
