@@ -1,5 +1,17 @@
-export { default as CardVerticalHome } from './card-vertical-home.vue'
+export { default as BackToHome }
+from './BackToHome.vue'
 
-export { default as CardHorizontalHome } from './card-horizontal-home.vue'
+export { default as Navbar }
+from './Nav/Navbar.vue'
 
-export { default as CardVerticalText } from './card-vertical-text.vue'
+export { default as AffixNavbar }
+from './Nav/AffixNavbar.vue'
+
+export { default as CardHeaderHome }
+from './CardHeaderHome.vue'
+
+export { default as RightContentHome }
+from './RightContentHome.vue'
+
+export { default as LeftContentHome }
+from './LeftContentHome.vue'

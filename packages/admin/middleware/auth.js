@@ -5,7 +5,8 @@ export default async function({ req, store, redirect, $http }) {
   if (token) {
     store.commit('auth/setToken', token)
     try {
-      const me = await $http.$get('api/auth/me')
+      const me = await $http.$get('auth/me')
+      store.commit('auth/setUser', me.data)
       if (!me.data.isAdmin) {
         store.commit('auth/clear')
         return redirect('/login')

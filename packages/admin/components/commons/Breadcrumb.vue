@@ -1,19 +1,14 @@
 <template>
   <div class="breadcrumb-wrapper">
     <div v-for="(item, index) in items" :key="index" class="item-breadcrumb">
-      <span>{{item}}</span>
+      <span>{{ item }}</span>
       <arrow-icon v-if="index < items.length - 1" class="icon-2x icon" />
     </div>
   </div>
 </template>
 
 <script>
-import ArrowIcon from 'vue-material-design-icons/ChevronRight'
-
 export default {
-  components: {
-    ArrowIcon,
-  },
   props: {
     items: {
       type: Array,
