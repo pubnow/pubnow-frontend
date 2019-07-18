@@ -1,16 +1,15 @@
 <template>
   <div class="home-page">
     <div class="container">
-         <CardHeaderHome/>
-        <div class="row">
-          <div class="col-sm-8" >
-            <LeftContentHome/>
-          </div>
-          <div class="col-sm-4" >
-            <RightContentHome/>
-          </div>
+      <CardHeaderHome />
+      <div class="row">
+        <div class="col-sm-8">
+          <LeftContentHome />
         </div>
-     
+        <div class="col-sm-4">
+          <RightContentHome />
+        </div>
+      </div>
     </div>
   </div>
 </template>

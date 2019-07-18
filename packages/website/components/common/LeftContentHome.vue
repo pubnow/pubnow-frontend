@@ -1,37 +1,35 @@
 <template>
   <div class="streamItem streamItem--heading js-streamItem">
-    <div class="streamItemHeading " v-for="i in 5" :key="i">
+    <div class="streamItemHeading" v-for="i in 5" :key="i">
       <header class="u-flexCenter u-marginBottom25 u-borderBottomLighter u-xs-flexWrap">
         <div class="u-flex1 u-flexTop text-dec">
-          <span class="heading-title heading-title--lineHeightTight u-uiDisplayBold u-fontSize20  u-block u-paddingBottom20 ">
+          <span
+            class="heading-title heading-title--lineHeightTight u-uiDisplayBold u-fontSize20 u-block u-paddingBottom20"
+          >
             <a class="link link--noUnderline u-baseColor--link" href="#">Featured for members</a>
           </span>
         </div>
       </header>
       <div class="streamItem streamItem--extremePostPreview js-streamItem" v-for="i in 5" :key="i">
-        <article class="extremePostPreview u-marginBottom48 " >
-          <div class="extremePostPreview-post u-minWidth0 u-flex1 u-marginRight24 u-textAlignLeft ">
-           <div class="text-dec">
+        <article class="extremePostPreview u-marginBottom48">
+          <div class="extremePostPreview-post u-minWidth0 u-flex1 u-marginRight24 u-textAlignLeft">
+            <div class="text-dec">
               <a href="#" class="ds-link u-overflowHidden u-width100pct">
-              <h2>I’m Learning How to Be Irrational</h2>
-            </a>
-            <a href="#" class="ds-link  u-width100pct">
-              <div class="ui-summary u-marginTop2">Confessions of a helicopter parent, podcaster, and person</div>
-            </a>
-           </div>
+                <h2>I’m Learning How to Be Irrational</h2>
+              </a>
+              <a href="#" class="ds-link u-width100pct">
+                <div
+                  class="ui-summary u-marginTop2"
+                >Confessions of a helicopter parent, podcaster, and person</div>
+              </a>
+            </div>
             <div class="u-flex u-minWidth0 u-justifyContentSpaceBetween u-marginTop12 colorText">
-              <a href="#" class="postMetaInline  ">Scott Galloway</a> in
-              <a href="#" class="postMetaInline  ">No Mercy / No Malice</a>
-              <div class="ui-caption u-noWrapWithEllipsis ">
-                <span class="u-noWrap u-inlineBlock u-lineHeightBase">
-                  Jul 17
-                </span>
-                <span class="middoDivider">
-                  .
-                </span>
-                <span class="readingTime">
-                  6 min read
-                </span>
+              <a href="#" class="postMetaInline">Scott Galloway</a> in
+              <a href="#" class="postMetaInline">No Mercy / No Malice</a>
+              <div class="ui-caption u-noWrapWithEllipsis">
+                <span class="u-noWrap u-inlineBlock u-lineHeightBase">Jul 17</span>
+                <span class="middoDivider">.</span>
+                <span class="readingTime">6 min read</span>
                 <span class="u-paddingLeft4">
                   <i class="fas fa-star"></i>
                 </span>
@@ -39,8 +37,11 @@
             </div>
           </div>
           <div class="extremePostPreview-image u-flex0">
-             <a href="#" class="u-block u-backgroundCover u-sizeFull" v-bind:style="{ backgroundImage: 'url(https://cdn-images-1.medium.com/fit/c/152/156/1*HKDooqfZX3gPtbywIn6yqg.png)' }" >
-            </a>
+            <a
+              href="#"
+              class="u-block u-backgroundCover u-sizeFull"
+              v-bind:style="{ backgroundImage: 'url(https://cdn-images-1.medium.com/fit/c/152/156/1*HKDooqfZX3gPtbywIn6yqg.png)' }"
+            ></a>
           </div>
         </article>
       </div>

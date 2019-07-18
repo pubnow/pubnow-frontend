@@ -1,39 +1,33 @@
 <template>
   <div class="left">
     <aside class="uiScale name-dec">
-     <div class="text-dec">
-      <a href="#">
-        <div class="u-flexCenter u-justifyContentSpaceBetween u-borderBottomLighter u-marginTop32 u-paddingBottom16 u-marginRight32 u-marginLeft32 ">
-          <h3 class="ui-h2">Popular on Medium</h3>
-        </div>
-      </a>
-     </div>
+      <div class="text-dec">
+        <a href="#">
+          <div
+            class="u-flexCenter u-justifyContentSpaceBetween u-borderBottomLighter u-marginTop32 u-paddingBottom16 u-marginRight32 u-marginLeft32"
+          >
+            <h3 class="ui-h2">Popular on Medium</h3>
+          </div>
+        </a>
+      </div>
       <ol class="u-padding32">
         <li class="u-flex u-marginBottom24" v-for="(i,index) in 4" :key="index">
-          <div class="u-textColorLighter u-fontSize32 u-marginTop4">
-            0{{index+1}}
-          </div>
+          <div class="u-textColorLighter u-fontSize32 u-marginTop4">0{{index+1}}</div>
           <div class="u-flex1 u-marginLeft16 u-minWidth200 js-trackPostPresentation name-dec">
             <div class="text-dec">
-              <a href="#" class="u-overflowHidden u-flex0 u-width100pct" >
-              <h2 class="ui-h4 u-marginBottom4">
-                Pump You Up: The Enduring Power of Protein Powder
-              </h2>
-            </a>
+              <a href="#" class="u-overflowHidden u-flex0 u-width100pct">
+                <h2 class="ui-h4 u-marginBottom4">Pump You Up: The Enduring Power of Protein Powder</h2>
+              </a>
             </div>
-            <div class="postMetaInline postMetaInline-authorLockup u-padding0 u-flexShrink1 u-noWrapWithEllipsis p-top colorText">
-              <a href="#" class="postMetaInline  ">Caitlin Dewey </a> in
-              <a href="#" class="postMetaInline  "> OneZero</a>
+            <div
+              class="postMetaInline postMetaInline-authorLockup u-padding0 u-flexShrink1 u-noWrapWithEllipsis p-top colorText"
+            >
+              <a href="#" class="postMetaInline">Caitlin Dewey</a> in
+              <a href="#" class="postMetaInline">OneZero</a>
               <div class="ui-caption u-noWrapWithEllipsis colorText1">
-                <span class="u-noWrap u-inlineBlock u-lineHeightBase">
-                  Jul 17
-                </span>
-                <span class="middoDivider">
-                  .
-                </span>
-                <span class="readingTime">
-                  6 min read
-                </span>
+                <span class="u-noWrap u-inlineBlock u-lineHeightBase">Jul 17</span>
+                <span class="middoDivider">.</span>
+                <span class="readingTime">6 min read</span>
                 <span class="u-paddingLeft4">
                   <i class="fas fa-star"></i>
                 </span>
@@ -228,8 +222,4 @@ a {
     'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
     sans-serif;
 }
-// a:hover {
-//   color: rgba(0, 0, 0, 0.84);
-//   text-decoration: underline;
-// }
 </style>

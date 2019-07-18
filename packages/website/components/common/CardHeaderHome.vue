@@ -1,9 +1,7 @@
 <template>
   <div class="panel">
     <div class="panel-heading">
-      <h3 class="panel-title pull-left">
-        Nổi bật
-      </h3>
+      <h3 class="panel-title pull-left">Nổi bật</h3>
     </div>
     <div class="panel-content-heading">
       <ul class="block-list block-list-1 list-unstyled">
@@ -11,28 +9,34 @@
           <div class="inner">
             <div class="thumb">
               <a href="#">
-                <img src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-thumbnails/3d0dffa0a5fc11e9b913cba60d029abb.jpg" alt="" class="loaded">
+                <img
+                  src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-thumbnails/3d0dffa0a5fc11e9b913cba60d029abb.jpg"
+                  alt
+                  class="loaded"
+                />
               </a>
             </div>
             <div class="text">
               <h3 class="title">
                 <a href="#">Tư duy kiểu bổ củi</a>
               </h3>
-              <a v-if="index===0" href="#" class="body">
-                  Freakonomics tuần này  có đưa lại một chủ đề cũ, là chuyện làm cách nào để giảm tỷ lệ người phạm tội, rơi vào vòng lao lý trong xã hội, tại sao xã hội Mỹ vài chục năm trước tỷ lệ tội phạm rất cao mà...
-              </a>
+              <a
+                v-if="index===0"
+                href="#"
+                class="body"
+              >Freakonomics tuần này có đưa lại một chủ đề cũ, là chuyện làm cách nào để giảm tỷ lệ người phạm tội, rơi vào vòng lao lý trong xã hội, tại sao xã hội Mỹ vài chục năm trước tỷ lệ tội phạm rất cao mà...</a>
               <div class="author">
                 <a href="#" class="avatar">
-                  <img src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/6af98060633a11e9a28fd11406bd98c6.jpg" alt="">
+                  <img
+                    src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/6af98060633a11e9a28fd11406bd98c6.jpg"
+                    alt
+                  />
                 </a>
-                <a href="#" class="username">
-                      Curly Rae Braces
-                </a>
+                <a href="#" class="username">Curly Rae Braces</a>
               </div>
             </div>
           </div>
         </li>
-        
       </ul>
     </div>
   </div>
@@ -170,8 +174,8 @@
 }
 .block-list.block-list-1 > .block-post:first-child {
   .inner {
-    // display: flex;
-    // flex-flow: column;
+    display: flex;
+    flex-flow: column;
     .thumb {
       & a {
         height: 270px !important;
