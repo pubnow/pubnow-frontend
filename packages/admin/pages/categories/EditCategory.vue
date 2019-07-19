@@ -100,7 +100,7 @@ export default {
       this.boolean = false
       this.form.name = this.selected.name
       this.form.description = this.selected.description
-      this.form.slug = this.selected.slug
+      // this.form.slug = this.selected.slug
     },
     updateName(value) {
       this.form.name = value
