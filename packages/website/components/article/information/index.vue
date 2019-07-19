@@ -58,7 +58,7 @@ export default {
       )
     },
     ...mapGetters({
-      listCategory: 'category/listCategory',
+      listCategory: 'category/categories',
     }),
   },
   async mounted() {

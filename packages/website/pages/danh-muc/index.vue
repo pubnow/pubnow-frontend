@@ -18,11 +18,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      listCategory: 'category/listCategory',
+      listCategory: 'category/categories',
     }),
-  },
-  async mounted() {
-    await this.$store.dispatch('category/getListCategory')
   },
 }
 </script>
