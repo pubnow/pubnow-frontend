@@ -13,7 +13,8 @@
       <b>5</b> tag để câu chuyện của bạn dễ dàng đến với mọi người hơn
     </p>
     <p class="text-dark mt-4 drop-button" @click="isShowCategory = !isShowCategory">
-      Chọn danh mục
+      <span v-if="categorySelected === ''">Chọn danh mục</span>
+      <span v-else>{{ categorySelected }}</span>
       <i class="fas fa-chevron-down"></i>
     </p>
     <form @submit.prevent class="wrap-category" v-if="isShowCategory">
