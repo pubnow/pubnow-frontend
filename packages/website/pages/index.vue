@@ -4,10 +4,10 @@
       <FeaturedArea />
     </div>
     <div class="row mt-2">
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <Latest />
       </div>
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <PopularOnPubnow />
       </div>
     </div>

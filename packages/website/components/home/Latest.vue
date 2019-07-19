@@ -2,7 +2,7 @@
   <div class="latest">
     <HeadingText>Mới nhất</HeadingText>
     <div class="mt-4">
-      <article class="article mb-5" v-for="i in 5" :key="i">
+      <article class="article mb-5" v-for="i in 15" :key="i">
         <div class="article-post flex-grow-1">
           <div class="text-dec">
             <nuxt-link to="/bai-viet/vcl" class="overflow-hidden w-100">

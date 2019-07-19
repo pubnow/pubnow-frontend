@@ -110,7 +110,6 @@ export default {
 }
 </style>
 
-
 <style lang="scss">
 @import '@pubnow/ui/scss/_sizes.scss';
 

@@ -1,22 +1,9 @@
 <template>
-  <va-app
-    :desktop-sidebar-width="desktopSidebarWidth"
-    :desktop-minibar-width="desktopMinibarWidth"
-    :desktop-topbar-height="desktopTopbarHeight"
-    :mobile-sidebar-width="mobileSidebarWidth"
-    :mobile-minibar-width="mobileMinibarWidth"
-    :mobile-topbar-height="mobileTopbarHeight"
-    :sidebar-priority="sidebarPriority"
-    :minibar-priority="minibarPriority"
-    :reverse="reverse"
-    :split="split"
-    :rtl="rtl"
-    bg-color="#fafafa"
-  >
+  <div class="wrapper">
     <Navbar />
     <AffixNavbar />
     <nuxt class="app" />
-  </va-app>
+  </div>
 </template>
 
 <script>
