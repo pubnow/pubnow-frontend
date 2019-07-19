@@ -11,6 +11,7 @@
     :reverse="reverse"
     :split="split"
     :rtl="rtl"
+    bg-color="#fafafa"
   >
     <Navbar />
     <AffixNavbar />

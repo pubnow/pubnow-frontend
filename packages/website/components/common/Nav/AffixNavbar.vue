@@ -4,7 +4,6 @@
       <b-container>
         <b-navbar-nav>
           <NavItem to="/">Trang chủ</NavItem>
-          <NavItem to="/news-feed">News Feed</NavItem>
           <NavItem to="/nguoi-dung/noi-bat">Thành viên nổi bật</NavItem>
           <NavItem
             v-for="category in randomCategories"

@@ -1,30 +1,27 @@
 <template>
-  <div class="home-page">
-    <div class="container">
-      <CardHeaderHome />
-      <div class="row">
-        <div class="col-sm-8">
-          <LeftContentHome />
-        </div>
-        <div class="col-sm-4">
-          <RightContentHome />
-        </div>
+  <div class="home-page container">
+    <div class="row">
+      <FeaturedArea />
+    </div>
+    <div class="row mt-2">
+      <div class="col-sm-9">
+        <Latest />
+      </div>
+      <div class="col-sm-3">
+        <PopularOnPubnow />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  CardHeaderHome,
-  RightContentHome,
-  LeftContentHome,
-} from '@/components/common'
+import { FeaturedArea, Latest, PopularOnPubnow } from '@/components/home'
+
 export default {
   components: {
-    CardHeaderHome,
-    RightContentHome,
-    LeftContentHome,
+    FeaturedArea,
+    PopularOnPubnow,
+    Latest,
   },
 }
 </script>

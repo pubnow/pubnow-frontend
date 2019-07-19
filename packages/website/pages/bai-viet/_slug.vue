@@ -102,21 +102,25 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import '@pubnow/ui/scss/_sizes.scss';
+<style lang="scss" scoped>
 @import '@pubnow/ui/scss/_mixins.scss';
-
 .container {
   @include box-shadow;
   max-width: 750px;
-  .content-article {
-    font-size: $unit / 1.25;
-    p {
-      line-height: $unit * 1.25;
-    }
-    img {
-      width: 100%;
-    }
+}
+</style>
+
+
+<style lang="scss">
+@import '@pubnow/ui/scss/_sizes.scss';
+
+.content-article {
+  font-size: $unit / 1.25;
+  p {
+    line-height: $unit * 1.25;
+  }
+  img {
+    width: 100%;
   }
 }
 </style>

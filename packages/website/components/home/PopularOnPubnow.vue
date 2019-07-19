@@ -3,48 +3,55 @@
     <aside class="uiScale name-dec">
       <div class="text-dec">
         <a href="#">
-          <div
-            class="u-flexCenter u-justifyContentSpaceBetween u-borderBottomLighter u-marginTop32 u-paddingBottom16 u-marginRight32 u-marginLeft32"
-          >
-            <h3 class="ui-h2">Popular on Medium</h3>
-          </div>
+          <HeadingText>Phổ biến tại Pubnow</HeadingText>
         </a>
       </div>
-      <ol class="u-padding32">
-        <li class="u-flex u-marginBottom24" v-for="(i,index) in 4" :key="index">
-          <div class="u-textColorLighter u-fontSize32 u-marginTop4">0{{index+1}}</div>
-          <div class="u-flex1 u-marginLeft16 u-minWidth200 js-trackPostPresentation name-dec">
-            <div class="text-dec">
-              <a href="#" class="u-overflowHidden u-flex0 u-width100pct">
-                <h2 class="ui-h4 u-marginBottom4">Pump You Up: The Enduring Power of Protein Powder</h2>
-              </a>
-            </div>
-            <div
-              class="postMetaInline postMetaInline-authorLockup u-padding0 u-flexShrink1 u-noWrapWithEllipsis p-top colorText"
-            >
-              <a href="#" class="postMetaInline">Caitlin Dewey</a> in
-              <a href="#" class="postMetaInline">OneZero</a>
-              <div class="ui-caption u-noWrapWithEllipsis colorText1">
-                <span class="u-noWrap u-inlineBlock u-lineHeightBase">Jul 17</span>
-                <span class="middoDivider">.</span>
-                <span class="readingTime">6 min read</span>
-                <span class="u-paddingLeft4">
-                  <i class="fas fa-star"></i>
-                </span>
+      <div class="mt-4">
+        <ul>
+          <li class="u-flex u-marginBottom24" v-for="(i,index) in 4" :key="index">
+            <div class="u-textColorLighter u-fontSize32 u-marginTop4">0{{index+1}}</div>
+            <div class="u-flex1 u-marginLeft16 u-minWidth200 js-trackPostPresentation name-dec">
+              <div class="text-dec">
+                <a href="#" class="u-overflowHidden u-flex0 u-width100pct">
+                  <h2
+                    class="ui-h4 u-marginBottom4"
+                  >Pump You Up: The Enduring Power of Protein Powder</h2>
+                </a>
+              </div>
+              <div
+                class="postMetaInline postMetaInline-authorLockup u-padding0 u-flexShrink1 u-noWrapWithEllipsis p-top colorText"
+              >
+                <a href="#" class="postMetaInline">Caitlin Dewey</a> in
+                <a href="#" class="postMetaInline">OneZero</a>
+                <div class="ui-caption u-noWrapWithEllipsis colorText1">
+                  <span class="u-noWrap u-inlineBlock u-lineHeightBase">Jul 17</span>
+                  <span class="middoDivider">.</span>
+                  <span class="readingTime">6 min read</span>
+                  <span class="u-paddingLeft4">
+                    <i class="fas fa-star"></i>
+                  </span>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
-      </ol>
+          </li>
+        </ul>
+      </div>
     </aside>
   </div>
 </template>
+
+<script>
+import HeadingText from '../common/HeadingText'
+
+export default {
+  components: {
+    HeadingText,
+  },
+}
+</script>
+
 <style lang="scss" scoped>
 .left {
-  .uiScale {
-    line-height: 20px;
-    font-size: 16px;
-  }
   .p-top {
     margin-top: 10px;
   }

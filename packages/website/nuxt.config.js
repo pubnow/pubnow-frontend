@@ -20,6 +20,11 @@ export default {
         rel: 'stylesheet',
         href: 'https://use.fontawesome.com/releases/v5.2.0/css/all.css',
       },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700&display=swap&subset=vietnamese',
+      },
     ],
   },
   /*

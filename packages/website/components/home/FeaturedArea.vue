@@ -1,9 +1,7 @@
 <template>
-  <div class="panel">
-    <div class="panel-heading">
-      <h3 class="panel-title pull-left">Nổi bật</h3>
-    </div>
-    <div class="panel-content-heading">
+  <div class="featured col">
+    <Heading>Nổi bật</Heading>
+    <div class="list-articles">
       <ul class="block-list block-list-1 list-unstyled">
         <li class="block-post" v-for="(i,index) in 5" :key="index">
           <div class="inner">
@@ -16,14 +14,14 @@
                 />
               </a>
             </div>
-            <div class="text">
+            <div class="body">
               <h3 class="title">
                 <a href="#">Tư duy kiểu bổ củi</a>
               </h3>
               <a
                 v-if="index===0"
                 href="#"
-                class="body"
+                class="description"
               >Freakonomics tuần này có đưa lại một chủ đề cũ, là chuyện làm cách nào để giảm tỷ lệ người phạm tội, rơi vào vòng lao lý trong xã hội, tại sao xã hội Mỹ vài chục năm trước tỷ lệ tội phạm rất cao mà...</a>
               <div class="author">
                 <a href="#" class="avatar">
@@ -41,21 +39,26 @@
     </div>
   </div>
 </template>
+
+<script>
+import Heading from '../common/HeadingText'
+
+export default {
+  components: {
+    Heading,
+  },
+}
+</script>
+
+
 <style lang="scss" scoped>
-.panel {
-  height: 633px;
-  .panel-heading {
-    border-bottom: 1px solid #ddd !important;
-    margin-bottom: 15px;
-    width: 100%;
-    height: 25px;
-    .panel-title {
-      margin: 0;
-      letter-spacing: 0.5px;
-      font-size: 18px;
-    }
-  }
-  .panel-content-heading {
+@import '@pubnow/ui/scss/_sizes.scss';
+@import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_mixins.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
+
+.featured {
+  .list-articles {
     padding-bottom: 10px;
     .block-list {
       margin-left: -10px;
@@ -67,10 +70,11 @@
         margin-bottom: 20px;
         box-sizing: border-box;
         .inner {
-          border-radius: 3px;
           overflow: hidden;
           position: relative;
-          box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.5);
+          background: $white;
+          @include box-shadow-lg;
+          @include radius-md;
           .thumb {
             & a {
               display: block;
@@ -92,20 +96,18 @@
               opacity: 1;
             }
           }
-          .text {
-            padding: 15px;
+          .body {
+            padding: $unit - 5;
             .title {
-              margin: 0 0 10px;
-              font-family: SFD-Bold;
-              font-size: 18px;
-              font-weight: 500;
-              line-height: 25px;
-              & a {
+              a {
                 color: #2c3e50;
+                font-size: 1.3rem;
+                font-weight: 700;
+                font-family: $ale;
                 text-decoration: none;
               }
             }
-            .body {
+            .description {
               color: #34495e;
               text-decoration: none;
             }
@@ -152,7 +154,7 @@
 }
 .block-list.block-list-1 > .block-post:not(:first-child) {
   .inner {
-    .text {
+    .body {
       .title {
         height: 120px;
         overflow: hidden;
@@ -166,7 +168,7 @@
       }
     }
     .thumb {
-      & a {
+      a {
         height: 120px !important;
       }
     }
@@ -177,11 +179,11 @@
     display: flex;
     flex-flow: column;
     .thumb {
-      & a {
+      a {
         height: 270px !important;
       }
     }
-    .text {
+    .body {
       position: relative;
       left: 0;
       width: 100%;
@@ -192,12 +194,13 @@
       bottom: 0;
       position: relative;
       padding-bottom: 60px;
-      .body {
+      .description {
         text-decoration: none;
-        line-height: 20px;
-        font-size: 14px;
+        line-height: 1.6rem;
+        font-size: 1rem;
+        font-weight: 300 !important;
         word-break: break-word;
-        color: inherit;
+        color: $n90;
         max-height: 100px;
         overflow: hidden;
       }
@@ -220,10 +223,10 @@ a {
   outline: none;
   cursor: pointer;
 }
-.block-list.block-list-1 > .block-post .inner .text {
+.block-list.block-list-1 > .block-post .inner .body {
   padding-bottom: 60px;
 }
-.block-list.block-list-1 > .block-post .inner .text .author {
+.block-list.block-list-1 > .block-post .inner .body .author {
   position: absolute;
   bottom: 0;
   right: 15px;
