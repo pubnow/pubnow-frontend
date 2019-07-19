@@ -1,84 +1,95 @@
 <template>
   <div class="left-content">
     <ul class="feed-list">
-     <li class="feed-post">
-       <div class="inner">
-         <div class="author">
-           <div class="avatar">
-             <a href="#">
-               <img src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/2284cd70739911e9bc561189dd157642.jpg" alt="">
-             </a>
-           </div>
-           <div>
-               <span class="hover-username">
-                 <a href="#" class="name">Ma kết</a>
-               </span>
-              trong 
-             <a class="category-name">Quan điểm-tranh luận</a>
-           </div>          
-           <div class="created">
-              <span class="date">
-                hôm qua
+      <li class="feed-post">
+        <div class="inner">
+          <div class="author">
+            <div class="avatar">
+              <a href="#">
+                <img
+                  src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/2284cd70739911e9bc561189dd157642.jpg"
+                  alt
+                />
+              </a>
+            </div>
+            <div>
+              <span class="hover-username">
+                <a href="#" class="name">Ma kết</a>
               </span>
-           </div>
-         </div>
-         <div class="image">
-           <a href="#">
-               <img src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-thumbnails/5b357c90a6ee11e9941c35ca1bbe261d.jpg" alt="">
-           </a>
-         </div>
-         <h3 class="title">
-           <a href="#">Thị trường tuyển dụng hiện nay – Ngành nào “an toàn” nhất?</a>
-         </h3>
-         <p class="content">
-           <a href="#" class="body">
-            Hằng ngày, trên trang chia sẻ của các trường đại học, chúng ta vẫn thường đọc được những confession tâm sự về chuyện học – chuyện nghề của các bạn...
-         </a>
-         </p>
-         <div class="tags">
-           <ul class="list-unstyled">
-             <li>
-               <a href="">thị trường</a>
-             </li>
-             <li>
-               <a href="">thị trường</a>
-             </li><li>
-               <a href="">thị trường</a>
-             </li><li>
-               <a href="">thị trường</a>
-             </li>
-           </ul>
-         </div>
-         <div class="toolbar">
-           <div class="pull-left">
-             <div class="vote-box">
-               <span class="icon">
-                 <i class="fas fa-sign-language"></i>
-               </span>
-               <a>5k</a>
-             </div>
-           </div>
-           <div class="pull-right">
-             <span class="views">
-               <span class="icon">
-              <i class="fas fa-eye"></i>
-               </span>
-             <span class="text">622</span>
-             </span>
-             <a href="#" class="comment">
-               <span class="icon">
-                 <i class="fas fa-comment-dots"></i>
-               </span>
-               <span class="text">4</span>
-             </a>
-           </div>
-         </div>
-       </div>
-     </li>
+              trong
+              <a class="category-name">Quan điểm-tranh luận</a>
+            </div>
+            <div class="created">
+              <span class="date">hôm qua</span>
+            </div>
+          </div>
+          <div class="image">
+            <a href="#">
+              <img
+                class="img-fluid w-100"
+                src="https://images.unsplash.com/photo-1563557588-1075d53350e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=659&q=80"
+                alt
+              />
+            </a>
+          </div>
+          <h3 class="title">
+            <a href="#">Thị trường tuyển dụng hiện nay – Ngành nào “an toàn” nhất?</a>
+          </h3>
+          <p class="content">
+            <a
+              href="#"
+              class="body"
+            >Hằng ngày, trên trang chia sẻ của các trường đại học, chúng ta vẫn thường đọc được những confession tâm sự về chuyện học – chuyện nghề của các bạn...</a>
+          </p>
+          <div class="tags">
+            <ul class="list-unstyled">
+              <li>
+                <a href>thị trường</a>
+              </li>
+              <li>
+                <a href>thị trường</a>
+              </li>
+              <li>
+                <a href>thị trường</a>
+              </li>
+              <li>
+                <a href>thị trường</a>
+              </li>
+            </ul>
+          </div>
+          <div class="toolbar">
+            <div class="pull-left">
+              <div class="vote-box">
+                <span class="icon">
+                  <img :src="require('@/assets/images/icons/clap.svg')" alt="clap icon" />
+                </span>
+                <a>5k</a>
+              </div>
+            </div>
+            <div class="pull-right">
+              <span class="views">
+                <span class="icon">
+                  <img :src="require('@/assets/images/icons/comment.svg')" alt="clap icon" />
+                </span>
+                <span class="text">622</span>
+              </span>
+              <a href="#" class="comment">
+                <span class="icon">
+                  <img :src="require('@/assets/images/icons/bookmark.svg')" alt="comment icon" />
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </li>
     </ul>
   </div>
 </template>
 <style lang="scss" scoped>
+@import '@pubnow/ui/scss/_mixins.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
+@import '@pubnow/ui/scss/_colors.scss';
+
 .left-content {
   .feed-list {
     padding-left: 0;
@@ -87,9 +98,9 @@
       .inner {
         padding: 15px 20px;
         background: #fff;
-        border-radius: 3px;
         position: relative;
-        box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.25);
+        @include radius-md;
+        @include box-shadow;
         .author {
           font-size: 13px;
           line-height: 15px;
@@ -124,17 +135,14 @@
           height: 200px;
           position: relative;
           overflow: hidden;
-          &img {
-            width: 792px;
-          }
         }
         .title {
           margin: 15px 0 0;
           word-break: break-word;
           & a {
             color: #2c3e50;
-            font-family: SFD-Bold;
-            font-size: 20px !important;
+            font-family: $ale;
+            font-size: 24px !important;
             font-weight: bold;
             line-height: 30px;
             display: block;
@@ -145,7 +153,8 @@
             display: block;
             word-break: break-word;
             color: inherit;
-            font-size: 14px;
+            font-family: $noto;
+            font-size: 16px;
             color: #34495e !important;
           }
         }

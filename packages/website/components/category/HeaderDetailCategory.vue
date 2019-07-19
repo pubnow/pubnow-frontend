@@ -1,17 +1,18 @@
 <template>
-   <div class="category-heading">
-      <div class="background">
-        <img src="https://spiderum.com/assets/images/categories/business-min.jpg" alt="">
-      </div>
-      <div class="text-box">
-        <div class="title">Quan điểm - tranh luận</div>
-        <va-button class="action-button btn btn-default btn-round btn-follow">
-         Theo dõi
-        </va-button >
-      </div>
+  <div class="category-heading">
+    <div class="background">
+      <img src="https://source.unsplash.com/random" alt />
     </div>
+    <div class="text-box">
+      <div class="title">Quan điểm - tranh luận</div>
+      <va-button class="action-button btn btn-default btn-round btn-follow">Theo dõi</va-button>
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
+@import '@pubnow/ui/scss/_fonts.scss';
+@import '@pubnow/ui/scss/_colors.scss';
+
 .category-heading {
   width: 100%;
   font-size: 0;
@@ -26,6 +27,8 @@
     left: 0;
     right: 0;
     bottom: 0;
+    border-radius: 10px;
+    overflow: hidden;
     & img {
       position: absolute;
       width: 100%;
@@ -47,15 +50,12 @@
       font-size: 24px;
       letter-spacing: 1px;
       font-weight: 800 !important;
-      font-family: SFD-Bold;
-      text-shadow: 0 0 2px rgba(0, 0, 0, 0.75), 0 0 5px rgba(0, 0, 0, 0.25),
-        0 0 8px rgba(0, 0, 0, 0.25), 0 0 12px rgba(0, 0, 0, 0.25);
     }
 
     .btn-default {
       background: #fff;
       border-color: #ccc;
-      color: #2fb5fa !important;
+      color: $primary !important;
     }
     .btn-round {
       border-radius: 20px;

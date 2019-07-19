@@ -22,6 +22,7 @@ import {
   Italic,
   Link,
   History,
+  Image,
 } from 'tiptap-extensions'
 import SimpleArticleDoc from './Doc'
 import Title from './Title'
@@ -29,6 +30,15 @@ import Title from './Title'
 export default {
   components: {
     EditorContent,
+  },
+  props: {
+    content: {
+      type: Object,
+    },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -50,6 +60,7 @@ export default {
           new Bold(),
           new Code(),
           new Italic(),
+          new Image(),
           new Link(),
           new History(),
           new Placeholder({
@@ -68,6 +79,12 @@ export default {
         },
       }),
     }
+  },
+  mounted() {
+    this.editor.setOptions({
+      editable: this.editable,
+    })
+    this.editor.setContent(this.content)
   },
   beforeDestroy() {
     this.editor.destroy()

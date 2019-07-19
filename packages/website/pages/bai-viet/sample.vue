@@ -9,20 +9,13 @@
           :category="category.name"
         />
         <navbar :clap="clap" :comment="comment" />
-        <no-ssr>
-          <SimpleArticleEditor
-            :editable="false"
-            :content="articleContent"
-            class="text-body mt-4 content-article"
-          />
-        </no-ssr>
-
+        <div v-html="content" class="text-body mt-4 content-article" />
         <va-button
           class="ml-2 button mt-2"
           size="xs"
-          v-for="(tag, index) in article.tags"
+          v-for="(tag, index) in tags"
           :key="index"
-        >{{ tag.name }}</va-button>
+        >{{ tag }}</va-button>
         <div class="d-flex justify-content-end">{{ view }} lượt xem</div>
         <hr />
         <description
@@ -40,10 +33,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import get from 'lodash.get'
 import { Author, Navbar, Comment, Description } from '@/components/article'
-import SimpleArticleEditor from '@/components/editor/SimpleArticle'
 
 export default {
   components: {
@@ -51,23 +41,6 @@ export default {
     Navbar,
     Comment,
     Description,
-    SimpleArticleEditor,
-  },
-  computed: {
-    ...mapGetters({
-      article: 'article/article',
-    }),
-    articleContent() {
-      return JSON.parse(get(this.article, 'content', {}))
-    },
-  },
-  fetch({ store, params: { slug } }) {
-    return store.dispatch('article/show', slug)
-  },
-  head() {
-    return {
-      title: this.article.title || 'Bài viết'
-    }
   },
   data() {
     return {

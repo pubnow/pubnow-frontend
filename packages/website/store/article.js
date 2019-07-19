@@ -1,10 +1,12 @@
 import get from 'lodash.get'
+import { read } from 'jimp'
 
 export const state = () => ({
   articles: [],
   tags: [],
   content: null,
   category: null,
+  article: null,
 })
 
 export const mutations = {
@@ -26,6 +28,9 @@ export const mutations = {
   setContent(state, content) {
     state.content = content
   },
+  setArticle(state, article) {
+    state.article = article
+  },
 }
 
 export const getters = {
@@ -34,6 +39,7 @@ export const getters = {
   category: s => s.category,
   content: s => s.content,
   title: s => get(s.content, 'content[0].content[0].text'),
+  article: s => s.article,
 }
 
 export const actions = {
@@ -45,10 +51,32 @@ export const actions = {
       tag_list: Object.freeze(getters.tags),
     }
     try {
-      await this.$http.$post('articles', data)
-      return true
+      this.$http.setHeader('Accept', 'application/json')
+      const result = await this.$http.$post('articles', data)
+      const { data: article } = result
+      return article
     } catch (e) {
-      return false
+      return null
+    }
+  },
+  async show({ commit }, slug) {
+    try {
+      const result = await this.$http.$get(`articles/${slug}`)
+      const { data: article } = result
+      commit('setArticle', article)
+      return article
+    } catch (e) {
+      return null
+    }
+  },
+  async index({ commit }) {
+    try {
+      const result = await this.$http.$get(`articles`)
+      const { data: articles } = result
+      commit('setArticles', articles)
+      return articles
+    } catch (e) {
+      return null
     }
   },
 }
