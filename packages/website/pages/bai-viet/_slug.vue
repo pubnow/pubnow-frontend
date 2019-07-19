@@ -1,35 +1,39 @@
 <template>
-  <div class="container bg-white">
-    <author
-      :avatar="author.avatar"
-      :fullname="author.fullname"
-      :time="time"
-      :category="category.name"
-    />
-    <navbar :clap="clap" :comment="comment" />
-    <div v-html="content" class="text-body mt-4 content-article" />
-    <va-button
-      class="ml-2 button mt-2"
-      size="xs"
-      v-for="(tag, index) in tags"
-      :key="index"
-    >{{ tag }}</va-button>
-    <div class="d-flex justify-content-end">{{ view }} lượt xem</div>
-    <hr />
-    <description
-      :fullname="author.fullname"
-      :username="author.username"
-      :avatar="author.avatar"
-      :category="category.name"
-      :description="category.description"
-    />
-    <hr />
-    <comment :comments="listComment" />
-  </div>
+  <b-container>
+    <b-row>
+      <b-col :sm="8" :offset-sm="2">
+        <author
+          :avatar="author.avatar"
+          :fullname="author.fullname"
+          :time="time"
+          :category="category.name"
+        />
+        <navbar :clap="clap" :comment="comment" />
+        <div v-html="content" class="text-body mt-4 content-article" />
+        <va-button
+          class="ml-2 button mt-2"
+          size="xs"
+          v-for="(tag, index) in tags"
+          :key="index"
+        >{{ tag }}</va-button>
+        <div class="d-flex justify-content-end">{{ view }} lượt xem</div>
+        <hr />
+        <description
+          :fullname="author.fullname"
+          :username="author.username"
+          :avatar="author.avatar"
+          :category="category.name"
+          :description="category.description"
+        />
+        <hr />
+        <comment :comments="listComment" />
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
-import { Author, Navbar, Comment, Description } from '../../components/article'
+import { Author, Navbar, Comment, Description } from '@/components/article'
 
 export default {
   components: {
@@ -42,8 +46,8 @@ export default {
     return {
       author: {
         avatar: 'https://bulma.io/images/placeholders/256x256.png',
-        fullname: 'Phạm Ngọc Hòa',
-        username: 'thaycacac',
+        fullname: 'Nguyễn Đắc Sang',
+        username: 'dacsang97',
       },
       title: 'Những sai lầm cần tránh khi kinh doanh cafe',
       content:
@@ -102,21 +106,17 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '@pubnow/ui/scss/_mixins.scss';
-.container {
-  @include box-shadow;
-  max-width: 750px;
-}
-</style>
-
 <style lang="scss">
 @import '@pubnow/ui/scss/_sizes.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
 
 .content-article {
-  font-size: $unit / 1.25;
+  font-size: 18px;
+  * {
+    font-family: $noto;
+  }
   p {
-    line-height: $unit * 1.25;
+    line-height: $unit * 1.6;
   }
   img {
     width: 100%;
