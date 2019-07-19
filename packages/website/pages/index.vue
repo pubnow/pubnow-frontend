@@ -69,13 +69,17 @@
 </template>
 
 <script>
-import { CardVerticalHome, CardHorizontalHome, CardVerticalText } from '../components/common'
+import {
+  CardVerticalHome,
+  CardHorizontalHome,
+  CardVerticalText,
+} from '../components/common'
 export default {
   components: {
     CardVerticalHome,
     CardHorizontalHome,
     CardVerticalText,
-  }
+  },
 }
 </script>
 

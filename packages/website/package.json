@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "API_URL=https://api.staging.pubnow.co/api nuxt",
-    "build": "nuxt build",
+    "build": "API_URL=https://api.staging.pubnow.co/api nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "run:staging": "pm2 start ecosystem.config.js --only pubnow-staging",
@@ -21,6 +21,8 @@
     "cookie-universal-nuxt": "^2.0.16",
     "cookieparser": "^0.1.0",
     "js-cookie": "^2.2.0",
+    "lodash.shuffle": "^4.2.0",
+    "lodash.take": "^4.1.1",
     "nuxt": "^2.8.1",
     "vue-atlas": "^2.0.14",
     "vue-wait": "^1.4.6"

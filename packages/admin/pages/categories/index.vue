@@ -3,7 +3,9 @@
     <va-page-header>
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
-          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{ item }}</va-breadcrumb-item>
+          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{
+            item
+          }}</va-breadcrumb-item>
         </va-breadcrumb>
       </div>
     </va-page-header>
@@ -16,7 +18,7 @@
       </va-column>
     </va-row>
     <va-row>
-    <va-column :xs="12">
+      <va-column :xs="12">
         <va-table size="lg">
           <b-table :fields="fields" :items="categories" responsive>
             <template slot="HEAD_checkBox">
@@ -49,36 +51,11 @@ export default {
       { key: 'latest', label: 'Bài viết mới nhất' },
       { key: 'count', label: 'Số lượng bài viết' },
     ],
-    categories: [
-      {
-        name: 'Khoa học - công nghệ',
-        description: 'Khoa học - công nghệ',
-        slug: 'khoa-hoc-cong-nghe',
-        latest: 'Iphone với 3 camera sắp trình làng trong tháng 10',
-        count: '2',
-      },
-      {
-        name: 'Thể thao',
-        description: 'Thể thao',
-        slug: 'the-thao',
-        latest: 'Argentina lách qua khe cửa hẹp',
-        count: '2',
-      },
-      {
-        name: 'Du lịch',
-        description: 'Du lịch',
-        slug: 'du-lich',
-        latest: 'Đi khắp thế giới',
-        count: '2',
-      },
-      {
-        name: 'Kỹ năng',
-        description: 'Khoa học - công nghệ',
-        slug: 'ky-nang',
-        latest: 'Vitamin dưới dạng thực phẩm chức năng',
-        count: '2',
-      },
-    ],
   }),
+  async asyncData({ $http }) {
+    const temp = await $http.$get('categories')
+    const categories = temp.data
+    return { categories }
+  },
 }
 </script>
