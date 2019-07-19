@@ -1,10 +1,14 @@
 <template>
   <no-ssr>
-    <div class="container">
-      <SimpleArticleEditor />
-      <hr />
-      <Information />
-    </div>
+    <b-container>
+      <b-row>
+        <b-col md="8" offset-md="2">
+          <SimpleArticleEditor />
+          <hr />
+          <Information />
+        </b-col>
+      </b-row>
+    </b-container>
   </no-ssr>
 </template>
 
