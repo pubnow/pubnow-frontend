@@ -16,3 +16,7 @@ body {
   width: 100% !important;
   display: flex;
 }
+
+*:focus {
+  outline: 0px !important;
+}

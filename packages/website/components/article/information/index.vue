@@ -1,40 +1,52 @@
 <template>
-  <div>
-    <span>Tags:</span>
-    <b-badge variant="secondary" pill v-for="(tag, index) in tags" :key="index" class="tag mx-1">
-      <i class="fas fa-times" @click="remove(index)"></i>
-      {{ tag }}
-    </b-badge>
-    <form @submit.prevent="add" class="form" v-if="this.tags.length < 5">
-      <input type="text" v-model="inputTag" />
-    </form>
-    <p class="font-weight-light">
-      Chọn tối đa
-      <b>5</b> tag để câu chuyện của bạn dễ dàng đến với mọi người hơn
-    </p>
-    <p class="text-dark mt-4 drop-button" @click="isShowCategory = !isShowCategory">
-      <span v-if="categorySelected === ''">Chọn danh mục</span>
-      <span v-else>{{ categorySelected }}</span>
-      <i class="fas fa-chevron-down"></i>
-    </p>
-    <form @submit.prevent class="wrap-category" v-if="isShowCategory">
-      <i class="fas fa-search"></i>
-      <input type="text" v-model="textSearch" class="input" />
-      <div
-        v-for="(category, index) in listFilter"
-        :key="index"
-        class="category"
-        @click="select(category.name)"
-      >{{ category.name }}</div>
-    </form>
-    <div class="d-flex justify-content-end align-items-center">
-      Cho phép sao lưu bài viết
-      <va-toggle v-model="isSaveArticle" class="mb-0"></va-toggle>
+  <no-ssr>
+    <div>
+      <b-row>
+        <b-col>
+          <p class="font-weight-light mb-2">
+            Chọn tối đa
+            <b>5</b> tag để câu chuyện của bạn dễ dàng đến với mọi người hơn
+          </p>
+          <div class="mb-3">
+            <span>Tags:</span>
+            <b-badge
+              variant="secondary"
+              pill
+              v-for="(tag, index) in tags"
+              :key="index"
+              class="tag mx-1"
+            >
+              <i class="fas fa-times" @click="remove(index)"></i>
+              {{ tag }}
+            </b-badge>
+            <form @submit.prevent="add" class="form" v-if="this.tags.length < 5">
+              <input type="text" v-model="inputTag" />
+            </form>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="3">
+          <va-select
+            v-model="textSearch"
+            :options="categoryOptions"
+            placeholder="Chọn danh mục"
+            no-uncheck
+          ></va-select>
+        </b-col>
+        <b-col>
+          <div class="d-flex justify-content-end align-items-center">
+            Cho phép sao lưu bài viết
+            <va-toggle v-model="isSaveArticle" class="mb-0"></va-toggle>
+          </div>
+        </b-col>
+      </b-row>
+
+      <div class="d-flex justify-content-end mt-3">
+        <b-button class="button justify-content-end" size="sm" variant="info">Đăng bài</b-button>
+      </div>
     </div>
-    <div class="d-flex justify-content-end mt-3">
-      <b-button class="button justify-content-end" size="sm" variant="info">Đăng bài</b-button>
-    </div>
-  </div>
+  </no-ssr>
 </template>
 
 <script>
@@ -60,9 +72,15 @@ export default {
     ...mapGetters({
       listCategory: 'category/categories',
     }),
+    categoryOptions() {
+      return this.listCategory.map(category => ({
+        value: category.id,
+        label: category.name,
+      }))
+    },
   },
   async mounted() {
-    await this.$store.dispatch('category/getListCategory')
+    await this.$store.dispatch('category/list')
   },
   methods: {
     remove(index) {
