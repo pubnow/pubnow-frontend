@@ -1,20 +1,38 @@
 <template>
   <div class="user-wrapper">
-    <div class="avatar" :alt="username" :style="`background-image: url(${avatar})`" />
+    <div
+      v-if="user.avatar"
+      class="avatar"
+      id="popover-button-open"
+      :alt="user.username"
+      :style="`background-image: url(${user.avatar})`"
+    />
+    <img
+      v-else
+      id="popover-button-open"
+      :src="require('@/assets/images/avatar.svg')"
+      alt="Pubnow avatar"
+    />
+    <b-popover target="popover-button-open" :title="user.username">
+      <va-button type="subtle-link">View Profile</va-button><br />
+      <va-button type="subtle-link" @click="logout">Log out</va-button>
+    </b-popover>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import Cookie from 'js-cookie'
 export default {
-  props: {
-    avatar: {
-      type: String,
-      default:
-        'https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-9/32789851_1669417253172997_1743328170339205120_n.jpg?_nc_cat=110&_nc_oc=AQkOgwW6A37Y-TeD1CqaloQ4eQ6FnO3GWpjLX7IxdPlvGBmLMbCsYUjds7FC6QQ-HsE&_nc_ht=scontent.fhan2-4.fna&oh=020ca602d2d0ed83ea72bbca4c402984&oe=5DB936D6',
-    },
-    username: {
-      type: String,
-      default: 'dacsang97',
+  computed: {
+    ...mapGetters({
+      user: 'auth/user',
+    }),
+  },
+  methods: {
+    logout() {
+      this.$store.commit('auth/clear')
+      this.$router.push('/login')
     },
   },
 }

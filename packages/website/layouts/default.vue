@@ -1,28 +1,18 @@
 <template>
-  <va-app
-    :desktop-sidebar-width="desktopSidebarWidth"
-    :desktop-minibar-width="desktopMinibarWidth"
-    :desktop-topbar-height="desktopTopbarHeight"
-    :mobile-sidebar-width="mobileSidebarWidth"
-    :mobile-minibar-width="mobileMinibarWidth"
-    :mobile-topbar-height="mobileTopbarHeight"
-    :sidebar-priority="sidebarPriority"
-    :minibar-priority="minibarPriority"
-    :reverse="reverse"
-    :split="split"
-    :rtl="rtl"
-  >
+  <div class="wrapper">
     <Navbar />
+    <AffixNavbar />
     <nuxt class="app" />
-  </va-app>
+  </div>
 </template>
 
 <script>
-import { Navbar } from '@/components/common'
+import { Navbar, AffixNavbar } from '@/components/common'
 
 export default {
   components: {
     Navbar,
+    AffixNavbar,
   },
   data() {
     return {
@@ -46,6 +36,6 @@ export default {
 
 <style lang="scss" scoped>
 .app {
-  padding-top: 80px;
+  padding-top: 20px;
 }
 </style>

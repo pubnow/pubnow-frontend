@@ -26,7 +26,8 @@ export const actions = {
     try {
       dispatch('wait/start', 'auth.login', { root: true })
       const result = await this.$http.$post('auth/login', {
-        user: { username, password },
+        username,
+        password,
       })
       const { token, data: user } = result
       commit('setUser', user)
@@ -43,7 +44,10 @@ export const actions = {
     try {
       dispatch('wait/start', 'auth.register', { root: true })
       const result = await this.$http.$post('auth/register', {
-        user: { username, email, name, password },
+        username,
+        email,
+        name,
+        password,
       })
       const { token, data: user } = result
       commit('setUser', user)
