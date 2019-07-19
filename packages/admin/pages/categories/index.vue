@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { Breadcrumb } from '@/components/commons'
 import EditCategory from './EditCategory'
 
@@ -61,6 +62,11 @@ export default {
   components: {
     Breadcrumb,
     EditCategory,
+  },
+  computed: {
+    ...mapGetters({
+      categories: 'category/categories',
+    }),
   },
   data: () => ({
     breadcrumb: ['Dashboard', 'Chuyên mục'],
@@ -82,10 +88,8 @@ export default {
       this.boolean = true
     },
   },
-  async asyncData({ $http }) {
-    const temp = await $http.$get('categories')
-    const categories = temp.data
-    return { categories }
+  async mounted() {
+    await this.$store.dispatch('category/list')
   },
 }
 </script>
