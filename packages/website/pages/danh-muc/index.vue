@@ -1,12 +1,15 @@
 <template>
   <div class="categories">
-    <va-container>
-      <va-row class="a">
-        <va-column v-for="(i,index) in listCategory" :key="index" :gutter="5" class="d" :xs="6">
-          <CardCategory :title="i.name" :image="i.image"></CardCategory>
-        </va-column>
-      </va-row>
-    </va-container>
+    <b-container>
+      <b-row>
+        <b-col v-for="(i,index) in listCategory" :key="index" sm="6" class="mb-4">
+          <CardCategory
+            :title="i.name"
+            :image="`https://source.unsplash.com/collection/1163637/480x480?sig=${index+1}`"
+          ></CardCategory>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 <script>

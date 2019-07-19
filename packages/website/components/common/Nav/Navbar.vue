@@ -1,26 +1,28 @@
 <template>
-  <nav class="nav-wrapper navbar navbar-expand-lg navbar-light bg-white">
-    <b-container>
-      <b-navbar-nav class="d-flex align-items-center">
-        <nuxt-link to="/">
-          <img class="mr-2" :src="require('@/assets/images/logo.svg')" />
-        </nuxt-link>
-        <va-input
-          icon="search"
-          width="xl"
-          placeholder="Tìm kiếm theo nội dung, tác giả hoặc tag"
-          iconStyle="solid"
-        ></va-input>
-      </b-navbar-nav>
-      <b-navbar-nav class="ml-auto d-flex align-items-center">
-        <va-icon v-if="user" type="bell" class="icon" iconStyle="regular" color="#97a0af" />
-        <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
-          <va-button type="primary" icon-before="feather-alt">Viết bài</va-button>
-        </nuxt-link>
-        <UserAvatar :user="user" />
-      </b-navbar-nav>
-    </b-container>
-  </nav>
+  <no-ssr>
+    <nav class="nav-wrapper navbar navbar-expand-lg navbar-light bg-white">
+      <b-container>
+        <b-navbar-nav class="d-flex align-items-center">
+          <nuxt-link to="/">
+            <img class="mr-2" :src="require('@/assets/images/logo.svg')" />
+          </nuxt-link>
+          <va-input
+            icon="search"
+            width="xl"
+            placeholder="Tìm kiếm theo nội dung, tác giả hoặc tag"
+            iconStyle="solid"
+          ></va-input>
+        </b-navbar-nav>
+        <b-navbar-nav class="ml-auto d-flex align-items-center">
+          <va-icon v-if="user" type="bell" class="icon" iconStyle="regular" color="#97a0af" />
+          <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
+            <va-button type="primary" icon-before="feather-alt">Viết bài</va-button>
+          </nuxt-link>
+          <UserAvatar :user="user" />
+        </b-navbar-nav>
+      </b-container>
+    </nav>
+  </no-ssr>
 </template>
 
 <script>

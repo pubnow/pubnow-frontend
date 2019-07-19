@@ -2,11 +2,7 @@
   <va-affix :offset="70">
     <div class="right">
       <aside class="uiScale name-dec">
-        <div class="text-dec">
-          <a href="#">
-            <HeadingText>Phổ biến tại Pubnow</HeadingText>
-          </a>
-        </div>
+        <HeadingText>Phổ biến tại Pubnow</HeadingText>
         <div class="mt-4">
           <ul>
             <li class="d-flex mb-3 item" v-for="(i,index) in 5" :key="index">

@@ -1,40 +1,52 @@
 <template>
-  <div>
-    <span>Tags:</span>
-    <b-badge variant="secondary" pill v-for="(tag, index) in tags" :key="index" class="tag mx-1">
-      <i class="fas fa-times" @click="remove(index)"></i>
-      {{ tag }}
-    </b-badge>
-    <form @submit.prevent="add" class="form" v-if="this.tags.length < 5">
-      <input type="text" v-model="inputTag" />
-    </form>
-    <p class="font-weight-light">
-      Chọn tối đa
-      <b>5</b> tag để câu chuyện của bạn dễ dàng đến với mọi người hơn
-    </p>
-    <p class="text-dark mt-4 drop-button" @click="isShowCategory = !isShowCategory">
-      <span v-if="categorySelected === ''">Chọn danh mục</span>
-      <span v-else>{{ categorySelected }}</span>
-      <i class="fas fa-chevron-down"></i>
-    </p>
-    <form @submit.prevent class="wrap-category" v-if="isShowCategory">
-      <i class="fas fa-search"></i>
-      <input type="text" v-model="textSearch" class="input" />
-      <div
-        v-for="(category, index) in listFilter"
-        :key="index"
-        class="category"
-        @click="select(category.name)"
-      >{{ category.name }}</div>
-    </form>
-    <div class="d-flex justify-content-end align-items-center">
-      Cho phép sao lưu bài viết
-      <va-toggle v-model="isSaveArticle" class="mb-0"></va-toggle>
+  <no-ssr>
+    <div>
+      <b-row>
+        <b-col>
+          <p class="font-weight-light mb-2">
+            Chọn tối đa
+            <b>5</b> tag để câu chuyện của bạn dễ dàng đến với mọi người hơn
+          </p>
+          <div class="mb-3">
+            <span>Tags:</span>
+            <b-badge
+              variant="secondary"
+              pill
+              v-for="(tag, index) in tags"
+              :key="index"
+              class="tag mx-1"
+            >
+              <i class="fas fa-times" @click="remove(index)"></i>
+              {{ tag }}
+            </b-badge>
+            <form @submit.prevent="add" class="form" v-if="this.tags.length < 5">
+              <input type="text" v-model="inputTag" />
+            </form>
+          </div>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="4">
+          <va-select
+            v-model="categorySelected"
+            :options="categoryOptions"
+            search
+            placeholder="Chọn danh mục"
+            @
+          ></va-select>
+        </b-col>
+        <b-col>
+          <div class="d-flex justify-content-end align-items-center">
+            Cho phép sao lưu bài viết
+            <va-toggle v-model="isSaveArticle" class="mb-0"></va-toggle>
+          </div>
+        </b-col>
+      </b-row>
+      <div class="d-flex justify-content-end mt-3">
+        <va-button class="button justify-content-end" type="success" @click="create">Đăng bài</va-button>
+      </div>
     </div>
-    <div class="d-flex justify-content-end mt-3">
-      <b-button class="button justify-content-end" size="sm" variant="info">Đăng bài</b-button>
-    </div>
-  </div>
+  </no-ssr>
 </template>
 
 <script>
@@ -44,7 +56,6 @@ export default {
   data() {
     return {
       inputTag: '',
-      tags: ['tổ quốc', 'việt nam'],
       categorySelected: '',
       textSearch: '',
       isShowCategory: false,
@@ -59,22 +70,49 @@ export default {
     },
     ...mapGetters({
       listCategory: 'category/categories',
+      tags: 'article/tags',
     }),
+    categoryOptions() {
+      return this.listCategory.map(category => ({
+        value: category.id,
+        label: category.name,
+      }))
+    },
   },
   async mounted() {
-    await this.$store.dispatch('category/getListCategory')
+    await this.$store.dispatch('category/list')
   },
   methods: {
     remove(index) {
-      this.tags.splice(index, 1)
+      this.$store.commit('article/removeTag', index)
     },
     add() {
-      this.tags.push(this.inputTag)
+      this.$store.commit('article/addTag', this.inputTag)
       this.inputTag = ''
     },
-    select(category) {
-      this.isShowCategory = false
-      this.categorySelected = category
+    async create() {
+      const result = await this.$store.dispatch('article/write')
+      if (result) {
+        this.notification.info({
+          title: `Đăng bài thành công`,
+          message: `Cảm ơn bạn đã sử dụng Pubnow.`,
+          duration: 1690,
+          onHide: () => {
+            this.$router.push(`/bai-viet/${result.slug}`)
+          },
+        })
+      } else {
+        this.notification.danger({
+          title: `Rất tiếc`,
+          message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
+          duration: 2000,
+        })
+      }
+    },
+  },
+  watch: {
+    categorySelected(val) {
+      this.$store.commit('article/setCategory', val)
     },
   },
 }
