@@ -3,11 +3,7 @@
     <h1 class="text-center">Chỉnh sửa chuyên mục</h1>
     <va-button @click="change" type="primary">Chỉnh sửa</va-button>
     <b-form class="mt-2">
-      <b-form-group
-        id="input-group-name"
-        label="Tên chuyên mục:"
-        label-for="input-name"
-      >
+      <b-form-group id="input-group-name" label="Tên chuyên mục:" label-for="input-name">
         <b-form-input
           id="input-name"
           :value="selected.name"
@@ -19,11 +15,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-description"
-        label="Mô tả:"
-        label-for="input-description"
-      >
+      <b-form-group id="input-group-description" label="Mô tả:" label-for="input-description">
         <b-form-input
           id="input-description"
           type="text"
@@ -47,62 +39,29 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-latest"
-        label="Bài viết mới nhất:"
-        label-for="input-latest"
-      >
-        <b-form-input
-          id="input-latest"
-          :value="selected.latest"
-          type="text"
-          required
-          readonly
-          placeholder="Nhập bài viết mới nhất"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-image"
-        label="Ảnh chuyên mục:"
-        label-for="input-image"
-      >
+      <b-form-group id="input-group-image" label="Ảnh chuyên mục:" label-for="input-image">
         <b-form-file
           id="input-image"
           @change="onFileChange"
           :disabled="boolean"
           accept=".jpg, .png, .gif"
         ></b-form-file>
-        <img
-          class="mt-2"
-          style="max-width: 100%; max-height: 500px;"
-          v-if="url"
-          :src="url"
-        />
-        <img
-          class="mt-2"
-          style="max-width: 100%; max-height: 500px;"
-          v-else
-          :src="selected.image"
-        />
+        <img class="mt-2" style="max-width: 100%; max-height: 500px;" v-if="url" :src="url" />
+        <img class="mt-2" style="max-width: 100%; max-height: 500px;" v-else :src="selected.image" />
       </b-form-group>
-
-      <b-form-group
-        id="input-group-count"
-        label="Số lượng bài viết:"
-        label-for="input-count"
-      >
-        <b-form-input
-          id="input-count"
-          :value="selected.count"
-          type="number"
-          required
-          readonly
-        ></b-form-input>
-      </b-form-group>
-      <va-button :disabled="check" @click="update" type="primary"
-        >Cập nhật</va-button
-      >
+      <va-button :disabled="check" @click="update" type="primary">Cập nhật</va-button>
+      <va-button type="danger" @click="deleteCategory()">Xóa</va-button>
+      <b-modal centered hide-header hide-backdrop hide-footer v-model="modalShow">
+        <div>
+          <div class="text-center">
+            Bạn có muốn xóa chuyên mục {{ selected.name }}
+          </div>
+          <div class="delete-category text-center">
+            <va-button class="not-delete" @click="modalShow =! modalShow">Không</va-button>
+            <va-button class="btn-delete" type="danger" @click="deleteCat">Xóa</va-button>
+          </div>
+        </div>
+      </b-modal>
     </b-form>
   </div>
 </template>
@@ -118,6 +77,7 @@ export default {
   },
   data() {
     return {
+      modalShow: false,
       check: true,
       url: null,
       disable: false,
@@ -129,6 +89,9 @@ export default {
     }
   },
   methods: {
+    deleteCategory() {
+      this.modalShow =! this.modalShow
+    },
     onFileChange(e) {
       const file = e.target.files[0]
       this.url = URL.createObjectURL(file)
@@ -168,6 +131,10 @@ export default {
       })
       this.$router.go()
     },
+    async deleteCat() {
+      await this.$http.delete(`categories/${this.selected.slug}`)
+      this.$router.go()
+    }
   },
 }
 </script>
@@ -176,6 +143,15 @@ export default {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+.delete-category {
+  margin-top: 30px;
+  .btn-delete {
+    margin-right: 10px;
+  }
+  .not-delete {
+    border: 1px solid;
+  }
 }
 </style>
 
