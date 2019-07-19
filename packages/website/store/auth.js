@@ -13,6 +13,7 @@ export const mutations = {
   },
   setToken(state, token) {
     state.token = token
+    this.$http.setToken(token, 'Bearer')
   },
   clear(state) {
     state.user = null

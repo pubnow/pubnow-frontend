@@ -26,12 +26,13 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col md="3">
+        <b-col md="4">
           <va-select
-            v-model="textSearch"
+            v-model="categorySelected"
             :options="categoryOptions"
+            search
             placeholder="Chọn danh mục"
-            no-uncheck
+            @
           ></va-select>
         </b-col>
         <b-col>
@@ -41,9 +42,8 @@
           </div>
         </b-col>
       </b-row>
-
       <div class="d-flex justify-content-end mt-3">
-        <b-button class="button justify-content-end" size="sm" variant="info">Đăng bài</b-button>
+        <va-button class="button justify-content-end" type="success" @click="create">Đăng bài</va-button>
       </div>
     </div>
   </no-ssr>
@@ -56,7 +56,6 @@ export default {
   data() {
     return {
       inputTag: '',
-      tags: ['tổ quốc', 'việt nam'],
       categorySelected: '',
       textSearch: '',
       isShowCategory: false,
@@ -71,6 +70,7 @@ export default {
     },
     ...mapGetters({
       listCategory: 'category/categories',
+      tags: 'article/tags',
     }),
     categoryOptions() {
       return this.listCategory.map(category => ({
@@ -84,15 +84,35 @@ export default {
   },
   methods: {
     remove(index) {
-      this.tags.splice(index, 1)
+      this.$store.commit('article/removeTag', index)
     },
     add() {
-      this.tags.push(this.inputTag)
+      this.$store.commit('article/addTag', this.inputTag)
       this.inputTag = ''
     },
-    select(category) {
-      this.isShowCategory = false
-      this.categorySelected = category
+    async create() {
+      const result = this.$store.dispatch('article/write')
+      if (result) {
+        this.notification.info({
+          title: `Đăng bài thành công`,
+          message: `Cảm ơn bạn đã sử dụng Pubnow.`,
+          duration: 1690,
+          onHide: () => {
+            this.$router.push('/')
+          },
+        })
+      } else {
+        this.notification.danger({
+          title: `Rất tiếc`,
+          message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
+          duration: 2000,
+        })
+      }
+    },
+  },
+  watch: {
+    categorySelected(val) {
+      this.$store.commit('article/setCategory', val)
     },
   },
 }

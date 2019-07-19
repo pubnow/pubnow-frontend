@@ -76,7 +76,6 @@ export default {
   },
   router: {
     scrollBehavior(to, from, savedPosition) {
-      console.log({ to, from })
       // savedPosition is only available for popstate navigations (back button)
       if (savedPosition) {
         return savedPosition

@@ -64,6 +64,7 @@ export default {
         ],
         onUpdate: ({ getJSON }) => {
           this.json = getJSON()
+          this.$store.commit('article/setContent', getJSON())
         },
       }),
     }
