@@ -9,11 +9,11 @@
   </div>
   <div class="auth-nav" v-else>
     <va-button class="auth-btn" type="subtle">
-      <nuxt-link to="dang-ky">Đăng ký</nuxt-link>
+      <nuxt-link to="/dang-ky">Đăng ký</nuxt-link>
     </va-button>
     <span>|</span>
     <va-button class="auth-btn" type="subtle">
-      <nuxt-link to="dang-nhap">Đăng nhập</nuxt-link>
+      <nuxt-link to="/dang-nhap">Đăng nhập</nuxt-link>
     </va-button>
   </div>
 </template>

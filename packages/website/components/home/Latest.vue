@@ -9,7 +9,7 @@
               <h2 class="title">{{ article.title }}</h2>
             </nuxt-link>
             <a href="#" class="w-100">
-              <div class="mt-1 description">{{article.title}}</div>
+              <div class="mt-1 description">{{article.excerpt}}</div>
             </a>
           </div>
           <div class="mt-2">
@@ -30,7 +30,7 @@
           <a
             href="#"
             class="d-block background-cover w-100 h-100"
-            v-bind:style="{ backgroundImage: `url(https://source.unsplash.com/collection/1163637/480x480?sig=${index+1})` }"
+            v-bind:style="{ backgroundImage: `url(${article.thumbnail})` }"
           ></a>
         </div>
       </article>

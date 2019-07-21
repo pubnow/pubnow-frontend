@@ -7,18 +7,14 @@
           <div class="inner">
             <div class="thumb">
               <nuxt-link :to="`/bai-viet/${article.slug}`">
-                <img
-                  :src="`https://source.unsplash.com/collection/1163637/480x480?sig=${index+1}`"
-                  alt
-                  class="loaded"
-                />
+                <img :src="article.thumbnail" alt class="loaded" />
               </nuxt-link>
             </div>
             <div class="body">
               <h3 class="title">
                 <nuxt-link :to="`/bai-viet/${article.slug}`">{{ article.title }}</nuxt-link>
               </h3>
-              <a v-if="index===0" href="#" class="description">{{ article.title }}</a>
+              <a v-if="index===0" href="#" class="description">{{ article.excerpt }}</a>
               <div class="author">
                 <a href="#" class="avatar">
                   <img
@@ -93,11 +89,7 @@ export default {
               width: 100%;
               height: 100%;
               position: absolute;
-              left: 50%;
-              -webkit-transform: translateX(-50%);
-              -moz-transform: translateX(-50%);
-              -o-transform: translateX(-50%);
-              transform: translateX(-50%);
+              object-fit: contain;
             }
             .loaded {
               opacity: 1;
