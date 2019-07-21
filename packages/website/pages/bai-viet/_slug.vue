@@ -2,38 +2,29 @@
   <b-container>
     <b-row>
       <b-col :sm="8" :offset-sm="2">
-        <author
-          :avatar="author.avatar"
-          :fullname="author.fullname"
-          :time="time"
-          :category="category.name"
-        />
+        <author :author="article.author" :time="article.createdAt" :category="article.category" />
         <navbar :clap="clap" :comment="comment" />
+        <h1 class="title my-4">{{ article.title }}</h1>
+        <div class="content-article" v-html="article.content"></div>
         <no-ssr>
-          <SimpleArticleEditor
-            :editable="false"
-            :content="articleContent"
-            class="text-body mt-4 content-article"
+          <va-button
+            class="ml-2 button mt-2"
+            size="xs"
+            v-for="tag in article.tags"
+            :key="tag.id"
+          >{{ tag.name }}</va-button>
+          <div class="d-flex justify-content-end">{{ article.see }} lượt xem</div>
+          <hr />
+          <description
+            :fullname="author.fullname"
+            :username="author.username"
+            :avatar="author.avatar"
+            :category="category.name"
+            :description="category.description"
           />
+          <hr />
+          <comment :comments="listComment" />
         </no-ssr>
-
-        <va-button
-          class="ml-2 button mt-2"
-          size="xs"
-          v-for="(tag, index) in article.tags"
-          :key="index"
-        >{{ tag.name }}</va-button>
-        <div class="d-flex justify-content-end">{{ view }} lượt xem</div>
-        <hr />
-        <description
-          :fullname="author.fullname"
-          :username="author.username"
-          :avatar="author.avatar"
-          :category="category.name"
-          :description="category.description"
-        />
-        <hr />
-        <comment :comments="listComment" />
       </b-col>
     </b-row>
   </b-container>
@@ -57,16 +48,13 @@ export default {
     ...mapGetters({
       article: 'article/article',
     }),
-    articleContent() {
-      return JSON.parse(get(this.article, 'content', {}))
-    },
   },
   fetch({ store, params: { slug } }) {
     return store.dispatch('article/show', slug)
   },
   head() {
     return {
-      title: this.article.title || 'Bài viết'
+      title: this.article.title || 'Bài viết',
     }
   },
   data() {
@@ -133,6 +121,17 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+@import '@pubnow/ui/scss/_fonts.scss';
+
+.title {
+  font-family: $ale;
+  font-size: 30px;
+  font-weight: 700;
+}
+</style>
+
+
 <style lang="scss">
 @import '@pubnow/ui/scss/_sizes.scss';
 @import '@pubnow/ui/scss/_fonts.scss';
@@ -146,7 +145,7 @@ export default {
     line-height: $unit * 1.6;
   }
   img {
-    width: 100%;
+    max-width: 100%;
   }
 }
 </style>

@@ -19,30 +19,29 @@
         <nuxt-link to="#" class="ml-4 tab active">Hot nhất</nuxt-link>
         <nuxt-link to="#" class="ml-4 tab">Mới nhất</nuxt-link>
       </div>
-      <!-- View comment -->
-      <template v-for="(comment, index) in comments">
-        <view-comment
-          :key="index"
-          :clap="comments.clap"
-          :avatar="comment.avatar"
-          :fullname="comment.fullname"
-          :time="comment.time"
-          :content="comment.content"
-        />
-        <template v-if="comment.reply.length !== 0">
-          <template v-for="(comment, index) in comment.reply">
+      <no-ssr>
+        <div v-for="(comment, index) in comments" :key="index">
+          <view-comment
+            :clap="comment.clap"
+            :avatar="comment.avatar"
+            :fullname="comment.fullname"
+            :time="comment.time"
+            :content="comment.content"
+          />
+          <div v-if="comment.reply.length !== 0">
             <view-comment
-              class="ml-5"
+              v-for="(child, index) in comment.reply"
               :key="index"
-              :clap="comments.clap"
-              :avatar="comment.avatar"
-              :fullname="comment.fullname"
-              :time="comment.time"
-              :content="comment.content"
+              class="ml-5"
+              :clap="child.clap"
+              :avatar="child.avatar"
+              :fullname="child.fullname"
+              :time="child.time"
+              :content="child.content"
             />
-          </template>
-        </template>
-      </template>
+          </div>
+        </div>
+      </no-ssr>
     </div>
   </div>
 </template>
