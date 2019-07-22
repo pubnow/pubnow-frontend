@@ -11,7 +11,7 @@
           type="text"
           required
           :readonly="boolean"
-          placeholder="Nhập tên chuyên mục"
+          placeholder="Nhập name"
         ></b-form-input>
       </b-form-group>
 
