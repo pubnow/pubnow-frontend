@@ -37,21 +37,9 @@
         ></b-form-input>
       </b-form-group>
       <b-form-group id="input-role" label="Chức vụ:" label-for="input-role">
-        <b-form-select id="input-role" @input="updateRold" v-model="temp" :value="selected.role ? selected.role.name : 'Thành Viên'" :options="roleOptions" :disabled="boolean"></b-form-select>
+        <b-form-select id="input-role" @input="updateRold" v-model="temp" :options="roleOptions" :disabled="boolean"></b-form-select>
       </b-form-group>
-           {{temp}}
-           {{form}}
       <va-button :disabled="check" @click="update" type="primary">Cập nhật</va-button>
-      <va-button type="danger">Xóa</va-button>
-      <!-- <b-modal centered hide-header hide-backdrop hide-footer v-model="modalShow">
-        <div>
-          <div class="text-center">Bạn có muốn xóa chuyên mục {{ selected.name }}</div>
-          <div class="delete-category text-center">
-            <va-button class="not-delete" @click="modalShow =! modalShow">Không</va-button>
-            <va-button class="btn-delete" type="danger">Xóa</va-button>
-          </div>
-        </div>
-      </b-modal> -->
     </b-form>
   </div>
 </template>
@@ -83,9 +71,9 @@ export default {
   updated() {
     this.updateRole()
   },
-  // mounted() {
-  //   this.updateRole()
-  // },
+  mounted() {
+    this.updateRole()
+  },
   computed: {
     ...mapGetters({
       roles: 'role/roles'
@@ -115,39 +103,20 @@ export default {
     },
     async update() {
       let submit = new Object()
-      // if (this.form.role != this.selected.role.name) {
-      //   submit.role = this.form.role
-      // }
-      // for(let i = 0; i < this.roles.length; i++) {
-      //   console.log('xxx')
-      //   console.log('yyy', this.roles.name)
-      //   console.log('zzz', this.temp)
-      //   if(this.roles[i].name == this.temp) {
-      //     submit.role = this.roles
-      //     console.log('xxxx')
-      //   }
-      // }
       this.roles.forEach(element => {
         if(element.name == this.temp) {
-          submit.role = element
-          console.log('xxxx')
-          console.log(submit.role)
+          submit.role_id = element.id
         }
       });
       if (this.form.name != this.selected.name) {
         submit.name = this.form.name
       }
-      console.log(submit)
       this.$http.setHeader('Accept', 'application/json')
       await this.$http.$put(`users/${this.selected.username}`, {
         ...submit,
       })
-      // this.$router.go()
+      this.$router.go()
     },
-    // async deleteCat() {
-    //   await this.$http.delete(`categories/${this.selected.slug}`)
-    //   this.$router.go()
-    // }
   },
 }
 </script>

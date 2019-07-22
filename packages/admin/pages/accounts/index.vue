@@ -36,7 +36,7 @@
               <b-form-checkbox></b-form-checkbox>
             </template>
             <template slot="role.name" slot-scope="data">
-              <div :class="['badge', data.value.toLowerCase()]">{{ data.value === 'admin' ? 'Pubnow Staff' :'' }}</div>
+              <div :class="['badge', data.value.toLowerCase()]">{{ data.value === 'admin' ? 'Pubnow Staff' :'Member' }}</div>
             </template>
           </b-table>
         </va-table>
