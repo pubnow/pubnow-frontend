@@ -48,7 +48,6 @@
 @import '@pubnow/ui/scss/_fonts.scss';
 .featured {
   .list-articles {
-    // padding-bottom: 10px;
     .block-list {
       margin-left: -10px;
       margin-right: -10px;
