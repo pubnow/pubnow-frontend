@@ -1,17 +1,17 @@
 <template>
   <div class="detail-tag">
-    <va-container>
+    <div class="container">
       <HeaderDetailCategory />
-      <va-row>
-        <va-column :sm="8">
+      <div class="row">
+        <div class="col-sm-8">
           <NameTag />
           <LeftDetailCategory v-for="i in 5" :key="i" />
-        </va-column>
-        <va-column :sm="4" class="pl-5">
+        </div>
+        <div class="col-sm-4 pl-5">
           <RightDetailCategory />
-        </va-column>
-      </va-row>
-    </va-container>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
