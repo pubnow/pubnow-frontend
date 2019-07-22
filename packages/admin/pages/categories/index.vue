@@ -46,8 +46,9 @@
     >
       <EditCategory
         v-if="selected"
-        :boolean="boolean"
+        :bl="boolean"
         :selected="selected[0]"
+        @booleanChanged="boolean = $event"
       />
     </va-aside>
   </div>

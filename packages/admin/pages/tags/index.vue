@@ -20,7 +20,14 @@
     <va-row>
       <va-column :xs="12">
         <va-table size="lg">
-          <b-table :fields="fields" :items="tags" responsive>
+          <b-table
+            :fields="fields"
+            :items="tags"
+            selectable
+            select-mode="range"
+            @row-selected="rowSelected"
+            responsive
+          >
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -40,15 +47,30 @@
         </va-table>
       </va-column>
     </va-row>
+    <va-aside
+      style="background-color: #f3f4f6;"
+      width="500px"
+      placement="right"
+      ref="myAsideTag"
+    >
+      <EditTag
+        v-if="selected"
+        :bl="boolean"
+        :selected="selected[0]"
+        @booleanChanged="boolean = $event"
+      />
+    </va-aside>
   </div>
 </template>
-
 <script>
+import { mapGetters } from 'vuex'
 import { Breadcrumb } from '@/components/commons'
+import EditTag from './EditTag'
 
 export default {
   components: {
     Breadcrumb,
+    EditTag,
   },
   data: () => ({
     breadcrumb: ['Dashboard', 'Thẻ'],
@@ -63,11 +85,23 @@ export default {
       { key: 'latest', label: 'Bài viết mới nhất' },
       { key: 'count', label: 'Số lượng bài viết' },
     ],
+    selected: '',
+    boolean: true,
   }),
-  async asyncData({ $http }) {
-    const temp = await $http.$get('tags')
-    const tags = temp.data
-    return { tags }
+  computed: {
+    ...mapGetters({
+      tags: 'tag/tags',
+    }),
+  },
+  methods: {
+    rowSelected(items) {
+      this.selected = items
+      this.$refs.myAsideTag.open()
+      this.boolean = true
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('tag/list')
   },
 }
 </script>
