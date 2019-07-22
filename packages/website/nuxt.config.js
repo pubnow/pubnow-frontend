@@ -4,7 +4,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Publish your content',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -15,10 +15,15 @@ export default {
       },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/png', href: '/logo.png' },
       {
         rel: 'stylesheet',
         href: 'https://use.fontawesome.com/releases/v5.2.0/css/all.css',
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700&display=swap&subset=vietnamese',
       },
     ],
   },
@@ -68,5 +73,14 @@ export default {
      ** You can extend webpack config here
      */
     extend(config, ctx) {},
+  },
+  router: {
+    scrollBehavior(to, from, savedPosition) {
+      // savedPosition is only available for popstate navigations (back button)
+      if (savedPosition) {
+        return savedPosition
+      }
+      return { x: 0, y: 0 }
+    },
   },
 }

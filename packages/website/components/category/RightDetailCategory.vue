@@ -1,74 +1,82 @@
 <template>
   <div class="inner">
-      <div class="box box-top">
-        <div class="box-rule">
-          <p>
-            <b>Nội dung cho phép</b>
-          </p>
-          <p>
-            Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.
-          </p>
-          <p>
-            <b>Quy định</b>
-          </p>
-          <ul>
-            <li> 
-              Những nội dung không thuộc phạm trù của danh mục sẽ bị nhắc nhở và xoá (nếu không thay đổi thích hợp)
-            </li>
-          </ul>
-        </div>
-      </div>
-      <div class="box box-top top-post">
-        <div class="box-title">
-          <span>Bài viết của tháng</span>
-        </div>
-        <ul class="box-list-post" >
-          <li class="item-post avatar-thumb-post" v-for="i in 4" :key="i">
-            <div class="thumb">
-              <a href="#">
-                <img src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/e22f6990295011e7a999e7b5135b7d88.jpg" alt="">
-              </a>
-            </div>
-            <h3 class="title">
-              <a href="">Có mắt như mù</a>
-            </h3>
-            <div class="author-user">
-              <p>bởi<a href="#"> Huskywannafly</a> 6 tháng 7</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="box box-top ">
-        <div class="box-title">
-          <span>Phù hợp với bạn</span>
-        </div>
-         <ul class="box-list-post" >
-          <li class="item-post avatar-thumb-post" v-for="i in 4" :key="i">
-            <div class="thumb">
-              <a href="#">
-                <img src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/ceb5e9e0a0d711e6b9a4a3d40a952e05.jpg" alt="">
-              </a>
-            </div>
-            <h3 class="title">
-              <a href="">Có mắt như mù</a>
-            </h3>
-            <div class="author-user">
-              <p>bởi<a href="#"> Huskywannafly</a> 6 tháng 7</p>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <div class="box box-bonus">
-         <div class="box-title">
-          <span>Tags nổi bật</span>
-        </div>
-        <ul class="tags-list list-unstyled">
-          <li class="tag-item" v-for="i in 6" :key="i">
-            <a href="#">TÌNH YÊU</a>
-          </li>
+    <div class="box box-top">
+      <div class="box-rule">
+        <p>
+          <b>Nội dung cho phép</b>
+        </p>
+        <p>Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.</p>
+        <p>
+          <b>Quy định</b>
+        </p>
+        <ul>
+          <li>Những nội dung không thuộc phạm trù của danh mục sẽ bị nhắc nhở và xoá (nếu không thay đổi thích hợp)</li>
         </ul>
       </div>
     </div>
+    <div class="box box-top top-post">
+      <div class="box-title">
+        <span>Bài viết của tháng</span>
+      </div>
+      <ul class="box-list-post">
+        <li class="item-post avatar-thumb-post" v-for="i in 4" :key="i">
+          <div class="thumb">
+            <a href="#">
+              <img
+                src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/e22f6990295011e7a999e7b5135b7d88.jpg"
+                alt
+              />
+            </a>
+          </div>
+          <h3 class="title">
+            <a href>Có mắt như mù</a>
+          </h3>
+          <div class="author-user">
+            <p>
+              bởi
+              <a href="#">Huskywannafly</a> 6 tháng 7
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="box box-top">
+      <div class="box-title">
+        <span>Phù hợp với bạn</span>
+      </div>
+      <ul class="box-list-post">
+        <li class="item-post avatar-thumb-post" v-for="i in 4" :key="i">
+          <div class="thumb">
+            <a href="#">
+              <img
+                src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/ceb5e9e0a0d711e6b9a4a3d40a952e05.jpg"
+                alt
+              />
+            </a>
+          </div>
+          <h3 class="title">
+            <a href>Có mắt như mù</a>
+          </h3>
+          <div class="author-user">
+            <p>
+              bởi
+              <a href="#">Huskywannafly</a> 6 tháng 7
+            </p>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="box box-bonus">
+      <div class="box-title">
+        <span>Tags nổi bật</span>
+      </div>
+      <ul class="tags-list list-unstyled">
+        <li class="tag-item" v-for="i in 6" :key="i">
+          <a href="#">TÌNH YÊU</a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </template>
 <style lang="scss" scoped>
 .box .box-top {
