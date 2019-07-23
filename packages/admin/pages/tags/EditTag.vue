@@ -1,11 +1,11 @@
 <template>
   <div class="wrap-edit mt-3">
-    <h1 class="text-center">Chỉnh sửa chuyên mục</h1>
+    <h1 class="text-center">Chỉnh sửa thẻ</h1>
     <va-button @click="change" type="primary">Chỉnh sửa</va-button>
     <b-form class="mt-2">
       <b-form-group
         id="input-group-name"
-        label="Tên chuyên mục:"
+        label="Tên thẻ:"
         label-for="input-name"
       >
         <b-form-input
@@ -15,23 +15,7 @@
           type="text"
           required
           :readonly="bl"
-          placeholder="Nhập tên chuyên mục"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-description"
-        label="Mô tả:"
-        label-for="input-description"
-      >
-        <b-form-input
-          id="input-description"
-          type="text"
-          :value="selected.description"
-          :readonly="bl"
-          @input="updateDescription"
-          required
-          placeholder="Nhập mô tả"
+          placeholder="Nhập tên thẻ"
         ></b-form-input>
       </b-form-group>
 
@@ -49,7 +33,7 @@
 
       <b-form-group
         id="input-group-image"
-        label="Ảnh chuyên mục:"
+        label="Ảnh thẻ:"
         label-for="input-image"
       >
         <b-form-file
@@ -74,7 +58,7 @@
       <va-button :disabled="check" @click="update" type="primary"
         >Cập nhật</va-button
       >
-      <va-button type="danger" @click="deleteCategory()">Xóa</va-button>
+      <va-button type="danger" @click="deleteTag()">Xóa</va-button>
       <b-modal
         centered
         hide-header
@@ -83,14 +67,12 @@
         v-model="modalShow"
       >
         <div>
-          <div class="text-center">
-            Bạn có muốn xóa chuyên mục {{ selected.name }}
-          </div>
-          <div class="delete-category text-center">
+          <div class="text-center">Bạn có muốn xóa thẻ {{ selected.name }}</div>
+          <div class="delete-tag text-center">
             <va-button class="not-delete" @click="modalShow = !modalShow"
               >Không</va-button
             >
-            <va-button class="btn-delete" type="danger" @click="deleteCat"
+            <va-button class="btn-delete" type="danger" @click="delTag"
               >Xóa</va-button
             >
           </div>
@@ -118,13 +100,12 @@ export default {
       boolean: true,
       form: {
         name: '',
-        description: '',
         slug: '',
       },
     }
   },
   methods: {
-    deleteCategory() {
+    deleteTag() {
       this.modalShow = !this.modalShow
     },
     onFileChange(e) {
@@ -142,10 +123,6 @@ export default {
       this.form.name = value
       this.check = false
     },
-    updateDescription(value) {
-      this.form.description = value
-      this.check = false
-    },
     updateSlug(value) {
       this.form.slug = value
       this.check = false
@@ -158,17 +135,14 @@ export default {
       if (this.form.name != this.selected.name) {
         submit.name = this.form.name
       }
-      if (this.form.description != this.selected.description) {
-        submit.description = this.form.description
-      }
-      await this.$store.dispatch('category/update', {
+      await this.$store.dispatch('tag/update', {
         slug: this.selected.slug,
         submit: submit,
       })
       this.$router.go()
     },
-    async deleteCat() {
-      await this.$store.dispatch('category/deleteCat', this.selected.slug)
+    async delTag() {
+      await this.$store.dispatch('tag/delTag', this.selected.slug)
       this.$router.go()
     },
   },
@@ -180,7 +154,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-.delete-category {
+.delete-tag {
   margin-top: 30px;
   .btn-delete {
     margin-right: 10px;
