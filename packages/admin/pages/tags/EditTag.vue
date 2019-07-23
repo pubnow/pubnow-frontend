@@ -58,7 +58,7 @@
       <va-button :disabled="check" @click="update" type="primary"
         >Cập nhật</va-button
       >
-      <va-button type="danger" @click="deleteCategory()">Xóa</va-button>
+      <va-button type="danger" @click="deleteTag()">Xóa</va-button>
       <b-modal
         centered
         hide-header
@@ -68,11 +68,11 @@
       >
         <div>
           <div class="text-center">Bạn có muốn xóa thẻ {{ selected.name }}</div>
-          <div class="delete-category text-center">
+          <div class="delete-tag text-center">
             <va-button class="not-delete" @click="modalShow = !modalShow"
               >Không</va-button
             >
-            <va-button class="btn-delete" type="danger" @click="deleteCat"
+            <va-button class="btn-delete" type="danger" @click="delTag"
               >Xóa</va-button
             >
           </div>
@@ -105,7 +105,7 @@ export default {
     }
   },
   methods: {
-    deleteCategory() {
+    deleteTag() {
       this.modalShow = !this.modalShow
     },
     onFileChange(e) {
@@ -135,14 +135,14 @@ export default {
       if (this.form.name != this.selected.name) {
         submit.name = this.form.name
       }
-      this.$http.setHeader('Accept', 'application/json')
-      await this.$http.$put(`tags/${this.selected.slug}`, {
-        ...submit,
+      await this.$store.dispatch('tag/update', {
+        slug: this.selected.slug,
+        submit: submit,
       })
       this.$router.go()
     },
-    async deleteCat() {
-      await this.$http.delete(`tags/${this.selected.slug}`)
+    async delTag() {
+      await this.$store.dispatch('tag/delTag', this.selected.slug)
       this.$router.go()
     },
   },
@@ -154,7 +154,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-.delete-category {
+.delete-tag {
   margin-top: 30px;
   .btn-delete {
     margin-right: 10px;

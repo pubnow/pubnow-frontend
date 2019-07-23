@@ -7,13 +7,13 @@ export const getters = {
 }
 
 export const mutations = {
-  setTags (state, tags) {
+  setTags(state, tags) {
     state.tags = tags
   },
 }
 
 export const actions = {
-  async list ({ commit }) {
+  async list({ commit }) {
     try {
       const result = await this.$http.$get('tags')
       const { data } = result
@@ -22,5 +22,14 @@ export const actions = {
     } catch (e) {
       return false
     }
+  },
+  async update(context, update) {
+    this.$http.setHeader('Accept', 'application/json')
+    await this.$http.$put(`tags/${update.slug}`, {
+      ...update.submit,
+    })
+  },
+  async delTag(context, slug) {
+    await this.$http.delete(`tags/${slug}`)
   },
 }
