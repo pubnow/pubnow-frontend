@@ -18,7 +18,7 @@
           <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
             <va-button type="primary" icon-before="feather-alt">Viết bài</va-button>
           </nuxt-link>
-          <UserAvatar :user="user" />
+          <UserAvatar :user="user" :organizations="organizations" />
         </b-navbar-nav>
       </b-container>
     </nav>
@@ -39,6 +39,7 @@ export default {
     ...mapGetters({
       user: 'auth/user',
       categories: 'category/categories',
+      organizations: 'organization/organizations',
     }),
     randomCategories() {
       return take(shuffle(this.categories), 6)
