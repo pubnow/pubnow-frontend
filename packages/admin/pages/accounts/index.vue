@@ -21,14 +21,7 @@
     <va-row>
       <va-column :xs="12">
         <va-table size="lg">
-          <b-table
-            :fields="fields"
-            :items="users"
-            selectable
-            select-mode="range"
-            @row-selected="rowSelected"
-            responsive
-          >
+          <b-table :fields="fields" :items="users" @row-clicked="rowSelected" responsive>
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -36,24 +29,33 @@
               <b-form-checkbox></b-form-checkbox>
             </template>
             <template slot="role.name" slot-scope="data">
-              <div :class="['badge', data.value.toLowerCase()]">{{ data.value === 'admin' ? 'Pubnow Staff' :'Member' }}</div>
+              <div
+                :class="['badge', data.value.toLowerCase() === 'admin' ? 'admin' : 'member']"
+              >{{ data.value === 'admin' ? 'Pubnow Staff' :'Member' }}</div>
             </template>
           </b-table>
         </va-table>
       </va-column>
     </va-row>
-    <va-aside style="background-color: #f3f4f6;" width="500px" placement="right" ref="myAsideCate">
-      <EditUser v-if="selected" :boolean="boolean" :selected="selected[0]" />
+    <va-aside
+      style="background-color: #f3f4f6;"
+      width="500px"
+      placement="right"
+      ref="myAsideCate"
+      @hide="onClose"
+    >
+      <EditUser v-if="selected" :user="selected" @close="$refs.myAsideCate.close()" />
     </va-aside>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import EditUser from './EditUser'
+import { EditUser } from '@/components/aside'
+
 export default {
   components: {
-    EditUser
+    EditUser,
   },
   computed: {
     ...mapGetters({
@@ -78,14 +80,15 @@ export default {
       { key: 'role.name', label: 'Chức vụ' },
     ],
     actionBtnWidth: 0,
-    selected: '',
-    boolean: true,
+    selected: null,
   }),
   methods: {
-    rowSelected(items) {
-      this.selected = items
+    rowSelected(item) {
+      this.selected = item
       this.$refs.myAsideCate.open()
-      this.boolean = true
+    },
+    onClose(e) {
+      this.selected = null
     },
   },
   async mounted() {
@@ -111,7 +114,8 @@ export default {
     background-color: $primary;
   }
 
-  &.testing {
+  &.testing,
+  &.member {
     background-color: $violet;
   }
 }

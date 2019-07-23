@@ -23,4 +23,10 @@ export const actions = {
       return false
     }
   },
+  async update(_, { username, ...updateData }) {
+    this.$http.setHeader('Accept', 'application/json')
+    await this.$http.$put(`users/${username}`, {
+      ...updateData,
+    })
+  },
 }
