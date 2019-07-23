@@ -1,7 +1,6 @@
 <template>
   <div class="wrap-edit mt-3">
     <h1 class="text-center">Chỉnh sửa chuyên mục</h1>
-    <va-button @click="change" type="primary">Chỉnh sửa</va-button>
     <b-form class="mt-2">
       <b-form-group
         id="input-group-name"
@@ -10,11 +9,11 @@
       >
         <b-form-input
           id="input-name"
-          :value="selected.name"
+          :value="name"
           @input="updateName"
           type="text"
           required
-          :readonly="bl"
+          :readonly="!editable"
           placeholder="Nhập tên chuyên mục"
         ></b-form-input>
       </b-form-group>
@@ -27,8 +26,8 @@
         <b-form-input
           id="input-description"
           type="text"
-          :value="selected.description"
-          :readonly="bl"
+          :value="description"
+          :readonly="!editable"
           @input="updateDescription"
           required
           placeholder="Nhập mô tả"
@@ -38,11 +37,11 @@
       <b-form-group id="input-group-slug" label="Slug:" label-for="input-slug">
         <b-form-input
           id="input-slug"
-          :value="selected.slug"
+          :value="slug"
           @input="updateSlug"
           type="text"
           required
-          :readonly="bl"
+          :readonly="!editable"
           placeholder="Nhập slug"
         ></b-form-input>
       </b-form-group>
@@ -55,7 +54,7 @@
         <b-form-file
           id="input-image"
           @change="onFileChange"
-          :disabled="bl"
+          :disabled="!editable"
           accept=".jpg, .png, .gif"
         ></b-form-file>
         <img
@@ -68,13 +67,33 @@
           class="mt-2"
           style="max-width: 100%; max-height: 500px;"
           v-else
-          :src="selected.image"
+          :src="category.image"
         />
       </b-form-group>
-      <va-button :disabled="check" @click="update" type="primary"
-        >Cập nhật</va-button
-      >
-      <va-button type="danger" @click="deleteCategory()">Xóa</va-button>
+      <div class="d-flex">
+        <va-button
+          @click="editBtn"
+          active
+          class="mr-2"
+          :icon-before="editable ? 'chevron-left' : 'edit'"
+          >{{ editable ? 'Hủy bỏ' : 'Chỉnh sửa' }}</va-button
+        >
+        <va-button
+          icon-before="trash"
+          class="mr-auto"
+          type="danger"
+          @click="deleteCategory()"
+          >Xóa</va-button
+        >
+        <va-button
+          :active="!canUpdate"
+          :disabled="!canUpdate"
+          @click="update"
+          icon-after="check"
+          type="primary"
+          >Cập nhật</va-button
+        >
+      </div>
       <b-modal
         centered
         hide-header
@@ -84,7 +103,7 @@
       >
         <div>
           <div class="text-center">
-            Bạn có muốn xóa chuyên mục {{ selected.name }}
+            Bạn có muốn xóa chuyên mục {{ category.name }}
           </div>
           <div class="delete-category text-center">
             <va-button class="not-delete" @click="modalShow = !modalShow"
@@ -102,28 +121,46 @@
 <script>
 export default {
   props: {
-    selected: {
+    category: {
       type: Object,
-    },
-    bl: {
-      type: Boolean,
     },
   },
   data() {
     return {
       modalShow: false,
-      check: true,
+      editable: false,
       url: null,
-      disable: false,
-      boolean: true,
-      form: {
-        name: '',
-        description: '',
-        slug: '',
-      },
+      name: '',
+      description: '',
+      slug: '',
     }
   },
+  computed: {
+    nameChanged() {
+      const oldName = this.category.name
+      return this.name !== oldName
+    },
+    descriptionChanged() {
+      const oldDescription = this.category.description
+      return this.description !== oldDescription
+    },
+    slugChanged() {
+      const oldSlug = this.category.slug
+      return this.slug !== oldSlug
+    },
+    canUpdate() {
+      return this.nameChanged || this.descriptionChanged || this.slugChanged
+    },
+  },
+  mounted() {
+    this.initData()
+  },
   methods: {
+    initData() {
+      this.name = this.category.name
+      this.description = this.category.description
+      this.slug = this.category.slug
+    },
     deleteCategory() {
       this.modalShow = !this.modalShow
     },
@@ -131,44 +168,42 @@ export default {
       const file = e.target.files[0]
       this.url = URL.createObjectURL(file)
     },
+    editBtn() {
+      if (this.editable) {
+        this.close()
+      } else {
+        this.change()
+      }
+    },
+    close() {
+      this.$emit('close')
+    },
     change() {
-      this.boolean = false
-      this.$emit('booleanChanged', this.boolean)
-      this.form.name = this.selected.name
-      this.form.description = this.selected.description
-      // this.form.slug = this.selected.slug
+      this.editable = !this.editable
     },
     updateName(value) {
-      this.form.name = value
-      this.check = false
+      this.name = value
     },
     updateDescription(value) {
-      this.form.description = value
-      this.check = false
+      this.description = value
     },
     updateSlug(value) {
-      this.form.slug = value
-      this.check = false
+      this.slug = value
     },
     async update() {
-      let submit = new Object()
-      if (this.form.slug != this.selected.slug) {
-        submit.slug = this.form.slug
-      }
-      if (this.form.name != this.selected.name) {
-        submit.name = this.form.name
-      }
-      if (this.form.description != this.selected.description) {
-        submit.description = this.form.description
+      let submit = {
+        ...(this.nameChanged && { name: this.name }),
+        ...(this.descriptionChanged && { description: this.description }),
+        ...(this.slugChanged && { slug: this.slug }),
       }
       await this.$store.dispatch('category/update', {
-        slug: this.selected.slug,
+        slug: this.category.slug,
         submit: submit,
       })
       this.$router.go()
     },
     async deleteCat() {
-      await this.$store.dispatch('category/deleteCat', this.selected.slug)
+      await this.$store.dispatch('category/deleteCat', this.category.slug)
       this.$router.go()
     },
   },

@@ -65,7 +65,13 @@
               v-else
             />
           </b-form-group>
-          <va-button @click="create" type="primary">Tạo</va-button>
+          <va-button
+            :active="!canUpdate"
+            :disabled="!canUpdate"
+            @click="create"
+            type="primary"
+            >Tạo</va-button
+          >
         </b-form>
       </b-col>
     </div>
@@ -86,6 +92,12 @@ export default {
     ...mapGetters({
       categories: 'category/categories',
     }),
+    nameChanged() {
+      return this.form.name !== ''
+    },
+    canUpdate() {
+      return this.nameChanged
+    },
   },
   methods: {
     onFileChange(e) {

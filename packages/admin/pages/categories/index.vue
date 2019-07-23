@@ -25,7 +25,17 @@
             :items="categories"
             @row-clicked="rowSelected"
             responsive
+            :busy="$wait.is('category.list')"
           >
+            <div slot="table-busy" class="text-center my-5">
+              <va-loading
+                size="lg"
+                color="blue"
+                fixed
+                class="align-middle"
+              ></va-loading>
+              <strong>Đang tải...</strong>
+            </div>
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -41,12 +51,12 @@
       width="500px"
       placement="right"
       ref="myAsideCate"
+      @hide="onClose"
     >
       <EditCategory
         v-if="selected"
-        :bl="boolean"
-        :selected="selected"
-        @booleanChanged="boolean = $event"
+        :category="selected"
+        @close="$refs.myAsideCate.close()"
       />
     </va-aside>
   </div>
@@ -55,7 +65,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { Breadcrumb } from '@/components/commons'
-import EditCategory from './EditCategory'
+import { EditCategory } from '@/components/aside'
 
 export default {
   components: {
@@ -77,14 +87,15 @@ export default {
       { key: 'latest', label: 'Bài viết mới nhất' },
       { key: 'count', label: 'Số lượng bài viết' },
     ],
-    selected: '',
-    boolean: true,
+    selected: null,
   }),
   methods: {
     rowSelected(item) {
       this.selected = item
       this.$refs.myAsideCate.open()
-      this.boolean = true
+    },
+    onClose(e) {
+      this.selected = null
     },
   },
   async mounted() {

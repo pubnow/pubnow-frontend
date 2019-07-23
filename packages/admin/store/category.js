@@ -13,29 +13,32 @@ export const mutations = {
 }
 
 export const actions = {
-  async list({ commit }) {
+  async list({ commit, dispatch }) {
     try {
+      dispatch('wait/start', 'category.list', { root: true })
       const result = await this.$http.$get('categories')
       const { data } = result
       commit('setCategories', data)
+      dispatch('wait/end', 'category.list', { root: true })
       return true
     } catch (e) {
+      dispatch('wait/end', 'category.list', { root: true })
       return false
     }
   },
-  async create(context, create) {
+  async create(_, create) {
     this.$http.setHeader('Accept', 'application/json')
     await this.$http.$post('categories', {
       ...create.submit,
     })
   },
-  async update(context, update) {
+  async update(_, update) {
     this.$http.setHeader('Accept', 'application/json')
     await this.$http.$put(`categories/${update.slug}`, {
       ...update.submit,
     })
   },
-  async deleteCat(context, slug) {
+  async deleteCat(_, slug) {
     await this.$http.delete(`categories/${slug}`)
   },
 }

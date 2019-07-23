@@ -4,9 +4,7 @@
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
           <va-breadcrumb-item v-for="item in breadcrumb" :key="item">
-            {{
-            item
-            }}
+            {{ item }}
           </va-breadcrumb-item>
         </va-breadcrumb>
       </div>
@@ -30,7 +28,12 @@
             :busy="$wait.is('tag.list')"
           >
             <div slot="table-busy" class="text-center my-5">
-              <va-loading size="lg" color="blue" fixed class="align-middle"></va-loading>
+              <va-loading
+                size="lg"
+                color="blue"
+                fixed
+                class="align-middle"
+              ></va-loading>
               <strong>Đang tải...</strong>
             </div>
             <template slot="HEAD_checkBox">
@@ -39,18 +42,25 @@
             <template slot="checkBox">
               <b-form-checkbox></b-form-checkbox>
             </template>
-            <template slot="latestArticle" slot-scope="data">{{ data.value | trunc }}</template>
+            <template slot="latestArticle" slot-scope="data">{{
+              data.value | trunc
+            }}</template>
           </b-table>
         </va-table>
         <va-pagination :total="total" :per-page="perPage" @change="change" />
       </va-column>
     </va-row>
-    <va-aside style="background-color: #f3f4f6;" width="500px" placement="right" ref="myAsideTag">
+    <va-aside
+      style="background-color: #f3f4f6;"
+      width="500px"
+      placement="right"
+      ref="myAsideTag"
+      @hide="onClose"
+    >
       <EditTag
         v-if="selected"
-        :bl="boolean"
-        :selected="selected"
-        @booleanChanged="boolean = $event"
+        :tag="selected"
+        @close="$refs.myAsideTag.close()"
       />
     </va-aside>
   </div>
@@ -59,7 +69,7 @@
 import { mapGetters, mapActions } from 'vuex'
 import truncate from 'lodash.truncate'
 import { Breadcrumb } from '@/components/commons'
-import EditTag from './EditTag'
+import { EditTag } from '@/components/aside'
 
 export default {
   components: {
@@ -85,8 +95,7 @@ export default {
       { key: 'latestArticle', label: 'Bài viết mới nhất' },
       { key: 'articlesCount', label: 'Số lượng bài viết' },
     ],
-    selected: '',
-    boolean: true,
+    selected: null,
   }),
   computed: {
     ...mapGetters({
@@ -103,10 +112,12 @@ export default {
     rowSelected(item) {
       this.selected = item
       this.$refs.myAsideTag.open()
-      this.boolean = true
     },
     change(e) {
       this.changePage(e.pageNumber)
+    },
+    onClose(e) {
+      this.selected = null
     },
   },
   async mounted() {
