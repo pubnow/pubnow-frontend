@@ -9,6 +9,7 @@
     </div>
   </div>
 </template>
+
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_fonts.scss';
 @import '@pubnow/ui/scss/_colors.scss';
@@ -29,17 +30,13 @@
     bottom: 0;
     border-radius: 10px;
     overflow: hidden;
-    & img {
-      position: absolute;
+    background: #000;
+    img {
       width: 100%;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
     }
   }
   .text-box {
     padding-top: 3.5rem;
-    vertical-align: middle;
     display: inline-block;
     max-width: 100%;
     font-size: 1rem;
@@ -51,7 +48,6 @@
       letter-spacing: 1px;
       font-weight: 800 !important;
     }
-
     .btn-default {
       background: #fff;
       border-color: #ccc;
