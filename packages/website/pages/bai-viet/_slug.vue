@@ -7,12 +7,10 @@
         <h1 class="title my-4">{{ article.title }}</h1>
         <div class="content-article" v-html="article.content"></div>
         <no-ssr>
-          <va-button
-            class="ml-2 button mt-2"
-            size="xs"
-            v-for="tag in article.tags"
-            :key="tag.id"
-          >{{ tag.name }}</va-button>
+          <nuxt-link v-for="tag in article.tags" :key="tag.id" :to="`/tag/${tag.slug}`">
+            <va-button class="ml-2 button mt-2" size="xs">{{ tag.name }}</va-button>
+          </nuxt-link>
+
           <div class="d-flex justify-content-end">{{ article.see }} lượt xem</div>
           <hr />
           <description

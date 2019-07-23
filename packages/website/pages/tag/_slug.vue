@@ -1,13 +1,13 @@
 <template>
   <div class="detail-tag">
     <div class="container">
-      <HeaderDetailCategory />
       <div class="row">
         <div class="col-sm-8">
           <NameTag />
           <LeftDetailCategory v-for="i in 5" :key="i" />
         </div>
-        <div class="col-sm-4 pl-5">
+        <div class="col-sm-4">
+          <HeaderDetailCategory />
           <RightDetailCategory />
         </div>
       </div>
