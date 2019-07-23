@@ -51,4 +51,13 @@ export const actions = {
     commit('setCurrentPage', payload)
     dispatch('list')
   },
+  async update(_, update) {
+    this.$http.setHeader('Accept', 'application/json')
+    await this.$http.$put(`tags/${update.slug}`, {
+      ...update.submit,
+    })
+  },
+  async delTag(_, slug) {
+    await this.$http.delete(`tags/${slug}`)
+  },
 }

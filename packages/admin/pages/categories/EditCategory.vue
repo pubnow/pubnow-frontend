@@ -161,14 +161,14 @@ export default {
       if (this.form.description != this.selected.description) {
         submit.description = this.form.description
       }
-      this.$http.setHeader('Accept', 'application/json')
-      await this.$http.$put(`categories/${this.selected.slug}`, {
-        ...submit,
+      await this.$store.dispatch('category/update', {
+        slug: this.selected.slug,
+        submit: submit,
       })
       this.$router.go()
     },
     async deleteCat() {
-      await this.$http.delete(`categories/${this.selected.slug}`)
+      await this.$store.dispatch('category/deleteCat', this.selected.slug)
       this.$router.go()
     },
   },

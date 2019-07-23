@@ -23,9 +23,7 @@
           <b-table
             :fields="fields"
             :items="categories"
-            selectable
-            select-mode="range"
-            @row-selected="rowSelected"
+            @row-clicked="rowSelected"
             responsive
           >
             <template slot="HEAD_checkBox">
@@ -47,7 +45,7 @@
       <EditCategory
         v-if="selected"
         :bl="boolean"
-        :selected="selected[0]"
+        :selected="selected"
         @booleanChanged="boolean = $event"
       />
     </va-aside>
@@ -83,8 +81,8 @@ export default {
     boolean: true,
   }),
   methods: {
-    rowSelected(items) {
-      this.selected = items
+    rowSelected(item) {
+      this.selected = item
       this.$refs.myAsideCate.open()
       this.boolean = true
     },
