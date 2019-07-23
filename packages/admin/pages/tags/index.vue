@@ -3,9 +3,11 @@
     <va-page-header>
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
-          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{
+          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">
+            {{
             item
-          }}</va-breadcrumb-item>
+            }}
+          </va-breadcrumb-item>
         </va-breadcrumb>
       </div>
     </va-page-header>
@@ -20,14 +22,7 @@
     <va-row>
       <va-column :xs="12">
         <va-table size="lg">
-          <b-table
-            :fields="fields"
-            :items="tags"
-            selectable
-            select-mode="range"
-            @row-selected="rowSelected"
-            responsive
-          >
+          <b-table :fields="fields" :items="tags" @row-clicked="rowSelected" responsive>
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -47,16 +42,11 @@
         </va-table>
       </va-column>
     </va-row>
-    <va-aside
-      style="background-color: #f3f4f6;"
-      width="500px"
-      placement="right"
-      ref="myAsideTag"
-    >
+    <va-aside style="background-color: #f3f4f6;" width="500px" placement="right" ref="myAsideTag">
       <EditTag
         v-if="selected"
         :bl="boolean"
-        :selected="selected[0]"
+        :selected="selected"
         @booleanChanged="boolean = $event"
       />
     </va-aside>
@@ -81,9 +71,8 @@ export default {
       'checkBox',
       { key: 'name', label: 'Tên thẻ' },
       'slug',
-      { key: 'special', label: 'Thẻ nổi bật' },
-      { key: 'latest', label: 'Bài viết mới nhất' },
-      { key: 'count', label: 'Số lượng bài viết' },
+      { key: 'latestArticle', label: 'Bài viết mới nhất' },
+      { key: 'articlesCount', label: 'Số lượng bài viết' },
     ],
     selected: '',
     boolean: true,
@@ -94,8 +83,8 @@ export default {
     }),
   },
   methods: {
-    rowSelected(items) {
-      this.selected = items
+    rowSelected(item) {
+      this.selected = item
       this.$refs.myAsideTag.open()
       this.boolean = true
     },
