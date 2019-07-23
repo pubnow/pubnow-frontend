@@ -1,6 +1,6 @@
 <template>
   <div>
-    <va-minibar class="minibar" theme="default" :top-items="minibarTopItem">
+    <va-minibar class="minibar" :top-items="minibarTopItem">
       <div slot="top">
         <img
           :src="require('@/assets/images/logo.svg')"
@@ -55,7 +55,7 @@ export default {
         },
         {
           name: 'Chuyên mục',
-          route: '/create-category',
+          route: '/categories/create',
           icon: 'archive',
         },
       ],
