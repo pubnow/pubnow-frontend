@@ -1,7 +1,6 @@
 <template>
   <div class="wrap-edit mt-3">
     <h1 class="text-center">Chỉnh sửa thẻ</h1>
-    <va-button @click="change" type="primary">Chỉnh sửa</va-button>
     <b-form class="mt-2">
       <b-form-group
         id="input-group-name"
@@ -10,11 +9,11 @@
       >
         <b-form-input
           id="input-name"
-          :value="selected.name"
+          :value="name"
           @input="updateName"
           type="text"
           required
-          :readonly="bl"
+          :readonly="!editable"
           placeholder="Nhập tên thẻ"
         ></b-form-input>
       </b-form-group>
@@ -22,11 +21,11 @@
       <b-form-group id="input-group-slug" label="Slug:" label-for="input-slug">
         <b-form-input
           id="input-slug"
-          :value="selected.slug"
+          :value="slug"
           @input="updateSlug"
           type="text"
           required
-          :readonly="bl"
+          :readonly="!editable"
           placeholder="Nhập slug"
         ></b-form-input>
       </b-form-group>
@@ -39,7 +38,7 @@
         <b-form-file
           id="input-image"
           @change="onFileChange"
-          :disabled="bl"
+          :disabled="!editable"
           accept=".jpg, .png, .gif"
         ></b-form-file>
         <img
@@ -52,13 +51,33 @@
           class="mt-2"
           style="max-width: 100%; max-height: 500px;"
           v-else
-          :src="selected.image"
+          :src="tag.image"
         />
       </b-form-group>
-      <va-button :disabled="check" @click="update" type="primary"
-        >Cập nhật</va-button
-      >
-      <va-button type="danger" @click="deleteTag()">Xóa</va-button>
+      <div class="d-flex">
+        <va-button
+          @click="editBtn"
+          active
+          class="mr-2"
+          :icon-before="editable ? 'chevron-left' : 'edit'"
+          >{{ editable ? 'Hủy bỏ' : 'Chỉnh sửa' }}</va-button
+        >
+        <va-button
+          icon-before="trash"
+          class="mr-auto"
+          type="danger"
+          @click="deleteTag()"
+          >Xóa</va-button
+        >
+        <va-button
+          :active="!canUpdate"
+          :disabled="!canUpdate"
+          @click="update"
+          icon-after="check"
+          type="primary"
+          >Cập nhật</va-button
+        >
+      </div>
       <b-modal
         centered
         hide-header
@@ -67,7 +86,7 @@
         v-model="modalShow"
       >
         <div>
-          <div class="text-center">Bạn có muốn xóa thẻ {{ selected.name }}</div>
+          <div class="text-center">Bạn có muốn xóa thẻ {{ tag.name }}</div>
           <div class="delete-tag text-center">
             <va-button class="not-delete" @click="modalShow = !modalShow"
               >Không</va-button
@@ -84,27 +103,40 @@
 <script>
 export default {
   props: {
-    selected: {
+    tag: {
       type: Object,
-    },
-    bl: {
-      type: Boolean,
     },
   },
   data() {
     return {
       modalShow: false,
-      check: true,
+      editable: false,
       url: null,
-      disable: false,
-      boolean: true,
-      form: {
-        name: '',
-        slug: '',
-      },
+      name: '',
+      slug: '',
     }
   },
+  computed: {
+    nameChanged() {
+      const oldName = this.tag.name
+      return this.name !== oldName
+    },
+    slugChanged() {
+      const oldSlug = this.tag.slug
+      return this.slug !== oldSlug
+    },
+    canUpdate() {
+      return this.nameChanged || this.slugChanged
+    },
+  },
+  mounted() {
+    this.initData()
+  },
   methods: {
+    initData() {
+      this.name = this.tag.name
+      this.slug = this.tag.slug
+    },
     deleteTag() {
       this.modalShow = !this.modalShow
     },
@@ -112,37 +144,38 @@ export default {
       const file = e.target.files[0]
       this.url = URL.createObjectURL(file)
     },
+    editBtn() {
+      if (this.editable) {
+        this.close()
+      } else {
+        this.change()
+      }
+    },
+    close() {
+      this.$emit('close')
+    },
     change() {
-      this.boolean = false
-      this.$emit('booleanChanged', this.boolean)
-      this.form.name = this.selected.name
-      this.form.description = this.selected.description
-      this.form.slug = this.selected.slug
+      this.editable = !this.editable
     },
     updateName(value) {
-      this.form.name = value
-      this.check = false
+      this.name = value
     },
     updateSlug(value) {
-      this.form.slug = value
-      this.check = false
+      this.slug = value
     },
     async update() {
-      let submit = new Object()
-      if (this.form.slug != this.selected.slug) {
-        submit.slug = this.form.slug
-      }
-      if (this.form.name != this.selected.name) {
-        submit.name = this.form.name
+      let submit = {
+        ...(this.nameChanged && { name: this.name }),
+        ...(this.slugChanged && { slug: this.slug }),
       }
       await this.$store.dispatch('tag/update', {
-        slug: this.selected.slug,
+        slug: this.tag.slug,
         submit: submit,
       })
       this.$router.go()
     },
     async delTag() {
-      await this.$store.dispatch('tag/delTag', this.selected.slug)
+      await this.$store.dispatch('tag/delTag', this.tag.slug)
       this.$router.go()
     },
   },
