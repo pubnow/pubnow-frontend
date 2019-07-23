@@ -2,39 +2,38 @@
   <b-container>
     <b-row>
       <b-col :sm="8" :offset-sm="2">
-        <author :author="article.author" :time="article.createdAt" :category="article.category" />
+        <author
+          :avatar="author.avatar"
+          :fullname="author.fullname"
+          :time="time"
+          :category="category.name"
+        />
         <navbar :clap="clap" :comment="comment" />
-        <h1 class="title my-4">{{ article.title }}</h1>
-        <div class="content-article" v-html="article.content"></div>
-        <no-ssr>
-          <va-button
-            class="ml-2 button mt-2"
-            size="xs"
-            v-for="tag in article.tags"
-            :key="tag.id"
-          >{{ tag.name }}</va-button>
-          <div class="d-flex justify-content-end">{{ article.see }} lượt xem</div>
-          <hr />
-          <description
-            :fullname="author.fullname"
-            :username="author.username"
-            :avatar="author.avatar"
-            :category="category.name"
-            :description="category.description"
-          />
-          <hr />
-          <comment :comments="listComment" />
-        </no-ssr>
+        <div v-html="content" class="text-body mt-4 content-article" />
+        <va-button
+          class="ml-2 button mt-2"
+          size="xs"
+          v-for="(tag, index) in tags"
+          :key="index"
+        >{{ tag }}</va-button>
+        <div class="d-flex justify-content-end">{{ view }} lượt xem</div>
+        <hr />
+        <description
+          :fullname="author.fullname"
+          :username="author.username"
+          :avatar="author.avatar"
+          :category="category.name"
+          :description="category.description"
+        />
+        <hr />
+        <comment :comments="listComment" />
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import get from 'lodash.get'
 import { Author, Navbar, Comment, Description } from '@/components/article'
-import SimpleArticleEditor from '@/components/editor/SimpleArticle'
 
 export default {
   components: {
@@ -42,20 +41,6 @@ export default {
     Navbar,
     Comment,
     Description,
-    SimpleArticleEditor,
-  },
-  computed: {
-    ...mapGetters({
-      article: 'article/article',
-    }),
-  },
-  fetch({ store, params: { slug } }) {
-    return store.dispatch('article/show', slug)
-  },
-  head() {
-    return {
-      title: this.article.title || 'Bài viết',
-    }
   },
   data() {
     return {
@@ -121,17 +106,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-@import '@pubnow/ui/scss/_fonts.scss';
-
-.title {
-  font-family: $ale;
-  font-size: 30px;
-  font-weight: 700;
-}
-</style>
-
-
 <style lang="scss">
 @import '@pubnow/ui/scss/_sizes.scss';
 @import '@pubnow/ui/scss/_fonts.scss';
@@ -145,7 +119,7 @@ export default {
     line-height: $unit * 1.6;
   }
   img {
-    max-width: 100%;
+    width: 100%;
   }
 }
 </style>

@@ -23,6 +23,9 @@ export default {
     PopularOnPubnow,
     Latest,
   },
+  fetch({ store }) {
+    return store.dispatch('article/index')
+  },
 }
 </script>
 <style lang="scss" scoped>

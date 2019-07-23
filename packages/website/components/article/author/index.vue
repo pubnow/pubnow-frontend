@@ -2,33 +2,45 @@
   <div class="d-flex align-items-center pt-3">
     <img :src="avatar" alt="avatar" class="avatar mr-3" />
     <div>
-      <nuxt-link to="#" class="fullname">{{ fullname }}</nuxt-link>
+      <nuxt-link :to="`/nguoi-dung/${author.username}`" class="fullname mb-2">{{ author.name }}</nuxt-link>
       <p class="mt-0">
-        Đăng {{ time }} trong
-        <nuxt-link to="#">{{ category }}</nuxt-link>
+        Đăng {{ time | date }} trong
+        <nuxt-link :to="`/danh-muc/${category.slug}`" class="category">{{ category.name }}</nuxt-link>
       </p>
     </div>
   </div>
 </template>
 
 <script>
+import { formatDistance, isValid, parseISO } from 'date-fns'
+import { vi } from 'date-fns/locale'
+
 export default {
   props: {
-    avatar: {
-      type: String,
-      required: false,
+    author: {
+      type: Object,
+      required: true,
     },
-    fullname: {
-      type: String,
+    category: {
+      type: Object,
       required: true,
     },
     time: {
       type: String,
       required: true,
     },
-    category: {
-      type: String,
-      required: true,
+  },
+  computed: {
+    avatar() {
+      if (!this.author.avatar) {
+        return 'https://png.pngtree.com/svg/20160330/7c8beaa39c.png'
+      }
+      return this.author.avatar
+    },
+  },
+  filters: {
+    date(val) {
+      return formatDistance(parseISO(val), Date.now(), { locale: vi })
     },
   },
 }
@@ -47,5 +59,13 @@ $size-image: 60px;
 
 .fullname {
   font-size: $unit;
+  text-decoration: none;
+}
+
+.fullname,
+.category {
+  &:hover {
+    text-decoration: none !important;
+  }
 }
 </style>

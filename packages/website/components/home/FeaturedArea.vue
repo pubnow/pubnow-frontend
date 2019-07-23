@@ -3,26 +3,18 @@
     <Heading>Nổi bật</Heading>
     <div class="list-articles">
       <ul class="block-list block-list-1 list-unstyled">
-        <li class="block-post" v-for="(i,index) in 5" :key="index">
+        <li class="block-post" v-for="(article, index) in featuredPosts" :key="article.id">
           <div class="inner">
             <div class="thumb">
-              <a href="#">
-                <img
-                  src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-thumbnails/3d0dffa0a5fc11e9b913cba60d029abb.jpg"
-                  alt
-                  class="loaded"
-                />
-              </a>
+              <nuxt-link :to="`/bai-viet/${article.slug}`">
+                <img :src="article.thumbnail" alt class="loaded" />
+              </nuxt-link>
             </div>
             <div class="body">
               <h3 class="title">
-                <a href="#">Tư duy kiểu bổ củi</a>
+                <nuxt-link :to="`/bai-viet/${article.slug}`">{{ article.title }}</nuxt-link>
               </h3>
-              <a
-                v-if="index===0"
-                href="#"
-                class="description"
-              >Freakonomics tuần này có đưa lại một chủ đề cũ, là chuyện làm cách nào để giảm tỷ lệ người phạm tội, rơi vào vòng lao lý trong xã hội, tại sao xã hội Mỹ vài chục năm trước tỷ lệ tội phạm rất cao mà...</a>
+              <a v-if="index===0" href="#" class="description">{{ article.excerpt }}</a>
               <div class="author">
                 <a href="#" class="avatar">
                   <img
@@ -30,7 +22,7 @@
                     alt
                   />
                 </a>
-                <a href="#" class="username">Curly Rae Braces</a>
+                <a href="#" class="username">{{ article.author.name }}</a>
               </div>
             </div>
           </div>
@@ -41,9 +33,20 @@
 </template>
 
 <script>
+import shuffle from 'lodash.shuffle'
+import take from 'lodash.take'
+import { mapGetters } from 'vuex'
 import Heading from '../common/HeadingText'
 
 export default {
+  computed: {
+    ...mapGetters({
+      articles: 'article/articles',
+    }),
+    featuredPosts() {
+      return take(this.articles, 5).reverse()
+    },
+  },
   components: {
     Heading,
   },
@@ -86,11 +89,7 @@ export default {
               width: 100%;
               height: 100%;
               position: absolute;
-              left: 50%;
-              -webkit-transform: translateX(-50%);
-              -moz-transform: translateX(-50%);
-              -o-transform: translateX(-50%);
-              transform: translateX(-50%);
+              object-fit: contain;
             }
             .loaded {
               opacity: 1;

@@ -6,31 +6,45 @@
         <va-icon type="user" size="1.25em" iconStyle="regular" color="#97a0af" />
       </div>
     </router-link>
-    <b-dropdown :text="user.name" :right="true" type="text" variant="white">
-      <b-dropdown-item v-for="(item, id) in organ" :key="id">
-        <div v-if="id < 3" class="organization-wrapper">
-          <img class="organization-avatar" v-if="item.avatar" :src="item.avatar" />
-          <div class="organization-name">{{item.name}}</div>
-        </div>
-        <div v-if="id === 3">Xem thêm...</div>
-      </b-dropdown-item>
-      <b-dropdown-item href=" /cai-dat/to-chuc">Danh sách Tổ chức</b-dropdown-item>
-      <b-dropdown-item href="/cai-dat">Cài đặt</b-dropdown-item>
-      <b-dropdown-item @click="logout">Đăng xuất</b-dropdown-item>
-    </b-dropdown>
+    <va-dropdown class="dropdown-wrapper">
+      <div slot="trigger">
+        <va-button class="username" icon-after="angle-down" type="subtle-link">{{user.name}}</va-button>
+      </div>
+      <li v-for="(item, id) in getGroup" :key="id" class="organization-wrapper">
+        <img class="organization-avatar" v-if="item.avatar" :src="item.avatar" />
+        <div class="organization-name">{{item.name}}</div>
+      </li>
+      <li>
+        <a href="#">Xem thêm...</a>
+      </li>
+      <hr />
+      <li>
+        <a href=" /cai-dat/to-chuc">Quản lý nhóm</a>
+      </li>
+      <li>
+        <a href="/cai-dat">Cài đặt</a>
+      </li>
+      <hr />
+      <li>
+        <a href="#" @click="logout">Đăng xuất</a>
+      </li>
+    </va-dropdown>
   </div>
   <div class="auth-nav" v-else>
     <va-button class="auth-btn" type="subtle">
-      <nuxt-link to="dang-ky">Đăng ký</nuxt-link>
+      <nuxt-link to="/dang-ky">Đăng ký</nuxt-link>
     </va-button>
     <span>|</span>
     <va-button class="auth-btn" type="subtle">
-      <nuxt-link to="dang-nhap">Đăng nhập</nuxt-link>
+      <nuxt-link to="/dang-nhap">Đăng nhập</nuxt-link>
     </va-button>
   </div>
 </template>
 
 <script>
+import shuffle from 'lodash.shuffle'
+import take from 'lodash.take'
+
 export default {
   props: {
     user: {
@@ -65,10 +79,15 @@ export default {
       ],
     }
   },
+  computed: {
+    getGroup() {
+      return take(shuffle(this.organ), 3)
+    },
+  },
   methods: {
     logout() {
       this.$store.commit('auth/clear')
-      this.$router.push('/dang-nhap')
+      this.$router.push('/')
     },
   },
 }
@@ -98,20 +117,28 @@ export default {
       border-radius: 20px;
     }
   }
-  .dropdown {
+  .dropdown-wrapper {
     margin-left: 10px;
+    background-color: #fff;
+    .username {
+      cursor: pointer;
+    }
+    li > a {
+      color: #505e77;
+    }
     .organization-wrapper {
       display: flex;
       flex-direction: row;
       align-items: center;
+      margin: 5px 10px;
       .organization-avatar {
         width: 24px;
         border-radius: 12px;
       }
       .organization-name {
         margin-left: 5px;
-        color: #333;
-        font-size: 13px;
+        color: #505e77;
+        font-size: 14px;
       }
     }
   }

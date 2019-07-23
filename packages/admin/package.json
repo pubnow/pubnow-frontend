@@ -18,8 +18,10 @@
     "bootstrap-vue": "^2.0.0-rc.24",
     "cookieparser": "^0.1.0",
     "js-cookie": "^2.2.0",
+    "lodash.truncate": "^4.4.2",
     "nuxt": "^2.8.1",
     "vue-atlas": "^2.0.14",
+    "vue-wait": "^1.4.6",
     "vuex": "^3.1.1"
   },
   "devDependencies": {

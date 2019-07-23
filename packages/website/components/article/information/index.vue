@@ -91,14 +91,14 @@ export default {
       this.inputTag = ''
     },
     async create() {
-      const result = this.$store.dispatch('article/write')
+      const result = await this.$store.dispatch('article/write')
       if (result) {
         this.notification.info({
           title: `Đăng bài thành công`,
           message: `Cảm ơn bạn đã sử dụng Pubnow.`,
           duration: 1690,
           onHide: () => {
-            this.$router.push('/')
+            this.$router.push(`/bai-viet/${result.slug}`)
           },
         })
       } else {
