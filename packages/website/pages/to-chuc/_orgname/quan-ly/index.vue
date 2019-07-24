@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <information />
+    <information :name="name" :avatar="avatar" :email="email" />
     <tab />
   </div>
 </template>
@@ -10,7 +10,14 @@ import { Information, Tab } from '@/components/control'
 export default {
   components: {
     Information,
-    Tab
-  }
+    Tab,
+  },
+  data() {
+    return {
+      name: 'Young Tailor',
+      avatar: 'https://bulma.io/images/placeholders/480x480.png',
+      email: 'thaycacac@gmail.com',
+    }
+  },
 }
 </script>

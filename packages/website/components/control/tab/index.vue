@@ -16,6 +16,8 @@
 </template>
 
 <style lang="scss">
+@import '@pubnow/ui/scss/_colors.scss';
+
 .icon-member::before {
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
