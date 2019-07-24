@@ -4,7 +4,7 @@
     <div>
       <nuxt-link :to="`/nguoi-dung/${author.username}`" class="fullname mb-2">{{ author.name }}</nuxt-link>
       <p class="mt-0">
-        Đăng {{ time | date }} trong
+        Đăng {{ time | formatDate }} trong
         <nuxt-link :to="`/danh-muc/${category.slug}`" class="category">{{ category.name }}</nuxt-link>
       </p>
     </div>
@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import { formatDistance, isValid, parseISO } from 'date-fns'
-import { vi } from 'date-fns/locale'
+import hasDate from '@/mixins/hasDate'
 
 export default {
+  mixins: [hasDate],
   props: {
     author: {
       type: Object,
@@ -36,11 +36,6 @@ export default {
         return 'https://png.pngtree.com/svg/20160330/7c8beaa39c.png'
       }
       return this.author.avatar
-    },
-  },
-  filters: {
-    date(val) {
-      return formatDistance(parseISO(val), Date.now(), { locale: vi })
     },
   },
 }
