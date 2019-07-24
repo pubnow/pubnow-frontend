@@ -3,9 +3,7 @@
     <va-page-header>
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
-          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{
-            item
-          }}</va-breadcrumb-item>
+          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{item}}</va-breadcrumb-item>
         </va-breadcrumb>
       </div>
     </va-page-header>
@@ -28,12 +26,7 @@
             :busy="$wait.is('article.list')"
           >
             <div slot="table-busy" class="text-center my-5">
-              <va-loading
-                size="lg"
-                color="blue"
-                fixed
-                class="align-middle"
-              ></va-loading>
+              <va-loading size="lg" color="blue" fixed class="align-middle"></va-loading>
               <strong>Đang tải...</strong>
             </div>
             <template slot="HEAD_checkBox">
@@ -42,12 +35,7 @@
             <template slot="checkBox">
               <b-form-checkbox></b-form-checkbox>
             </template>
-            <template slot="title" slot-scope="data">{{
-              data.item.title | trunc
-            }}</template>
-            <template slot="slug" slot-scope="data">{{
-              data.item.slug | trunc
-            }}</template>
+            <template slot="title" slot-scope="data">{{ data.item.title }}</template>
             <template slot="author" slot-scope="data">
               <img
                 v-if="data.item.author.avatar"
@@ -63,9 +51,7 @@
               />
               <span>{{ data.item.author.name }}</span>
             </template>
-            <template slot="category" slot-scope="data">{{
-              data.item.category.name
-            }}</template>
+            <template slot="category" slot-scope="data">{{ data.item.category.name }}</template>
           </b-table>
         </va-table>
         <va-pagination :total="total" :per-page="perPage" @change="change" />
@@ -81,7 +67,8 @@
       <EditArticle v-if="selected" :article="selected" />
     </va-aside>
   </div>
-</div>
+</template>
+
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -105,8 +92,7 @@ export default {
     breadcrumb: ['Dashboard', 'Bài viết'],
     fields: [
       'checkBox',
-      { key: 'title', label: 'Tên bài viết' },
-      'slug',
+      { key: 'title', label: 'Tên bài viết', tdClass: 'w-50' },
       { key: 'author', label: 'Tác giả' },
       { key: 'category', label: 'Chuyên mục' },
       { key: 'view', label: 'Lượt view' },
