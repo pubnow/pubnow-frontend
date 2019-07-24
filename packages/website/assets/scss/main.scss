@@ -1,3 +1,7 @@
+body {
+  background-color: #fcfcfc !important;
+}
+
 .page-enter-active,
 .page-leave-active {
   transition: all 0.25s ease-in-out;
@@ -11,4 +15,8 @@
 .va-btn-block {
   width: 100% !important;
   display: flex;
+}
+
+*:focus {
+  outline: 0px !important;
 }

@@ -1,21 +1,22 @@
 <template>
-  <va-affix :offset="0">
-    <nav class="nav-wrapper navbar-expand-lg bg-white py-2">
-      <b-container>
-        <b-navbar-nav>
-          <NavItem to="/">Trang chủ</NavItem>
-          <NavItem to="/news-feed">News Feed</NavItem>
-          <NavItem to="/nguoi-dung/noi-bat">Thành viên nổi bật</NavItem>
-          <NavItem
-            v-for="category in randomCategories"
-            :key="category.id"
-            :to="`/danh-muc/${category.slug}`"
-          >{{category.name}}</NavItem>
-          <NavItem to="/danh-muc">Tất cả chuyên mục</NavItem>
-        </b-navbar-nav>
-      </b-container>
-    </nav>
-  </va-affix>
+  <no-ssr>
+    <va-affix :offset="0">
+      <nav class="nav-wrapper navbar-expand-lg bg-white py-2">
+        <b-container>
+          <b-navbar-nav>
+            <NavItem to="/">Trang chủ</NavItem>
+            <NavItem to="/nguoi-dung/noi-bat">Thành viên nổi bật</NavItem>
+            <NavItem
+              v-for="category in randomCategories"
+              :key="category.id"
+              :to="`/danh-muc/${category.slug}`"
+            >{{category.name}}</NavItem>
+            <NavItem to="/danh-muc">Tất cả chuyên mục</NavItem>
+          </b-navbar-nav>
+        </b-container>
+      </nav>
+    </va-affix>
+  </no-ssr>
 </template>
 
 <script>

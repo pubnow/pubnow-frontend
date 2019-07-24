@@ -1,6 +1,37 @@
 <template>
-  <div>
-    <h1>Trang xem list danh mục</h1>
-    <a href="https://spiderum.com/danh-muc-khac?page=1">https://spiderum.com/danh-muc-khac?page=1</a>
+  <div class="categories">
+    <b-container>
+      <b-row>
+        <b-col v-for="(i,index) in listCategory" :key="index" sm="6" class="mb-4">
+          <CardCategory
+            :title="i.name"
+            :image="`https://source.unsplash.com/collection/1163637/480x480?sig=${index+1}`"
+          ></CardCategory>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
+<script>
+import { mapGetters } from 'vuex'
+import { CardCategory } from '~/components/category'
+export default {
+  components: {
+    CardCategory,
+  },
+  computed: {
+    ...mapGetters({
+      listCategory: 'category/categories',
+    }),
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+.d {
+  padding: 5px 5px 5px 10px !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+</style>

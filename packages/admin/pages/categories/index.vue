@@ -20,7 +20,22 @@
     <va-row>
       <va-column :xs="12">
         <va-table size="lg">
-          <b-table :fields="fields" :items="categories" responsive>
+          <b-table
+            :fields="fields"
+            :items="categories"
+            @row-clicked="rowSelected"
+            responsive
+            :busy="$wait.is('category.list')"
+          >
+            <div slot="table-busy" class="text-center my-5">
+              <va-loading
+                size="lg"
+                color="blue"
+                fixed
+                class="align-middle"
+              ></va-loading>
+              <strong>Đang tải...</strong>
+            </div>
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -31,15 +46,36 @@
         </va-table>
       </va-column>
     </va-row>
+    <va-aside
+      style="background-color: #f3f4f6;"
+      width="500px"
+      placement="right"
+      ref="myAsideCate"
+      @hide="onClose"
+    >
+      <EditCategory
+        v-if="selected"
+        :category="selected"
+        @close="$refs.myAsideCate.close()"
+      />
+    </va-aside>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { Breadcrumb } from '@/components/commons'
+import { EditCategory } from '@/components/aside'
 
 export default {
   components: {
     Breadcrumb,
+    EditCategory,
+  },
+  computed: {
+    ...mapGetters({
+      categories: 'category/categories',
+    }),
   },
   data: () => ({
     breadcrumb: ['Dashboard', 'Chuyên mục'],
@@ -51,11 +87,19 @@ export default {
       { key: 'latest', label: 'Bài viết mới nhất' },
       { key: 'count', label: 'Số lượng bài viết' },
     ],
+    selected: null,
   }),
-  async asyncData({ $http }) {
-    const temp = await $http.$get('categories')
-    const categories = temp.data
-    return { categories }
+  methods: {
+    rowSelected(item) {
+      this.selected = item
+      this.$refs.myAsideCate.open()
+    },
+    onClose(e) {
+      this.selected = null
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('category/list')
   },
 }
 </script>
