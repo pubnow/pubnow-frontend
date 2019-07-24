@@ -93,7 +93,7 @@ export default {
       categories: 'category/categories',
     }),
     nameChanged() {
-      return this.form.name !== ''
+      return this.form.name.trim() !== ''
     },
     canUpdate() {
       return this.nameChanged
