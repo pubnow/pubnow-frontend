@@ -1,3 +1,16 @@
 <template>
-  <div>Trang Quản lý tổ chức</div>
+  <div class="container">
+    <information />
+    <tab />
+  </div>
 </template>
+
+<script>
+import { Information, Tab } from '@/components/control'
+export default {
+  components: {
+    Information,
+    Tab
+  }
+}
+</script>
