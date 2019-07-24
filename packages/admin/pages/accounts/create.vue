@@ -102,7 +102,6 @@
             type="primary"
             >Tạo</va-button
           >
-          {{ form }}
         </b-form>
       </b-col>
     </div>
