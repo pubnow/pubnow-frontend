@@ -1,38 +1,47 @@
 <template>
-  <div class="form-register">
-    <b-row>
-      <b-col cols="8">
+  <b-container>
+    <b-row class="mt-3">
+      <b-col cols="md-8">
         <va-form ref="form" type="vertical">
-          <va-form-item label="Tên tổ chức" need>
+          <va-form-item label="Tên tổ chức">
             <va-input
-              v-model="name"
+              :value="name"
+              @input="updateName"
               name="name"
               size="lg"
               placeholder="Tên tổ chức"
               :rules="[{type:'required', tip:'Bạn vui lòng nhập tên tổ chức'}]"
             />
           </va-form-item>
-          <va-form-item label="Email công khai" need>
+          <va-form-item label="Email công khai">
             <va-input
               name="email"
-              v-model="email"
+              :value="email"
+              @input="updateEmail"
               size="lg"
               placeholder="Email công khai"
               :rules="[{type:'required', tip:'Bạn vui lòng nhập email'}, {type:'email', tip:'Bạn vui lòng nhập email'}]"
             />
           </va-form-item>
           <va-form-item label="Mô tả">
-            <va-textarea :resize="false" v-model="description" />
+            <va-textarea :resize="false" :value="description" @input="updateDescription" />
           </va-form-item>
           <va-form-item>
-            <va-button block type="primary" size="lg" @click="submit">Chỉnh xửa</va-button>
+            <va-button
+              :active="!canUpdate"
+              :disabled="!canUpdate"
+              block
+              type="primary"
+              size="lg"
+              @click="submit"
+            >Chỉnh sửa</va-button>
           </va-form-item>
           <va-form-item>
             <va-button block type="danger" size="lg" @click="removeOrgan">Xóa tổ chức</va-button>
           </va-form-item>
         </va-form>
       </b-col>
-      <b-col cols="4" class="text-center">
+      <b-col cols="md-4" class="text-center">
         <p class="text-profile mt-0">Profile picture</p>
         <img
           :src="imageUrl === '' ? 'https://bulma.io/images/placeholders/256x256.png': imageUrl"
@@ -43,25 +52,24 @@
           <input type="file" accept="image/*" @change="onFilePicked" />Upload new picture
         </span>
       </b-col>
-    </b-row>
-    <va-modal
-      :width="width"
-      class="modal-container"
-      :backdrop-clickable="backdropClickable"
-      ref="customModal"
-    >
-      <div slot="header" />
-      <div slot="body" class="mb-3">
-        <p class="content-rm">Bạn có chắc chắn muốn xóa tổ chức này không?</p>
-      </div>
-      <div slot="footer">
-        <div>
-          <va-button type="primary" @click="acceptRemove">Đồng ý</va-button>
-          <va-button @click="$refs.customModal.close()">Hủy bỏ</va-button>
+      <va-modal
+        title="Thông báo"
+        class="modal-container"
+        :backdrop-clickable="backdropClickable"
+        ref="customModal"
+      >
+        <div slot="body" class="mb-3">
+          <p class="content-rm">Bạn có chắc chắn muốn xóa tổ chức này không?</p>
         </div>
-      </div>
-    </va-modal>
-  </div>
+        <div slot="footer">
+          <div>
+            <va-button type="primary" @click="acceptRemove">Đồng ý</va-button>
+            <va-button @click="$refs.customModal.close()">Hủy bỏ</va-button>
+          </div>
+        </div>
+      </va-modal>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -75,6 +83,7 @@ export default {
         'Young Tailor là một tổ chức phi chính phủ, đem lại nhiều công việc có ích cho xã hội :v',
       image: '',
       imageUrl: 'https://avatars0.githubusercontent.com/u/49083246?s=200&v=4',
+      editable: false,
     }
   },
   methods: {
@@ -98,6 +107,35 @@ export default {
       })
       fileReader.readAsDataURL(files[0])
     },
+    updateName(value) {
+      this.name = value
+    },
+    updateEmail(value) {
+      this.email = value
+    },
+    updateDescription(value) {
+      this.description = value
+    },
+    change() {
+      this.editable = !this.editable
+    },
+  },
+  computed: {
+    nameChanged() {
+      return this.name !== 'Young Tailor'
+    },
+    emailChanged() {
+      return this.email !== 'youngtailor@gmail.com'
+    },
+    descriptionChanged() {
+      return (
+        this.description !==
+        'Young Tailor là một tổ chức phi chính phủ, đem lại nhiều công việc có ích cho xã hội :v'
+      )
+    },
+    canUpdate() {
+      return this.nameChanged || this.descriptionChanged || this.emailChanged
+    },
   },
 }
 </script>
@@ -108,20 +146,16 @@ export default {
 
 $size-image: 235px;
 
-.form-register {
-  width: 765px;
-  margin: 0 auto;
-  .avatar {
-    width: $size-image;
-    height: $size-image;
-    border-radius: $size-image / 2;
-  }
-  .text-profile {
-    font-weight: 600;
-    color: #5d6b83;
-    font-size: 12px;
-    margin-bottom: 8px;
-  }
+.avatar {
+  width: $size-image;
+  height: $size-image;
+  border-radius: $size-image / 2;
+}
+.text-profile {
+  font-weight: 600;
+  color: #5d6b83;
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
 .btn-file {
@@ -150,7 +184,6 @@ $size-image: 235px;
   .content-rm {
     color: #5d6b83;
     font-size: 20px;
-    font-weight: 600;
   }
 }
 </style>
