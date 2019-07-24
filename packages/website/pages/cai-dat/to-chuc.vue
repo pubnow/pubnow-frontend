@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import Organization from '@/components/organization'
+import { Organization } from '@/components/organization'
 export default {
   components: {
     Organization,
