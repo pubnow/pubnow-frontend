@@ -1,41 +1,35 @@
 <template>
-  <va-container>
-    <va-row :gutter="15">
-      <va-column :md="4">
-        <va-input placeholder="Tìm kiếm bài viết"></va-input>
-      </va-column>
-      <va-column :md="8" class="add-article-container d-flex">
-        <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
-          <va-button type="primary" icon-before="feather-alt">Thêm bài viết</va-button>
-        </nuxt-link>
-      </va-column>
-    </va-row>
-    <va-row>
-      <va-column :xs="12">
-        <va-table size="lg">
-          <b-table :fields="fields" :items="articles" responsive>
-            <template slot="HEAD_checkBox">
-              <div />
-            </template>
-            <template slot="checkBox">
-              <b-form-checkbox></b-form-checkbox>
-            </template>
-            <template slot="avatarauthor" slot-scope="data">
-              <img
-                :src="data.item.avatar"
-                alt="avatar"
-                style="width: 36px; height: 36px; border-radius: 18px;"
-              />
-              <span>{{ data.item.author }}</span>
-            </template>
-            <template slot="delete">
-              <va-icon type="trash-alt" size="1.25em" iconStyle="solid" color="#97a0af" />
-            </template>
-          </b-table>
-        </va-table>
-      </va-column>
-    </va-row>
-  </va-container>
+  <no-ssr>
+    <b-container>
+      <b-row>
+        <b-col :md="4">
+          <va-input placeholder="Tìm kiếm bài viết"></va-input>
+        </b-col>
+        <b-col :md="8" class="add-article-container d-flex">
+          <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
+            <va-button type="primary" icon-before="plus">Thêm bài viết</va-button>
+          </nuxt-link>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col :xs="12">
+          <va-table size="lg">
+            <b-table :fields="fields" :items="articles">
+              <template slot="HEAD_checkBox">
+                <div />
+              </template>
+              <template slot="checkBox">
+                <b-form-checkbox></b-form-checkbox>
+              </template>
+              <template slot="delete">
+                <va-icon type="trash-alt" size="1.25em" iconStyle="solid" color="#97a0af" />
+              </template>
+            </b-table>
+          </va-table>
+        </b-col>
+      </b-row>
+    </b-container>
+  </no-ssr>
 </template>
 
 <script>
@@ -43,10 +37,9 @@ export default {
   data: () => ({
     fields: [
       'checkBox',
-      { key: 'name', label: 'Tên bài viết' },
-      'slug',
-      { key: 'avatarauthor', label: 'Tác giả' },
-      { key: 'article', label: 'Chuyên mục' },
+      { key: 'title', label: 'Tên bài viết', tdClass: 'w-50' },
+      { key: 'author.name', label: 'Tác giả' },
+      { key: 'category.name', label: 'Chuyên mục' },
       { key: 'view', label: 'Lượt view' },
       { key: 'delete', label: '' },
     ],
