@@ -1,39 +1,38 @@
 <template>
   <no-ssr>
-    <b-container>
-      <b-row class="mt-4">
-        <b-col md="8" class="following-author">
-          <div class="title d-flex mb-3">
-            <div class="text">Danh sách những người đang theo dõi</div>
-          </div>
-          <card-author
-            v-for="(item,id) in followingAuthor"
-            :key="id"
-            :url="item.url"
-            :name="item.name"
-            :description="item.description"
-          />
-        </b-col>
-        <b-col md="4" class="suggest-follow">
-          <div class="title d-flex mb-3">
-            <div class="text">Gợi ý cho bạn</div>
-            <div class="text">Xem thêm</div>
-          </div>
-          <suggest-author
-            v-for="(item,id) in suggestFollow"
-            :key="id"
-            :url="item.url"
-            :name="item.name"
-          />
-        </b-col>
-      </b-row>
-    </b-container>
+    <b-row class="mt-4">
+      <b-col md="8" class="following-author">
+        <div class="title d-flex mb-3">
+          <div class="text">Danh sách những người đang theo dõi</div>
+        </div>
+        <card-author
+          v-for="(item,id) in followingAuthor"
+          :key="id"
+          :url="item.url"
+          :name="item.name"
+          :description="item.description"
+        />
+      </b-col>
+      <b-col md="4" class="suggest-follow">
+        <div class="title d-flex mb-3">
+          <div class="text">Gợi ý cho bạn</div>
+          <div class="text">Xem thêm</div>
+        </div>
+        <suggest-author
+          v-for="(item,id) in suggestFollow"
+          :key="id"
+          :url="item.url"
+          :name="item.name"
+        />
+      </b-col>
+    </b-row>
   </no-ssr>
 </template>
 
 <script>
 import CardAuthor from './CardAuthor'
 import SuggestAuthor from './SuggestAuthor'
+
 export default {
   components: {
     CardAuthor,
