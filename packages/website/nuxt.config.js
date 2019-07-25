@@ -53,6 +53,7 @@ export default {
       ssr: false,
     },
     '~/plugins/http',
+    '~/plugins/common',
   ],
   /*
    ** Nuxt.js modules

@@ -24,9 +24,9 @@
                     </nuxt-link>tại
                     <nuxt-link :to="`/danh-muc/${article.category.slug}`" class="category">{{ article.category.name }}</nuxt-link>
                     <div>
-                      <span>17 tháng 6</span>
+                      <span>{{ article.updatedAt | formatDate }}</span>
                       <span>.</span>
-                      <span>6 phút đọc</span>
+                      <span>{{ article.content | timeRead }}</span>
                       <span class="pl-1">
                         <i class="fas fa-star"></i>
                       </span>

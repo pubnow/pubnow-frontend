@@ -17,9 +17,9 @@
             <span class="ml-1">tại</span>
             <nuxt-link to="/danh-muc/quan-diem-tranh-luan">{{ article.category.name }}</nuxt-link>
             <div class="mt-1">
-              <span class="d-inline-block">19 tháng 6</span>
+              <span class="d-inline-block">{{ article.updatedAt | formatDate }}</span>
               <span>.</span>
-              <span>6 phút đọc</span>
+              <span>{{ article.content | timeRead }}</span>
               <span>
                 <i class="fas fa-star"></i>
               </span>
