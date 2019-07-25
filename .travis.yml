@@ -14,11 +14,4 @@ script:
   - yarn test-ci
   - codecov
 after_success:
-  - if [ $TRAVIS_BRANCH == "master" && $TRAVIS_PULL_REQUEST == "false" ]; then
-    now --token $ZEIT_TOKEN --local-config .now/now.production.json
-    fi
-  - if [ $TRAVIS_BRANCH == "staging" && $TRAVIS_PULL_REQUEST == "false" ]; then
-    now --token $ZEIT_TOKEN --local-config .now/now.staging.json
-    fi
-  - if [ $TRAVIS_PULL_REQUEST == "true" ]; then
-    echo
+  - ./.now/deploy.sh

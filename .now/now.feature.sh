@@ -16,4 +16,4 @@ JSON=$(cat <<-EOF
 EOF
 )
 
-echo $JSON > .now/now.feature.json
+echo $JSON > ./now.feature.json
