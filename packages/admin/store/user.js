@@ -23,6 +23,10 @@ export const actions = {
       return false
     }
   },
+  async create(_, create) {
+    this.$http.setHeader('Accept', 'application/json')
+    await this.$http.$post('users', create.submit)
+  },
   async update(_, { username, ...updateData }) {
     this.$http.setHeader('Accept', 'application/json')
     await this.$http.$put(`users/${username}`, {
