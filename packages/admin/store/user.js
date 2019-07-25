@@ -25,9 +25,7 @@ export const actions = {
   },
   async create(_, create) {
     this.$http.setHeader('Accept', 'application/json')
-    await this.$http.$post('users', {
-      ...create.submit,
-    })
+    await this.$http.$post('users', create.submit)
   },
   async update(_, { username, ...updateData }) {
     this.$http.setHeader('Accept', 'application/json')

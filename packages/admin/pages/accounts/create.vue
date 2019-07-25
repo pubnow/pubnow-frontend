@@ -110,8 +110,8 @@
             <img
               class="mt-2"
               style="max-width: 100%; max-height: 500px;"
-              v-if="form.imageUrl"
-              :src="form.imageUrl"
+              v-if="image"
+              :src="image"
             />
           </b-form-group>
           <va-button
@@ -121,7 +121,6 @@
             type="primary"
             >Tạo</va-button
           >
-          {{ form.imageUrl }}
         </b-form>
       </b-col>
     </div>
@@ -133,7 +132,7 @@ import { required, minLength, email } from 'vuelidate/lib/validators'
 export default {
   data: () => ({
     breadcrumb: ['Dashboard', 'Thêm Tài Khoản'],
-    image: '',
+    image: null,
     form: {
       name: '',
       email: '',
@@ -192,22 +191,25 @@ export default {
       if (files.length) {
         this.form.imageUrl = files[0]
       }
+      this.image = URL.createObjectURL(files[0])
     },
     async create() {
-      let submit = new Object()
-      submit.name = this.form.name
-      submit.email = this.form.email
-      submit.username = this.form.username
-      submit.password = this.form.password
-      submit.role_id = this.roles.find(role => role.name === this.form.role).id
+      const submit = new FormData()
+      submit.append('name', this.form.name)
+      submit.append('email', this.form.email)
+      submit.append('username', this.form.username)
+      submit.append('password', this.form.password)
+      submit.append(
+        'role_id',
+        this.roles.find(role => role.name === this.form.role).id,
+      )
       if (this.form.imageUrl) {
-        submit.avatar = this.form.imageUrl
+        submit.append('avatar', this.form.imageUrl)
       }
-      console.log(submit)
       await this.$store.dispatch('user/create', {
         submit: submit,
       })
-      // this.$router.push('/accounts')
+      this.$router.push('/accounts')
     },
   },
   async mounted() {
