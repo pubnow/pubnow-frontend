@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "name": "pubnow-staging",
+  "builds": [
+    {
+      "src": "packages/website/nuxt.config.js",
+      "use": "@nuxtjs/now-builder",
+      "config": {}
+    }
+  ]
+}
