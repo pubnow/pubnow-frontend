@@ -22,13 +22,14 @@
           >
             <b-form-input
               id="input-name"
-              type="text"
-              required
               placeholder="Nhập họ và tên"
-              v-model="form.name"
+              v-model.trim="$v.form.name.$model"
+              :state="$v.form.name.$dirty ? !$v.form.name.$error : null"
             ></b-form-input>
+            <div v-if="!$v.form.name.required" class="invalid-feedback">
+              Trường bắt buộc
+            </div>
           </b-form-group>
-
           <b-form-group
             id="input-group-email"
             label="Email:"
@@ -36,11 +37,16 @@
           >
             <b-form-input
               id="input-email"
-              type="email"
-              required
               placeholder="Nhập email"
-              v-model="form.email"
+              v-model.trim="$v.form.email.$model"
+              :state="$v.form.email.$dirty ? !$v.form.email.$error : null"
             ></b-form-input>
+            <div v-if="!$v.form.email.required" class="invalid-feedback">
+              Trường bắt buộc
+            </div>
+            <div v-if="!$v.form.email.email" class="invalid-feedback">
+              Email không hợp lệ
+            </div>
           </b-form-group>
 
           <b-form-group
@@ -50,11 +56,13 @@
           >
             <b-form-input
               id="input-username"
-              type="text"
-              required
               placeholder="Nhập username"
-              v-model="form.username"
+              v-model.trim="$v.form.username.$model"
+              :state="$v.form.username.$dirty ? !$v.form.username.$error : null"
             ></b-form-input>
+            <div v-if="!$v.form.username.required" class="invalid-feedback">
+              Trường bắt buộc
+            </div>
           </b-form-group>
 
           <b-form-group
@@ -67,15 +75,26 @@
               type="password"
               required
               placeholder="Nhập mật khẩu"
-              v-model="form.password"
+              v-model.trim="$v.form.password.$model"
+              :state="$v.form.password.$dirty ? !$v.form.password.$error : null"
             ></b-form-input>
+            <div v-if="!$v.form.password.required" class="invalid-feedback">
+              Trường bắt buộc
+            </div>
+            <div v-if="!$v.form.password.minLength" class="invalid-feedback">
+              Mật khẩu chứa ít nhất 6 kí tự
+            </div>
           </b-form-group>
 
           <b-form-group label="Chức vụ" label-for="input-role">
             <b-form-select
-              v-model="form.role"
+              v-model="$v.form.role.$model"
+              :state="$v.form.role.$dirty ? !$v.form.role.$error : null"
               :options="roleOptions"
             ></b-form-select>
+            <div v-if="!$v.form.role.required" class="invalid-feedback">
+              Trường bắt buộc
+            </div>
           </b-form-group>
 
           <b-form-group
@@ -96,12 +115,13 @@
             />
           </b-form-group>
           <va-button
-            :active="!canUpdate"
-            :disabled="!canUpdate"
+            :active="canCreate"
+            :disabled="canCreate"
             @click="create"
             type="primary"
             >Tạo</va-button
           >
+          {{ form.imageUrl }}
         </b-form>
       </b-col>
     </div>
@@ -109,6 +129,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { required, minLength, email } from 'vuelidate/lib/validators'
 export default {
   data: () => ({
     breadcrumb: ['Dashboard', 'Thêm Tài Khoản'],
@@ -122,6 +143,27 @@ export default {
       imageUrl: '',
     },
   }),
+  validations: {
+    form: {
+      name: {
+        required,
+      },
+      role: {
+        required,
+      },
+      email: {
+        required,
+        email,
+      },
+      username: {
+        required,
+      },
+      password: {
+        required,
+        minLength: minLength(6),
+      },
+    },
+  },
   computed: {
     ...mapGetters({
       roles: 'role/roles',
@@ -140,41 +182,16 @@ export default {
       Array.prototype.push.apply(arr1, roles)
       return arr1
     },
-    nameChanged() {
-      return this.form.name.trim() !== ''
-    },
-    emailChanged() {
-      return this.form.email.trim() !== ''
-    },
-    usernameChanged() {
-      return this.form.username.trim() !== ''
-    },
-    passwordChanged() {
-      return this.form.password.trim() !== ''
-    },
-    roleChanged() {
-      return this.form.role !== null
-    },
-    canUpdate() {
-      return (
-        this.nameChanged &&
-        this.emailChanged &&
-        this.usernameChanged &&
-        this.passwordChanged &&
-        this.roleChanged
-      )
+    canCreate() {
+      return this.$v.form.$anyError
     },
   },
   methods: {
-    onFileChange() {
-      const files = event.target.files
-      const fileName = files[0].name
-      this.image = files[0]
-      const fileReader = new FileReader()
-      fileReader.addEventListener('load', () => {
-        this.form.imageUrl = fileReader.result
-      })
-      fileReader.readAsDataURL(files[0])
+    onFileChange(e) {
+      let files = e.target.files || e.dataTransfer.files
+      if (files.length) {
+        this.form.imageUrl = files[0]
+      }
     },
     async create() {
       let submit = new Object()
@@ -184,12 +201,13 @@ export default {
       submit.password = this.form.password
       submit.role_id = this.roles.find(role => role.name === this.form.role).id
       if (this.form.imageUrl) {
-        submit.imageUrl = this.form.imageUrl
+        submit.avatar = this.form.imageUrl
       }
+      console.log(submit)
       await this.$store.dispatch('user/create', {
         submit: submit,
       })
-      this.$router.push('/accounts')
+      // this.$router.push('/accounts')
     },
   },
   async mounted() {

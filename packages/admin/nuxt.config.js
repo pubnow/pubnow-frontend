@@ -44,6 +44,10 @@ export default {
       src: '~/plugins/vue-atlas',
       ssr: false,
     },
+    {
+      src: '~/plugins/vuelidate',
+      ssr: false,
+    },
   ],
   /*
    ** Nuxt.js modules
