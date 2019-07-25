@@ -1,6 +1,8 @@
 export const state = () => ({
   articles: [],
   tags: [],
+  featured: [],
+  popular: [],
   title: '',
   content: null,
   category: null,
@@ -10,6 +12,12 @@ export const state = () => ({
 export const mutations = {
   setArticles(state, articles) {
     state.articles = articles
+  },
+  setFeatured(state, featured) {
+    state.featured = featured
+  },
+  setPopular(state, popular) {
+    state.popular = popular
   },
   setTags(state, tags) {
     state.tags = tags
@@ -42,6 +50,8 @@ export const mutations = {
 
 export const getters = {
   articles: s => s.articles,
+  featured: s => s.featured,
+  popular: s => s.popular,
   tags: s => s.tags,
   category: s => s.category,
   content: s => s.content,
@@ -87,4 +97,22 @@ export const actions = {
       return null
     }
   },
+  async featured({ commit }) {
+    try {
+      const result = await this.$http.$get(`articles/featured`)
+      const { data: articles } = result
+      commit('setFeatured', articles)
+    } catch (e) {
+      return null
+    }
+  },
+  async popular({ commit }) {
+    try {
+      const result = await this.$http.$get(`articles/popular`)
+      const { data: articles } = result
+      commit('setPopular', articles)
+    } catch (e) {
+      return null
+    }
+  }
 }
