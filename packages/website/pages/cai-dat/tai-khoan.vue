@@ -173,7 +173,7 @@ export default {
 @import '@pubnow/ui/scss/_fonts.scss';
 .form {
   margin: auto;
-  padding: $unit;
+  padding: 30px;
   .change1 {
     color: $aqua !important;
   }
