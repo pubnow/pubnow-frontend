@@ -1,13 +1,11 @@
 <template>
   <no-ssr>
-    <nav class="wrap-control navbar-expand-lg py-2 mt-3">
-      <b-navbar-nav>
-        <NavItem :to="`/to-chuc/${param}/quan-ly`" class="icon-overview">Tổng quan</NavItem>
-        <NavItem :to="`/to-chuc/${param}/quan-ly/bai-viet`" class="icon-article">Bài viết</NavItem>
-        <NavItem :to="`/to-chuc/${param}/quan-ly/thanh-vien`" class="icon-member">Thành viên</NavItem>
-        <NavItem :to="`/to-chuc/${param}/quan-ly/cai-dat`" class="icon-setting">Cài đặt</NavItem>
-      </b-navbar-nav>
-    </nav>
+    <ul class="clearfix va-nav-tabs mt-4 mb-3">
+      <NavItem :to="`/to-chuc/${param}/quan-ly`" icon="chart-bar">Tổng quan</NavItem>
+      <NavItem :to="`/to-chuc/${param}/quan-ly/bai-viet`" icon="newspaper">Bài viết</NavItem>
+      <NavItem :to="`/to-chuc/${param}/quan-ly/thanh-vien`" icon="users">Thành viên</NavItem>
+      <NavItem :to="`/to-chuc/${param}/quan-ly/cai-dat`" icon="cog">Cài đặt</NavItem>
+    </ul>
   </no-ssr>
 </template>
 

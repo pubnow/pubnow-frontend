@@ -4,9 +4,9 @@
     <AffixNavbar />
     <b-container>
       <information class="app" />
-      <tab class="mb-4" />
-      <nuxt />
+      <tab />
     </b-container>
+    <nuxt />
   </div>
 </template>
 
@@ -15,6 +15,7 @@ import { Navbar, AffixNavbar } from '@/components/common'
 import { Information, Tab } from '@/components/control'
 
 export default {
+  middleware: ['auth'],
   components: {
     Navbar,
     AffixNavbar,
