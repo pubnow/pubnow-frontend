@@ -2,99 +2,146 @@
   <no-ssr>
     <div class="container">
       <div class="row">
-        <div class="col-2"></div>
-        <div class="col-8">
-          <form class="form">
-            <div class="avatar">
+        <div class="col-md-8 offset-md-2">
+          <div class="form row">
+            <b-col class="avatar d-inline-block" sm="2">
               <img
                 src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/fc0e0530a6a611e9a9bf39a183ca3215.jpg"
                 class="rounded-circle z-depth-0 image"
-                width="70px"
-                height="70px"
+                width="85px"
+                height="85px"
                 alt
               />
-              <textarea name id cols="80" rows="2" class="text"></textarea>
-            </div>
-            <b-form class="pt-4 ip-form row">
-              <b-form-group id="input-group-1" class="form-cell col-6">
-                <label for class="name">User Name</label>
-                <p class="border-bottom">
-                  <span class="icon">
-                    <i class="fas fa-user-alt"></i>
-                  </span>
-                  <input placeholder="Write your name here.." class="pt-1" />
-                </p>
-              </b-form-group>
-              <b-form-group id="input-group-1" class="form-cell col-6">
-                <label for class="name">
-                  Email
-                  <a class="change" href="#s" @click="changeEmail()">
-                    <i class="fa fa-key"></i>
-                    thay đổi Email
-                  </a>
-                </label>
-                <p class="border-bottom">
-                  <span class="icon">
-                    <i class="far fa-envelope"></i>
-                  </span>
-                  <input v-if="display===true" placeholder="Write your name here.." />
-                  <label v-else class="pl-4">ggggggg</label>
-                </p>
-              </b-form-group>
-              <b-form-group id="input-group-1" class="form-cell col-6">
-                <label for class="name">Tên</label>
-                <p class="border-bottom">
-                  <span class="icon">
-                    <i class="fas fa-user-alt"></i>
-                  </span>
-                  <input placeholder="Write your name here.." class="pt-1" />
-                </p>
-              </b-form-group>
-              <b-form-group v-if="disPas===false" class="form-cell col-6">
-                <label for class="name">
-                  <a class="change1 pt-4" href="#s" @click="change(true)">
-                    <i class="fa fa-key"></i>
-                    thay đổi password
-                  </a>
-                </label>
-              </b-form-group>
-              <b-form-group v-if="disPas===true" class="form-cell w-100 change-pas">
-                <label for class="name">
-                  <a class="change1 pt-4" href="#s" @click="change(false)">
-                    <i class="fa fa-key"></i>
-                    thay đổi password
-                  </a>
-                </label>
-                <div class="d-inline-block float-left col-6">
-                  <label for class="name">mật khẩu cũ</label>
-                  <p class="border-bottom">
-                    <input class="pt-1 pl-0" />
-                  </p>
+            </b-col>
+            <b-col sm="10" class="d-inline-block">
+              <b-form-textarea
+                id="textarea"
+                v-model="text"
+                placeholder="Enter something..."
+                rows="3"
+                max-rows="5"
+              ></b-form-textarea>
+            </b-col>
+          </div>
+          <b-form class="pt-4 ip-form row">
+            <b-form-group id="input-group-1" class="form-cell col-6">
+              <label for class="name">User Name</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="fa fa-envelope-o">
+                      <i class="far fa-user"></i>
+                    </i>
+                  </div>
                 </div>
-                <div class="d-inline-block float-right col-6">
-                  <label for class="name">mật khẩu Mới</label>
-                  <p class="border-bottom">
-                    <input class="pt-1 pl-0" />
-                  </p>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder
+                  value="Nguyen Thi Huong"
+                  disabled
+                />
+              </div>
+            </b-form-group>
+            <b-form-group class="form-cell col-6">
+              <label for class="w-100">
+                Email
+                <a class="change float-right" href="#s" @click="changeEmail()">
+                  <i class="fa fa-key"></i>
+                  Thay Đổi Email
+                </a>
+              </label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="fa fa-envelope-o">
+                      <i class="far fa-envelope"></i>
+                    </i>
+                  </div>
                 </div>
-                <div class="d-inline-block float-right col-6 pt-4">
-                  <label for class="name">nhập lại mật khẩu Mới</label>
-                  <p class="border-bottom">
-                    <input class="pt-1 pl-0" />
-                  </p>
+                <input
+                  :disabled="display === false"
+                  type="email"
+                  class="form-control"
+                  aria-describedby="emailHelp"
+                  placeholder="Enter email"
+                  value="ddddd"
+                />
+              </div>
+            </b-form-group>
+            <b-form-group id="input-group-1" class="form-cell col-6">
+              <label for>Tên</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="fa fa-envelope-o">
+                      <i class="far fa-user"></i>
+                    </i>
+                  </div>
                 </div>
-              </b-form-group>
-              <b-button type="reset" variant="danger" class="btn-sub m-r b-text">Hủy</b-button>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Write your name here.."
+                  value="Nguyen Thi Huong"
+                />
+              </div>
+            </b-form-group>
+            <b-form-group v-if="disPas===false" class="form-cell col-6">
+              <label for>
+                <a class="change1 pt-4" href="#" @click="change(true)">
+                  <i class="fa fa-key"></i>
+                  Thay Đổi Password
+                </a>
+              </label>
+            </b-form-group>
+            <b-form-group v-if="disPas===true" class="form-cell w-100 change-pas pt-4">
+              <label for class="d-block">
+                <a class="change1 pt-4 pl-3" href="#s" @click="change(false)">
+                  <i class="fa fa-key"></i>
+                  Thay Đổi Password
+                </a>
+              </label>
+              <div class="d-inline-block float-left col-6">
+                <label for>Mật Khẩu Cũ</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Write your name here.."
+                  value
+                />
+              </div>
+              <div class="d-inline-block float-right col-6">
+                <label for>Mật Khẩu Mới</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Write your name here.."
+                  value
+                />
+              </div>
+              <div class="d-inline-block float-right col-6 mt-4">
+                <label for class="name">Nhập Lại Mật Khẩu Mới</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Write your name here.."
+                  value
+                />
+              </div>
+            </b-form-group>
+            <div class="d-flex flex-row-reverse w-100">
               <b-button type="submit" variant="primary" class="btn-sub b-text2">Lưu</b-button>
-            </b-form>
-          </form>
+              <b-button type="reset" variant="danger" class="btn-sub m-r b-text">Hủy</b-button>
+            </div>
+          </b-form>
         </div>
-        <div class="col-2"></div>
       </div>
     </div>
   </no-ssr>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   middleware: ['auth'],
   data() {
@@ -102,6 +149,11 @@ export default {
       display: false,
       disPas: false,
     }
+  },
+  computed: {
+    ...mapGetters({
+      users: 'user/users',
+    }),
   },
   methods: {
     change(value) {
@@ -119,7 +171,6 @@ export default {
 @import '@pubnow/ui/scss/_colors.scss';
 @import '@pubnow/ui/scss/_mixins.scss';
 @import '@pubnow/ui/scss/_fonts.scss';
-
 .form {
   margin: auto;
   padding: $unit;
@@ -127,9 +178,7 @@ export default {
     color: $aqua !important;
   }
   .avatar {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
+    line-height: 2;
     .image {
       display: inline-block;
     }
@@ -138,82 +187,18 @@ export default {
       padding: 0 0 0 1.5rem;
     }
   }
-  .ip-form {
-    .form-cell {
-      padding: $unit;
-      position: relative;
-
-      .name {
-        display: block;
-        .change {
-          float: right;
-          color: $aqua !important;
-        }
-        a :hover {
-          text-decoration: underline;
-          cursor: pointer;
-        }
-      }
-      p {
-        height: 30px;
-      }
-      input {
-        border: 0;
-        width: 100%;
-        display: inline-block;
-      }
-      .icon {
-        display: block;
-        position: absolute;
-        z-index: 1;
-        height: 20px;
-        width: 20px;
-        left: 20px;
-        top: 54px;
-        font-size: 20px;
-        i {
-          font-size: 20px;
-        }
-      }
-      input {
-        padding-left: 25px;
-        height: 15px;
-      }
-    }
+}
+.ip-form {
+  padding: $unit;
+  .form-cell {
+    position: relative;
     .change-pas {
       background: $n10;
       @include box-shadow;
     }
-    .btn-sub {
-      height: 35px;
-      width: 60px;
-      text-align: center;
-      line-height: 2;
-      padding-left: 0px;
-      padding-right: 0;
-      border-radius: 27px;
-      font-weight: 400;
-      text-transform: lowercase;
-    }
-    .m-r {
-      margin: 0 1rem 0 34rem;
-    }
-    .b-text {
-      background-color: $n0;
-      color: $red;
-    }
-    .b-text:hover {
-      background-color: $red;
-      color: $n0;
-    }
-    .b-text2 {
-      background: $aqua !important;
-      border-color: $aqua !important;
-      color: $n0;
-    }
-    .b-text2:hover {
-      background: $primary !important;
-    }
+  }
+  .btn-sub {
+    margin-right: 13px;
   }
 }
 </style>
