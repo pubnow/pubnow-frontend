@@ -3,8 +3,8 @@
     <Navbar />
     <AffixNavbar />
     <b-container>
-      <information :name="name" :avatar="avatar" :email="email" slot="control" class="app"/>
-      <tab />
+      <information class="app" />
+      <tab class="mb-4" />
       <nuxt />
     </b-container>
   </div>

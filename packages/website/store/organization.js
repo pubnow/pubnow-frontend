@@ -1,14 +1,19 @@
 export const state = () => ({
   organizations: [],
+  param: 'fd',
 })
 
 export const getters = {
   organizations: state => state.organizations,
+  param: state => state.param,
 }
 
 export const mutations = {
   setOrganizations(state, organizations) {
     state.organizations = organizations
+  },
+  setParam(state, param) {
+    state.param = param
   },
 }
 
@@ -24,6 +29,13 @@ export const actions = {
     } catch (e) {
       dispatch('wait/end', 'organizations.list', { root: true })
       return false
+    }
+  },
+  async param({ commit }, param) {
+    try {
+      commit('setParam', param)
+    } catch (e) {
+      return null
     }
   },
 }

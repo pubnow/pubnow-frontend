@@ -1,13 +1,15 @@
 <template>
   <div class="container">
-    <information :name="name" :avatar="avatar" :email="email" slot="control"/>
-    <tab />
+    <p>Overview</p>
   </div>
 </template>
 
 <script>
 import { Information, Tab } from '@/components/control'
 export default {
+  asyncData({ store, params }) {
+    store.dispatch('organization/param', params.orgname)
+  },
   layout: 'organization',
   components: {
     Information,

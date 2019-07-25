@@ -1,49 +1,39 @@
 <template>
-  <b-tabs content-class="mt-3" class="mt-4">
-    <b-tab
-      title="Tổng quan"
-      title-link-class="icon-overview"
-      @click="overview"
-      active
-    />
-    <b-tab
-      title="Bài viết"
-      title-link-class="icon-article"
-      @click="article"
-    />
-    <b-tab
-      title="Thành viên"
-      title-link-class="icon-member"
-      @click="member"
-    />
-    <b-tab
-      title="Cài đặt"
-      title-link-class="icon-setting"
-      @click="setting"
-    />
-  </b-tabs>
+  <no-ssr>
+    <nav class="wrap-control navbar-expand-lg py-2 mt-3">
+      <b-navbar-nav>
+        <NavItem :to="`/to-chuc/${param}/quan-ly`" class="icon-overview">Tổng quan</NavItem>
+        <NavItem :to="`/to-chuc/${param}/quan-ly/bai-viet`" class="icon-article">Bài viết</NavItem>
+        <NavItem :to="`/to-chuc/${param}/quan-ly/thanh-vien`" class="icon-member">Thành viên</NavItem>
+        <NavItem :to="`/to-chuc/${param}/quan-ly/cai-dat`" class="icon-setting">Cài đặt</NavItem>
+      </b-navbar-nav>
+    </nav>
+  </no-ssr>
 </template>
 
 <script>
+import NavItem from './NavItem'
+import { mapGetters } from 'vuex'
+
 export default {
-  methods: {
-    overview() {
-    },
-    article() {
-      this.$router.push('bai-viet')
-    },
-    member() {
-      this.$router.push('thanh-vien')
-    },
-    setting() {
-      this.$router.push('cai-dat')
-    }
-  }
+  components: {
+    NavItem,
+  },
+  computed: {
+    ...mapGetters({
+      param: 'organization/param',
+    }),
+  },
 }
 </script>
 
+
 <style lang="scss">
 @import '@pubnow/ui/scss/_colors.scss';
+
+.wrap-control {
+  border-bottom: 1px solid $gray90;
+}
 
 .icon-member::before {
   font-family: 'Font Awesome 5 Free';

@@ -1,6 +1,10 @@
 <template>
   <div class="d-flex">
-    <img src="https://bulma.io/images/placeholders/480x480.png" alt="image oranization" class="avatar mr-3" />
+    <img
+      src="https://bulma.io/images/placeholders/480x480.png"
+      alt="image oranization"
+      class="avatar mr-3"
+    />
     <div class="d-flex flex-column justify-content-center">
       <h2 class="mb-1">Young Tailor</h2>
       <span>
