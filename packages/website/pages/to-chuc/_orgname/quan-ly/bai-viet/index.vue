@@ -34,6 +34,7 @@
 
 <script>
 export default {
+  layout: 'organization',
   data: () => ({
     fields: [
       'checkBox',

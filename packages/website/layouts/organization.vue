@@ -1,17 +1,26 @@
 <template>
   <div class="wrapper">
     <Navbar />
-    <nuxt class="app" />
+    <AffixNavbar />
+    <b-container>
+      <information class="app" />
+      <tab />
+    </b-container>
+    <nuxt />
   </div>
 </template>
 
 <script>
 import { Navbar, AffixNavbar } from '@/components/common'
+import { Information, Tab } from '@/components/control'
 
 export default {
+  middleware: ['auth'],
   components: {
     Navbar,
     AffixNavbar,
+    Information,
+    Tab,
   },
   data() {
     return {
