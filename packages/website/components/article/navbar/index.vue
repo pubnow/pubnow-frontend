@@ -1,13 +1,18 @@
 <template>
   <div class="wrap-affix d-flex flex-column py-2">
-    <img :src="require('@/assets/images/icons/clap.svg')" alt="clap icon" class="icon icon-large" />
-    <span>{{ clap }}</span>
+    <img
+      :src="require('@/assets/images/icons/clap.svg')"
+      @click="clapArticle(articleID)"
+      alt="clap icon"
+      class="icon icon-large"
+    />
+    <span>{{ clapNum }}</span>
     <img
       :src="require('@/assets/images/icons/comment.svg')"
       alt="clap icon"
       class="icon icon-small mt-3"
     />
-    <span>{{ comment }}</span>
+    <span>{{ commentNum }}</span>
     <img
       :src="require('@/assets/images/icons/bookmark.svg')"
       alt="comment icon"
@@ -33,9 +38,27 @@ export default {
       type: Number,
       required: true,
     },
-    comment: {
+    commentNum: {
       type: Number,
       required: true,
+    },
+    articleID: {
+      type: String,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      clapNum: 0,
+    }
+  },
+  mounted() {
+    this.clapNum = this.clap
+  },
+  methods: {
+    clapArticle(id) {
+      this.clapNum += 1
+      this.$store.dispatch('clap/write', id)
     },
   },
 }

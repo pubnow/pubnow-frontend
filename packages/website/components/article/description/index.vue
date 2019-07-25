@@ -3,7 +3,11 @@
     <va-column :xs="12" :sm="6" :md="6" class="text-center">
       <div class="d-flex justify-content-between">
         <div class="d-flex align-items-center">
-          <img :src="avatar" alt="avatar" class="avatar mr-2" />
+          <img
+            :src="avatar ? avatar : 'https://avatars2.githubusercontent.com/u/21233322?s=88&v=4'"
+            alt="avatar"
+            class="avatar mr-2"
+          />
           <div class="align-items-center text-left">
             <p class="text-body font-weight-bold fullname mt-0">{{ fullname }}</p>
             <span class="small">@{{ username }}</span>
@@ -36,7 +40,7 @@ export default {
     },
     avatar: {
       type: String,
-      required: true,
+      default: '',
     },
     category: {
       type: String,
@@ -44,7 +48,7 @@ export default {
     },
     description: {
       type: String,
-      required: true,
+      default: '',
     },
   },
 }
