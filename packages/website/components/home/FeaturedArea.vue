@@ -18,7 +18,7 @@
               <div class="author">
                 <a href="#" class="avatar">
                   <img
-                    src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/6af98060633a11e9a28fd11406bd98c6.jpg"
+                    :src="article.author.avatar ? article.author.avatar : 'https://bulma.io/images/placeholders/128x128.png'"
                     alt
                   />
                 </a>
@@ -41,7 +41,7 @@ import Heading from '../common/HeadingText'
 export default {
   computed: {
     ...mapGetters({
-      articles: 'article/articles',
+      articles: 'article/featured',
     }),
     featuredPosts() {
       return take(this.articles, 5).reverse()
