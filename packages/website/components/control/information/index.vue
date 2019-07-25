@@ -1,34 +1,15 @@
 <template>
   <div class="d-flex">
-    <img :src="avatar" alt="image oranization" class="avatar mr-3" />
+    <img src="https://bulma.io/images/placeholders/480x480.png" alt="image oranization" class="avatar mr-3" />
     <div class="d-flex flex-column justify-content-center">
-      <h2 class="mb-1">{{ name }}</h2>
+      <h2 class="mb-1">Young Tailor</h2>
       <span>
         <i class="far fa-envelope"></i>
-        {{ email }}
+        thaycacac@gmail.com
       </span>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    name: {
-      type: String,
-      require: true,
-    },
-    avatar: {
-      type: String,
-      require: true,
-    },
-    email: {
-      type: String,
-      require: true,
-    },
-  },
-}
-</script>
 
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_mixins.scss';
