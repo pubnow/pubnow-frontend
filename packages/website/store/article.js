@@ -1,10 +1,10 @@
-import get from 'lodash.get'
-
 export const state = () => ({
   articles: [],
   tags: [],
+  title: '',
   content: null,
   category: null,
+  article: null,
 })
 
 export const mutations = {
@@ -23,8 +23,20 @@ export const mutations = {
   setCategory(state, category) {
     state.category = category
   },
+  setTitle(state, title) {
+    state.title = title
+  },
   setContent(state, content) {
     state.content = content
+  },
+  setArticle(state, article) {
+    state.article = article
+  },
+  reset(state) {
+    state.tags = []
+    state.title = ''
+    state.content = null
+    state.category = null
   },
 }
 
@@ -33,22 +45,46 @@ export const getters = {
   tags: s => s.tags,
   category: s => s.category,
   content: s => s.content,
-  title: s => get(s.content, 'content[0].content[0].text'),
+  title: s => s.title,
+  article: s => s.article,
 }
 
 export const actions = {
-  async write({ commit, getters }) {
+  async write({ commit, state }) {
     const data = {
-      title: getters.title,
-      content: JSON.stringify(getters.content),
-      category: getters.category,
-      tag_list: Object.freeze(getters.tags),
+      title: state.title,
+      content: state.content,
+      category: state.category,
+      tags: state.tags,
     }
     try {
-      await this.$http.$post('articles', data)
-      return true
+      this.$http.setHeader('Accept', 'application/json')
+      const result = await this.$http.$post('articles', data)
+      const { data: article } = result
+      commit('reset')
+      return article
     } catch (e) {
-      return false
+      return null
+    }
+  },
+  async show({ commit }, slug) {
+    try {
+      const result = await this.$http.$get(`articles/${slug}`)
+      const { data: article } = result
+      commit('setArticle', article)
+      return article
+    } catch (e) {
+      return null
+    }
+  },
+  async index({ commit }) {
+    try {
+      const result = await this.$http.$get(`articles`)
+      const { data: articles } = result
+      commit('setArticles', articles)
+      return articles
+    } catch (e) {
+      return null
     }
   },
 }

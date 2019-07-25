@@ -1,12 +1,12 @@
 <template>
   <div class="detail-category">
     <b-container>
-      <HeaderDetailCategory />
       <b-row>
         <b-col :sm="8">
           <LeftDetailCategory v-for="i in 5" :key="i" />
         </b-col>
         <b-col :sm="4">
+          <HeaderDetailCategory />
           <RightDetailCategory />
         </b-col>
       </b-row>
