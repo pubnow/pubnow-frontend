@@ -6,7 +6,7 @@
           <HeadingText>Phổ biến tại Pubnow</HeadingText>
           <div class="mt-4">
             <ul>
-              <li class="d-flex mb-3 item" v-for="(i,index) in 5" :key="index">
+              <li class="d-flex mb-3 item" v-for="(article, index) in articles" :key="index">
                 <div class="counter">0{{index+1}}</div>
                 <div class="flex-grow-1 ml-2">
                   <div>
@@ -14,12 +14,15 @@
                       to="/bai-viet/thanh-xuan-nhu-1-ly-tra"
                       class="overflow-hidden flex-grow-0 w-100"
                     >
-                      <h2 class="title mb-0">Thanh xuân như 1 ly trà</h2>
+                      <h2 class="title mb-0">{{ article.title }}</h2>
                     </nuxt-link>
                   </div>
                   <div class="mt-1 colorText">
-                    <nuxt-link to="/nguoi-dung/dacsang97" class="author mr-1">dacsang97</nuxt-link>tại
-                    <a href="#" class="category">Tâm sự - Chia sẻ</a>
+                    <nuxt-link
+                      :to="`/nguoi-dung/${article.author.username}`"
+                      class="author mr-1">{{ article.author.name }}
+                    </nuxt-link>tại
+                    <nuxt-link :to="`/danh-muc/${article.category.slug}`" class="category">{{ article.category.name }}</nuxt-link>
                     <div>
                       <span>17 tháng 6</span>
                       <span>.</span>
@@ -41,11 +44,16 @@
 
 <script>
 import HeadingText from '../common/HeadingText'
-
+import { mapGetters } from 'vuex'
 export default {
   components: {
     HeadingText,
   },
+  computed: {
+    ...mapGetters({
+      articles: 'article/popular'
+    })
+  }
 }
 </script>
 
