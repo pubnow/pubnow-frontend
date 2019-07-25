@@ -6,7 +6,9 @@
         <nuxt-link to="#" class="font-weight-bold">{{ fullname }}</nuxt-link>
         <span>trong</span>
         <nuxt-link to="#">{{ category }}</nuxt-link>
-        <p class="mt-0 font-weight-lighter small">{{ date }} &nbsp; · &nbsp; {{ time }} đọc</p>
+        <p
+          class="mt-0 font-weight-lighter small"
+        >Đăng {{ date | formatDate }} &nbsp; · &nbsp; {{ time }} đọc</p>
       </div>
     </div>
     <img :src="image" alt="hot post" class="image cursor-poiter" />
@@ -40,15 +42,18 @@
 </template>
 
 <script>
+import hasDate from '@/mixins/hasDate'
+
 export default {
+  mixins: [hasDate],
   props: {
-    textSearch: {
+    keyword: {
       type: String,
       required: true,
     },
     avatar: {
       type: String,
-      required: true,
+      default: 'https://bulma.io/images/placeholders/128x128.png',
     },
     fullname: {
       type: String,
@@ -92,7 +97,7 @@ export default {
       return this.title.split(' ')
     },
     textSearhArray() {
-      return this.textSearch.toLowerCase().split(' ')
+      return this.keyword.toLowerCase().split(' ')
     },
   },
 }
@@ -111,6 +116,8 @@ $size-image: 50px;
 
 .wrap-all {
   @include radius-md;
+  @include box-shadow-sm;
+  @include border;
 }
 
 .avatar {
