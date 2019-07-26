@@ -5,19 +5,24 @@
         <div class="col-md-8 offset-md-2">
           <div class="form row">
             <b-col class="avatar d-inline-block" sm="2">
-              <img
-                src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/fc0e0530a6a611e9a9bf39a183ca3215.jpg"
-                class="rounded-circle z-depth-0 image"
-                width="85px"
-                height="85px"
-                alt
-              />
+              <div class="image-upload">
+                <label for="file-input">
+                  <img
+                    :src="changeAvatar()"
+                    class="rounded-circle z-depth-0 image"
+                    width="85px"
+                    height="85px"
+                    alt
+                  />
+                </label>
+                <input id="file-input" type="file" @change="onFileChange($event)" />
+              </div>
             </b-col>
             <b-col sm="10" class="d-inline-block">
               <b-form-textarea
                 id="textarea"
-                v-model="text"
-                placeholder="Enter something..."
+                @input="updateBio"
+                :value="me.bio"
                 rows="3"
                 max-rows="5"
               ></b-form-textarea>
@@ -34,19 +39,13 @@
                     </i>
                   </div>
                 </div>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder
-                  value="Nguyen Thi Huong"
-                  disabled
-                />
+                <input type="text" class="form-control" placeholder :value="me.username" disabled />
               </div>
             </b-form-group>
             <b-form-group class="form-cell col-6">
               <label for class="w-100">
                 Email
-                <a class="change float-right" href="#s" @click="changeEmail()">
+                <a class="change float-right" @click="changeEmail()">
                   <i class="fa fa-key"></i>
                   Thay Đổi Email
                 </a>
@@ -59,14 +58,13 @@
                     </i>
                   </div>
                 </div>
-                <input
+                <b-form-input
                   :disabled="display === false"
                   type="email"
                   class="form-control"
-                  aria-describedby="emailHelp"
-                  placeholder="Enter email"
-                  value="ddddd"
-                />
+                  :value="me.email"
+                  @input="updateEmail"
+                ></b-form-input>
               </div>
             </b-form-group>
             <b-form-group id="input-group-1" class="form-cell col-6">
@@ -79,60 +77,65 @@
                     </i>
                   </div>
                 </div>
-                <input
+                <b-form-input
                   type="text"
                   class="form-control"
-                  placeholder="Write your name here.."
-                  value="Nguyen Thi Huong"
-                />
+                  :value="me.name"
+                  @input="updateName"
+                  required
+                  placeholder="Nhập tên"
+                ></b-form-input>
               </div>
             </b-form-group>
-            <b-form-group v-if="disPas===false" class="form-cell col-6">
-              <label for>
-                <a class="change1 pt-4" href="#" @click="change(true)">
-                  <i class="fa fa-key"></i>
-                  Thay Đổi Password
-                </a>
-              </label>
-            </b-form-group>
-            <b-form-group v-if="disPas===true" class="form-cell w-100 change-pas pt-4">
+            <b-form-group
+              :class="['form-cell', 'w-100', 'change-pas', 'pt-4',disPas===true ? 'border': '' ]"
+            >
               <label for class="d-block">
-                <a class="change1 pt-4 pl-3" href="#s" @click="change(false)">
+                <a class="change1 pt-4 pl-3" @click="change(!disPas)">
                   <i class="fa fa-key"></i>
                   Thay Đổi Password
                 </a>
               </label>
-              <div class="d-inline-block float-left col-6">
+              <div :class="['float-left' ,'col-6', disPas===true ? '': 'd-none']">
                 <label for>Mật Khẩu Cũ</label>
-                <input
+                <b-form-input
                   type="password"
                   class="form-control"
-                  placeholder="Write your name here.."
-                  value
-                />
+                  placeholder="Nhập mật khẩu"
+                  @input="updateOldPass"
+                ></b-form-input>
               </div>
-              <div class="d-inline-block float-right col-6">
+              <div :class="['float-right' ,'col-6', disPas===true ? '': 'd-none']">
                 <label for>Mật Khẩu Mới</label>
-                <input
+                <b-form-input
                   type="password"
                   class="form-control"
-                  placeholder="Write your name here.."
-                  value
-                />
+                  placeholder="Nhập mật khẩu"
+                  @input="updateNewPass"
+                ></b-form-input>
               </div>
-              <div class="d-inline-block float-right col-6 mt-4">
+              <div :class="['float-right', 'mb-4','mt-4','col-6', disPas===true ? '': 'd-none']">
                 <label for class="name">Nhập Lại Mật Khẩu Mới</label>
-                <input
+                <b-form-input
                   type="password"
                   class="form-control"
-                  placeholder="Write your name here.."
-                  value
-                />
+                  placeholder="Nhập mật khẩu"
+                  @input="updateEnterNewPass"
+                ></b-form-input>
               </div>
             </b-form-group>
             <div class="d-flex flex-row-reverse w-100">
-              <b-button type="submit" variant="primary" class="btn-sub b-text2">Lưu</b-button>
-              <b-button type="reset" variant="danger" class="btn-sub m-r b-text">Hủy</b-button>
+              <nuxt-link to="/nguoi-dung">
+                <b-button type="reset" variant="danger" class="btn-sub m-r b-text">Hủy</b-button>
+              </nuxt-link>
+              <b-button
+                type="submit"
+                :active="!canUpdate"
+                :disabled="!canUpdate"
+                @click="update"
+                variant="primary"
+                class="btn-sub b-text2"
+              >Lưu</b-button>
             </div>
           </b-form>
         </div>
@@ -141,26 +144,104 @@
   </no-ssr>
 </template>
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   middleware: ['auth'],
   data() {
     return {
       display: false,
       disPas: false,
+      name: '',
+      email: '',
+      bio: '',
+      avatar: null,
     }
   },
   computed: {
     ...mapGetters({
-      users: 'user/users',
+      me: 'auth/user',
+      pass: '',
     }),
+    nameChanged() {
+      const oldName = this.me.name
+      return this.name !== oldName
+    },
+    bioChanged() {
+      const oldbio = this.me.bio
+      return this.bio !== oldbio
+    },
+    emailChanged() {
+      const oldEmail = this.me.email
+      return this.email !== oldEmail
+    },
+    oldPassChanged() {},
+    canUpdate() {
+      return this.nameChanged || this.emailChanged || this.bioChanged
+    },
+  },
+  mounted() {
+    this.initData()
   },
   methods: {
+    initData() {
+      this.name = this.me.name
+      this.email = this.me.email
+      this.bio = this.me.bio
+      // this.avatar = this.me.avatar
+    },
+    changeAvatar() {
+      if (this.avatar !== null) {
+        return this.avatar
+      } else {
+        return this.me.avatar
+      }
+    },
+    onFileChange(event) {
+      event.preventDefault()
+      const image = event.target.files[0]
+      const reader = new FileReader()
+      reader.readAsDataURL(image)
+      reader.onload = e => {
+        this.avatar = e.target.result
+      }
+    },
     change(value) {
       this.disPas = value
     },
     changeEmail() {
       this.display = true
+    },
+    updateName(value) {
+      this.name = value
+    },
+    updateEmail(value) {
+      this.email = value
+    },
+    updateBio(value) {
+      this.bio = value
+    },
+    async update() {
+      let submit = {
+        ...(this.nameChanged && { name: this.name }),
+        ...(this.emailChanged && { email: this.email }),
+        ...(this.bioChanged && { bio: this.bio }),
+      }
+      await this.$store.dispatch('auth/update', {
+        username: this.me.username,
+        ...submit,
+      })
+      if (disPas === true) {
+        let submit = {
+          ...(this.nameChanged && { name: this.name }),
+          ...(this.emailChanged && { email: this.email }),
+          ...(this.bioChanged && { bio: this.bio }),
+        }
+        await this.$store.dispatch('auth/updatePass', {
+          username: this.me.username,
+          ...submit,
+        })
+      }
+      this.$router.go()
     },
   },
 }
@@ -173,7 +254,7 @@ export default {
 @import '@pubnow/ui/scss/_fonts.scss';
 .form {
   margin: auto;
-  padding: 30px;
+  padding: $unit;
   .change1 {
     color: $aqua !important;
   }
@@ -189,9 +270,16 @@ export default {
   }
 }
 .ip-form {
-  padding: $unit;
+  padding: 30px;
   .form-cell {
     position: relative;
+    a {
+      cursor: pointer;
+      color: $t300;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
     .change-pas {
       background: $n10;
       @include box-shadow;
@@ -200,5 +288,8 @@ export default {
   .btn-sub {
     margin-right: 13px;
   }
+}
+.image-upload > input {
+  display: none;
 }
 </style>
