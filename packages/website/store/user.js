@@ -30,9 +30,9 @@ export const getters = {
 }
 
 export const actions = {
-  async articles({ commit, dispatch }, username) {
+  async articles({ commit }, username) {
     try {
-      const result = await this.$http.$get(`users/sangnd/articles`)
+      const result = await this.$http.$get(`users/${username}/articles`)
       const { data } = result
       commit('setArticles', data)
       return true
