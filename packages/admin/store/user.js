@@ -33,4 +33,7 @@ export const actions = {
       ...updateData,
     })
   },
+  async delUser(_, username) {
+    await this.$http.delete(`users/${username}`)
+  },
 }
