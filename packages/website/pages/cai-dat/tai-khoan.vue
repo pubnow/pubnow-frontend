@@ -102,7 +102,7 @@
                   type="password"
                   class="form-control"
                   placeholder="Nhập mật khẩu"
-                  @input="updateOldPass"
+                  :v-model="oldPass"
                 ></b-form-input>
               </div>
               <div :class="['float-right' ,'col-6', disPas===true ? '': 'd-none']">
@@ -111,7 +111,7 @@
                   type="password"
                   class="form-control"
                   placeholder="Nhập mật khẩu"
-                  @input="updateNewPass"
+                  :v-model="newPass"
                 ></b-form-input>
               </div>
               <div :class="['float-right', 'mb-4','mt-4','col-6', disPas===true ? '': 'd-none']">
@@ -120,8 +120,9 @@
                   type="password"
                   class="form-control"
                   placeholder="Nhập mật khẩu"
-                  @input="updateEnterNewPass"
+                  :v-model="enterNewPass"
                 ></b-form-input>
+                <label for class="error">{{error}}</label>
               </div>
             </b-form-group>
             <div class="d-flex flex-row-reverse w-100">
@@ -155,6 +156,10 @@ export default {
       email: '',
       bio: '',
       avatar: null,
+      newPass: '',
+      enterNewPass: '',
+      oldPass: '',
+      error: '',
     }
   },
   computed: {
@@ -174,9 +179,21 @@ export default {
       const oldEmail = this.me.email
       return this.email !== oldEmail
     },
-    oldPassChanged() {},
+    avatarChanged() {
+      const oldAvatar = this.me.avatar
+      return this.avatar !== oldAvatar
+    },
+    passChanged() {
+      return this.disPas
+    },
     canUpdate() {
-      return this.nameChanged || this.emailChanged || this.bioChanged
+      return (
+        this.nameChanged ||
+        this.emailChanged ||
+        this.bioChanged ||
+        this.avatarChanged ||
+        this.passChanged
+      )
     },
   },
   mounted() {
@@ -187,7 +204,7 @@ export default {
       this.name = this.me.name
       this.email = this.me.email
       this.bio = this.me.bio
-      // this.avatar = this.me.avatar
+      this.avatar = this.me.avatar
     },
     changeAvatar() {
       if (this.avatar !== null) {
@@ -225,21 +242,25 @@ export default {
         ...(this.nameChanged && { name: this.name }),
         ...(this.emailChanged && { email: this.email }),
         ...(this.bioChanged && { bio: this.bio }),
+        ...(this.avatarChanged && { avatar: this.avatar }),
       }
+      console.log(submit)
       await this.$store.dispatch('auth/update', {
         username: this.me.username,
         ...submit,
       })
-      if (disPas === true) {
-        let submit = {
-          ...(this.nameChanged && { name: this.name }),
-          ...(this.emailChanged && { email: this.email }),
-          ...(this.bioChanged && { bio: this.bio }),
+      if (this.disPas === true) {
+        if (this.newPass === this.enterNewPass) {
+          let submit1 = {
+            ...{ old_password: this.oldPass },
+            ...{ new_password: this.newPass },
+          }
+          await this.$store.dispatch('auth/updatePass', {
+            ...submit1,
+          })
+        } else {
+          this.error = 'password error'
         }
-        await this.$store.dispatch('auth/updatePass', {
-          username: this.me.username,
-          ...submit,
-        })
       }
       this.$router.go()
     },
