@@ -1,27 +1,25 @@
 <template>
   <div
     class="wrap-header d-flex justify-content-end flex-column"
-    :style="`background-image: url('${image}')`"
+    :style="`background-image: url('${ article.thumbnail }')`"
   >
     <div class="container">
-      <h1 class="title text-white">{{ title }}</h1>
-      <span class="more text-secondary">{{ date }} &nbsp; · &nbsp; {{ time }}</span>
-      <p class="description text-white">{{ description }}</p>
+      <h1 class="title text-white">{{ article.title }}</h1>
+      <span
+        class="more text-secondary"
+      >{{ article.updatedAt | formatDate }} &nbsp; · &nbsp; {{ article.content | timeRead }}</span>
+      <p class="description text-white">{{ article.excerpt }}</p>
     </div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  data() {
-    return {
-      title: 'Nghĩ Lớn Qua Các Góc Nhìn Vĩ Mô',
-      date: '28 tháng 3 2018',
-      time: '17 phút đọc',
-      description:
-        '"Nghĩ lớn" có lẽ không còn là khái niệm "hot" nữa cho nên gần đây mình theo dõi báo chí thấy ít được nhắc đến. Thời Việt Nam mới hội nhập khi...',
-      image: 'https://bulma.io/images/placeholders/720x240.png',
-    }
+  computed: {
+    ...mapGetters({
+      article: 'user/first',
+    }),
   },
 }
 </script>

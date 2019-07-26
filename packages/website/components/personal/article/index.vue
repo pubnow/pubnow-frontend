@@ -5,7 +5,7 @@
     <h2 class="title mb-0">
       <nuxt-link to="#">{{ title }}</nuxt-link>
     </h2>
-    <span class="small">{{ date }} &nbsp; · &nbsp; {{ time }}</span>
+    <span class="small">{{ date | formatDate }} &nbsp; · &nbsp; {{ content | timeRead }}</span>
     <p class="text-body">{{ description }}</p>
     <div class="d-flex justify-content-between mt-4">
       <div>
@@ -40,9 +40,9 @@ export default {
       type: String,
       required: true,
     },
-    time: {
+    content: {
       type: String,
-      required: true,
+      default: '',
     },
     description: {
       type: String,
@@ -84,5 +84,6 @@ export default {
 
 .image {
   width: 100%;
+  height: 180px;
 }
 </style>

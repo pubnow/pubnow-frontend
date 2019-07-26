@@ -14,5 +14,8 @@ export default {
     TheContent,
     Information,
   },
+  async fetch({ store }) {
+    await store.dispatch('user/articles')
+  },
 }
 </script>
