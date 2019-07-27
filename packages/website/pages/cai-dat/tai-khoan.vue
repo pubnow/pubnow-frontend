@@ -18,7 +18,13 @@
                     <i class="fas fa-camera"></i>
                   </span>
                 </label>
-                <input id="file-input" type="file" @change="onFileChange($event)" />
+                <b-form-file
+                  id="file-input"
+                  class="d-none"
+                  type="file"
+                  @change="onFileChange($event)"
+                  accept=".jpg, .png, .gif"
+                ></b-form-file>
               </div>
             </b-col>
             <b-col sm="10" class="d-inline-block">
@@ -285,18 +291,16 @@ export default {
         padding-top: 8px;
         width: 85px;
         height: 85px;
-        // i {
-        color: #8e8e8d;
-        // }
+        color: $dn300;
       }
       .st-camera:hover {
-        // i:hover {
-        // padding-top: 5px;
         padding-top: 5px;
         color: $white !important;
         font-size: 35px;
-        // }
       }
+    }
+    .image-upload > b-form-file {
+      display: none;
     }
   }
 }
@@ -319,8 +323,5 @@ export default {
   .btn-sub {
     margin-right: 13px;
   }
-}
-.image-upload > input {
-  display: none;
 }
 </style>
