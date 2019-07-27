@@ -22,11 +22,13 @@
           >
             <b-form-input
               id="input-name"
-              type="text"
-              required
               placeholder="Nhập tên chuyên mục"
-              v-model="form.name"
+              v-model.trim="$v.form.name.$model"
+              :state="$v.form.name.$dirty ? !$v.form.name.$error : null"
             ></b-form-input>
+            <div v-if="!$v.form.name.required" class="invalid-feedback">
+              Trường bắt buộc
+            </div>
           </b-form-group>
 
           <b-form-group
@@ -37,7 +39,6 @@
             <b-form-input
               id="input-description"
               type="text"
-              required
               placeholder="Nhập mô tả"
               v-model="form.description"
             ></b-form-input>
@@ -66,8 +67,8 @@
             />
           </b-form-group>
           <va-button
-            :active="!canUpdate"
-            :disabled="!canUpdate"
+            :active="canCreate"
+            :disabled="canCreate"
             @click="create"
             type="primary"
             >Tạo</va-button
@@ -79,6 +80,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { required } from 'vuelidate/lib/validators'
 export default {
   data: () => ({
     breadcrumb: ['Dashboard', 'Thêm Chuyên Mục'],
@@ -88,15 +90,16 @@ export default {
       description: '',
     },
   }),
-  computed: {
-    ...mapGetters({
-      categories: 'category/categories',
-    }),
-    nameChanged() {
-      return this.form.name !== ''
+  validations: {
+    form: {
+      name: {
+        required,
+      },
     },
-    canUpdate() {
-      return this.nameChanged
+  },
+  computed: {
+    canCreate() {
+      return this.$v.form.$anyError
     },
   },
   methods: {
@@ -106,9 +109,7 @@ export default {
     },
     async create() {
       let submit = new Object()
-      if (this.form.name) {
-        submit.name = this.form.name
-      }
+      submit.name = this.form.name
       if (this.form.description) {
         submit.description = this.form.description
       }

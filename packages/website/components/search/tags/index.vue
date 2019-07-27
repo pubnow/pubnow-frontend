@@ -14,7 +14,6 @@
     <p class="text-body cursor-poiter">{{ description }}</p>
     <div class="d-flex mt-2">
       <b-badge
-        @click="test"
         variant="secondary"
         v-for="(tag, index) in tags"
         :key="index"

@@ -74,9 +74,9 @@ export default {
     ],
     fields: [
       'checkBox',
+      'username',
       { key: 'name', label: 'Tên đầy đủ' },
       'email',
-      'username',
       { key: 'role.name', label: 'Chức vụ' },
     ],
     actionBtnWidth: 0,

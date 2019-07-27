@@ -79,6 +79,7 @@
 
 <script>
 export default {
+  layout: 'organization',
   data() {
     return {
       backdropClickable: true,

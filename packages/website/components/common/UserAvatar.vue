@@ -23,6 +23,9 @@
       <li>
         <nuxt-link to="/cai-dat/to-chuc">Quản lý tổ chức</nuxt-link>
       </li>
+      <li>
+        <nuxt-link to="/danh-sach-theo-doi">Danh sách theo dõi</nuxt-link>
+      </li>
       <hr />
       <li>
         <nuxt-link to="/cai-dat">Cài đặt</nuxt-link>
