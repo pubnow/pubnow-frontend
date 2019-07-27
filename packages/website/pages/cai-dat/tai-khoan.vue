@@ -6,14 +6,17 @@
           <div class="form row">
             <b-col class="avatar d-inline-block" sm="2">
               <div class="image-upload">
+                <img
+                  :src="changeAvatar()"
+                  class="rounded-circle z-depth-0 image position-relative"
+                  width="85px"
+                  height="85px"
+                  alt
+                />
                 <label for="file-input">
-                  <img
-                    :src="changeAvatar()"
-                    class="rounded-circle z-depth-0 image"
-                    width="85px"
-                    height="85px"
-                    alt
-                  />
+                  <span class="position-absolute st-camera">
+                    <i class="fas fa-camera"></i>
+                  </span>
                 </label>
                 <input id="file-input" type="file" @change="onFileChange($event)" />
               </div>
@@ -43,13 +46,7 @@
               </div>
             </b-form-group>
             <b-form-group class="form-cell col-6">
-              <label for class="w-100">
-                Email
-                <a class="change float-right" @click="changeEmail()">
-                  <i class="fa fa-key"></i>
-                  Thay Đổi Email
-                </a>
-              </label>
+              <label for class="w-100">Email</label>
               <div class="input-group">
                 <div class="input-group-prepend">
                   <div class="input-group-text">
@@ -58,13 +55,7 @@
                     </i>
                   </div>
                 </div>
-                <b-form-input
-                  :disabled="display === false"
-                  type="email"
-                  class="form-control"
-                  :value="me.email"
-                  @input="updateEmail"
-                ></b-form-input>
+                <b-form-input disabled type="email" class="form-control" :value="me.email"></b-form-input>
               </div>
             </b-form-group>
             <b-form-group id="input-group-1" class="form-cell col-6">
@@ -153,13 +144,13 @@ export default {
       display: false,
       disPas: false,
       name: '',
-      email: '',
       bio: '',
       avatar: null,
       newPass: '',
       enterNewPass: '',
       oldPass: '',
       error: '',
+      imageLink: '',
     }
   },
   computed: {
@@ -175,10 +166,6 @@ export default {
       const oldbio = this.me.bio
       return this.bio !== oldbio
     },
-    emailChanged() {
-      const oldEmail = this.me.email
-      return this.email !== oldEmail
-    },
     avatarChanged() {
       const oldAvatar = this.me.avatar
       return this.avatar !== oldAvatar
@@ -189,7 +176,6 @@ export default {
     canUpdate() {
       return (
         this.nameChanged ||
-        this.emailChanged ||
         this.bioChanged ||
         this.avatarChanged ||
         this.passChanged
@@ -202,7 +188,6 @@ export default {
   methods: {
     initData() {
       this.name = this.me.name
-      this.email = this.me.email
       this.bio = this.me.bio
       this.avatar = this.me.avatar
     },
@@ -216,23 +201,21 @@ export default {
     onFileChange(event) {
       event.preventDefault()
       const image = event.target.files[0]
-      const reader = new FileReader()
-      reader.readAsDataURL(image)
-      reader.onload = e => {
-        this.avatar = e.target.result
+
+      if (image != null) {
+        this.imageLink = image
+        const reader = new FileReader()
+        reader.readAsDataURL(image)
+        reader.onload = e => {
+          this.avatar = e.target.result
+        }
       }
     },
     change(value) {
       this.disPas = value
     },
-    changeEmail() {
-      this.display = true
-    },
     updateName(value) {
       this.name = value
-    },
-    updateEmail(value) {
-      this.email = value
     },
     updateBio(value) {
       this.bio = value
@@ -240,7 +223,6 @@ export default {
     async update() {
       let submit = {
         ...(this.nameChanged && { name: this.name }),
-        ...(this.emailChanged && { email: this.email }),
         ...(this.bioChanged && { bio: this.bio }),
         ...(this.avatarChanged && { avatar: this.avatar }),
       }
@@ -281,12 +263,40 @@ export default {
   }
   .avatar {
     line-height: 2;
+    height: 85px;
     .image {
       display: inline-block;
     }
     .text {
       display: inline-block;
       padding: 0 0 0 1.5rem;
+    }
+    .image-upload {
+      .st-camera {
+        font-size: 30px;
+        top: 0px;
+        left: 15px;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 50%;
+        cursor: pointer;
+        text-align: center;
+        padding-top: 8px;
+        width: 85px;
+        height: 85px;
+        // i {
+        color: #8e8e8d;
+        // }
+      }
+      .st-camera:hover {
+        // i:hover {
+        // padding-top: 5px;
+        padding-top: 5px;
+        color: $white !important;
+        font-size: 35px;
+        // }
+      }
     }
   }
 }
