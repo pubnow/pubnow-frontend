@@ -22,7 +22,7 @@
                   id="file-input"
                   class="d-none"
                   type="file"
-                  @change="onFileChange($event)"
+                  @change="onFileChange"
                   accept=".jpg, .png, .gif"
                 ></b-form-file>
               </div>
@@ -198,24 +198,30 @@ export default {
       this.avatar = this.me.avatar
     },
     changeAvatar() {
-      if (this.avatar !== null) {
-        return this.avatar
+      if (this.imageLink !== null) {
+        return this.imageLink
       } else {
         return this.me.avatar
       }
     },
     onFileChange(e) {
-      // event.preventDefault()
-      const file = e.target.files[0]
-      this.avatar = URL.createObjectURL(file)
-      // if (avatar != null) {
+      // e.preventDefault()
+      // const image = event.target.files[0]
 
+      // if (image != null) {
+      //   this.imageLink = image
       //   const reader = new FileReader()
       //   reader.readAsDataURL(image)
       //   reader.onload = e => {
-      //     this.imageLink = e.target.result
+      //     this.avatar = e.target.result
       //   }
       // }
+      let files = e.target.files || e.dataTransfer.files
+      console.log(files)
+      if (files.length) {
+        this.avatar = files[0]
+      }
+      this.imageLink = URL.createObjectURL(files[0])
     },
     change(value) {
       this.disPas = value
@@ -227,24 +233,20 @@ export default {
       this.bio = value
     },
     async update() {
-      let submit = {
-        ...(this.nameChanged && { name: this.name }),
-        ...(this.bioChanged && { bio: this.bio }),
-        ...(this.avatarChanged && { avatar: this.avatar }),
-      }
+      let submit = new FormData()
+      submit.append('name', this.name)
+      submit.append('bio', this.bio)
+      submit.append('avatar', this.avatar)
+      submit.append('username', this.me.username)
       console.log(submit)
-      await this.$store.dispatch('auth/update', {
-        username: this.me.username,
-        ...submit,
-      })
+      await this.$store.dispatch('auth/update', { submit: submit })
       if (this.disPas === true) {
         if (this.newPass === this.enterNewPass) {
-          let submit1 = {
-            ...{ old_password: this.oldPass },
-            ...{ new_password: this.newPass },
-          }
+          const submit1 = new FormData()
+          submit.append('old_password', this.oldPass)
+          submit.append('new_password', this.newPass)
           await this.$store.dispatch('auth/updatePass', {
-            ...submit1,
+            submit1,
           })
         } else {
           this.error = 'password error'

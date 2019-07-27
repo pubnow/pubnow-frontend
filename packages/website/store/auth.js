@@ -61,16 +61,12 @@ export const actions = {
       return false
     }
   },
-  async update(_, { username, ...updateData }) {
+  async update({ state }, updateData) {
     this.$http.setHeader('Accept', 'application/json')
-    await this.$http.$put(`users/${username}`, {
-      ...updateData,
-    })
+    await this.$http.$put(`users/${state.user.username}`, updateData.submit)
   },
   async updatePass(_, { ...updateData }) {
     this.$http.setHeader('Accept', 'application/json')
-    await this.$http.$put(`users/change-password`, {
-      ...updateData,
-    })
+    await this.$http.$put(`users/change-password`, updateData)
   },
 }
