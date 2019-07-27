@@ -23,6 +23,7 @@ export default {
             console.log('initialized')
           },
         },
+        key: 'mPD4tB1A2F1A1H1C2se1dpA-9H-9bB1tweF5C4C3E3E2C2C4D6B3C2==',
         placeholderText: 'Viết nên câu chuyện của bạn ...',
         heightMin: 345,
         attribution: false,
