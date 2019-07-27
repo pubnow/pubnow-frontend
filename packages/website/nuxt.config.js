@@ -59,6 +59,7 @@ export default {
     '@nuxt/http',
     'vue-wait/nuxt',
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
+    '~/modules/froala',
   ],
   http: {},
   wait: { useVuex: true },
