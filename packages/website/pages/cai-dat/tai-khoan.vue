@@ -127,7 +127,7 @@
                 <b-button type="reset" variant="danger" class="btn-sub m-r b-text">Hủy</b-button>
               </nuxt-link>
               <b-button
-                type="submit"
+                type="button"
                 :active="!canUpdate"
                 :disabled="!canUpdate"
                 @click="update"
@@ -204,18 +204,18 @@ export default {
         return this.me.avatar
       }
     },
-    onFileChange(event) {
-      event.preventDefault()
-      const image = event.target.files[0]
+    onFileChange(e) {
+      // event.preventDefault()
+      const file = e.target.files[0]
+      this.avatar = URL.createObjectURL(file)
+      // if (avatar != null) {
 
-      if (image != null) {
-        this.imageLink = image
-        const reader = new FileReader()
-        reader.readAsDataURL(image)
-        reader.onload = e => {
-          this.avatar = e.target.result
-        }
-      }
+      //   const reader = new FileReader()
+      //   reader.readAsDataURL(image)
+      //   reader.onload = e => {
+      //     this.imageLink = e.target.result
+      //   }
+      // }
     },
     change(value) {
       this.disPas = value
@@ -250,7 +250,7 @@ export default {
           this.error = 'password error'
         }
       }
-      this.$router.go()
+      // this.$router.go()
     },
   },
 }
