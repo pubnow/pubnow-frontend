@@ -5733,6 +5733,11 @@ fresh@0.5.2, fresh@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
 
+froala-editor@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-3.0.3.tgz#56a4552b8bbaa933b3ed257ab1974a7dfdf771c3"
+  integrity sha512-KIMSYV1u+jxl10fgn8RRbLI0Vzs6FfLfdV7lgI9FEevHKSN3yQzxe7eZ3qVKpI2W/Miv3oZ5/QlYRFHvVC6MHA==
+
 from2@^2.1.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/from2/-/from2-2.3.0.tgz#8bfb5502bde4a4d36cfdeea007fcca21d7e382af"
@@ -12261,6 +12266,15 @@ vue-content-loader@^0.2.2:
   dependencies:
     babel-helper-vue-jsx-merge-props "^2.0.3"
 
+vue-froala-wysiwyg@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/vue-froala-wysiwyg/-/vue-froala-wysiwyg-3.0.3.tgz#d58087ca8617e9b66dbb3c568a251bff2409d349"
+  integrity sha512-RrZMerS59ysy2nskISMYb9iCIsvgCymsmM/xo+EWFjxykwWb6ZIF14fDEgj+f2qcPRTweHGSbm4m8uM66rQcJA==
+  dependencies:
+    babel-runtime "^6.26.0"
+    froala-editor "^3.0.3"
+    vue "2.6.6"
+
 vue-functional-data-merge@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-3.1.0.tgz#08a7797583b7f35680587f8a1d51d729aa1dc657"
@@ -12349,6 +12363,11 @@ vue-template-es2015-compiler@^1.9.0:
 vue-wait@^1.4.6:
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/vue-wait/-/vue-wait-1.4.6.tgz#fc3cfd4efcdf0d21bc29bfd79370b2218c4e32d2"
+
+vue@2.6.6:
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.6.tgz#dde41e483c11c46a7bf523909f4f2f816ab60d25"
+  integrity sha512-Y2DdOZD8sxApS+iUlwv1v8U1qN41kq6Kw45lM6nVZKhygeWA49q7VCCXkjXqeDBXgurrKWkYQ9cJeEJwAq0b9Q==
 
 vue@^2.5.16, vue@^2.6.10, vue@^2.6.6:
   version "2.6.10"
