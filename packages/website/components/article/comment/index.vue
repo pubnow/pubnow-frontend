@@ -16,13 +16,12 @@
       <hr class="my-4" />
       <!-- Tab -->
       <div class="d-flex justify-content-end">
-        <nuxt-link to="#" class="ml-4 tab active">Hot nhất</nuxt-link>
-        <nuxt-link to="#" class="ml-4 tab">Mới nhất</nuxt-link>
+        <nuxt-link to="#" class="ml-4 tab active">Mới nhất</nuxt-link>
       </div>
       <no-ssr>
-        <div v-for="(comment, index) in dataComments" :key="index">
+        <div v-for="(comment, index) in getDataComment" :key="index">
           <view-comment
-            :userComment="comment.user_id"
+            :userID="comment.user_id"
             :parentID="comment.id"
             :articleID="articleID"
             :content="comment.content"
@@ -55,12 +54,10 @@ export default {
   data() {
     return {
       commentInput: '',
-      dataComments: [],
     }
   },
   mounted() {
-    let arr = this.comments
-    this.dataComments = [...arr.slice().reverse()]
+    this.$store.dispatch('comment/setDataComment', this.comments)
   },
   components: {
     ViewComment,
@@ -68,7 +65,12 @@ export default {
   computed: {
     ...mapGetters({
       user: 'auth/user',
+      arrChildComment: 'comment/dataComment',
     }),
+    getDataComment() {
+      let arr = this.arrChildComment
+      return [...arr.slice().reverse()]
+    },
   },
   methods: {
     sendComment() {
@@ -76,16 +78,8 @@ export default {
         article_id: this.articleID,
         content: this.commentInput,
       }
-      const fakeData = {
-        id: this.user.id,
-        content: this.commentInput,
-        user_id: this.user.id,
-        article_id: this.articleID,
-        childs: [],
-      }
       this.commentInput = ''
-      this.dataComments = [fakeData, ...this.dataComments]
-      this.$store.dispatch('comment/write', data)
+      this.$store.dispatch('comment/create', data)
     },
   },
 }
