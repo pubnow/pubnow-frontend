@@ -23,8 +23,10 @@ export default {
     PopularOnPubnow,
     Latest,
   },
-  fetch({ store }) {
-    return store.dispatch('article/index')
+  async fetch({ store }) {
+    await store.dispatch('article/index')
+    await store.dispatch('article/popular')
+    await store.dispatch('article/featured')
   },
 }
 </script>

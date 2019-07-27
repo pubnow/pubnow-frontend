@@ -5,3 +5,10 @@ export { default as Navbar } from './Nav/Navbar.vue'
 export { default as AffixNavbar } from './Nav/AffixNavbar.vue'
 
 export { default as HeadingText } from './HeadingText.vue'
+
+export { default as NotFound } from './NotFound.vue'
+
+// Placeholder
+export {
+  default as ArticleLargePlaceholder,
+} from './Placeholder/ArticleLarge.vue'

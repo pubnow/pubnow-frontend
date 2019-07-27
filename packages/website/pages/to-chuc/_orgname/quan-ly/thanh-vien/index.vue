@@ -58,6 +58,7 @@
 
 <script>
 export default {
+  layout: 'organization',
   middleware: ['auth'],
   head: {
     title: 'Thành viên',

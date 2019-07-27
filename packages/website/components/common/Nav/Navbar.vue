@@ -7,10 +7,12 @@
             <img class="mr-2" :src="require('@/assets/images/logo.svg')" />
           </nuxt-link>
           <va-input
+            v-model="keyword"
             icon="search"
             width="xl"
             placeholder="Tìm kiếm theo nội dung, tác giả hoặc tag"
             iconStyle="solid"
+            @confirm="search"
           ></va-input>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto d-flex align-items-center">
@@ -35,6 +37,9 @@ export default {
   components: {
     UserAvatar,
   },
+  data: () => ({
+    keyword: '',
+  }),
   computed: {
     ...mapGetters({
       user: 'auth/user',
@@ -43,6 +48,17 @@ export default {
     }),
     randomCategories() {
       return take(shuffle(this.categories), 6)
+    },
+  },
+  methods: {
+    search(keyword) {
+      this.keyword = ''
+      this.$router.push({
+        name: 'tim-kiem',
+        query: {
+          keyword,
+        },
+      })
     },
   },
 }
