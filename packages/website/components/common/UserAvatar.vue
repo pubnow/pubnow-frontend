@@ -28,7 +28,7 @@
       </li>
       <hr />
       <li>
-        <nuxt-link to="/cai-dat">Cài đặt</nuxt-link>
+        <nuxt-link to="/cai-dat/tai-khoan">Cài đặt</nuxt-link>
       </li>
       <li>
         <a @click="logout">Đăng xuất</a>
@@ -94,8 +94,9 @@ export default {
   },
   methods: {
     logout() {
-      this.$store.commit('auth/clear')
-      this.$router.push('/')
+      this.$router.push('/', () => {
+        this.$store.commit('auth/clear')
+      })
     },
   },
 }
@@ -104,6 +105,7 @@ export default {
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_sizes.scss';
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_mixins.scss';
 @import '@pubnow/ui/scss/_dropdown.scss';
 
 .user-wrap {
@@ -114,6 +116,13 @@ export default {
     width: $unit * 2;
     margin-left: $unit;
     cursor: pointer;
+    .avatar-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      @include border;
+    }
     .placeholder {
       width: 100%;
       height: 100%;

@@ -61,12 +61,33 @@ export const actions = {
       return false
     }
   },
-  async update({ state }, updateData) {
-    this.$http.setHeader('Accept', 'application/json')
-    await this.$http.$put(`users/${state.user.username}`, updateData.submit)
+  async update({ state, commit, dispatch }, updateData) {
+    try {
+      dispatch('wait/start', 'auth.update', { root: true })
+      this.$http.setHeader('Accept', 'application/json')
+      const result = await this.$http.$put(
+        `users/${state.user.username}`,
+        updateData.submit,
+      )
+      const { data: user } = result
+      commit('setUser', user)
+      dispatch('wait/end', 'auth.update', { root: true })
+      return true
+    } catch (e) {
+      dispatch('wait/end', 'auth.update', { root: true })
+      return false
+    }
   },
-  async updatePass(_, { ...updateData }) {
-    this.$http.setHeader('Accept', 'application/json')
-    await this.$http.$put(`users/change-password`, updateData)
+  async updatePass({ dispatch }, data) {
+    try {
+      dispatch('wait/start', 'auth.updatePass', { root: true })
+      this.$http.setHeader('Accept', 'application/json')
+      await this.$http.$put(`users/change-password`, data)
+      dispatch('wait/end', 'auth.updatePass', { root: true })
+      return true
+    } catch (e) {
+      dispatch('wait/end', 'auth.updatePass', { root: true })
+      return false
+    }
   },
 }

@@ -1,191 +1,196 @@
 <template>
   <no-ssr>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 offset-md-2">
-          <div class="form row">
-            <b-col class="avatar d-inline-block" sm="2">
-              <div class="image-upload">
-                <img
-                  :src="changeAvatar()"
-                  class="rounded-circle z-depth-0 image position-relative"
-                  width="85px"
-                  height="85px"
-                  alt
-                />
-                <label for="file-input">
-                  <span class="position-absolute st-camera">
-                    <i class="fas fa-camera"></i>
-                  </span>
-                </label>
-                <b-form-file
-                  id="file-input"
-                  class="d-none"
-                  type="file"
-                  @change="onFileChange"
-                  accept=".jpg, .png, .gif"
-                ></b-form-file>
-              </div>
-            </b-col>
-            <b-col sm="10" class="d-inline-block">
-              <b-form-textarea
-                id="textarea"
-                @input="updateBio"
-                :value="me.bio"
-                rows="3"
-                max-rows="5"
-              ></b-form-textarea>
-            </b-col>
+    <b-container class="profile-setting">
+      <b-row>
+        <b-col md="8" offset-md="2">
+          <h3>
+            <va-icon type="user" class="mx-1" />Cài đặt tài khoản
+          </h3>
+          <hr />
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="2" offset-md="2">
+          <div class="avatar-form">
+            <legend class="col-form-label pt-0">Ảnh đại diện</legend>
+            <div
+              class="rounded avatar d-block mb-2"
+              :style="`background-image: url(${avatarUrl})`"
+            />
+            <label for="file-input">
+              <va-button
+                active
+                icon-before="camera"
+                :loading="avatarUploading"
+                :disabled="avatarUploading"
+              >Upload</va-button>
+            </label>
+
+            <b-form-file
+              class="d-none"
+              type="file"
+              id="file-input"
+              @change="onFileChange"
+              accept=".jpg, .png, .gif"
+            ></b-form-file>
           </div>
-          <b-form class="pt-4 ip-form row">
-            <b-form-group id="input-group-1" class="form-cell col-6">
-              <label for class="name">User Name</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <i class="fa fa-envelope-o">
-                      <i class="far fa-user"></i>
-                    </i>
-                  </div>
-                </div>
-                <input type="text" class="form-control" placeholder :value="me.username" disabled />
-              </div>
+        </b-col>
+        <b-col md="6">
+          <b-form>
+            <b-form-group label="Giới thiệu">
+              <b-form-textarea @input="updateBio" :value="me.bio" rows="3"></b-form-textarea>
             </b-form-group>
-            <b-form-group class="form-cell col-6">
-              <label for class="w-100">Email</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <i class="fa fa-envelope-o">
-                      <i class="far fa-envelope"></i>
-                    </i>
-                  </div>
-                </div>
-                <b-form-input disabled type="email" class="form-control" :value="me.email"></b-form-input>
-              </div>
+            <b-form-group label="Tên">
+              <b-form-input type="text" :value="me.name" @input="updateName" required></b-form-input>
             </b-form-group>
-            <b-form-group id="input-group-1" class="form-cell col-6">
-              <label for>Tên</label>
-              <div class="input-group">
-                <div class="input-group-prepend">
-                  <div class="input-group-text">
-                    <i class="fa fa-envelope-o">
-                      <i class="far fa-user"></i>
-                    </i>
-                  </div>
-                </div>
-                <b-form-input
-                  type="text"
-                  class="form-control"
-                  :value="me.name"
-                  @input="updateName"
-                  required
-                  placeholder="Nhập tên"
-                ></b-form-input>
-              </div>
+            <b-form-group label="Tên tài khoản">
+              <b-form-input type="text" :value="me.username" disabled />
+              <small class="form-text text-muted">
+                Trang cá nhân của bạn có đường dẫn là:
+                <b>/nguoi-dung/{{me.username}}</b>
+              </small>
             </b-form-group>
-            <b-form-group
-              :class="['form-cell', 'w-100', 'change-pas', 'pt-4',disPas===true ? 'border': '' ]"
-            >
-              <label for class="d-block">
-                <a class="change1 pt-4 pl-3" @click="change(!disPas)">
-                  <i class="fa fa-key"></i>
-                  Thay Đổi Password
-                </a>
-              </label>
-              <div :class="['float-left' ,'col-6', disPas===true ? '': 'd-none']">
-                <label for>Mật Khẩu Cũ</label>
-                <b-form-input
-                  type="password"
-                  class="form-control"
-                  placeholder="Nhập mật khẩu"
-                  :v-model="oldPass"
-                ></b-form-input>
-              </div>
-              <div :class="['float-right' ,'col-6', disPas===true ? '': 'd-none']">
-                <label for>Mật Khẩu Mới</label>
-                <b-form-input
-                  type="password"
-                  class="form-control"
-                  placeholder="Nhập mật khẩu"
-                  :v-model="newPass"
-                ></b-form-input>
-              </div>
-              <div :class="['float-right', 'mb-4','mt-4','col-6', disPas===true ? '': 'd-none']">
-                <label for class="name">Nhập Lại Mật Khẩu Mới</label>
-                <b-form-input
-                  type="password"
-                  class="form-control"
-                  placeholder="Nhập mật khẩu"
-                  :v-model="enterNewPass"
-                ></b-form-input>
-                <label for class="error">{{error}}</label>
-              </div>
+            <b-form-group label="Email">
+              <b-form-input type="email" disabled :value="me.email"></b-form-input>
+              <small
+                class="form-text text-muted"
+              >Bạn không thể thay đổi email. Nếu có vấn đề gì vui lòng liên hệ Ban quản trị.</small>
             </b-form-group>
-            <div class="d-flex flex-row-reverse w-100">
-              <nuxt-link to="/nguoi-dung">
-                <b-button type="reset" variant="danger" class="btn-sub m-r b-text">Hủy</b-button>
-              </nuxt-link>
-              <b-button
-                type="button"
-                :active="!canUpdate"
-                :disabled="!canUpdate"
+            <b-form-group label="Mật khẩu">
+              <div class="form-control change-password" v-b-modal.update-password>
+                <va-icon type="key" class="mr-1" />Thay đổi mật khẩu
+              </div>
+              <b-modal id="update-password" title="Thay đổi mật khẩu" centered ref="updatePwdModal">
+                <b-form>
+                  <b-form-group label="Mật khẩu cũ">
+                    <b-form-input
+                      type="password"
+                      name="oldPassword"
+                      v-model="$v.form.oldPass.$model"
+                      :state="$v.form.oldPass.$dirty ? !$v.form.oldPass.$error : null"
+                    ></b-form-input>
+                    <b-form-invalid-feedback>Bạn vui lòng nhập mật khẩu với độ dài tối thiểu 6 ký tự.</b-form-invalid-feedback>
+                  </b-form-group>
+                  <b-form-group label="Mật khẩu mới">
+                    <b-form-input
+                      type="password"
+                      v-model="$v.form.newPass.$model"
+                      :state="$v.form.newPass.$dirty ? !$v.form.newPass.$error : null"
+                    ></b-form-input>
+                    <b-form-invalid-feedback>Bạn vui lòng nhập mật khẩu khác mật khẩu cũ với độ dài tối thiểu 6 ký tự.</b-form-invalid-feedback>
+                  </b-form-group>
+                  <b-form-group label="Nhập lại mật khẩu mới">
+                    <b-form-input
+                      type="password"
+                      v-model="$v.form.reNewPass.$model"
+                      :state="$v.form.reNewPass.$dirty ? !$v.form.reNewPass.$error : null"
+                    ></b-form-input>
+                    <b-form-invalid-feedback>Mật khẩu không khớp</b-form-invalid-feedback>
+                  </b-form-group>
+                </b-form>
+                <template slot="modal-footer">
+                  <va-button @click="closeModal">Hủy</va-button>
+                  <va-button
+                    type="success"
+                    @click="submit"
+                    :disabled="$v.$invalid || pwdUpdating"
+                    icon-before="check-circle"
+                    :loading="pwdUpdating"
+                  >Cập nhật</va-button>
+                </template>
+              </b-modal>
+            </b-form-group>
+            <div>
+              <va-button
+                type="success"
+                :disabled="!canUpdate || updating"
+                :loading="updating"
                 @click="update"
-                variant="primary"
-                class="btn-sub b-text2"
-              >Lưu</b-button>
+                variant="success"
+                icon-before="save"
+              >Lưu</va-button>
             </div>
           </b-form>
-        </div>
-      </div>
-    </div>
+        </b-col>
+      </b-row>
+    </b-container>
   </no-ssr>
 </template>
+
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { validationMixin } from 'vuelidate'
+import { required, minLength, sameAs, not } from 'vuelidate/lib/validators'
+import { createSnackbar } from '@egoist/snackbar'
+
 export default {
   middleware: ['auth'],
+  mixins: [validationMixin],
   data() {
     return {
-      display: false,
-      disPas: false,
       name: '',
       bio: '',
       avatar: null,
-      newPass: '',
-      enterNewPass: '',
-      oldPass: '',
-      error: '',
-      imageLink: '',
+      form: {
+        oldPass: '',
+        newPass: '',
+        reNewPass: '',
+      },
     }
+  },
+  validations: {
+    form: {
+      oldPass: {
+        required,
+        minLength: minLength(6),
+      },
+      newPass: {
+        required,
+        minLength: minLength(6),
+        notSameAsPassword: not(sameAs('oldPass')),
+      },
+      reNewPass: {
+        required,
+        minLength: minLength(6),
+        sameAsNewPassword: sameAs('newPass'),
+      },
+    },
   },
   computed: {
     ...mapGetters({
       me: 'auth/user',
-      pass: '',
     }),
+    avatarUploading() {
+      return this.$wait.is('upload.image')
+    },
+    updating() {
+      return this.$wait.is('auth.update')
+    },
+    pwdUpdating() {
+      return this.$wait.is('auth.updatePass')
+    },
+    avatarUrl() {
+      if (this.avatar) {
+        return this.avatar.link
+      }
+      return this.me.avatar
+    },
     nameChanged() {
-      const oldName = this.me.name
-      return this.name !== oldName
+      return this.name !== this.me.name
     },
     bioChanged() {
-      const oldbio = this.me.bio
-      return this.bio !== oldbio
+      return this.bio !== this.me.bio
     },
     avatarChanged() {
-      const oldAvatar = this.me.avatar
-      return this.avatar !== oldAvatar
+      return (
+        this.avatar && this.avatar.link && this.avatar.link !== this.me.avatar
+      )
     },
     passChanged() {
       return this.disPas
     },
     canUpdate() {
-      return (
-        this.nameChanged ||
-        this.bioChanged ||
-        this.avatarChanged ||
-        this.passChanged
-      )
+      return this.nameChanged || this.bioChanged || this.avatarChanged
     },
   },
   mounted() {
@@ -195,36 +200,18 @@ export default {
     initData() {
       this.name = this.me.name
       this.bio = this.me.bio
-      this.avatar = this.me.avatar
     },
-    changeAvatar() {
-      if (this.imageLink !== null) {
-        return this.imageLink
-      } else {
-        return this.me.avatar
-      }
-    },
-    onFileChange(e) {
-      // e.preventDefault()
-      // const image = event.target.files[0]
-
-      // if (image != null) {
-      //   this.imageLink = image
-      //   const reader = new FileReader()
-      //   reader.readAsDataURL(image)
-      //   reader.onload = e => {
-      //     this.avatar = e.target.result
-      //   }
-      // }
+    async onFileChange(e) {
       let files = e.target.files || e.dataTransfer.files
-      console.log(files)
       if (files.length) {
         this.avatar = files[0]
+        const formImg = new FormData()
+        formImg.append('file', files[0])
+        this.$wait.start('upload.image')
+        const uploadedImage = await this.$http.$post('upload', formImg)
+        this.avatar = uploadedImage.data
+        this.$wait.end('upload.image')
       }
-      this.imageLink = URL.createObjectURL(files[0])
-    },
-    change(value) {
-      this.disPas = value
     },
     updateName(value) {
       this.name = value
@@ -232,27 +219,77 @@ export default {
     updateBio(value) {
       this.bio = value
     },
+    closeModal() {
+      this.$refs.updatePwdModal.hide()
+    },
     async update() {
-      let submit = new FormData()
-      submit.append('name', this.name)
-      submit.append('bio', this.bio)
-      submit.append('avatar', this.avatar)
-      submit.append('username', this.me.username)
-      console.log(submit)
-      await this.$store.dispatch('auth/update', { submit: submit })
-      if (this.disPas === true) {
-        if (this.newPass === this.enterNewPass) {
-          const submit1 = new FormData()
-          submit.append('old_password', this.oldPass)
-          submit.append('new_password', this.newPass)
-          await this.$store.dispatch('auth/updatePass', {
-            submit1,
-          })
-        } else {
-          this.error = 'password error'
-        }
+      let submit = {
+        ...(this.nameChanged && { name: this.name }),
+        ...(this.bioChanged && {
+          bio: this.bio,
+        }),
+        ...(this.avatarChanged && { image_id: this.avatar.id }),
       }
-      // this.$router.go()
+      const result = await this.$store.dispatch('auth/update', { submit })
+      if (result) {
+        createSnackbar('Cập nhật thông tin thành công', {
+          theme: 'light',
+          timeout: 1690,
+          actions: [
+            {
+              text: 'OK',
+            },
+          ],
+        })
+      } else {
+        createSnackbar('Có lỗi xảy ra', {
+          theme: 'light',
+          timeout: 1690,
+          actions: [
+            {
+              text: 'OK',
+              style: {
+                color: 'red',
+              },
+            },
+          ],
+        })
+      }
+    },
+    async submit() {
+      const result = await this.$store.dispatch('auth/updatePass', {
+        old_password: this.form.oldPass,
+        new_password: this.form.newPass,
+      })
+      this.$refs.updatePwdModal.hide()
+      if (result) {
+        createSnackbar('Cập nhật thông tin thành công', {
+          theme: 'light',
+          timeout: 1690,
+          actions: [
+            {
+              text: 'OK',
+            },
+          ],
+        })
+      } else {
+        createSnackbar('Có lỗi xảy ra, vui lòng kiểm tra lại mật khẩu', {
+          theme: 'light',
+          timeout: 1690,
+          actions: [
+            {
+              text: 'OK',
+              style: {
+                color: 'red',
+              },
+            },
+          ],
+        })
+      }
+      this.form.oldPass = ''
+      this.form.newPass = ''
+      this.form.reNewPass = ''
+      this.$v.$reset()
     },
   },
 }
@@ -263,67 +300,29 @@ export default {
 @import '@pubnow/ui/scss/_colors.scss';
 @import '@pubnow/ui/scss/_mixins.scss';
 @import '@pubnow/ui/scss/_fonts.scss';
-.form {
-  margin: auto;
-  padding: $unit;
-  .change1 {
-    color: $aqua !important;
-  }
+
+.profile-setting {
   .avatar {
-    line-height: 2;
-    height: 85px;
-    .image {
-      display: inline-block;
-    }
-    .text {
-      display: inline-block;
-      padding: 0 0 0 1.5rem;
-    }
-    .image-upload {
-      .st-camera {
-        font-size: 30px;
-        top: 0px;
-        left: 15px;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.5);
-        border-radius: 50%;
-        cursor: pointer;
-        text-align: center;
-        padding-top: 8px;
-        width: 85px;
-        height: 85px;
-        color: $dn300;
-      }
-      .st-camera:hover {
-        padding-top: 5px;
-        color: $white !important;
-        font-size: 35px;
-      }
-    }
-    .image-upload > b-form-file {
-      display: none;
+    width: 140px;
+    height: 140px;
+    background-size: cover;
+    @include border;
+    @include box-shadow-sm;
+  }
+
+  .form-control {
+    &:disabled {
+      background: $n20;
     }
   }
-}
-.ip-form {
-  padding: 30px;
-  .form-cell {
-    position: relative;
-    a {
-      cursor: pointer;
-      color: $t300;
+
+  .change-password {
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.25s ease-in;
+    &:hover {
+      background: $n20;
     }
-    a:hover {
-      text-decoration: underline;
-    }
-    .change-pas {
-      background: $n10;
-      @include box-shadow;
-    }
-  }
-  .btn-sub {
-    margin-right: 13px;
   }
 }
 </style>
