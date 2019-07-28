@@ -921,6 +921,11 @@
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
 
+"@egoist/snackbar@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@egoist/snackbar/-/snackbar-1.5.0.tgz#518ccff69414970d441369a754e3a360b99cde88"
+  integrity sha512-L5DD2sFLw7dqPQww3rrZ7KlZx0EKaOhDdlnzGwrh/zIKHfKjsZhjx1gdG82yipMuxiB4u/jbLYozJc0ilUYAgQ==
+
 "@evocateur/libnpmaccess@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.0.tgz#e546ee4e4bedca54ed9303948ec54c985cec33e4"
@@ -12376,6 +12381,7 @@ vue@^2.5.16, vue@^2.6.10, vue@^2.6.6:
 vuelidate@^0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.4.tgz#5a0e54be09ac0192f1aa3387d74b92e0945bf8aa"
+  integrity sha512-QHZWYOL325Zo+2K7VBNEJTZ496Kd8Z31p85aQJFldKudUUGBmgw4zu4ghl4CyqPwjRCmqZ9lDdx4FSdMnu4fGg==
 
 vuepress-html-webpack-plugin@^3.2.0:
   version "3.2.0"
