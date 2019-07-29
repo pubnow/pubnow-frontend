@@ -39,17 +39,21 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@/assets/scss/main.scss'],
+  css: [
+    '@/assets/scss/main.scss',
+    '@pubnow/ui/scss/pubnow-ui.scss',
+    '@egoist/snackbar/dist/snackbar.css',
+  ],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
     {
-      src: '~/plugins/pubnow-ui',
+      src: '~/plugins/vue-atlas',
       ssr: false,
     },
     {
-      src: '~/plugins/vue-atlas',
+      src: '~/plugins/vuelidate',
       ssr: false,
     },
     '~/plugins/http',
@@ -63,6 +67,7 @@ export default {
     '@nuxt/http',
     'vue-wait/nuxt',
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
+    '~/modules/froala',
   ],
   http: {},
   wait: { useVuex: true },

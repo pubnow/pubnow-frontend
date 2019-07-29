@@ -921,6 +921,11 @@
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
 
+"@egoist/snackbar@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@egoist/snackbar/-/snackbar-1.5.0.tgz#518ccff69414970d441369a754e3a360b99cde88"
+  integrity sha512-L5DD2sFLw7dqPQww3rrZ7KlZx0EKaOhDdlnzGwrh/zIKHfKjsZhjx1gdG82yipMuxiB4u/jbLYozJc0ilUYAgQ==
+
 "@evocateur/libnpmaccess@^3.1.0":
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/@evocateur/libnpmaccess/-/libnpmaccess-3.1.0.tgz#e546ee4e4bedca54ed9303948ec54c985cec33e4"
@@ -5732,6 +5737,11 @@ fragment-cache@^0.2.1:
 fresh@0.5.2, fresh@^0.5.2:
   version "0.5.2"
   resolved "https://registry.yarnpkg.com/fresh/-/fresh-0.5.2.tgz#3d8cadd90d976569fa835ab1f8e4b23a105605a7"
+
+froala-editor@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/froala-editor/-/froala-editor-3.0.3.tgz#56a4552b8bbaa933b3ed257ab1974a7dfdf771c3"
+  integrity sha512-KIMSYV1u+jxl10fgn8RRbLI0Vzs6FfLfdV7lgI9FEevHKSN3yQzxe7eZ3qVKpI2W/Miv3oZ5/QlYRFHvVC6MHA==
 
 from2@^2.1.0:
   version "2.3.0"
@@ -12261,6 +12271,15 @@ vue-content-loader@^0.2.2:
   dependencies:
     babel-helper-vue-jsx-merge-props "^2.0.3"
 
+vue-froala-wysiwyg@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/vue-froala-wysiwyg/-/vue-froala-wysiwyg-3.0.3.tgz#d58087ca8617e9b66dbb3c568a251bff2409d349"
+  integrity sha512-RrZMerS59ysy2nskISMYb9iCIsvgCymsmM/xo+EWFjxykwWb6ZIF14fDEgj+f2qcPRTweHGSbm4m8uM66rQcJA==
+  dependencies:
+    babel-runtime "^6.26.0"
+    froala-editor "^3.0.3"
+    vue "2.6.6"
+
 vue-functional-data-merge@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/vue-functional-data-merge/-/vue-functional-data-merge-3.1.0.tgz#08a7797583b7f35680587f8a1d51d729aa1dc657"
@@ -12350,6 +12369,11 @@ vue-wait@^1.4.6:
   version "1.4.6"
   resolved "https://registry.yarnpkg.com/vue-wait/-/vue-wait-1.4.6.tgz#fc3cfd4efcdf0d21bc29bfd79370b2218c4e32d2"
 
+vue@2.6.6:
+  version "2.6.6"
+  resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.6.tgz#dde41e483c11c46a7bf523909f4f2f816ab60d25"
+  integrity sha512-Y2DdOZD8sxApS+iUlwv1v8U1qN41kq6Kw45lM6nVZKhygeWA49q7VCCXkjXqeDBXgurrKWkYQ9cJeEJwAq0b9Q==
+
 vue@^2.5.16, vue@^2.6.10, vue@^2.6.6:
   version "2.6.10"
   resolved "https://registry.yarnpkg.com/vue/-/vue-2.6.10.tgz#a72b1a42a4d82a721ea438d1b6bf55e66195c637"
@@ -12357,6 +12381,7 @@ vue@^2.5.16, vue@^2.6.10, vue@^2.6.6:
 vuelidate@^0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/vuelidate/-/vuelidate-0.7.4.tgz#5a0e54be09ac0192f1aa3387d74b92e0945bf8aa"
+  integrity sha512-QHZWYOL325Zo+2K7VBNEJTZ496Kd8Z31p85aQJFldKudUUGBmgw4zu4ghl4CyqPwjRCmqZ9lDdx4FSdMnu4fGg==
 
 vuepress-html-webpack-plugin@^3.2.0:
   version "3.2.0"
