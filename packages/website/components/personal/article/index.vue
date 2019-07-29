@@ -9,7 +9,10 @@
     </nuxt-link>
     <span class="additional">
       Đăng {{ article.publishedAt }} trong
-      <nuxt-link to="#" class="text-uppercase mt-2">{{ article.category.name }}</nuxt-link>
+      <nuxt-link
+        :to="`/danh-muc/${article.category.slug}`"
+        class="text-uppercase mt-2"
+      >{{ article.category.name }}</nuxt-link>
       &nbsp; · &nbsp; {{ article.content | timeRead }}
     </span>
     <p class="text-body">{{ article.excerpt }}</p>
