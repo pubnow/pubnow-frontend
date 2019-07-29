@@ -53,23 +53,23 @@ export default {
     .title {
       font-size: $unit * 1.7;
       line-height: $unit * 2;
-      color: $n40;
+      color: $n20;
       font-family: $ale;
       font-weight: 700;
       transition: color 0.25s ease-in-out;
       display: block;
       &:hover {
         text-decoration: none;
-        color: $n20;
+        color: $n10;
       }
     }
     .more {
       font-size: $unit / 1.4;
-      color: $n50;
+      color: $n40;
     }
     .description {
       max-width: 550px;
-      color: $n40;
+      color: $n30;
       font-family: $noto;
     }
   }

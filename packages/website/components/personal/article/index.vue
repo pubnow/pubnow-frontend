@@ -48,17 +48,17 @@ export default {
 
 .article {
   .link {
+    margin-bottom: $unit / 2;
     &:hover {
       text-decoration: none !important;
     }
     .title {
       font-size: $unit * 1.1;
-      line-height: $unit * 2;
       color: $b500;
       font-family: $ale;
       font-weight: 700;
       letter-spacing: 0.5px;
-      margin-top: $unit / 4;
+      margin-top: $unit / 2;
     }
     .placeholder-image {
       min-height: 180px;
@@ -99,8 +99,8 @@ export default {
     object-fit: cover;
   }
   .text-body {
-    font-family: $noto;
     font-size: 16px;
+    font-weight: 300;
     line-height: 1.5;
     word-break: break-word;
     color: $n500 !important;
