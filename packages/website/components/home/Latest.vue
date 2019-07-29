@@ -2,20 +2,16 @@
   <div class="latest">
     <HeadingText>Mới nhất</HeadingText>
     <div class="mt-4">
-      <article class="article mb-5" v-for="(article, index) in articles" :key="article.id">
+      <article class="article mb-5" v-for="article in articles" :key="article.id">
         <div class="article-post flex-grow-1">
-          <div class="text-dec">
-            <nuxt-link :to="`/bai-viet/${article.slug}`" class="overflow-hidden w-100">
-              <h2 class="title">{{ article.title }}</h2>
-            </nuxt-link>
-            <a href="#" class="w-100">
-              <div class="mt-1 description">{{article.excerpt}}</div>
-            </a>
-          </div>
+          <nuxt-link :to="`/bai-viet/${article.slug}`" class="text-dec">
+            <h2 class="title">{{ article.title }}</h2>
+            <div class="mt-1 description">{{article.excerpt}}</div>
+          </nuxt-link>
           <div class="mt-2">
-            <nuxt-link to="/nguoi-dung/dacsang97">{{ article.author.name }}</nuxt-link>
+            <nuxt-link :to="`/nguoi-dung/${article.author.username}`">{{ article.author.name }}</nuxt-link>
             <span class="ml-1">tại</span>
-            <nuxt-link to="/danh-muc/quan-diem-tranh-luan">{{ article.category.name }}</nuxt-link>
+            <nuxt-link :to="`/danh-muc/${article.category.slug}`">{{ article.category.name }}</nuxt-link>
             <div class="mt-1">
               <span class="d-inline-block">{{ article.updatedAt | formatDate }}</span>
               <span>.</span>
@@ -27,11 +23,11 @@
           </div>
         </div>
         <div class="article-image">
-          <a
-            href="#"
+          <nuxt-link
+            :to="`/bai-viet/${article.slug}`"
             class="d-block background-cover w-100 h-100"
             v-bind:style="{ backgroundImage: `url(${article.thumbnail})` }"
-          ></a>
+          ></nuxt-link>
         </div>
       </article>
     </div>
@@ -58,36 +54,35 @@ export default {
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_fonts.scss';
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_mixins.scss';
 
 .latest {
   .article {
     display: flex;
-    -webkit-box-align: stretch;
     align-items: stretch;
-    -webkit-box-flex: 1;
     flex: 1 1 auto;
     width: 100%;
 
     .text-dec {
-      a {
-        .title {
-          font-family: $ale !important;
-          font-size: 1.3rem;
-          font-weight: 700;
-          color: $n800;
-        }
-        .description {
-          color: $n100;
-          font-weight: 300;
-          font-size: 1rem;
-        }
-        :hover {
-          text-decoration: none !important;
-        }
+      .title {
+        font-family: $ale !important;
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: $n800;
+        letter-spacing: 0.5px;
+      }
+      .description {
+        color: $n100;
+        font-weight: 300;
+        font-size: 1rem;
+      }
+      :hover {
+        text-decoration: none !important;
       }
     }
     .article-image {
       min-width: 152px;
+      @include border;
     }
     .background-cover {
       background-position: 50% 50% !important;

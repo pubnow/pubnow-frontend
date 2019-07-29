@@ -23,7 +23,17 @@ export default {
       {
         rel: 'stylesheet',
         href:
+          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,900&display=swap&subset=vietnamese',
+      },
+      {
+        rel: 'stylesheet',
+        href:
           'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700&display=swap&subset=vietnamese',
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700,700i&display=swap&subset=vietnamese',
       },
     ],
   },

@@ -15,15 +15,14 @@
                 <nuxt-link :to="`/bai-viet/${article.slug}`">{{ article.title }}</nuxt-link>
               </h3>
               <a v-if="index===0" href="#" class="description">{{ article.excerpt }}</a>
-              <div class="author">
-                <a href="#" class="avatar">
-                  <img
-                    :src="article.author.avatar ? article.author.avatar : 'https://bulma.io/images/placeholders/128x128.png'"
-                    alt
-                  />
-                </a>
-                <a href="#" class="username">{{ article.author.name }}</a>
-              </div>
+              <nuxt-link :to="`/nguoi-dung/${article.author.username}`" class="author">
+                <img
+                  class="avatar"
+                  :src="article.author.avatar ? article.author.avatar : 'https://bulma.io/images/placeholders/128x128.png'"
+                  alt
+                />
+                <span class="username">{{ article.author.name }}</span>
+              </nuxt-link>
             </div>
           </div>
         </li>
@@ -113,24 +112,22 @@ export default {
             .author {
               font-size: 13px;
               line-height: 15px;
-              padding: 15px 0 15px 46px;
+              margin-bottom: 15px;
+              &:hover {
+                text-decoration: none !important;
+                .username {
+                  color: $n100;
+                }
+              }
               .avatar {
                 height: 36px;
                 width: 36px;
-                overflow: hidden;
-                float: left;
-                text-align: center;
                 border-radius: 50%;
-                margin-left: -46px;
-                margin-top: -10px;
-                & img {
-                  max-width: 100%;
-                  max-height: 100%;
-                  border-radius: 50%;
-                }
+                object-fit: cover;
+                margin-right: 5px;
               }
               .username {
-                color: #99a3ad;
+                color: $n70;
                 cursor: pointer;
                 font-size: 13px;
               }
