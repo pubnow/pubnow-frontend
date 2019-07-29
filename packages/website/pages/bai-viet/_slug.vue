@@ -21,7 +21,7 @@
             :description="article.category.description"
           />
           <hr />
-          <comment :comments="article.comments" :commentNum="commentNum" :articleID="article.id" />
+          <comment :comments="comment" :commentNum="commentNum" :articleID="article.id" />
         </no-ssr>
       </b-col>
     </b-row>
@@ -45,13 +45,17 @@ export default {
   computed: {
     ...mapGetters({
       article: 'article/article',
+      comment: 'comment/comment',
     }),
   },
   mounted() {
-    this.numComment(this.article.comments)
+    this.numComment(this.comment)
   },
   fetch({ store, params: { slug } }) {
-    return store.dispatch('article/show', slug)
+    return Promise.all([
+      store.dispatch('article/show', slug),
+      store.dispatch('comment/show', slug),
+    ])
   },
   head() {
     return {

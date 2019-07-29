@@ -19,15 +19,15 @@
         <nuxt-link to="#" class="ml-4 tab active">Mới nhất</nuxt-link>
       </div>
       <no-ssr>
-        <div v-for="(comment, index) in getDataComment" :key="index">
-          <view-comment
-            :userID="comment.user_id"
-            :parentID="comment.id"
-            :articleID="articleID"
-            :content="comment.content"
-            :commentChild="comment.childs"
-          />
-        </div>
+        <view-comment
+          v-for="comment in dataComment"
+          :key="comment.id"
+          :userInfo="comment.user"
+          :parentID="comment.id"
+          :articleID="comment.article.id"
+          :content="comment.content"
+          :commentChild="comment.childs"
+        />
       </no-ssr>
     </div>
   </div>
@@ -54,10 +54,8 @@ export default {
   data() {
     return {
       commentInput: '',
+      dataComment: [],
     }
-  },
-  mounted() {
-    this.$store.dispatch('comment/setDataComment', this.comments)
   },
   components: {
     ViewComment,
@@ -65,12 +63,12 @@ export default {
   computed: {
     ...mapGetters({
       user: 'auth/user',
-      arrChildComment: 'comment/dataComment',
+      arrChildComment: 'comment/comment',
+      arrChildComments: 'comment/dataComment',
     }),
-    getDataComment() {
-      let arr = this.arrChildComment
-      return [...arr.slice().reverse()]
-    },
+  },
+  mounted() {
+    this.dataComment = this.arrChildComment
   },
   methods: {
     sendComment() {
@@ -79,7 +77,11 @@ export default {
         content: this.commentInput,
       }
       this.commentInput = ''
-      this.$store.dispatch('comment/create', data)
+      this.$store.dispatch('comment/create', data).then(() => {
+        let arr = this.dataComment
+        this.dataComment = [this.arrChildComments, ...arr]
+        console.log('childComment', this.dataComment)
+      })
     },
   },
 }

@@ -5,16 +5,16 @@
         <div class="d-flex justify-content-between">
           <div class="d-flex">
             <img
-              src="https://avatars2.githubusercontent.com/u/81233322?s=88&v=4"
+              :src="userInfo.avatar !== '' ? userInfo.avatar : 'https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/46d51270acd511e780947533eda1440e.jpg'"
               alt="avatar"
               class="avatar mr-2"
             />
             <div>
-              <nuxt-link to="#" class="fullname">Nguyễn Phú Trọng</nuxt-link>
+              <nuxt-link to="#" class="fullname">{{userInfo.name}}</nuxt-link>
               <p class="mt-0 small">2 phút trước</p>
             </div>
           </div>
-          <div class="d-flex align-items-center report" v-if="userID !== uID">
+          <div class="d-flex align-items-center report" v-if="userInfo.id !== uID">
             <va-button class="ml-2 button" type="subtle-link" size="xs">Lưu</va-button>
             <va-button class="ml-2 button" type="subtle-link" size="xs">Báo cáo</va-button>
             <va-button
@@ -31,7 +31,7 @@
                 class="ml-2 button"
                 type="subtle-link"
                 size="xs"
-                @click="editComment(edited ? tempEdit : content)"
+                @click="editComment(commentText)"
               >Sửa</va-button>
               <va-button
                 class="ml-2 button"
@@ -46,7 +46,7 @@
         <div v-if="type === 'Gửi'">
           <div>
             <div v-if="!deleted">
-              <p>{{ edited ? tempEdit : content }}</p>
+              <p>{{ commentText }}</p>
               <div @click="replyComment" class="reply">Trả lời</div>
             </div>
             <p v-else>Đã xóa</p>
@@ -63,7 +63,7 @@
         </div>
         <!-- edit comment -->
         <div v-else>
-          <div v-if="!updateComment">
+          <div v-if="!edit">
             <div v-if="!deleted">
               <p>{{ editCommentInput }}</p>
               <div @click="replyComment" class="reply">Trả lời</div>
@@ -84,12 +84,12 @@
     </div>
     <div v-if="show">
       <child
-        v-for="(child, index) in childComment"
-        :key="index"
+        v-for="child in childComment"
+        :key="child.id"
         class="ml-5"
-        :userID="child.user_id"
+        :userInfo="child.user"
         :parentID="child.id"
-        :articleID="articleID"
+        :articleID="child.article.id"
         :content="child.content"
         :commentChild="child.childs"
       />
@@ -102,8 +102,8 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'child',
   props: {
-    userID: {
-      type: String,
+    userInfo: {
+      type: Object,
     },
     parentID: {
       type: String,
@@ -132,22 +132,21 @@ export default {
       edit: false,
       replyCommentInput: '',
       editCommentInput: '',
-      tempEdit: '',
+      commentText: '',
       childComment: [],
-      type: 'Gửi',
+      type: '',
       show: true,
       deleted: false,
-      updateComment: false,
-      edited: false,
       uID: -1,
     }
   },
   mounted() {
     let arr = this.commentChild
-    this.editCommentInput = this.content
     if (this.user) {
       this.uID = this.user.id
     }
+    this.commentText = this.content
+    this.editCommentInput = this.content
     this.childComment = [...arr.slice().reverse()]
   },
   methods: {
@@ -156,20 +155,6 @@ export default {
       this.replyCommentInput = ''
       this.type = 'Gửi'
     },
-    showComment() {
-      this.show = !this.show
-    },
-    editComment(value) {
-      this.edit = !this.edit
-      this.type = 'Sửa'
-      this.editCommentInput = value
-      this.tempEdit = value
-      this.updateComment = !this.updateComment
-    },
-    deleteComment(id) {
-      this.deleted = true
-      this.$store.dispatch('comment/delete', id)
-    },
     sendReplyComment() {
       this.reply = !this.reply
       const data = {
@@ -177,7 +162,16 @@ export default {
         content: this.replyCommentInput,
         parent_id: this.parentID,
       }
-      this.$store.dispatch('comment/create', data)
+      this.$store.dispatch('comment/create', data).then(() => {
+        let arr = this.childComment
+        this.childComment = [this.arrChildComments, ...arr]
+        console.log('childComment', this.childComment)
+      })
+    },
+    editComment(value) {
+      this.edit = !this.edit
+      this.type = 'Sửa'
+      this.editCommentInput = value
     },
     sendEditComment(id) {
       this.edit = !this.edit
@@ -185,11 +179,15 @@ export default {
         id,
         content: this.editCommentInput,
       }
-      console.log('sendEdit', this.editCommentInput)
-      this.tempEdit = this.editCommentInput
-      this.edited = !this.edited
-      this.updateComment = false
+      this.commentText = this.editCommentInput
       this.$store.dispatch('comment/update', updateData)
+    },
+    showComment() {
+      this.show = !this.show
+    },
+    deleteComment(id) {
+      this.deleted = true
+      this.$store.dispatch('comment/delete', id)
     },
   },
 }
