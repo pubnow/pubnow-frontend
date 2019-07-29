@@ -35,3 +35,8 @@ body {
     font-family: $noto !important;
   }
 }
+
+// Dropdown
+.va-dropdown-con .va-dropdown-menu {
+  max-height: unset !important;
+}
