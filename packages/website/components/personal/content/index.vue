@@ -1,19 +1,10 @@
 <template>
   <div class="container">
-    <va-row :gutter="30">
-      <va-column :xs="12" :sm="6" :md="4" v-for="(article, index) in articles" :key="index">
-        <the-article
-          :image="article.thumbnail"
-          :category="article.category.name"
-          :title="article.title"
-          :date="article.updatedAt"
-          :content="article.content"
-          :description="article.excerpt"
-          :clap="article.claps"
-          :comment="article.comments.length"
-        />
-      </va-column>
-    </va-row>
+    <b-row>
+      <b-col :xs="12" :sm="6" :md="4" v-for="(article, index) in articles" :key="index">
+        <TheArticle :article="article" />
+      </b-col>
+    </b-row>
   </div>
 </template>
 

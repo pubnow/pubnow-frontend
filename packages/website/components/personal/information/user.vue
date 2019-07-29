@@ -1,43 +1,45 @@
 <template>
-  <div class="infor-auth text-center">
-    <p class="text-body font-weight-bold mt-0">About me</p>
-    <img
-      :src="user.avatar ? user.avatar : 'https://bulma.io/images/placeholders/256x256.png'"
-      alt="avatar"
-      class="avatar mt-3"
-    />
-    <p class="text-dark">{{ user.name }}</p>
-    <p class="mt-0 small">@{{ user.username }}</p>
-    <p>{{ user.bio }}</p>
-    <hr class="bg-dark" />
-    <div class="network d-flex justify-content-between mx-4">
+  <div class="infor-auth text-center" v-if="user">
+    <img :src="avatarUrl" alt="avatar" class="avatar mt-2" />
+    <h2 class="mt-3 name">{{ user.name }}</h2>
+    <p class="mt-0 username">@{{ user.username }}</p>
+    <p class="bio" v-if="user.bio">{{ user.bio }}</p>
+    <div class="network d-flex justify-content-between">
       <div v-for="(item, index) in demo.network" :key="index">
         <p class="number">{{ item.number }}</p>
-        <p class="small">{{ item.name }}</p>
+        <p class="type">{{ item.name }}</p>
       </div>
     </div>
-    <va-button type="subtle mt-4">Theo dõi</va-button>
+    <no-ssr>
+      <va-button active>Theo dõi</va-button>
+    </no-ssr>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import get from 'lodash.get'
+
 export default {
   data() {
     return {
       demo: {
         network: [
-          { name: 'followers', number: '6611' },
-          { name: 'following', number: 12 },
-          { name: 'spiders', number: 8404 },
+          { name: 'Lượt theo dõi', number: 20 },
+          { name: 'bài viết', number: 15 },
         ],
       },
     }
   },
   computed: {
     ...mapGetters({
-      user: 'auth/user',
+      user: 'user/author',
     }),
+    avatarUrl() {
+      const avatar = get(this, 'user.avatar')
+      if (avatar) return avatar
+      return 'https://bulma.io/images/placeholders/256x256.png'
+    },
   },
 }
 </script>
@@ -47,7 +49,7 @@ export default {
 @import '@pubnow/ui/scss/_mixins.scss';
 @import '@pubnow/ui/scss/_sizes.scss';
 
-$size-image: 60px;
+$size-image: 100px;
 
 .title {
   font-size: $unit * 1.1;
@@ -57,17 +59,44 @@ $size-image: 60px;
 .infor-auth {
   @include box-shadow;
   @include radius-sm;
-  background: $gray94;
-  border: 1px solid $gray85;
+  @include border;
   padding: $unit;
+  .name {
+    color: $b500;
+  }
+  .username {
+    color: $n200;
+    font-size: 16px;
+  }
+  .bio {
+    margin-bottom: $unit / 2;
+    border: 1px dashed $n50;
+    padding: 5px;
+  }
+  .network {
+    border-top: 2px solid $n30;
+    border-bottom: 2px solid $n30;
+    padding-top: $unit;
+    padding-bottom: $unit;
+    margin-bottom: $unit;
+    margin-top: $unit;
+
+    .number {
+      color: $b500;
+      font-size: $unit * 1.5;
+      user-select: none;
+    }
+    .type {
+      color: $n100;
+      text-transform: uppercase;
+      user-select: none;
+    }
+  }
   .avatar {
     width: $size-image;
     height: $size-image;
     border-radius: $size-image / 2;
-  }
-  .number {
-    color: $primary;
-    font-size: $unit * 1.5;
+    object-fit: cover;
   }
 }
 </style>
