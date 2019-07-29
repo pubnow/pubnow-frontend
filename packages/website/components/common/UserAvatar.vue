@@ -24,6 +24,9 @@
         <nuxt-link to="/cai-dat/to-chuc">Quản lý tổ chức</nuxt-link>
       </li>
       <li>
+        <nuxt-link to="/bookmark">Danh sách Bookmark</nuxt-link>
+      </li>
+      <li>
         <nuxt-link to="/danh-sach-theo-doi">Danh sách theo dõi</nuxt-link>
       </li>
       <hr />
