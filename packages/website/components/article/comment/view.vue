@@ -33,15 +33,19 @@
                 size="xs"
                 @click="editComment(commentText)"
               >Sửa</va-button>
-              <va-button
-                class="ml-2 button"
-                type="subtle-link"
-                size="xs"
-                @click="deleteComment(parentID)"
-              >Xóa</va-button>
+              <va-button class="ml-2 button" type="subtle-link" size="xs" @click="showModal">Xóa</va-button>
             </div>
           </div>
         </div>
+        <va-modal title="Xác nhận" :backdrop-clickable="backdropClickable" ref="modal">
+          <div slot="body">Bạn có chắc chắn muốn xóa bình luận này không?</div>
+          <div slot="footer">
+            <div>
+              <va-button @click="$refs.modal.close()">Hủy</va-button>
+              <va-button type="primary" @click="deleteComment(parentID)">Đồng ý</va-button>
+            </div>
+          </div>
+        </va-modal>
         <!-- reply comment -->
         <div v-if="type === 'Gửi'">
           <div>
@@ -133,6 +137,7 @@ export default {
       replyCommentInput: '',
       editCommentInput: '',
       commentText: '',
+      backdropClickable: true,
       childComment: [],
       type: '',
       show: true,
@@ -188,6 +193,10 @@ export default {
     deleteComment(id) {
       this.deleted = true
       this.$store.dispatch('comment/delete', id)
+      this.$refs.modal.close()
+    },
+    showModal() {
+      this.$refs.modal.open()
     },
   },
 }
