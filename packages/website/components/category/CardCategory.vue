@@ -1,13 +1,11 @@
 <template>
   <div class="cover" v-bind:style="{ backgroundImage: 'url(' + image + ')' }">
-     <div class="meta">
-       <div class="title">
-        {{title}}
-       </div>
-     </div>
-     <va-button class="action-button btn btn-default btn-round btn-follow">
-         Theo dõi
-     </va-button >
+    <div class="meta">
+      <div class="title">{{title}}</div>
+    </div>
+    <no-ssr>
+      <va-button class="action-button btn btn-default btn-round btn-follow">Theo dõi</va-button>
+    </no-ssr>
   </div>
 </template>
 <script>

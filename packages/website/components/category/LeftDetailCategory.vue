@@ -4,56 +4,45 @@
       <li class="feed-post">
         <div class="inner">
           <div class="author">
-            <div class="avatar">
-              <a href="#">
-                <img
-                  src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/2284cd70739911e9bc561189dd157642.jpg"
-                  alt
-                />
-              </a>
-            </div>
-            <div>
-              <span class="hover-username">
-                <a href="#" class="name">Ma kết</a>
-              </span>
-              trong
-              <a class="category-name">Quan điểm-tranh luận</a>
-            </div>
-            <div class="created">
-              <span class="date">hôm qua</span>
+            <img
+              :src="article.author.avatar"
+              class="avatar"
+              v-if="article.author.avatar !== ''"
+              alt
+            />
+            <img v-else class="avatar" src="https://cdn.head-fi.org/g/2283245_l.jpg" alt />
+            <div class="d-flex flex-column justify-content-center">
+              <div>
+                <span class="hover-username">
+                  <a href="#" class="name">{{article.author.name}}</a>
+                </span>
+                trong
+                <a class="category-name">{{categoryName}}</a>
+              </div>
+              <div class="created">
+                <span class="date">{{article.updatedAt | formatDate}}</span>
+              </div>
             </div>
           </div>
-          <div class="image">
-            <a href="#">
+          <nuxt-link :to="`/bai-viet/${article.slug}`" class="link-article">
+            <div class="image">
               <img
                 class="img-fluid w-100"
-                src="https://images.unsplash.com/photo-1563557588-1075d53350e0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=659&q=80"
+                v-if="article.thumbnail !== ''"
+                :src="article.thumbnail"
                 alt
               />
-            </a>
-          </div>
-          <h3 class="title">
-            <a href="#">Thị trường tuyển dụng hiện nay – Ngành nào “an toàn” nhất?</a>
-          </h3>
-          <p class="content">
-            <a
-              href="#"
-              class="body"
-            >Hằng ngày, trên trang chia sẻ của các trường đại học, chúng ta vẫn thường đọc được những confession tâm sự về chuyện học – chuyện nghề của các bạn...</a>
-          </p>
-          <div class="tags">
-            <ul class="list-unstyled">
+              <div v-else class="no-thumbnail h-100 d-flex justify-content-center">
+                <img class="thumbnail-logo" src="@/assets/images/logo.svg" alt />
+              </div>
+            </div>
+            <h3 class="title">{{article.title}}</h3>
+            <p class="content">{{article.excerpt}}</p>
+          </nuxt-link>
+          <div class="tags" v-if="article.tags.length > 0">
+            <ul class="list-unstyled" v-for="(tag, id) in article.tags" :key="id">
               <li>
-                <a href>thị trường</a>
-              </li>
-              <li>
-                <a href>thị trường</a>
-              </li>
-              <li>
-                <a href>thị trường</a>
-              </li>
-              <li>
-                <a href>thị trường</a>
+                <a href>{{tag.name}}</a>
               </li>
             </ul>
           </div>
@@ -63,7 +52,7 @@
                 <span class="icon">
                   <img :src="require('@/assets/images/icons/clap.svg')" alt="clap icon" />
                 </span>
-                <a>5k</a>
+                <a>{{article.claps}}</a>
               </div>
             </div>
             <div class="pull-right">
@@ -71,7 +60,7 @@
                 <span class="icon">
                   <img :src="require('@/assets/images/icons/comment.svg')" alt="clap icon" />
                 </span>
-                <span class="text">622</span>
+                <span class="text">{{article.comments_count}}</span>
               </span>
               <a href="#" class="comment">
                 <span class="icon">
@@ -85,14 +74,31 @@
     </ul>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    article: {
+      type: Object,
+    },
+    categoryName: {
+      type: String,
+    },
+  },
+}
+</script>
+
+
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_mixins.scss';
 @import '@pubnow/ui/scss/_fonts.scss';
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_sizes.scss';
 
 .left-content {
   .feed-list {
     padding-left: 0;
+    list-style-type: none;
     .feed-post {
       margin-bottom: 10px;
       .inner {
@@ -105,57 +111,58 @@
           font-size: 13px;
           line-height: 15px;
           color: #99a3ad;
-          padding: 5px 0 5px 46px;
+          display: flex;
           .avatar {
             height: 36px;
             width: 36px;
-            overflow: hidden;
-            float: left;
-            text-align: center;
             border-radius: 50%;
-            margin-left: -46px;
-            .category-name {
-              color: #2c3e50 !important;
-            }
-            &li {
-              list-style: none;
-            }
-            &img {
-              max-width: 100%;
-              max-height: 100%;
-              border-radius: 50%;
-            }
+            margin-right: $unit / 4;
+            object-fit: cover;
+          }
+
+          .category-name {
+            color: #2c3e50 !important;
           }
         }
-        .image {
-          margin-top: 15px;
-          overflow: hidden;
-          display: block;
-          width: 100%;
-          height: 200px;
-          position: relative;
-          overflow: hidden;
-        }
-        .title {
-          margin: 15px 0 0;
-          word-break: break-word;
-          & a {
-            color: #2c3e50;
-            font-family: $ale;
-            font-size: 24px !important;
-            font-weight: bold;
-            line-height: 30px;
-            display: block;
+        .link-article {
+          &:hover {
+            text-decoration: none;
+            color: #505e77;
           }
-        }
-        .content {
-          .body {
+          .image {
+            margin-top: 15px;
+            overflow: hidden;
             display: block;
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            .no-thumbnail {
+              background-color: rgba(0, 0, 0, 0.05);
+            }
+          }
+          .title {
+            margin: 15px 0 0;
             word-break: break-word;
-            color: inherit;
-            font-family: $noto;
-            font-size: 16px;
-            color: #34495e !important;
+            & a {
+              color: #2c3e50;
+              font-family: $ale;
+              font-size: 24px !important;
+              font-weight: bold;
+              line-height: 30px;
+              display: block;
+            }
+          }
+          .content {
+            color: #505e77;
+            .body {
+              display: block;
+              word-break: break-word;
+              color: inherit;
+              font-family: $noto;
+              font-size: 16px;
+              color: #34495e !important;
+            }
           }
         }
         .tags {
