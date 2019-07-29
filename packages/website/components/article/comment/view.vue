@@ -11,7 +11,7 @@
             />
             <div>
               <nuxt-link to="#" class="fullname">{{userInfo.name}}</nuxt-link>
-              <p class="mt-0 small">2 phút trước</p>
+              <p class="mt-0 small">{{time}}</p>
             </div>
           </div>
           <div class="d-flex align-items-center report" v-if="userInfo.id !== uID">
@@ -96,6 +96,7 @@
         :articleID="child.article.id"
         :content="child.content"
         :commentChild="child.childs"
+        :time="child.publishedAt"
       />
     </div>
   </div>
@@ -122,6 +123,10 @@ export default {
     },
     commentChild: {
       type: Array,
+    },
+    time: {
+      type: String,
+      required: true,
     },
   },
   computed: {

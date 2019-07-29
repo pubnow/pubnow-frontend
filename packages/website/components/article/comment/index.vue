@@ -27,6 +27,7 @@
           :articleID="comment.article.id"
           :content="comment.content"
           :commentChild="comment.childs"
+          :time="comment.publishedAt"
         />
       </no-ssr>
     </div>
