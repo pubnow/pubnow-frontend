@@ -16,12 +16,14 @@
               </h3>
               <a v-if="index===0" href="#" class="description">{{ article.excerpt }}</a>
               <div class="author d-flex flex-row align-items-center mb-2">
-                <img
-                  class="avatar"
-                  :src="article.author.avatar ? article.author.avatar : 'https://bulma.io/images/placeholders/128x128.png'"
-                  alt
-                />
-                <a href="#" class="username">{{ article.author.name }}</a>
+                <nuxt-link :to="`/nguoi-dung/${article.author.username}`">
+                  <img
+                    class="avatar"
+                    :src="article.author.avatar ? article.author.avatar : 'https://bulma.io/images/placeholders/128x128.png'"
+                    alt
+                  />
+                  <span class="username">{{ article.author.name }}</span>
+                </nuxt-link>
               </div>
             </div>
           </div>
@@ -114,6 +116,13 @@ export default {
               line-height: 15px;
               color: #99a3ad;
               display: flex;
+              margin-bottom: 15px;
+              &:hover {
+                text-decoration: none !important;
+                .username {
+                  color: $n100;
+                }
+              }
               .avatar {
                 height: 36px;
                 width: 36px;
@@ -122,7 +131,7 @@ export default {
                 object-fit: cover;
               }
               .username {
-                color: #99a3ad;
+                color: $n70;
                 cursor: pointer;
                 font-size: 13px;
               }

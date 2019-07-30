@@ -23,7 +23,17 @@ export default {
       {
         rel: 'stylesheet',
         href:
+          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,900&display=swap&subset=vietnamese',
+      },
+      {
+        rel: 'stylesheet',
+        href:
           'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700&display=swap&subset=vietnamese',
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700,700i&display=swap&subset=vietnamese',
       },
     ],
   },
@@ -39,17 +49,21 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@/assets/scss/main.scss'],
+  css: [
+    '@/assets/scss/main.scss',
+    '@pubnow/ui/scss/pubnow-ui.scss',
+    '@egoist/snackbar/dist/snackbar.css',
+  ],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
     {
-      src: '~/plugins/pubnow-ui',
+      src: '~/plugins/vue-atlas',
       ssr: false,
     },
     {
-      src: '~/plugins/vue-atlas',
+      src: '~/plugins/vuelidate',
       ssr: false,
     },
     '~/plugins/http',
@@ -63,6 +77,7 @@ export default {
     '@nuxt/http',
     'vue-wait/nuxt',
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
+    '~/modules/froala',
   ],
   http: {},
   wait: { useVuex: true },
