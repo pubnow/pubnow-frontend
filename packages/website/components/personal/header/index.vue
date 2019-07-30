@@ -9,7 +9,7 @@
       <span
         class="more"
       >{{ article.updatedAt | formatDate }} &nbsp; · &nbsp; {{ article.content | timeRead }}</span>
-      <p class="description">{{ article.excerpt }}</p>
+      <p class="description">{{ article.excerpt | unescape }}</p>
     </div>
   </div>
 </template>
