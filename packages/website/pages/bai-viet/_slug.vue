@@ -47,8 +47,14 @@ export default {
       article: 'article/article',
     }),
   },
-  fetch({ store, params: { slug } }) {
-    return store.dispatch('article/show', slug)
+  async fetch({ store, params: { slug }, error }) {
+    const article = await store.dispatch('article/show', slug)
+    if (!article) {
+      error({
+        statusCode: 404,
+        message: 'Bài viết không tồn tài',
+      })
+    }
   },
   head() {
     return {
