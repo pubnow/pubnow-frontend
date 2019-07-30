@@ -11,7 +11,7 @@
                 <div class="flex-grow-1 ml-2">
                   <div>
                     <nuxt-link
-                      to="/bai-viet/thanh-xuan-nhu-1-ly-tra"
+                      :to="`/bai-viet/${article.slug}`"
                       class="overflow-hidden flex-grow-0 w-100"
                     >
                       <h2 class="title mb-0">{{ article.title }}</h2>
