@@ -43,17 +43,47 @@
         <va-button
           @click="editBtn"
           active
-          class="mr-auto"
+          class="mr-2"
           :icon-before="editable ? 'chevron-left' : 'edit'"
-        >{{ editable ? 'Hủy bỏ' : 'Chỉnh sửa'}}</va-button>
+          >{{ editable ? 'Hủy bỏ' : 'Chỉnh sửa' }}</va-button
+        >
+
+        <va-button
+          icon-before="trash"
+          class="mr-auto"
+          type="danger"
+          @click="deleteUser()"
+          >Xóa</va-button
+        >
+
         <va-button
           :active="!canUpdate"
           :disabled="!canUpdate"
           @click="update"
           icon-after="check"
           type="primary"
-        >Cập nhật</va-button>
+          >Cập nhật</va-button
+        >
       </div>
+      <b-modal
+        centered
+        hide-header
+        hide-backdrop
+        hide-footer
+        v-model="modalShow"
+      >
+        <div>
+          <div class="text-center">Bạn có muốn xóa user {{ user.name }}</div>
+          <div class="delete-user text-center">
+            <va-button class="not-delete" @click="modalShow = !modalShow"
+              >Không</va-button
+            >
+            <va-button class="btn-delete" type="danger" @click="delUser"
+              >Xóa</va-button
+            >
+          </div>
+        </div>
+      </b-modal>
     </b-form>
   </div>
 </template>
@@ -69,6 +99,7 @@ export default {
   },
   data() {
     return {
+      modalShow: false,
       editable: false,
       role: '',
       name: '',
@@ -104,6 +135,9 @@ export default {
       this.name = this.user.name
       this.role = this.user.role ? this.user.role.name : 'member'
     },
+    deleteUser() {
+      this.modalShow = !this.modalShow
+    },
     editBtn() {
       if (this.editable) {
         this.close()
@@ -136,6 +170,10 @@ export default {
       })
       this.$router.go()
     },
+    async delUser() {
+      await this.$store.dispatch('user/delUser', this.user.username)
+      this.$router.go()
+    },
   },
 }
 </script>
@@ -145,7 +183,7 @@ export default {
   margin-left: auto;
   margin-right: auto;
 }
-.delete-category {
+.delete-user {
   margin-top: 30px;
   .btn-delete {
     margin-right: 10px;

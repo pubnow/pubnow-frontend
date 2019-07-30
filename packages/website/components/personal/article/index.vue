@@ -1,59 +1,42 @@
 <template>
-  <div class="d-flex flex-column mb-4">
-    <img :src="image" alt="hot post" class="image" />
-    <nuxt-link to="#" class="text-uppercase mt-2">{{ category }}</nuxt-link>
-    <h2 class="title mb-0">
-      <nuxt-link to="#">{{ title }}</nuxt-link>
-    </h2>
-    <span class="small">{{ date }} &nbsp; · &nbsp; {{ time }}</span>
-    <p class="text-body">{{ description }}</p>
+  <div class="d-flex flex-column mb-4 article">
+    <nuxt-link class="link" :to="`/bai-viet/${article.slug}`">
+      <img v-if="article.thumbnail" :src="article.thumbnail" alt="hot post" class="image" />
+      <div class="placeholder-image" v-else>
+        <img src="@/assets/images/logo.svg" />
+      </div>
+      <h2 class="title mb-0">{{ article.title }}</h2>
+    </nuxt-link>
+    <span class="additional">
+      Đăng {{ article.publishedAt }} trong
+      <nuxt-link
+        :to="`/danh-muc/${article.category.slug}`"
+        class="text-uppercase mt-2"
+      >{{ article.category.name }}</nuxt-link>
+      &nbsp; · &nbsp; {{ article.content | timeRead }}
+    </span>
+    <p class="text-body">{{ article.excerpt }}</p>
     <div class="d-flex justify-content-between mt-4">
       <div>
-        <img :src="require('@/assets/images/icons/clap.svg')" alt="clap icon" />
-        <span class="clap">{{ clap }}</span>
+        <img src="@/assets/images/icons/clap.svg" alt="clap icon" />
+        <span class="clap">{{ article.claps }}</span>
       </div>
       <div class="d-flex wrap-right">
-        <nuxt-link to="#" class="link">{{ comment }} Bình luận</nuxt-link>
+        <nuxt-link to="#" class="link">Bình luận</nuxt-link>
         <nuxt-link class="mx-3 link" to="#">Chia sẻ</nuxt-link>
-        <img :src="require('@/assets/images/icons/bookmark.svg')" alt="bookmark icon" />
+        <img src="@/assets/images/icons/bookmark.svg" alt="bookmark icon" />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import get from 'lodash.get'
+
 export default {
   props: {
-    image: {
-      type: String,
-      required: true,
-    },
-    category: {
-      type: String,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: String,
-      required: true,
-    },
-    time: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    clap: {
-      type: Number,
-      required: true,
-    },
-    comment: {
-      type: Number,
+    article: {
+      type: Object,
       required: true,
     },
   },
@@ -63,26 +46,67 @@ export default {
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_sizes.scss';
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
+@import '@pubnow/ui/scss/_mixins.scss';
 
-.title {
-  font-size: $unit * 1.1;
-  line-height: $unit * 2;
-}
-
-.clap {
-  color: $text;
-  font-size: $unit * 0.75;
-  vertical-align: bottom;
-}
-
-.wrap-right {
-  line-height: 25px;
+.article {
   .link {
-    color: $text !important;
+    margin-bottom: $unit / 2;
+    &:hover {
+      text-decoration: none !important;
+    }
+    .title {
+      font-size: $unit * 1.1;
+      color: $b500;
+      font-family: $ale;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-top: $unit / 2;
+    }
+    .placeholder-image {
+      min-height: 180px;
+      background: $n20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      @include radius-md;
+    }
   }
-}
 
-.image {
-  width: 100%;
+  .additional {
+    color: $n200;
+    a {
+      color: $n500;
+      font-weight: 600;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  .clap {
+    color: $text;
+    font-size: $unit * 0.75;
+    vertical-align: bottom;
+  }
+
+  .wrap-right {
+    line-height: 25px;
+    .link {
+      color: $text !important;
+    }
+  }
+
+  .image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+  }
+  .text-body {
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.5;
+    word-break: break-word;
+    color: $n500 !important;
+  }
 }
 </style>

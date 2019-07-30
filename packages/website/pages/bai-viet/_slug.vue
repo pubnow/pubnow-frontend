@@ -5,7 +5,7 @@
         <author :author="article.author" :time="article.createdAt" :category="article.category" />
         <navbar :clap="article.claps" :commentNum="commentNum" :articleID="article.id" />
         <h1 class="title my-4">{{ article.title }}</h1>
-        <div class="content-article" v-html="article.content"></div>
+        <div class="content-article fr-element fr-view" v-html="article.content"></div>
         <no-ssr>
           <nuxt-link v-for="tag in article.tags" :key="tag.id" :to="`/tag/${tag.slug}`">
             <va-button class="ml-2 button mt-2" size="xs">{{ tag.name }}</va-button>
@@ -89,24 +89,11 @@ export default {
   font-size: 30px;
   font-weight: 700;
 }
-</style>
-
-
-<style lang="scss">
-@import '@pubnow/ui/scss/_sizes.scss';
-@import '@pubnow/ui/scss/_fonts.scss';
 
 .content-article {
-  font-size: 18px;
-  * {
+  color: #111;
+  div {
     font-family: $noto;
-  }
-  p {
-    line-height: $unit * 1.6;
-  }
-  img {
-    max-width: 100%;
   }
 }
 </style>
-

@@ -31,15 +31,11 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@/assets/scss/main.scss'],
+  css: ['@/assets/scss/main.scss', '@pubnow/ui/scss/pubnow-ui.scss'],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
-    {
-      src: '~/plugins/pubnow-ui',
-      ssr: false,
-    },
     {
       src: '~/plugins/vue-atlas',
       ssr: false,

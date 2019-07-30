@@ -2,8 +2,8 @@
   <no-ssr>
     <b-container>
       <b-row>
-        <b-col md="8" offset-md="2">
-          <SimpleArticleEditor />
+        <b-col md="9" class="mx-auto">
+          <HtmlEditor :api="api" />
           <hr />
           <Information />
         </b-col>
@@ -13,8 +13,9 @@
 </template>
 
 <script>
+import { mapGetters, mapMutations } from 'vuex'
 import { Information } from '@/components/article'
-import SimpleArticleEditor from '@/components/editor/SimpleArticle'
+import { HtmlEditor } from '@/components/editor'
 
 export default {
   middleware: ['auth'],
@@ -23,7 +24,10 @@ export default {
   },
   components: {
     Information,
-    SimpleArticleEditor,
+    HtmlEditor,
+  },
+  computed: {
+    ...mapGetters(['api']),
   },
 }
 </script>
