@@ -168,14 +168,4 @@ export default {
     }
   }
 }
-
-.button {
-  height: 30px !important ;
-  padding: 0.25rem 0.5rem !important;
-  font-size: 0.875rem !important;
-  line-height: 1.5 !important;
-  border-radius: 0.2rem !important;
-  font-weight: 300 !important;
-  text-transform: none !important;
-}
 </style>

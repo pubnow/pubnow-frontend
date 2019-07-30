@@ -103,7 +103,6 @@ export default {
   }
   .text-body {
     font-size: 16px;
-    font-weight: 300;
     line-height: 1.5;
     word-break: break-word;
     color: $n500 !important;

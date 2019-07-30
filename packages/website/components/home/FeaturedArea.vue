@@ -194,7 +194,6 @@ export default {
         text-decoration: none;
         line-height: 1.6rem;
         font-size: 1rem;
-        font-weight: 300 !important;
         word-break: break-word;
         color: $n90;
         max-height: 100px;

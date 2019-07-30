@@ -20,9 +20,12 @@
                   <div class="mt-1 colorText">
                     <nuxt-link
                       :to="`/nguoi-dung/${article.author.username}`"
-                      class="author mr-1">{{ article.author.name }}
-                    </nuxt-link>tại
-                    <nuxt-link :to="`/danh-muc/${article.category.slug}`" class="category">{{ article.category.name }}</nuxt-link>
+                      class="author mr-1"
+                    >{{ article.author.name }}</nuxt-link>tại
+                    <nuxt-link
+                      :to="`/danh-muc/${article.category.slug}`"
+                      class="category"
+                    >{{ article.category.name }}</nuxt-link>
                     <div>
                       <span>{{ article.updatedAt | formatDate }}</span>
                       <span>.</span>
@@ -51,9 +54,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      articles: 'article/popular'
-    })
-  }
+      articles: 'article/popular',
+    }),
+  },
 }
 </script>
 
@@ -68,7 +71,6 @@ export default {
     .counter {
       font-size: 32px;
       color: $n50;
-      font-weight: 300;
       margin-top: $unit / 2;
     }
     a {
