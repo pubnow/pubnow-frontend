@@ -10,7 +10,7 @@
               class="avatar mr-2"
             />
             <div>
-              <nuxt-link to="#" class="fullname">{{userInfo.name}}</nuxt-link>
+              <nuxt-link :to="`/nguoi-dung/${userInfo.username}`" class="fullname">{{userInfo.name}}</nuxt-link>
               <p class="mt-0 small">{{time | formatDate}}</p>
             </div>
           </div>
@@ -175,7 +175,6 @@ export default {
       this.$store.dispatch('comment/create', data).then(() => {
         let arr = this.childComment
         this.childComment = [this.arrChildComments, ...arr]
-        console.log('childComment', this.childComment)
       })
     },
     editComment(value) {

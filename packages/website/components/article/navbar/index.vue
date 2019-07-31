@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     clap: {
@@ -52,13 +53,19 @@ export default {
       clapNum: 0,
     }
   },
+  computed: {
+    ...mapGetters({
+      numClap: 'clap/clap',
+    }),
+  },
   mounted() {
     this.clapNum = this.clap
   },
   methods: {
     clapArticle(id) {
-      this.clapNum += 1
-      this.$store.dispatch('clap/write', id)
+      this.$store.dispatch('clap/write', id).then(() => {
+        this.clapNum = this.numClap
+      })
     },
   },
 }

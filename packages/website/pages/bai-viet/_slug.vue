@@ -21,7 +21,12 @@
             :description="article.category.description"
           />
           <hr />
-          <comment :comments="comment" :commentNum="commentNum" :articleID="article.id" />
+          <v-wait for="loading comment">
+            <template slot="waiting">
+              <div>Loading the comment...</div>
+            </template>
+            <comment :comments="comment" :commentNum="commentNum" :articleID="article.id" />
+          </v-wait>
         </no-ssr>
       </b-col>
     </b-row>
@@ -48,14 +53,14 @@ export default {
       comment: 'comment/comment',
     }),
   },
-  mounted() {
+  async mounted() {
+    this.$wait.start('loading comment')
+    await this.$store.dispatch('comment/show', this.article.slug)
+    this.$wait.end('loading comment')
     this.numComment(this.comment)
   },
   fetch({ store, params: { slug } }) {
-    return Promise.all([
-      store.dispatch('article/show', slug),
-      store.dispatch('comment/show', slug),
-    ])
+    return store.dispatch('article/show', slug)
   },
   head() {
     return {
@@ -64,7 +69,6 @@ export default {
   },
   data() {
     return {
-      tags: ['việt nam', 'cộng hòa', 'chủ nghĩa'],
       commentNum: 0,
     }
   },

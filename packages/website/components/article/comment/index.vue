@@ -15,9 +15,6 @@
       </div>
       <hr class="my-4" />
       <!-- Tab -->
-      <div class="d-flex justify-content-end">
-        <nuxt-link to="#" class="ml-4 tab active">Mới nhất</nuxt-link>
-      </div>
       <no-ssr>
         <view-comment
           v-for="comment in dataComment"
@@ -81,7 +78,6 @@ export default {
       this.$store.dispatch('comment/create', data).then(() => {
         let arr = this.dataComment
         this.dataComment = [this.arrChildComments, ...arr]
-        console.log('childComment', this.dataComment)
       })
     },
   },
