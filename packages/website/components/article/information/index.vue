@@ -37,12 +37,13 @@
         </b-col>
         <b-col>
           <div class="d-flex justify-content-end align-items-center">
-            Cho phép sao lưu bài viết
-            <va-toggle v-model="isSaveArticle" class="mb-0"></va-toggle>
+            Bài viết công khai
+            <va-toggle v-model="isPrivate" class="mb-0"></va-toggle>
           </div>
         </b-col>
       </b-row>
       <div class="d-flex justify-content-end my-3">
+        <va-button class="mr-1" active @click="create(true)">Lưu nháp</va-button>
         <va-button
           v-if="!slug"
           class="button justify-content-end"
@@ -91,6 +92,14 @@ export default {
         this.$store.commit('article/setCategory', v)
       },
     },
+    isPrivate: {
+      get() {
+        return !this.$store.getters['article/isPrivate']
+      },
+      set(v) {
+        this.$store.commit('article/setPrivate', !v)
+      },
+    },
     categoryOptions() {
       return this.listCategory.map(category => ({
         value: category.id,
@@ -109,8 +118,8 @@ export default {
       this.$store.commit('article/addTag', this.inputTag)
       this.inputTag = ''
     },
-    async create() {
-      const result = await this.$store.dispatch('article/write')
+    async create(draft = false) {
+      const result = await this.$store.dispatch('article/write', draft)
       if (result) {
         this.notification.info({
           title: `Đăng bài thành công`,
