@@ -42,8 +42,14 @@
           </div>
         </b-col>
       </b-row>
-      <div class="d-flex justify-content-end mt-3">
-        <va-button class="button justify-content-end" type="success" @click="create">Đăng bài</va-button>
+      <div class="d-flex justify-content-end my-3">
+        <va-button
+          v-if="!slug"
+          class="button justify-content-end"
+          type="success"
+          @click="create"
+        >Đăng bài</va-button>
+        <va-button v-else class="button justify-content-end" type="success" @click="update">Cập nhật</va-button>
       </div>
     </div>
   </no-ssr>
@@ -56,11 +62,16 @@ export default {
   data() {
     return {
       inputTag: '',
-      categorySelected: '',
       textSearch: '',
       isShowCategory: false,
       isSaveArticle: true,
     }
+  },
+  props: {
+    slug: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     listFilter() {
@@ -72,6 +83,14 @@ export default {
       listCategory: 'category/categories',
       tags: 'article/tags',
     }),
+    categorySelected: {
+      get() {
+        return this.$store.getters['article/category']
+      },
+      set(v) {
+        this.$store.commit('article/setCategory', v)
+      },
+    },
     categoryOptions() {
       return this.listCategory.map(category => ({
         value: category.id,
@@ -109,10 +128,24 @@ export default {
         })
       }
     },
-  },
-  watch: {
-    categorySelected(val) {
-      this.$store.commit('article/setCategory', val)
+    async update() {
+      const result = await this.$store.dispatch('article/edit', this.slug)
+      if (result) {
+        this.notification.info({
+          title: `Cập nhật thành công`,
+          message: `Cảm ơn bạn đã sử dụng Pubnow.`,
+          duration: 1690,
+          onHide: () => {
+            this.$router.push(`/bai-viet/${result.slug}`)
+          },
+        })
+      } else {
+        this.notification.danger({
+          title: `Rất tiếc`,
+          message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
+          duration: 2000,
+        })
+      }
     },
   },
 }

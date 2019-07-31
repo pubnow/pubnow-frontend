@@ -46,6 +46,12 @@ export const mutations = {
     state.content = null
     state.category = null
   },
+  fillData(state, article) {
+    state.tags = article.tags.map(tag => tag.name)
+    state.title = article.title
+    state.content = article.content
+    state.category = article.category.id
+  },
 }
 
 export const getters = {
@@ -77,14 +83,43 @@ export const actions = {
       return null
     }
   },
+  async edit({ commit, state }, slug) {
+    const data = {
+      title: state.title,
+      content: state.content,
+      category: state.category,
+      tags: state.tags,
+    }
+    try {
+      this.$http.setHeader('Accept', 'application/json')
+      const result = await this.$http.$put(`articles/${slug}`, data)
+      const { data: article } = result
+      commit('reset')
+      return article
+    } catch (e) {
+      return null
+    }
+  },
   async show({ commit }, slug) {
     try {
       const result = await this.$http.$get(`articles/${slug}`)
       const { data: article } = result
       commit('setArticle', article)
+      commit('fillData', article)
       return article
     } catch (e) {
       return null
+    }
+  },
+  async remove({ dispatch }, slug) {
+    try {
+      dispatch('wait/start', 'article.remove', { root: true })
+      await this.$http.delete(`articles/${slug}`)
+      dispatch('wait/end', 'article.remove', { root: true })
+      return true
+    } catch (e) {
+      dispatch('wait/end', 'article.remove', { root: true })
+      return false
     }
   },
   async index({ commit }) {
@@ -114,5 +149,5 @@ export const actions = {
     } catch (e) {
       return null
     }
-  }
+  },
 }
