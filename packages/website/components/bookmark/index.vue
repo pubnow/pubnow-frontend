@@ -105,7 +105,6 @@ export default {
         }
         .description {
           color: $n100;
-          font-weight: 300;
           font-size: 1rem;
         }
         :hover {
