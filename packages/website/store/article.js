@@ -7,6 +7,7 @@ export const state = () => ({
   content: null,
   category: null,
   article: null,
+  isPrivate: false,
 })
 
 export const mutations = {
@@ -34,6 +35,9 @@ export const mutations = {
   setTitle(state, title) {
     state.title = title
   },
+  setPrivate(state, isPrivate) {
+    state.isPrivate = isPrivate
+  },
   setContent(state, content) {
     state.content = content
   },
@@ -45,12 +49,14 @@ export const mutations = {
     state.title = ''
     state.content = null
     state.category = null
+    state.private = false
   },
   fillData(state, article) {
     state.tags = article.tags.map(tag => tag.name)
     state.title = article.title
     state.content = article.content
     state.category = article.category.id
+    state.isPrivate = article.private
   },
 }
 
@@ -63,15 +69,17 @@ export const getters = {
   content: s => s.content,
   title: s => s.title,
   article: s => s.article,
+  isPrivate: s => s.isPrivate,
 }
 
 export const actions = {
-  async write({ commit, state }) {
+  async write({ commit, state }, draft = false) {
     const data = {
       title: state.title,
       content: state.content,
       category: state.category,
       tags: state.tags,
+      draft,
     }
     try {
       this.$http.setHeader('Accept', 'application/json')
@@ -89,6 +97,7 @@ export const actions = {
       content: state.content,
       category: state.category,
       tags: state.tags,
+      private: state.isPrivate,
     }
     try {
       this.$http.setHeader('Accept', 'application/json')
