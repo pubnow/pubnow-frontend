@@ -3,7 +3,13 @@
     <b-row>
       <b-col :sm="8" :offset-sm="2">
         <author :author="article.author" :time="article.createdAt" :category="article.category" />
-        <navbar :clap="article.claps" :commentNum="commentNum" :articleID="article.id" />
+        <navbar
+          :clap="article.claps"
+          :clapped="article.clapped"
+          :bookmarked="article.bookmarked"
+          :commentNum="commentNum"
+          :articleID="article.id"
+        />
         <h1 class="title my-4">{{ article.title }}</h1>
         <div class="content-article fr-element fr-view" v-html="article.content"></div>
         <no-ssr>
@@ -19,7 +25,10 @@
               :username="article.author.username"
               :avatar="article.author.avatar"
               :category="article.category.name"
+              :categorySlug="article.category.slug"
               :description="article.category.description"
+              :followUser="article.author.following"
+              :followCategory="article.category.following"
             />
           </div>
           <hr />

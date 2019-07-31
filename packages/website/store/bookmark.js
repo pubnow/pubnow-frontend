@@ -1,16 +1,22 @@
 export const state = () => ({
   bookmark: null,
   listBookmark: [],
+  bookmarked: false,
 })
 
 export const getters = {
   bookmark: s => s.bookmark,
   listBookmark: s => s.listBookmark,
+  bookmarked: s => s.bookmarked,
 }
 
 export const mutations = {
   setBookmark(state, bookmark) {
     state.bookmark = bookmark
+    state.bookmarked = bookmark.article.bookmarked
+  },
+  setUnBookmark(state) {
+    state.bookmarked = false
   },
   setListBookmark(state, bookmark) {
     state.listBookmark = bookmark
@@ -40,9 +46,9 @@ export const actions = {
       return null
     }
   },
-  async delete({ commit }, article_id) {
+  async unBookmark({ commit }, article_id) {
     try {
-      this.$http.setHeader('Accept', 'application/json')
+      commit('setUnBookmark')
       const result = await this.$http.$delete(`articles/${article_id}/bookmark`)
       return result
     } catch (e) {

@@ -13,14 +13,40 @@
             <span class="small">@{{ username }}</span>
           </div>
         </div>
-        <va-button type="default" size="xs" class="button" @click="followUser">Theo dõi</va-button>
+        <va-button
+          v-if="followUserStatus"
+          type="primary"
+          size="xs"
+          class="button"
+          @click="handleFollowUser(username)"
+        >Đang theo dõi</va-button>
+        <va-button
+          v-else
+          type="default"
+          size="xs"
+          class="button"
+          @click="handleFollowUser(username)"
+        >Theo dõi</va-button>
       </div>
       <va-button type="primary" size="xs" class="button mt-3">Ủng hộ tác giả</va-button>
     </va-column>
     <va-column :xs="12" :sm="6" :md="6">
       <div class="d-flex justify-content-between">
         <nuxt-link to="#" class="text-body font-weight-bold fullname mt-0">{{ category }}</nuxt-link>
-        <va-button type="primary" size="xs" class="button" @click="followCategory">Đang theo dõi</va-button>
+        <va-button
+          v-if="followCategoryStatus"
+          type="primary"
+          size="xs"
+          class="button"
+          @click="handleFollowCategory(categorySlug)"
+        >Đang theo dõi</va-button>
+        <va-button
+          v-else
+          type="default"
+          size="xs"
+          class="button"
+          @click="handleFollowCategory(categorySlug)"
+        >Theo dõi</va-button>
       </div>
       <p>{{ description }}</p>
     </va-column>
@@ -51,15 +77,58 @@ export default {
       type: String,
       default: '',
     },
+    categorySlug: {
+      type: String,
+    },
+    followUser: {
+      type: Boolean,
+      required: true,
+    },
+    followCategory: {
+      type: Boolean,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      followUserStatus: false,
+      followCategoryStatus: false,
+    }
   },
   computed: {
     ...mapGetters({
       user: 'auth/user',
+      followedUserStatus: 'follow/followUser',
+      followedCategoryStatus: 'follow/followCategory',
     }),
   },
+  mounted() {
+    this.followUserStatus = this.followUser
+    this.followCategoryStatus = this.followCategory
+  },
   methods: {
-    followUser() {},
-    followCategory() {},
+    handleFollowUser(id) {
+      if (this.followUserStatus) {
+        this.$store.dispatch('follow/unFollowUser', id).then(() => {
+          this.followUserStatus = this.followedUserStatus
+        })
+      } else {
+        this.$store.dispatch('follow/followUser', id).then(() => {
+          this.followUserStatus = this.followedUserStatus
+        })
+      }
+    },
+    handleFollowCategory(slug) {
+      if (this.followCategoryStatus) {
+        this.$store.dispatch('follow/unFollowCategory', slug).then(() => {
+          this.followCategoryStatus = this.followedCategoryStatus
+        })
+      } else {
+        this.$store.dispatch('follow/followCategory', slug).then(() => {
+          this.followCategoryStatus = this.followedCategoryStatus
+        })
+      }
+    },
   },
 }
 </script>

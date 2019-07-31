@@ -1,14 +1,17 @@
 export const state = () => ({
-  clap: null,
+  clapNum: null,
+  clapped: false,
 })
 
 export const getters = {
-  clap: s => s.clap,
+  clapNum: s => s.clapNum,
+  clapped: s => s.clapped,
 }
 
 export const mutations = {
   setClap(state, clap) {
-    state.clap = clap.count
+    state.clapped = clap.article.clapped
+    state.clapNum = clap.count
   },
 }
 

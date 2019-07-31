@@ -11,7 +11,7 @@
             />
             <div>
               <nuxt-link :to="`/nguoi-dung/${userInfo.username}`" class="fullname">{{userInfo.name}}</nuxt-link>
-              <p class="mt-0 small">{{time | formatDate}}</p>
+              <p class="mt-0 small">{{time}}</p>
             </div>
           </div>
           <div class="d-flex align-items-center report" v-if="userInfo.id !== uID">
@@ -96,7 +96,7 @@
         :articleID="child.article.id"
         :content="child.content"
         :commentChild="child.childs"
-        :time="child.publishedAt?child.publishedAt:child.updatedAt"
+        :time="child.publishedAt"
       />
     </div>
   </div>
