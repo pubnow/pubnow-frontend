@@ -1,4 +1,4 @@
-import { formatDistance, isValid, parseISO } from 'date-fns'
+import { formatDistance, parseISO } from 'date-fns'
 import { vi } from 'date-fns/locale'
 
 export default {
