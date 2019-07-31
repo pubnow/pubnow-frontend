@@ -2,18 +2,20 @@
   <b-container>
     <b-row>
       <b-col cols="8" offset="2">
-        <NotFound :reason="error.message" />
+        <NotFound v-if="error.statusCode === 404" :reason="error.message" />
+        <Oops v-else :reason="error.message" />
       </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
-import { NotFound } from '@/components/common'
+import { NotFound, Oops } from '@/components/common'
 
 export default {
   components: {
     NotFound,
+    Oops,
   },
   props: {
     error: {
