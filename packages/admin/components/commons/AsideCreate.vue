@@ -2,10 +2,7 @@
   <div>
     <va-minibar class="minibar" :top-items="minibarTopItem">
       <div slot="top">
-        <img
-          :src="require('@/assets/images/logo.svg')"
-          class="logo va-minibar-item-brand"
-        />
+        <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
         <div v-for="(item, index) in minibarTopItem" :key="index">
           <va-minibar-item
             v-if="item.method"
@@ -13,11 +10,7 @@
             :brand="item.brand"
             @click.native="item.method"
           >
-            <va-icon
-              :type="item.icon"
-              :size="item.size"
-              :icon-style="item.iconStyle || 'solid'"
-            />
+            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
           </va-minibar-item>
         </div>
       </div>
@@ -52,6 +45,11 @@ export default {
           name: 'Tài khoản',
           route: '/accounts/create',
           icon: 'user',
+        },
+        {
+          name: 'Tổ chức',
+          route: '/organizations/create',
+          icon: 'users',
         },
         {
           name: 'Chuyên mục',

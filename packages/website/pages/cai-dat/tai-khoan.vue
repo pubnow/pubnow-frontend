@@ -186,9 +186,6 @@ export default {
         this.avatar && this.avatar.link && this.avatar.link !== this.me.avatar
       )
     },
-    passChanged() {
-      return this.disPas
-    },
     canUpdate() {
       return this.nameChanged || this.bioChanged || this.avatarChanged
     },
