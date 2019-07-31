@@ -1,12 +1,12 @@
 <template>
-  <div class="d-flex mb-3 wrap-all px-1 py-1">
+  <div class="d-flex mb-3 wrap-all px-1 py-1 align-items-center">
     <img :src="avatar" alt="avatar" class="avatar mr-2" />
     <div class="d-flex flex-column wrap-content">
       <p class="small mb-0 mt-0">
         <nuxt-link to="#" class="author">{{ author }}</nuxt-link>
         &nbsp; · &nbsp; {{ date }}
       </p>
-      <div class="my-1">
+      <div>
         <nuxt-link to="#" class="title">{{ title }}</nuxt-link>
         <va-badge v-for="(tag, index) in tags" :key="`tag-${index}`" class="mr-2">{{ tag }}</va-badge>
       </div>
@@ -98,9 +98,6 @@ $size-avatar: 45px;
     height: $size-avatar;
     width: $size-avatar;
     border-radius: $size-avatar / 2;
-  }
-  .title {
-    font-size: $unit;
   }
   .wrap-content {
     width: 100%;
