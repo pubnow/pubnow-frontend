@@ -15,7 +15,8 @@
     <span>{{ commentNum }}</span>
     <img
       :src="require('@/assets/images/icons/bookmark.svg')"
-      alt="comment icon"
+      @click="bookmarkArticle(articleID)"
+      alt="bookmark icon"
       class="icon icon-large mt-3"
     />
     <img
@@ -56,6 +57,7 @@ export default {
   computed: {
     ...mapGetters({
       numClap: 'clap/clap',
+      user: 'auth/user',
     }),
   },
   mounted() {
@@ -63,9 +65,19 @@ export default {
   },
   methods: {
     clapArticle(id) {
-      this.$store.dispatch('clap/write', id).then(() => {
-        this.clapNum = this.numClap
-      })
+      if (this.user) {
+        this.$store.dispatch('clap/write', id).then(() => {
+          this.clapNum = this.numClap
+        })
+      } else {
+        this.$router.push('/dang-nhap')
+      }
+    },
+    bookmarkArticle(id) {
+      if (this.user) {
+      } else {
+        this.$router.push('/dang-nhap')
+      }
     },
   },
 }

@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col cols="8">
-        <h1>Danh sách bài đã Bookmark</h1>
+        <h1>Danh sách các bài Bookmark</h1>
         <bookmark />
       </b-col>
     </b-row>

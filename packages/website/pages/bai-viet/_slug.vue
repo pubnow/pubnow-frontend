@@ -11,15 +11,17 @@
             <va-button class="ml-2 button mt-2" size="xs">{{ tag.name }}</va-button>
           </nuxt-link>
 
-          <div class="d-flex justify-content-end">{{ article.seen_count }} lượt xem</div>
-          <hr />
-          <description
-            :fullname="article.author.name"
-            :username="article.author.username"
-            :avatar="article.author.avatar"
-            :category="article.category.name"
-            :description="article.category.description"
-          />
+          <div class="d-flex justify-content-end my-2">{{ article.seen_count }} lượt xem</div>
+          <div v-if="user">
+            <hr />
+            <description
+              :fullname="article.author.name"
+              :username="article.author.username"
+              :avatar="article.author.avatar"
+              :category="article.category.name"
+              :description="article.category.description"
+            />
+          </div>
           <hr />
           <v-wait for="loading comment">
             <template slot="waiting">
@@ -51,6 +53,7 @@ export default {
     ...mapGetters({
       article: 'article/article',
       comment: 'comment/comment',
+      user: 'auth/user',
     }),
   },
   async mounted() {

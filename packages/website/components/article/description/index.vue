@@ -13,14 +13,14 @@
             <span class="small">@{{ username }}</span>
           </div>
         </div>
-        <va-button type="default" size="xs" class="button">Theo dõi</va-button>
+        <va-button type="default" size="xs" class="button" @click="followUser">Theo dõi</va-button>
       </div>
       <va-button type="primary" size="xs" class="button mt-3">Ủng hộ tác giả</va-button>
     </va-column>
     <va-column :xs="12" :sm="6" :md="6">
       <div class="d-flex justify-content-between">
         <nuxt-link to="#" class="text-body font-weight-bold fullname mt-0">{{ category }}</nuxt-link>
-        <va-button type="primary" size="xs" class="button">Đang theo dõi</va-button>
+        <va-button type="primary" size="xs" class="button" @click="followCategory">Đang theo dõi</va-button>
       </div>
       <p>{{ description }}</p>
     </va-column>
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     fullname: {
@@ -50,6 +51,15 @@ export default {
       type: String,
       default: '',
     },
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/user',
+    }),
+  },
+  methods: {
+    followUser() {},
+    followCategory() {},
   },
 }
 </script>

@@ -10,16 +10,16 @@
                 class="overflow-hidden w-100"
               >
                 <h2 class="title">{{ dataBookmark.article.title }}</h2>
-              </nuxt-link>
-              <a href="#" class="w-100">
                 <div class="mt-1 description">{{dataBookmark.article.excerpt}}</div>
-              </a>
+              </nuxt-link>
             </div>
             <div class="mt-2">
-              <nuxt-link to="/nguoi-dung/dacsang97">{{ dataBookmark.article.author.name }}</nuxt-link>
+              <nuxt-link
+                :to="`/nguoi-dung/${dataBookmark.article.author.username}`"
+              >{{ dataBookmark.article.author.name }}</nuxt-link>
               <span class="ml-1">tại</span>
               <nuxt-link
-                to="/danh-muc/quan-diem-tranh-luan"
+                :to="`/danh-muc/${dataBookmark.article.category.slug}`"
               >{{ dataBookmark.article.category.name }}</nuxt-link>
               <div class="mt-1">
                 <span class="d-inline-block">{{ dataBookmark.article.updatedAt | formatDate }}</span>

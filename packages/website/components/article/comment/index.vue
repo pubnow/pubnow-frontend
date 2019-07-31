@@ -75,10 +75,14 @@ export default {
         content: this.commentInput,
       }
       this.commentInput = ''
-      this.$store.dispatch('comment/create', data).then(() => {
-        let arr = this.dataComment
-        this.dataComment = [this.arrChildComments, ...arr]
-      })
+      if (this.user) {
+        this.$store.dispatch('comment/create', data).then(() => {
+          let arr = this.dataComment
+          this.dataComment = [this.arrChildComments, ...arr]
+        })
+      } else {
+        this.$router.push('/dang-nhap')
+      }
     },
   },
 }

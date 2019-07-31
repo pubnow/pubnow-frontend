@@ -161,9 +161,13 @@ export default {
   },
   methods: {
     replyComment() {
-      this.reply = !this.reply
-      this.replyCommentInput = ''
-      this.type = 'Gửi'
+      if (this.user) {
+        this.reply = !this.reply
+        this.replyCommentInput = ''
+        this.type = 'Gửi'
+      } else {
+        this.$router.push('/dang-nhap')
+      }
     },
     sendReplyComment() {
       this.reply = !this.reply
