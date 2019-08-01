@@ -1,12 +1,22 @@
 <template>
-  <div class="d-flex justify-content-between mt-4">
-    <h2 class="title">Nội dung</h2>
-    <hr class="split mb-0" />
-    <va-button type="subtle">
-      <va-icon type="pen" class="mr-2" />Thêm bài viết của tôi vào series này
-    </va-button>
-  </div>
+  <HeadingText class="d-flex align-items-end my-2">
+    <div>Nội dung</div>
+    <div class="ml-auto">
+      <va-button icon-before="plus">Thêm bài viết</va-button>
+    </div>
+  </HeadingText>
 </template>
+
+<script>
+import { HeadingText } from '@/components/common'
+
+export default {
+  components: {
+    HeadingText,
+  },
+}
+</script>
+
 
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_colors.scss';

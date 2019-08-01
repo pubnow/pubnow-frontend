@@ -1,12 +1,20 @@
 <template>
-  <div class="mb-5">
-    <div class="d-flex justify-content-between mt-4">
-      <h2 class="title">Bình luận</h2>
-      <hr class="split mb-0" />
-    </div>
+  <div class="mb-5 mt-4">
+    <HeadingText>Bình luận</HeadingText>
     <va-button type="subtle">Thêm bình luận</va-button>
   </div>
 </template>
+
+<script>
+import { HeadingText } from '@/components/common'
+
+export default {
+  components: {
+    HeadingText,
+  },
+}
+</script>
+
 
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_colors.scss';
