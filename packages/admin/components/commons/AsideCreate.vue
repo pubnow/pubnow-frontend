@@ -47,6 +47,11 @@ export default {
           icon: 'user',
         },
         {
+          name: 'Chức vụ',
+          route: '/roles/create',
+          icon: 'user',
+        },
+        {
           name: 'Tổ chức',
           route: '/organizations/create',
           icon: 'users',
