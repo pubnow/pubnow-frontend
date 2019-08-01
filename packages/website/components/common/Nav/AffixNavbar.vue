@@ -5,7 +5,7 @@
         <b-container>
           <b-navbar-nav>
             <NavItem to="/">Trang chủ</NavItem>
-            <NavItem to="/nguoi-dung/noi-bat">Thành viên nổi bật</NavItem>
+            <NavItem to="/series">Series</NavItem>
             <NavItem
               v-for="category in randomCategories"
               :key="category.id"

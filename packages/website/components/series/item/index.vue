@@ -1,35 +1,27 @@
 <template>
-  <div class="d-flex mb-3 wrap-all px-1 py-1 align-items-center">
-    <img :src="avatar" alt="avatar" class="avatar mr-2" />
+  <div class="mb-2 wrap-all p-3 bg-white">
     <div class="d-flex flex-column wrap-content">
-      <p class="small mb-0 mt-0">
-        <nuxt-link to="#" class="author">{{ author }}</nuxt-link>
-        &nbsp; · &nbsp; {{ date }}
-      </p>
+      <nuxt-link to="#" class="title">{{ title }}</nuxt-link>
       <div>
-        <nuxt-link to="#" class="title">{{ title }}</nuxt-link>
-        <va-badge v-for="(tag, index) in tags" :key="`tag-${index}`" class="mr-2">{{ tag }}</va-badge>
+        <va-badge v-for="(tag, index) in tags" :key="`tag-${index}`" class="mr-1">{{ tag }}</va-badge>
       </div>
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between mt-3">
         <div class="wrap-left">
+          <p class="small mb-0 mt-0">
+            <img :src="avatar" alt="avatar" class="avatar" />
+            <nuxt-link to="#" class="author">{{ author }}</nuxt-link>
+            &nbsp; · &nbsp; {{ date }}
+          </p>
+        </div>
+        <div class="wrap-right">
           <va-tooltip trigger="hover" content="Views" placement="bottom">
             <i class="fas fa-eye icon"></i>
           </va-tooltip>
           <span class="number">{{ views }}</span>
-          <va-tooltip trigger="hover" content="Clips" placement="bottom">
-            <i class="fas fa-paperclip icon"></i>
-          </va-tooltip>
-          <span class="number">{{ clips }}</span>
-          <va-tooltip trigger="hover" content="Comments" placement="bottom">
-            <i class="fas fa-paperclip icon"></i>
-          </va-tooltip>
-          <span class="number">{{ comments }}</span>
           <va-tooltip trigger="hover" content="Posts" placement="bottom">
             <i class="fas fa-paste icon"></i>
           </va-tooltip>
           <span class="number">{{ posts }}</span>
-        </div>
-        <div class="wrap-right">
           <va-tooltip trigger="hover" content="Claps" placement="bottom">
             <i class="fas fa-hand-paper icon"></i>
           </va-tooltip>
@@ -90,10 +82,13 @@ export default {
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_sizes.scss';
 @import '@pubnow/ui/scss/_mixins.scss';
+@import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
 
-$size-avatar: 45px;
+$size-avatar: 24px;
 .wrap-all {
-  @include box-shadow;
+  @include border;
+  @include radius-md;
   .avatar {
     height: $size-avatar;
     width: $size-avatar;
@@ -101,13 +96,32 @@ $size-avatar: 45px;
   }
   .wrap-content {
     width: 100%;
+
+    .title {
+      color: $b500;
+      font-size: $unit;
+      font-family: $ale;
+      font-weight: 700;
+      margin-bottom: $unit / 4;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+
+    .author {
+      color: $n400;
+      font-weight: 600;
+      &:hover {
+        text-decoration: none;
+      }
+    }
   }
-}
-.icon {
-  font-size: 12px;
-  margin-right: 2px;
-}
-.number {
-  margin-right: 8px;
+  .icon {
+    font-size: 12px;
+    margin-right: 2px;
+  }
+  .number {
+    margin-right: 8px;
+  }
 }
 </style>
