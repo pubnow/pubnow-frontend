@@ -18,6 +18,7 @@ import { Information } from '@/components/article'
 import { HtmlEditor } from '@/components/editor'
 
 export default {
+  middleware: ['auth'],
   components: {
     HtmlEditor,
     Information,
