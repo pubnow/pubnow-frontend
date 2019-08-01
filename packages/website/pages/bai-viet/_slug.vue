@@ -2,7 +2,12 @@
   <b-container>
     <b-row>
       <b-col :sm="8" :offset-sm="2">
-        <author :author="article.author" :time="article.createdAt" :category="article.category" />
+        <author
+          :author="article.author"
+          :time="article.createdAt"
+          :category="article.category"
+          :slug="article.slug"
+        />
         <navbar
           :clap="article.claps"
           :clapped="article.clapped"
