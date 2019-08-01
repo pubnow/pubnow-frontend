@@ -17,7 +17,6 @@ export const actions = {
     try {
       const result = await this.$http.$get('roles')
       const { data } = result
-      console.log(result)
       commit('setRoles', data)
       return true
     } catch (e) {

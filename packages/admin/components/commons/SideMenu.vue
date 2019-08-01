@@ -12,14 +12,16 @@ export default {
       menuItems: [
         { name: 'Thống kê', route: '/', icon: 'chart-line' },
         {
+          name: 'Chức vụ',
+          route: '/roles',
+          icon: 'medal',
+        },
+        {
           name: 'Tài khoản',
           route: '/accounts',
           icon: 'user',
         },
         {
-          name: 'Chức vụ',
-          route: '/roles',
-          icon: 'file',
           name: 'Tổ chức',
           route: '/organizations',
           icon: 'users',
