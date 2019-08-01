@@ -23,7 +23,7 @@
           </nuxt-link>
 
           <div class="d-flex justify-content-end my-2">{{ article.seen_count }} lượt xem</div>
-          <div v-if="user">
+          <div v-if="user && user.id !== article.author.id">
             <hr />
             <description
               :fullname="article.author.name"

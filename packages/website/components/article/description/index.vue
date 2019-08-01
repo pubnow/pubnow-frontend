@@ -9,7 +9,10 @@
             class="avatar mr-2"
           />
           <div class="align-items-center text-left">
-            <p class="text-body font-weight-bold fullname mt-0">{{ fullname }}</p>
+            <p
+              class="text-body font-weight-bold fullname mt-0"
+              @click="handleUserClick(username)"
+            >{{ fullname }}</p>
             <span class="small">@{{ username }}</span>
           </div>
         </div>
@@ -32,7 +35,10 @@
     </b-col>
     <b-col :xs="12" :sm="6" :md="6">
       <div class="d-flex justify-content-between">
-        <nuxt-link to="#" class="text-body font-weight-bold fullname mt-0">{{ category }}</nuxt-link>
+        <div
+          class="text-body font-weight-bold fullname mt-0"
+          @click="handleCategoryClick(categorySlug)"
+        >{{ category }}</div>
         <va-button
           v-if="followCategoryStatus"
           type="primary"
@@ -129,6 +135,12 @@ export default {
         })
       }
     },
+    handleUserClick(username) {
+      this.$router.push(`/nguoi-dung/${username}`)
+    },
+    handleCategoryClick(slug) {
+      this.$router.push(`/danh-muc/${slug}`)
+    },
   },
 }
 </script>
@@ -142,6 +154,12 @@ $size-image: 45px;
   width: $size-image;
   height: $size-image;
   border-radius: $size-image / 2;
+  object-fit: cover;
+}
+
+.text-body:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .fullname {
