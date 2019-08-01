@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input class="title-input" placeholder="Tiêu đề bài viết" :value="title" @input="changeTitle" />
+    <input class="title-input" placeholder="Tiêu đề bài viết" v-model="title" />
     <froala :tag="'textarea'" :config="config" v-model="model"></froala>
   </div>
 </template>
@@ -35,25 +35,24 @@ export default {
         imageUploadParam: 'file',
         imageManagerLoadURL: `${this.api}/editor-gallery`,
       },
-      model: '',
     }
   },
   computed: {
-    ...mapGetters({
-      title: 'article/title',
-    }),
-  },
-  methods: {
-    ...mapMutations({
-      setTitle: 'article/setTitle',
-    }),
-    changeTitle(evt) {
-      this.setTitle(evt.target.value)
+    title: {
+      get() {
+        return this.$store.getters['article/title']
+      },
+      set(v) {
+        this.$store.commit('article/setTitle', v)
+      },
     },
-  },
-  watch: {
-    model(val) {
-      this.$store.commit('article/setContent', val)
+    model: {
+      get() {
+        return this.$store.getters['article/content']
+      },
+      set(v) {
+        this.$store.commit('article/setContent', v)
+      },
     },
   },
 }

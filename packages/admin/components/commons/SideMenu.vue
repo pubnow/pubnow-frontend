@@ -20,6 +20,9 @@ export default {
           name: 'Chức vụ',
           route: '/roles',
           icon: 'file',
+          name: 'Tổ chức',
+          route: '/organizations',
+          icon: 'users',
         },
         {
           name: 'Bài viết',

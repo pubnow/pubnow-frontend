@@ -6,7 +6,9 @@ export { default as AffixNavbar } from './Nav/AffixNavbar.vue'
 
 export { default as HeadingText } from './HeadingText.vue'
 
+// Error
 export { default as NotFound } from './NotFound.vue'
+export { default as Oops } from './Oops.vue'
 
 // Placeholder
 export {

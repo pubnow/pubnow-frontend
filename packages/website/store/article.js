@@ -7,6 +7,7 @@ export const state = () => ({
   content: null,
   category: null,
   article: null,
+  isPrivate: false,
 })
 
 export const mutations = {
@@ -34,6 +35,9 @@ export const mutations = {
   setTitle(state, title) {
     state.title = title
   },
+  setPrivate(state, isPrivate) {
+    state.isPrivate = isPrivate
+  },
   setContent(state, content) {
     state.content = content
   },
@@ -45,6 +49,14 @@ export const mutations = {
     state.title = ''
     state.content = null
     state.category = null
+    state.private = false
+  },
+  fillData(state, article) {
+    state.tags = article.tags.map(tag => tag.name)
+    state.title = article.title
+    state.content = article.content
+    state.category = article.category.id
+    state.isPrivate = article.private
   },
 }
 
@@ -57,19 +69,39 @@ export const getters = {
   content: s => s.content,
   title: s => s.title,
   article: s => s.article,
+  isPrivate: s => s.isPrivate,
 }
 
 export const actions = {
-  async write({ commit, state }) {
+  async write({ commit, state }, draft = false) {
     const data = {
       title: state.title,
       content: state.content,
       category: state.category,
       tags: state.tags,
+      draft,
     }
     try {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$post('articles', data)
+      const { data: article } = result
+      commit('reset')
+      return article
+    } catch (e) {
+      return null
+    }
+  },
+  async edit({ commit, state }, slug) {
+    const data = {
+      title: state.title,
+      content: state.content,
+      category: state.category,
+      tags: state.tags,
+      private: state.isPrivate,
+    }
+    try {
+      this.$http.setHeader('Accept', 'application/json')
+      const result = await this.$http.$put(`articles/${slug}`, data)
       const { data: article } = result
       commit('reset')
       return article
@@ -82,9 +114,21 @@ export const actions = {
       const result = await this.$http.$get(`articles/${slug}`)
       const { data: article } = result
       commit('setArticle', article)
+      commit('fillData', article)
       return article
     } catch (e) {
       return null
+    }
+  },
+  async remove({ dispatch }, slug) {
+    try {
+      dispatch('wait/start', 'article.remove', { root: true })
+      await this.$http.delete(`articles/${slug}`)
+      dispatch('wait/end', 'article.remove', { root: true })
+      return true
+    } catch (e) {
+      dispatch('wait/end', 'article.remove', { root: true })
+      return false
     }
   },
   async index({ commit }) {
@@ -114,5 +158,5 @@ export const actions = {
     } catch (e) {
       return null
     }
-  }
+  },
 }
