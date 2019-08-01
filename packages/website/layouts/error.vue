@@ -1,12 +1,14 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col cols="8" offset="2">
-        <NotFound v-if="error.statusCode === 404" :reason="error.message" />
-        <Oops v-else :reason="error.message" />
-      </b-col>
-    </b-row>
-  </b-container>
+  <no-ssr>
+    <b-container>
+      <b-row>
+        <b-col cols="8" offset="2">
+          <NotFound v-if="error.statusCode === 404" :reason="error.message" />
+          <Oops v-else :reason="error.message" />
+        </b-col>
+      </b-row>
+    </b-container>
+  </no-ssr>
 </template>
 
 <script>
