@@ -56,7 +56,6 @@ export default {
     },
     slug: {
       type: String,
-      required: true,
     },
     category: {
       type: Object,
