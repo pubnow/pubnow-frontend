@@ -5,7 +5,7 @@
         <div class="selected-item mt-1">
           <ul class="clearfix p-0 m-0">
             <li class="mr-2">
-              <a href="#">Thị trường</a>
+              <a href="#">{{tagName}}</a>
               <span class="remove">
                 <i class="fas fa-times"></i>
               </span>
@@ -16,6 +16,19 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    tagName: {
+      type: String,
+      required: true,
+    },
+  },
+}
+</script>
+
+
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_mixins.scss';
 @import '@pubnow/ui/scss/_colors.scss';

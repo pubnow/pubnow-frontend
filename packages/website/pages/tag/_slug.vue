@@ -3,8 +3,8 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8">
-          <NameTag />
           <div v-if="tag.articles.length > 0">
+            <NameTag :tagName="tag.name" />
             <div v-for="(article, id) in tag.articles" :key="id">
               <LeftDetailCategory :article="article" :categoryName="tag.name" />
             </div>

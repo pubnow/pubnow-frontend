@@ -42,7 +42,7 @@
           <div class="tags" v-if="article.tags.length > 0">
             <ul class="list-unstyled" v-for="(tag, id) in article.tags" :key="id">
               <li>
-                <a href>{{tag.name}}</a>
+                <nuxt-link :to="`/tag/${tag.slug}`">{{tag.name}}</nuxt-link>
               </li>
             </ul>
           </div>
@@ -50,7 +50,11 @@
             <div class="pull-left">
               <div class="vote-box">
                 <span class="icon">
-                  <img :src="require('@/assets/images/icons/clap.svg')" alt="clap icon" />
+                  <img
+                    :src="require('@/assets/images/icons/clap.svg')"
+                    alt="clap icon"
+                    @click="clapArticle(article.id)"
+                  />
                 </span>
                 <a>{{article.claps}}</a>
               </div>
@@ -64,7 +68,11 @@
               </span>
               <a href="#" class="comment">
                 <span class="icon">
-                  <img :src="require('@/assets/images/icons/bookmark.svg')" alt="comment icon" />
+                  <img
+                    :src="require('@/assets/images/icons/bookmark.svg')"
+                    alt="comment icon"
+                    @click="bookmarkArticle(article.id)"
+                  />
                 </span>
               </a>
             </div>
@@ -76,6 +84,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     article: {
@@ -83,6 +92,25 @@ export default {
     },
     categoryName: {
       type: String,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/user',
+    }),
+  },
+  methods: {
+    clapArticle(id) {
+      if (this.user) {
+      } else {
+        this.$router.push('/dang-nhap')
+      }
+    },
+    bookmarkArticle(id) {
+      if (this.user) {
+      } else {
+        this.$router.push('/dang-nhap')
+      }
     },
   },
 }
@@ -213,6 +241,7 @@ export default {
 .icon {
   color: #99a3ad;
   font-size: 20px;
+  cursor: pointer;
 }
 a {
   background-color: transparent;

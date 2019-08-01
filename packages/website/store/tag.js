@@ -5,7 +5,7 @@ export const state = () => ({
 
 export const getters = {
   tags: state => state.tags,
-  tag: state => state.tags,
+  tag: state => state.tag,
 }
 
 export const mutations = {

@@ -1,10 +1,14 @@
 <template>
   <div class="cover" v-bind:style="{ backgroundImage: 'url(' + image + ')' }">
-    <div class="meta">
+    <nuxt-link class="meta" :to="`/danh-muc/${slug}`">
       <div class="title">{{title}}</div>
-    </div>
+    </nuxt-link>
     <no-ssr>
-      <va-button class="action-button btn btn-default btn-round btn-follow">Theo dõi</va-button>
+      <va-button
+        v-if="following"
+        class="action-button btn btn-default btn-round btn-follow"
+      >Dang theo dõi</va-button>
+      <va-button v-else class="action-button btn btn-default btn-round btn-follow">Theo dõi</va-button>
     </no-ssr>
   </div>
 </template>
@@ -13,6 +17,8 @@ export default {
   props: {
     title: String,
     image: String,
+    slug: String,
+    following: Boolean,
   },
 }
 </script>
@@ -31,6 +37,9 @@ export default {
     padding: 7px 15px;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.5);
+    &:hover {
+      text-decoration: none;
+    }
     .title {
       color: #fff;
       font-size: 26px;
