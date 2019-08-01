@@ -3,11 +3,7 @@
     <va-page-header>
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
-          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">
-            {{
-            item
-            }}
-          </va-breadcrumb-item>
+          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{ item }}</va-breadcrumb-item>
         </va-breadcrumb>
       </div>
     </va-page-header>
@@ -72,12 +68,11 @@ export default {
   },
   methods: {
     async create() {
-      const submit = new FormData()
-      submit.append('name', this.form.name)
-      submit.append('description', this.form.description)
-      await this.$store.dispatch('role/create', {
-        submit: submit,
-      })
+      const submit = {
+        name: this.form.name,
+        description: this.form.description,
+      }
+      await this.$store.dispatch('role/create', { submit })
       this.$router.push('/roles')
     },
   },
