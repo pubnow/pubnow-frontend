@@ -1,56 +1,58 @@
 <template>
   <div class="container">
-    <va-row :gutter="30" class="mt-4">
-      <va-column :xs="12" :sm="6" :md="8">
-        <Article
-          :image="article.image"
-          :category="article.category"
-          :title="article.title"
-          :date="article.date"
-          :time="article.time"
-          :description="article.description"
-          :clap="article.clap"
-          :comment="article.comment"
-        />
-      </va-column>
-      <va-column :xs="12" :sm="6" :md="4">
-        <author />
-      </va-column>
-    </va-row>
+    <b-row class="my-3">
+      <b-col :xs="12" :sm="6" :md="8">
+        <div v-if="article">
+          <Article :article="article" />
+        </div>
+        <div v-else class="empty-img">
+          <img src="@/assets/images/empty_state.png" />
+          <span>Chưa có bài viết nào ở đây</span>
+        </div>
+      </b-col>
+      <b-col :xs="12" :sm="6" :md="4">
+        <User />
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import Article from '../article'
-import Author from './author'
+import User from './user'
+
 export default {
   components: {
     Article,
-    Author,
+    User,
   },
-  data() {
-    return {
-      article: {
-        image: 'https://bulma.io/images/placeholders/720x240.png',
-        category: 'Quan điểm - tranh luận',
-        title: 'Có mắt như mù',
-        date: '6 tháng 7',
-        time: '17 phút đọc',
-        description:
-          'Tựa đề bài viết này mình viết theo đúng nghĩa đen, tức con người ta có mắt nhưng người ta không thấy thứ ở trước mặt họ....',
-        clap: 3556,
-        comment: 125,
-      },
-    }
+  computed: {
+    ...mapGetters({
+      article: 'user/second',
+    }),
   },
 }
 </script>
 
 <style lang="scss" scoped>
+@import '@pubnow/ui/scss/_colors.scss';
 @import '@pubnow/ui/scss/_sizes.scss';
 
-.title {
-  font-size: $unit * 1.1;
-  line-height: $unit * 2;
+.empty-img {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  img {
+    max-width: 300px;
+  }
+  span {
+    color: $n100;
+    font-size: $unit;
+    border: 1px dashed $n100;
+    padding: $unit / 2;
+    margin-top: $unit / 4;
+    user-select: none;
+  }
 }
 </style>

@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: 'pubnow-staging',
-      script: 'npm run dev',
+      script: 'npm start',
       watch: true,
       env: {
         NUXT_HOST: '0.0.0.0',

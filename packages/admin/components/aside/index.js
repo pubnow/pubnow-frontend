@@ -1,0 +1,5 @@
+export { default as EditArticle } from './EditArticle.vue'
+export { default as EditCategory } from './EditCategory.vue'
+export { default as EditTag } from './EditTag.vue'
+export { default as EditUser } from './EditUser.vue'
+export { default as EditOrganization } from './EditOrganization.vue'

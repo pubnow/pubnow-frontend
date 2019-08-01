@@ -11,12 +11,11 @@ $blue: $primary;
 @import '~bootstrap/scss/bootstrap.scss';
 @import '~bootstrap-vue/src/index.scss';
 
-@import 'text';
 @import 'sizes';
 @import 'form';
 @import 'table';
-@import 'button';
 @import 'icon';
+@import 'dropdown';
 
 body {
   font-family: 'Roboto', sans-serif;

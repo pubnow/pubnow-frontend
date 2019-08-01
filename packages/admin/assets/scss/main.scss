@@ -7,3 +7,12 @@
   opacity: 0;
   transform: translate3d(0, 5px, 0);
 }
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}

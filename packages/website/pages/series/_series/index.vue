@@ -23,7 +23,7 @@
         <comments />
       </b-col>
       <p-col cols="3">
-        <author />
+        <user />
       </p-col>
     </b-row>
   </b-container>
@@ -35,8 +35,8 @@ import {
   Contents,
   ItemSeries,
   Comments,
+  User,
 } from '@/components/series'
-import Author from '@/components/personal/information/author'
 import data from '@/components/series/dataFake'
 export default {
   components: {
@@ -44,7 +44,7 @@ export default {
     Contents,
     ItemSeries,
     Comments,
-    Author,
+    User,
   },
   data() {
     return {

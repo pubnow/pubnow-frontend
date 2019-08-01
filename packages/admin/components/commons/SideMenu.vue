@@ -17,6 +17,11 @@ export default {
           icon: 'user',
         },
         {
+          name: 'Tổ chức',
+          route: '/organizations',
+          icon: 'users',
+        },
+        {
           name: 'Bài viết',
           route: '/articles',
           icon: 'file',

@@ -7,10 +7,12 @@
             <img class="mr-2" :src="require('@/assets/images/logo.svg')" />
           </nuxt-link>
           <va-input
+            v-model="keyword"
             icon="search"
             width="xl"
             placeholder="Tìm kiếm theo nội dung, tác giả hoặc tag"
             iconStyle="solid"
+            @confirm="search"
           ></va-input>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto d-flex align-items-center">
@@ -18,7 +20,7 @@
           <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
             <va-button type="primary" icon-before="feather-alt">Viết bài</va-button>
           </nuxt-link>
-          <UserAvatar :user="user" />
+          <UserAvatar :user="user" :organizations="organizations" />
         </b-navbar-nav>
       </b-container>
     </nav>
@@ -35,13 +37,28 @@ export default {
   components: {
     UserAvatar,
   },
+  data: () => ({
+    keyword: '',
+  }),
   computed: {
     ...mapGetters({
       user: 'auth/user',
       categories: 'category/categories',
+      organizations: 'organization/organizations',
     }),
     randomCategories() {
       return take(shuffle(this.categories), 6)
+    },
+  },
+  methods: {
+    search(keyword) {
+      this.keyword = ''
+      this.$router.push({
+        name: 'tim-kiem',
+        query: {
+          keyword,
+        },
+      })
     },
   },
 }

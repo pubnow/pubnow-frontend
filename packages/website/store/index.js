@@ -1,11 +1,22 @@
-export const state = () => ({})
+export const state = () => ({
+  API_URL: '',
+})
 
-export const mutations = {}
+export const mutations = {
+  setApi(state, api) {
+    state.API_URL = api
+  },
+}
+
+export const getters = {
+  api: s => s.API_URL,
+}
 
 export const actions = {
   async nuxtServerInit({ commit, dispatch }, { req }) {
     let token = null
     await dispatch('category/list')
+    commit('setApi', process.env.API_URL)
     if (req.headers.cookie) {
       try {
         token = this.$cookiz.get('token')

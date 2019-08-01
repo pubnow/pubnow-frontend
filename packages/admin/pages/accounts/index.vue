@@ -21,25 +21,47 @@
     <va-row>
       <va-column :xs="12">
         <va-table size="lg">
-          <b-table :fields="fields" :items="members" responsive>
+          <b-table :fields="fields" :items="users" @row-clicked="rowSelected" responsive>
             <template slot="HEAD_checkBox">
               <div />
             </template>
             <template slot="checkBox">
               <b-form-checkbox></b-form-checkbox>
             </template>
-            <template slot="role" slot-scope="data">
-              <div :class="['badge', data.value.toLowerCase()]">{{ data.value }}</div>
+            <template slot="role.name" slot-scope="data">
+              <div
+                :class="['badge', data.value.toLowerCase() === 'admin' ? 'admin' : 'member']"
+              >{{ data.value === 'admin' ? 'Pubnow Staff' :'Member' }}</div>
             </template>
           </b-table>
         </va-table>
       </va-column>
     </va-row>
+    <va-aside
+      style="background-color: #f3f4f6;"
+      width="500px"
+      placement="right"
+      ref="myAsideCate"
+      @hide="onClose"
+    >
+      <EditUser v-if="selected" :user="selected" @close="$refs.myAsideCate.close()" />
+    </va-aside>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { EditUser } from '@/components/aside'
+
 export default {
+  components: {
+    EditUser,
+  },
+  computed: {
+    ...mapGetters({
+      users: 'user/users',
+    }),
+  },
   data: () => ({
     breadcrumb: ['Dashboard', 'Thành viên'],
     type: 'admin',
@@ -52,51 +74,27 @@ export default {
     ],
     fields: [
       'checkBox',
-      { key: 'fullname', label: 'Tên đầy đủ' },
-      'email',
       'username',
-      { key: 'role', label: 'Chức vụ' },
-    ],
-    members: [
-      {
-        fullname: 'Nguyễn Đắc Sang',
-        email: 'sang@pubnow.co',
-        username: 'dacsang97',
-        role: 'Admin',
-      },
-      {
-        fullname: 'Phạm Văn Tuấn',
-        email: 'tuan@pubnow.co',
-        username: 'aupous',
-        role: 'Admin',
-      },
-      {
-        fullname: 'Nguyễn Doãn Tú',
-        email: 'tu@pubnow.co',
-        username: 'idfc',
-        role: 'Admin',
-      },
-      {
-        fullname: 'Phạm Văn Phong',
-        email: 'phong@pubnow.co',
-        username: 'picapoca',
-        role: 'Admin',
-      },
-      {
-        fullname: 'Trần Tuấn Mạnh',
-        email: 'manh@pubnow.co',
-        username: 'phyvanty',
-        role: 'Admin',
-      },
-      {
-        fullname: 'Administrator',
-        email: 'sang@pubnow.co',
-        username: 'admin',
-        role: 'Testing',
-      },
+      { key: 'name', label: 'Tên đầy đủ' },
+      'email',
+      { key: 'role.name', label: 'Chức vụ' },
     ],
     actionBtnWidth: 0,
+    selected: null,
   }),
+  methods: {
+    rowSelected(item) {
+      this.selected = item
+      this.$refs.myAsideCate.open()
+    },
+    onClose(e) {
+      this.selected = null
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('user/list')
+    await this.$store.dispatch('role/list')
+  },
 }
 </script>
 
@@ -116,7 +114,8 @@ export default {
     background-color: $primary;
   }
 
-  &.testing {
+  &.testing,
+  &.member {
     background-color: $violet;
   }
 }

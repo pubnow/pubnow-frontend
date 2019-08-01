@@ -3,7 +3,9 @@
     <va-page-header>
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
-          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{ item }}</va-breadcrumb-item>
+          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{
+            item
+          }}</va-breadcrumb-item>
         </va-breadcrumb>
       </div>
     </va-page-header>
@@ -13,32 +15,64 @@
     <div>
       <b-col md="6" offset-md="3">
         <b-form class="mt-2">
-          <b-form-group id="input-group-name" label="Tên chuyên mục:" label-for="input-name">
+          <b-form-group
+            id="input-group-name"
+            label="Tên chuyên mục:"
+            label-for="input-name"
+          >
             <b-form-input
               id="input-name"
-              type="text"
-              required
               placeholder="Nhập tên chuyên mục"
-              v-model="form.name"
+              v-model.trim="$v.form.name.$model"
+              :state="$v.form.name.$dirty ? !$v.form.name.$error : null"
             ></b-form-input>
+            <div v-if="!$v.form.name.required" class="invalid-feedback">
+              Trường bắt buộc
+            </div>
           </b-form-group>
 
-          <b-form-group id="input-group-description" label="Mô tả:" label-for="input-description">
+          <b-form-group
+            id="input-group-description"
+            label="Mô tả:"
+            label-for="input-description"
+          >
             <b-form-input
               id="input-description"
               type="text"
-              required
               placeholder="Nhập mô tả"
               v-model="form.description"
             ></b-form-input>
           </b-form-group>
 
-          <b-form-group id="input-group-image" label="Ảnh chuyên mục:" label-for="input-image">
-            <b-form-file id="input-image" @change="onFileChange" accept=".jpg, .png, .gif"></b-form-file>
-            <img class="mt-2" style="max-width: 100%; max-height: 500px;" v-if="url" :src="url" />
-            <img class="mt-2" style="max-width: 100%; max-height: 500px;" v-else />
+          <b-form-group
+            id="input-group-image"
+            label="Ảnh chuyên mục:"
+            label-for="input-image"
+          >
+            <b-form-file
+              id="input-image"
+              @change="onFileChange"
+              accept=".jpg, .png, .gif"
+            ></b-form-file>
+            <img
+              class="mt-2"
+              style="max-width: 100%; max-height: 500px;"
+              v-if="url"
+              :src="url"
+            />
+            <img
+              class="mt-2"
+              style="max-width: 100%; max-height: 500px;"
+              v-else
+            />
           </b-form-group>
-          <va-button @click="create" type="primary">Tạo</va-button>
+          <va-button
+            :active="canCreate"
+            :disabled="canCreate"
+            @click="create"
+            type="primary"
+            >Tạo</va-button
+          >
         </b-form>
       </b-col>
     </div>
@@ -46,6 +80,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { required } from 'vuelidate/lib/validators'
 export default {
   data: () => ({
     breadcrumb: ['Dashboard', 'Thêm Chuyên Mục'],
@@ -55,10 +90,17 @@ export default {
       description: '',
     },
   }),
+  validations: {
+    form: {
+      name: {
+        required,
+      },
+    },
+  },
   computed: {
-    ...mapGetters({
-      categories: 'category/categories',
-    }),
+    canCreate() {
+      return this.$v.form.$anyError
+    },
   },
   methods: {
     onFileChange(e) {
@@ -67,15 +109,12 @@ export default {
     },
     async create() {
       let submit = new Object()
-      if (this.form.name) {
-        submit.name = this.form.name
-      }
+      submit.name = this.form.name
       if (this.form.description) {
         submit.description = this.form.description
       }
-      this.$http.setHeader('Accept', 'application/json')
-      await this.$http.$post(`categories/`, {
-        ...submit,
+      await this.$store.dispatch('category/create', {
+        submit: submit,
       })
       this.$router.push('/categories')
     },

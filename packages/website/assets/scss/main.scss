@@ -1,5 +1,9 @@
+@import '@pubnow/ui/scss/_fonts.scss';
+
 body {
   background-color: #fcfcfc !important;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .page-enter-active,
@@ -19,4 +23,23 @@ body {
 
 *:focus {
   outline: 0px !important;
+}
+
+// Froala Editor
+.fr-toolbar.fr-top,
+.second-toolbar {
+  border-radius: 0;
+}
+
+.content-article {
+  * {
+    font-size: 19px;
+    line-height: 1.58;
+    font-family: $noto !important;
+  }
+}
+
+// Dropdown
+.va-dropdown-con .va-dropdown-menu {
+  max-height: unset !important;
 }

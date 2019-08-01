@@ -3,35 +3,26 @@
     <Heading>Nổi bật</Heading>
     <div class="list-articles">
       <ul class="block-list block-list-1 list-unstyled">
-        <li class="block-post" v-for="(i,index) in 5" :key="index">
+        <li class="block-post" v-for="(article, index) in featuredPosts" :key="article.id">
           <div class="inner">
             <div class="thumb">
-              <a href="#">
-                <img
-                  src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-thumbnails/3d0dffa0a5fc11e9b913cba60d029abb.jpg"
-                  alt
-                  class="loaded"
-                />
-              </a>
+              <nuxt-link :to="`/bai-viet/${article.slug}`">
+                <img :src="article.thumbnail" alt class="loaded" />
+              </nuxt-link>
             </div>
             <div class="body">
               <h3 class="title">
-                <a href="#">Tư duy kiểu bổ củi</a>
+                <nuxt-link :to="`/bai-viet/${article.slug}`">{{ article.title }}</nuxt-link>
               </h3>
-              <a
-                v-if="index===0"
-                href="#"
-                class="description"
-              >Freakonomics tuần này có đưa lại một chủ đề cũ, là chuyện làm cách nào để giảm tỷ lệ người phạm tội, rơi vào vòng lao lý trong xã hội, tại sao xã hội Mỹ vài chục năm trước tỷ lệ tội phạm rất cao mà...</a>
-              <div class="author">
-                <a href="#" class="avatar">
-                  <img
-                    src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/6af98060633a11e9a28fd11406bd98c6.jpg"
-                    alt
-                  />
-                </a>
-                <a href="#" class="username">Curly Rae Braces</a>
-              </div>
+              <a v-if="index===0" href="#" class="description">{{ article.excerpt | unescape }}</a>
+              <nuxt-link :to="`/nguoi-dung/${article.author.username}`" class="author">
+                <img
+                  class="avatar"
+                  :src="article.author.avatar ? article.author.avatar : 'https://bulma.io/images/placeholders/128x128.png'"
+                  alt
+                />
+                <span class="username">{{ article.author.name }}</span>
+              </nuxt-link>
             </div>
           </div>
         </li>
@@ -41,9 +32,20 @@
 </template>
 
 <script>
+import shuffle from 'lodash.shuffle'
+import take from 'lodash.take'
+import { mapGetters } from 'vuex'
 import Heading from '../common/HeadingText'
 
 export default {
+  computed: {
+    ...mapGetters({
+      articles: 'article/featured',
+    }),
+    featuredPosts() {
+      return take(this.articles, 5).reverse()
+    },
+  },
   components: {
     Heading,
   },
@@ -86,11 +88,7 @@ export default {
               width: 100%;
               height: 100%;
               position: absolute;
-              left: 50%;
-              -webkit-transform: translateX(-50%);
-              -moz-transform: translateX(-50%);
-              -o-transform: translateX(-50%);
-              transform: translateX(-50%);
+              object-fit: contain;
             }
             .loaded {
               opacity: 1;
@@ -114,24 +112,22 @@ export default {
             .author {
               font-size: 13px;
               line-height: 15px;
-              padding: 15px 0 15px 46px;
+              margin-bottom: 15px;
+              &:hover {
+                text-decoration: none !important;
+                .username {
+                  color: $n100;
+                }
+              }
               .avatar {
                 height: 36px;
                 width: 36px;
-                overflow: hidden;
-                float: left;
-                text-align: center;
                 border-radius: 50%;
-                margin-left: -46px;
-                margin-top: -10px;
-                & img {
-                  max-width: 100%;
-                  max-height: 100%;
-                  border-radius: 50%;
-                }
+                object-fit: cover;
+                margin-right: 5px;
               }
               .username {
-                color: #99a3ad;
+                color: $n70;
                 cursor: pointer;
                 font-size: 13px;
               }
@@ -198,7 +194,6 @@ export default {
         text-decoration: none;
         line-height: 1.6rem;
         font-size: 1rem;
-        font-weight: 300 !important;
         word-break: break-word;
         color: $n90;
         max-height: 100px;
