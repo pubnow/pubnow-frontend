@@ -24,7 +24,11 @@ export default {
   computed: {
     ...mapGetters({
       listCategory: 'category/categories',
+      user: 'auth/user',
     }),
+  },
+  mounted() {
+    this.$store.dispatch('category/list')
   },
 }
 </script>

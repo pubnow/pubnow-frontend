@@ -1,52 +1,54 @@
 <template>
-  <b-container>
-    <b-row>
-      <b-col :sm="8" :offset-sm="2">
-        <author
-          :author="article.author"
-          :time="article.createdAt"
-          :category="article.category"
-          :slug="article.slug"
-        />
-        <navbar
-          :clap="article.claps"
-          :clapped="article.clapped"
-          :bookmarked="article.bookmarked"
-          :commentNum="count"
-          :articleID="article.id"
-        />
-        <h1 class="title my-4">{{ article.title }}</h1>
-        <div class="content-article fr-element fr-view" v-html="article.content"></div>
-        <no-ssr>
-          <nuxt-link v-for="tag in article.tags" :key="tag.id" :to="`/tag/${tag.slug}`">
-            <va-button class="ml-2 button mt-2" size="xs">{{ tag.name }}</va-button>
-          </nuxt-link>
+  <no-ssr>
+    <b-container>
+      <b-row>
+        <b-col :sm="8" :offset-sm="2">
+          <author
+            :author="article.author"
+            :time="article.createdAt"
+            :category="article.category"
+            :slug="article.slug"
+          />
+          <navbar
+            :clap="article.claps"
+            :clapped="article.clapped"
+            :bookmarked="article.bookmarked"
+            :commentNum="count"
+            :articleID="article.id"
+          />
+          <h1 class="title my-4">{{ article.title }}</h1>
+          <div class="content-article fr-element fr-view" v-html="article.content"></div>
+          <no-ssr>
+            <nuxt-link v-for="tag in article.tags" :key="tag.id" :to="`/tag/${tag.slug}`">
+              <va-button class="ml-2 button mt-2" size="xs">{{ tag.name }}</va-button>
+            </nuxt-link>
 
-          <div class="d-flex justify-content-end my-2">{{ article.seen_count }} lượt xem</div>
-          <div v-if="user">
+            <div class="d-flex justify-content-end my-2">{{ article.seen_count }} lượt xem</div>
+            <div v-if="user">
+              <hr />
+              <description
+                :fullname="article.author.name"
+                :username="article.author.username"
+                :avatar="article.author.avatar"
+                :category="article.category.name"
+                :categorySlug="article.category.slug"
+                :description="article.category.description"
+                :followUser="article.author.following"
+                :followCategory="article.category.following"
+              />
+            </div>
             <hr />
-            <description
-              :fullname="article.author.name"
-              :username="article.author.username"
-              :avatar="article.author.avatar"
-              :category="article.category.name"
-              :categorySlug="article.category.slug"
-              :description="article.category.description"
-              :followUser="article.author.following"
-              :followCategory="article.category.following"
-            />
-          </div>
-          <hr />
-          <v-wait for="loading comment">
-            <template slot="waiting">
-              <div>Loading the comment...</div>
-            </template>
-            <comment :comments="comment" :commentNum="count" :articleID="article.id" />
-          </v-wait>
-        </no-ssr>
-      </b-col>
-    </b-row>
-  </b-container>
+            <v-wait for="loading comment">
+              <template slot="waiting">
+                <div>Loading the comment...</div>
+              </template>
+              <comment :comments="comment" :commentNum="count" :articleID="article.id" />
+            </v-wait>
+          </no-ssr>
+        </b-col>
+      </b-row>
+    </b-container>
+  </no-ssr>
 </template>
 
 <script>

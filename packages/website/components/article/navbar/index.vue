@@ -1,55 +1,66 @@
 <template>
-  <div class="wrap-affix d-flex flex-column py-2">
-    <div>
+  <no-ssr>
+    <div class="wrap-affix d-flex flex-column py-2">
+      <div>
+        <img
+          v-if="clapStatus"
+          :src="require('@/assets/images/icons/clap-filter.svg')"
+          @click="clapArticle(articleID)"
+          alt="clap filter icon"
+          class="icon icon-large evenodd"
+        />
+        <img
+          v-else
+          :src="require('@/assets/images/icons/clap.svg')"
+          @click="clapArticle(articleID)"
+          alt="clap icon"
+          class="icon icon-large"
+        />
+      </div>
+      <span>{{ clapNum }}</span>
       <img
-        v-if="clapStatus"
-        :src="require('@/assets/images/icons/clap-filter.svg')"
-        @click="clapArticle(articleID)"
-        alt="clap filter icon"
-        class="icon icon-large evenodd"
-      />
-      <img
-        v-else
-        :src="require('@/assets/images/icons/clap.svg')"
-        @click="clapArticle(articleID)"
+        :src="require('@/assets/images/icons/comment.svg')"
         alt="clap icon"
-        class="icon icon-large"
+        class="icon icon-small mt-3"
       />
-    </div>
-    <span>{{ clapNum }}</span>
-    <img
-      :src="require('@/assets/images/icons/comment.svg')"
-      alt="clap icon"
-      class="icon icon-small mt-3"
-    />
-    <span>{{ commentNum }}</span>
-    <div>
+      <span>{{ commentNum }}</span>
+      <div>
+        <img
+          v-if="bookmarkStatus"
+          :src="require('@/assets/images/icons/bookmark-filter.svg')"
+          @click="showModal"
+          alt="bookmark filter icon"
+          class="icon icon-large mt-3"
+        />
+        <img
+          v-else
+          :src="require('@/assets/images/icons/bookmark.svg')"
+          @click="bookmarkArticle(articleID)"
+          alt="bookmark icon"
+          class="icon icon-large mt-3"
+        />
+      </div>
       <img
-        v-if="bookmarkStatus"
-        :src="require('@/assets/images/icons/bookmark-filter.svg')"
-        @click="bookmarkArticle(articleID)"
-        alt="bookmark filter icon"
-        class="icon icon-large mt-3"
+        :src="require('@/assets/images/icons/facebook.svg')"
+        alt="facebook icon"
+        class="icon icon-small mt-3"
       />
       <img
-        v-else
-        :src="require('@/assets/images/icons/bookmark.svg')"
-        @click="bookmarkArticle(articleID)"
-        alt="bookmark icon"
-        class="icon icon-large mt-3"
+        :src="require('@/assets/images/icons/lock.svg')"
+        alt="lock icon"
+        class="icon icon-small mt-3"
       />
+      <va-modal title="Xác nhận" :backdrop-clickable="backdropClickable" ref="modal">
+        <div slot="body">Bạn có chắc chắn muốn xóa bookmark khỏi bài viết này không?</div>
+        <div slot="footer">
+          <div>
+            <va-button @click="$refs.modal.close()">Hủy</va-button>
+            <va-button type="primary" @click="bookmarkArticle(articleID)">Đồng ý</va-button>
+          </div>
+        </div>
+      </va-modal>
     </div>
-    <img
-      :src="require('@/assets/images/icons/facebook.svg')"
-      alt="facebook icon"
-      class="icon icon-small mt-3"
-    />
-    <img
-      :src="require('@/assets/images/icons/lock.svg')"
-      alt="lock icon"
-      class="icon icon-small mt-3"
-    />
-  </div>
+  </no-ssr>
 </template>
 
 <script>
@@ -82,6 +93,7 @@ export default {
       clapNum: 0,
       clapStatus: false,
       bookmarkStatus: false,
+      backdropClickable: true,
     }
   },
   computed: {
@@ -114,6 +126,7 @@ export default {
           this.$store.dispatch('bookmark/unBookmark', id).then(() => {
             this.bookmarkStatus = this.bookmarkedStatus
           })
+          this.$refs.modal.close()
         } else {
           this.$store.dispatch('bookmark/write', id).then(() => {
             this.bookmarkStatus = this.bookmarkedStatus
@@ -122,6 +135,9 @@ export default {
       } else {
         this.$router.push('/dang-nhap')
       }
+    },
+    showModal() {
+      this.$refs.modal.open()
     },
   },
 }

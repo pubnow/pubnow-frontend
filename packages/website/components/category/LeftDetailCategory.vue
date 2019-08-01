@@ -1,86 +1,115 @@
 <template>
-  <div class="left-content">
-    <ul class="feed-list">
-      <li class="feed-post">
-        <div class="inner">
-          <div class="author">
-            <img
-              :src="article.author.avatar"
-              class="avatar"
-              v-if="article.author.avatar !== ''"
-              alt
-            />
-            <img v-else class="avatar" src="https://cdn.head-fi.org/g/2283245_l.jpg" alt />
-            <div class="d-flex flex-column justify-content-center">
-              <div>
-                <span class="hover-username">
-                  <a href="#" class="name">{{article.author.name}}</a>
-                </span>
-                trong
-                <a class="category-name">{{categoryName}}</a>
-              </div>
-              <div class="created">
-                <span class="date">{{article.updatedAt | formatDate}}</span>
-              </div>
-            </div>
-          </div>
-          <nuxt-link :to="`/bai-viet/${article.slug}`" class="link-article">
-            <div class="image">
+  <no-ssr>
+    <div class="left-content">
+      <ul class="feed-list">
+        <li class="feed-post">
+          <div class="inner">
+            <div class="author">
               <img
-                class="img-fluid w-100"
-                v-if="article.thumbnail !== ''"
-                :src="article.thumbnail"
+                :src="article.author.avatar"
+                class="avatar"
+                v-if="article.author.avatar !== ''"
                 alt
               />
-              <div v-else class="no-thumbnail h-100 d-flex justify-content-center">
-                <img class="thumbnail-logo" src="@/assets/images/logo.svg" alt />
+              <img v-else class="avatar" src="https://cdn.head-fi.org/g/2283245_l.jpg" alt />
+              <div class="d-flex flex-column justify-content-center">
+                <div>
+                  <span class="hover-username">
+                    <nuxt-link
+                      :to="`/nguoi-dung/${article.author.username}`"
+                      class="name"
+                    >{{article.author.name}}</nuxt-link>
+                  </span>
+                  trong
+                  <nuxt-link
+                    :to="`/danh-muc/${article.category.slug}`"
+                    class="category-name"
+                  >{{categoryName}}</nuxt-link>
+                </div>
+                <div class="created">
+                  <span class="date">{{article.updatedAt | formatDate}}</span>
+                </div>
               </div>
             </div>
-            <h3 class="title">{{article.title}}</h3>
-            <p class="content">{{article.excerpt}}</p>
-          </nuxt-link>
-          <div class="tags" v-if="article.tags.length > 0">
-            <ul class="list-unstyled" v-for="(tag, id) in article.tags" :key="id">
-              <li>
-                <nuxt-link :to="`/tag/${tag.slug}`">{{tag.name}}</nuxt-link>
-              </li>
-            </ul>
-          </div>
-          <div class="toolbar">
-            <div class="pull-left">
-              <div class="vote-box">
+            <nuxt-link :to="`/bai-viet/${article.slug}`" class="link-article">
+              <div class="image">
+                <img
+                  class="img-fluid w-100"
+                  v-if="article.thumbnail !== ''"
+                  :src="article.thumbnail"
+                  alt
+                />
+                <div v-else class="no-thumbnail h-100 d-flex justify-content-center">
+                  <img class="thumbnail-logo" src="@/assets/images/logo.svg" alt />
+                </div>
+              </div>
+              <h3 class="title">{{article.title}}</h3>
+              <p class="content">{{article.excerpt}}</p>
+            </nuxt-link>
+            <div class="tags" v-if="article.tags.length > 0">
+              <ul class="list-unstyled" v-for="(tag, id) in article.tags" :key="id">
+                <li>
+                  <nuxt-link :to="`/tag/${tag.slug}`">{{tag.name}}</nuxt-link>
+                </li>
+              </ul>
+            </div>
+            <div class="toolbar">
+              <div class="pull-left">
+                <div class="vote-box">
+                  <span class="icon">
+                    <img
+                      v-if="clapStatus"
+                      :src="require('@/assets/images/icons/clap-filter.svg')"
+                      @click="clapArticle(article.id)"
+                      alt="clap filter icon"
+                    />
+                    <img
+                      v-else
+                      :src="require('@/assets/images/icons/clap.svg')"
+                      @click="clapArticle(article.id)"
+                      alt="clap icon"
+                    />
+                  </span>
+                  <span>{{clapNum}}</span>
+                </div>
+              </div>
+              <div class="pull-right">
+                <span class="views">
+                  <span class="icon">
+                    <img :src="require('@/assets/images/icons/comment.svg')" alt="clap icon" />
+                  </span>
+                  <span class="text">{{article.comments_count}}</span>
+                </span>
                 <span class="icon">
                   <img
-                    :src="require('@/assets/images/icons/clap.svg')"
-                    alt="clap icon"
-                    @click="clapArticle(article.id)"
+                    v-if="bookmarkStatus"
+                    :src="require('@/assets/images/icons/bookmark-filter.svg')"
+                    @click="showModal"
+                    alt="bookmark filter icon"
                   />
-                </span>
-                <a>{{article.claps}}</a>
-              </div>
-            </div>
-            <div class="pull-right">
-              <span class="views">
-                <span class="icon">
-                  <img :src="require('@/assets/images/icons/comment.svg')" alt="clap icon" />
-                </span>
-                <span class="text">{{article.comments_count}}</span>
-              </span>
-              <a href="#" class="comment">
-                <span class="icon">
                   <img
+                    v-else
                     :src="require('@/assets/images/icons/bookmark.svg')"
-                    alt="comment icon"
                     @click="bookmarkArticle(article.id)"
+                    alt="bookmark icon"
                   />
                 </span>
-              </a>
+              </div>
             </div>
+          </div>
+        </li>
+      </ul>
+      <va-modal title="Xác nhận" :backdrop-clickable="backdropClickable" ref="modal">
+        <div slot="body">Bạn có chắc chắn muốn xóa bookmark khỏi bài viết này không?</div>
+        <div slot="footer">
+          <div>
+            <va-button @click="$refs.modal.close()">Hủy</va-button>
+            <va-button type="primary" @click="bookmarkArticle(article.id)">Đồng ý</va-button>
           </div>
         </div>
-      </li>
-    </ul>
-  </div>
+      </va-modal>
+    </div>
+  </no-ssr>
 </template>
 
 <script>
@@ -94,20 +123,53 @@ export default {
       type: String,
     },
   },
+  data() {
+    return {
+      clapNum: 0,
+      clapStatus: false,
+      bookmarkStatus: false,
+      backdropClickable: true,
+    }
+  },
   computed: {
     ...mapGetters({
       user: 'auth/user',
+      numClap: 'clap/clapNum',
+      clappedStatus: 'clap/clapped',
+      bookmarkedStatus: 'bookmark/bookmarked',
     }),
+  },
+  mounted() {
+    this.clapNum = this.article.claps
+    this.clapStatus = this.article.clapped
+    this.bookmarkStatus = this.article.bookmarked
   },
   methods: {
     clapArticle(id) {
       if (this.user) {
+        this.$store.dispatch('clap/write', id).then(() => {
+          this.clapNum = this.numClap
+          this.clapStatus = this.clappedStatus
+        })
       } else {
         this.$router.push('/dang-nhap')
       }
     },
+    showModal() {
+      this.$refs.modal.open()
+    },
     bookmarkArticle(id) {
       if (this.user) {
+        if (this.bookmarkStatus) {
+          this.$store.dispatch('bookmark/unBookmark', id).then(() => {
+            this.bookmarkStatus = this.bookmarkedStatus
+          })
+          this.$refs.modal.close()
+        } else {
+          this.$store.dispatch('bookmark/write', id).then(() => {
+            this.bookmarkStatus = this.bookmarkedStatus
+          })
+        }
       } else {
         this.$router.push('/dang-nhap')
       }
@@ -241,12 +303,6 @@ export default {
 .icon {
   color: #99a3ad;
   font-size: 20px;
-  cursor: pointer;
-}
-a {
-  background-color: transparent;
-  text-decoration: none;
-  outline: none;
   cursor: pointer;
 }
 

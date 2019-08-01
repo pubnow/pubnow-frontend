@@ -5,20 +5,55 @@
     </nuxt-link>
     <no-ssr>
       <va-button
-        v-if="following"
+        v-if="followCategoryStatus"
+        @click="handleFollowCategory(slug)"
+        class="action-button btn-active btn-round btn-follow"
+      >Đang theo dõi</va-button>
+      <va-button
+        v-else
         class="action-button btn btn-default btn-round btn-follow"
-      >Dang theo dõi</va-button>
-      <va-button v-else class="action-button btn btn-default btn-round btn-follow">Theo dõi</va-button>
+        @click="handleFollowCategory(slug)"
+      >Theo dõi</va-button>
     </no-ssr>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
   props: {
     title: String,
     image: String,
     slug: String,
     following: Boolean,
+  },
+  data() {
+    return {
+      followCategoryStatus: false,
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/user',
+      followedCategoryStatus: 'follow/followCategory',
+    }),
+  },
+  mounted() {
+    this.followCategoryStatus = this.following
+  },
+  methods: {
+    handleFollowCategory(slug) {
+      if (this.user) {
+        if (this.followCategoryStatus) {
+          this.$store.dispatch('follow/unFollowCategory', slug).then(() => {
+            this.followCategoryStatus = this.followedCategoryStatus
+          })
+        } else {
+          this.$store.dispatch('follow/followCategory', slug).then(() => {
+            this.followCategoryStatus = this.followedCategoryStatus
+          })
+        }
+      }
+    },
   },
 }
 </script>
@@ -73,6 +108,21 @@ export default {
     cursor: pointer;
     user-select: none;
     border: 1px solid transparent;
+  }
+  .btn-active {
+    padding: 6px 18px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid #fff;
+    background-color: #2fb5fa;
+    color: #fff;
   }
 }
 </style>
