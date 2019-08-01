@@ -1,32 +1,36 @@
 <template>
-  <b-container class="bg-white">
-    <b-row>
-      <b-col cols="9">
-        <information />
-        <contents />
-        <b-container>
-          <item-series
-            v-for="(item, index) in series"
-            :key="`series-${index}`"
-            :avatar="item.avatar"
-            :author="item.author"
-            :title="item.title"
-            :date="item.date"
-            :tags="item.tags"
-            :views="item.views"
-            :clips="item.clips"
-            :comments="item.comments"
-            :posts="item.posts"
-            :claps="item.claps"
-          />
-        </b-container>
-        <comments />
-      </b-col>
-      <p-col cols="3">
-        <user />
-      </p-col>
-    </b-row>
-  </b-container>
+  <no-ssr>
+    <b-container>
+      <b-row>
+        <b-col md="8">
+          <information />
+          <contents />
+          <div>
+            <item-series
+              v-for="(item, index) in series"
+              :key="`series-${index}`"
+              :avatar="item.avatar"
+              :author="item.author"
+              :title="item.title"
+              :date="item.date"
+              :tags="item.tags"
+              :views="item.views"
+              :clips="item.clips"
+              :comments="item.comments"
+              :posts="item.posts"
+              :claps="item.claps"
+            />
+          </div>
+          <comments />
+        </b-col>
+        <b-col md="4">
+          <va-affix :offset="70">
+            <user />
+          </va-affix>
+        </b-col>
+      </b-row>
+    </b-container>
+  </no-ssr>
 </template>
 
 <script>
