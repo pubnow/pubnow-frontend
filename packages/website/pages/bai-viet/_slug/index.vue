@@ -6,42 +6,44 @@
           <template slot="waiting">
             <ArticleContentPlaceholder />
           </template>
-          <author
-            :author="article.author"
-            :time="article.createdAt"
-            :category="article.category"
-            :slug="article.slug"
-          />
-          <navbar
-            :clap="article.claps"
-            :clapped="article.clapped"
-            :bookmarked="article.bookmarked"
-            :commentNum="count"
-            :articleID="article.id"
-          />
-          <h1 class="title my-4">{{ article.title }}</h1>
-          <div class="content-article fr-element fr-view" v-html="article.content"></div>
-          <no-ssr>
-            <nuxt-link v-for="tag in article.tags" :key="tag.id" :to="`/tag/${tag.slug}`">
-              <va-button class="ml-2 button mt-2" size="xs">{{ tag.name }}</va-button>
-            </nuxt-link>
+          <div v-if="article">
+            <author
+              :author="article.author"
+              :time="article.createdAt"
+              :category="article.category"
+              :slug="article.slug"
+            />
+            <navbar
+              :clap="article.claps"
+              :clapped="article.clapped"
+              :bookmarked="article.bookmarked"
+              :commentNum="count"
+              :articleID="article.id"
+            />
+            <h1 class="title my-4">{{ article.title }}</h1>
+            <div class="content-article fr-element fr-view" v-html="article.content"></div>
+            <no-ssr>
+              <nuxt-link v-for="tag in article.tags" :key="tag.id" :to="`/tag/${tag.slug}`">
+                <va-button class="ml-2 button mt-2" size="xs">{{ tag.name }}</va-button>
+              </nuxt-link>
 
-            <div class="d-flex justify-content-end my-2">{{ article.seen_count }} lượt xem</div>
-            <div v-if="user">
+              <div class="d-flex justify-content-end my-2">{{ article.seen_count }} lượt xem</div>
+              <div v-if="user">
+                <hr />
+                <description
+                  :fullname="article.author.name"
+                  :username="article.author.username"
+                  :avatar="article.author.avatar"
+                  :category="article.category.name"
+                  :categorySlug="article.category.slug"
+                  :description="article.category.description"
+                  :followUser="article.author.following"
+                  :followCategory="article.category.following"
+                />
+              </div>
               <hr />
-              <description
-                :fullname="article.author.name"
-                :username="article.author.username"
-                :avatar="article.author.avatar"
-                :category="article.category.name"
-                :categorySlug="article.category.slug"
-                :description="article.category.description"
-                :followUser="article.author.following"
-                :followCategory="article.category.following"
-              />
-            </div>
-            <hr />
-          </no-ssr>
+            </no-ssr>
+          </div>
         </v-wait>
       </b-col>
     </b-row>
@@ -51,7 +53,7 @@
           <template slot="waiting" transition="fade" mode="out-in">
             <CommentPlaceholder />
           </template>
-          <comment :comments="comment" :commentNum="count" :articleID="article.id" />
+          <comment v-if="article" :comments="comment" :commentNum="count" :articleID="article.id" />
         </v-wait>
       </b-col>
     </b-row>
@@ -88,11 +90,11 @@ export default {
   },
   async mounted() {
     const { slug } = this.$route.params
-    if (slug !== this.article.slug) {
+    if (!this.article || (this.article && slug !== this.article.slug)) {
       this.$store.dispatch('article/show', slug)
     }
     this.$wait.start('loading comment')
-    await this.$store.dispatch('comment/show', this.article.slug)
+    await this.$store.dispatch('comment/show', slug)
     this.$wait.end('loading comment')
     this.numComment(this.comment)
     this.$store.dispatch('comment/count', this.commentNum)
@@ -104,7 +106,7 @@ export default {
   },
   head() {
     return {
-      title: this.article.title || 'Bài viết',
+      title: (this.article && this.article.title) || 'Bài viết',
     }
   },
   data() {
