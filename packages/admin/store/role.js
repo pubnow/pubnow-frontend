@@ -23,4 +23,8 @@ export const actions = {
       return false
     }
   },
+  async create(_, create) {
+    this.$http.setHeader('Accept', 'application/json')
+    await this.$http.$post('roles', create.submit)
+  },
 }
