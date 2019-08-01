@@ -27,6 +27,9 @@
         <nuxt-link to="/bookmark">Danh sách Bookmark</nuxt-link>
       </li>
       <li>
+        <nuxt-link to="/series/tao-moi">Tạo mới series</nuxt-link>
+      </li>
+      <li>
         <nuxt-link to="/danh-sach-theo-doi">Danh sách theo dõi</nuxt-link>
       </li>
       <hr />
