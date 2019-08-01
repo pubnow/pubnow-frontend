@@ -17,11 +17,19 @@ export const actions = {
     try {
       const result = await this.$http.$get('roles')
       const { data } = result
-      console.log(result)
       commit('setRoles', data)
       return true
     } catch (e) {
       return false
     }
+  },
+  async update(_, { id, ...updateData }) {
+    this.$http.setHeader('Accept', 'application/json')
+    await this.$http.$put(`roles/${id}`, {
+      ...updateData,
+    })
+  },
+  async delRole(_, id) {
+    await this.$http.delete(`roles/${id}`)
   },
 }

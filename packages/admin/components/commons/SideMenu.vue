@@ -19,7 +19,9 @@ export default {
         {
           name: 'Chức vụ',
           route: '/roles',
-          icon: 'file',
+          icon: 'user',
+        },
+        {
           name: 'Tổ chức',
           route: '/organizations',
           icon: 'users',
