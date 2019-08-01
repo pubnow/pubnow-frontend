@@ -5,7 +5,7 @@
         <aside class="uiScale name-dec">
           <HeadingText>Phổ biến tại Pubnow</HeadingText>
           <div class="mt-4">
-            <ul>
+            <ul class="list">
               <li class="d-flex mb-3 item" v-for="(article, index) in articles" :key="index">
                 <div class="counter">0{{index+1}}</div>
                 <div class="flex-grow-1 ml-2">
@@ -67,27 +67,30 @@ export default {
 @import '@pubnow/ui/scss/_fonts.scss';
 
 .right {
-  .item {
-    .counter {
-      font-size: 32px;
-      color: $n50;
-      margin-top: $unit / 2;
-    }
-    a {
-      .title {
-        font-family: $ale;
-        font-weight: 700;
-        color: $n800;
+  .list {
+    padding-left: 0;
+    .item {
+      .counter {
+        font-size: 36px;
+        color: $n50;
+        margin-top: $unit / 3;
       }
+      a {
+        .title {
+          font-family: $ale;
+          font-weight: 700;
+          color: $n800;
+        }
 
-      &:hover {
-        text-decoration: none;
+        &:hover {
+          text-decoration: none;
+        }
       }
-    }
-    .author,
-    .category {
-      color: rgba(0, 0, 0, 0.84) !important;
-      text-decoration: none !important;
+      .author,
+      .category {
+        color: rgba(0, 0, 0, 0.84) !important;
+        text-decoration: none !important;
+      }
     }
   }
 }
