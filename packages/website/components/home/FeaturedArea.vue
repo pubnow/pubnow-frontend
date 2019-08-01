@@ -14,17 +14,15 @@
               <h3 class="title">
                 <nuxt-link :to="`/bai-viet/${article.slug}`">{{ article.title }}</nuxt-link>
               </h3>
-              <a v-if="index===0" href="#" class="description">{{ article.excerpt }}</a>
-              <div class="author d-flex flex-row align-items-center mb-2">
-                <nuxt-link :to="`/nguoi-dung/${article.author.username}`">
-                  <img
-                    class="avatar"
-                    :src="article.author.avatar ? article.author.avatar : 'https://bulma.io/images/placeholders/128x128.png'"
-                    alt
-                  />
-                  <span class="username">{{ article.author.name }}</span>
-                </nuxt-link>
-              </div>
+              <a v-if="index===0" href="#" class="description">{{ article.excerpt | unescape }}</a>
+              <nuxt-link :to="`/nguoi-dung/${article.author.username}`" class="author">
+                <img
+                  class="avatar"
+                  :src="article.author.avatar ? article.author.avatar : 'https://bulma.io/images/placeholders/128x128.png'"
+                  alt
+                />
+                <span class="username">{{ article.author.name }}</span>
+              </nuxt-link>
             </div>
           </div>
         </li>
@@ -198,7 +196,6 @@ export default {
         text-decoration: none;
         line-height: 1.6rem;
         font-size: 1rem;
-        font-weight: 300 !important;
         word-break: break-word;
         color: $n90;
         max-height: 100px;

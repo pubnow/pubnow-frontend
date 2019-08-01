@@ -26,6 +26,9 @@ export default {
     Information,
     HtmlEditor,
   },
+  mounted() {
+    this.$store.commit('article/reset')
+  },
   computed: {
     ...mapGetters(['api']),
   },

@@ -2,6 +2,8 @@
 
 body {
   background-color: #fcfcfc !important;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .page-enter-active,
@@ -32,6 +34,7 @@ body {
 .content-article {
   * {
     font-size: 19px;
+    line-height: 1.58;
     font-family: $noto !important;
   }
 }

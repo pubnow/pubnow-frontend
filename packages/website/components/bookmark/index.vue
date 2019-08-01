@@ -8,7 +8,7 @@
               <h2 class="title">{{ article.title }}</h2>
             </nuxt-link>
             <a href="#" class="w-100">
-              <div class="mt-1 description">{{article.excerpt}}</div>
+              <div class="mt-1 description">{{article.excerpt | unescape }}</div>
             </a>
           </div>
           <div class="mt-2">
@@ -73,7 +73,6 @@ export default {
         }
         .description {
           color: $n100;
-          font-weight: 300;
           font-size: 1rem;
         }
         :hover {

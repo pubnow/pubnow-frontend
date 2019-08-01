@@ -6,7 +6,7 @@
         <div class="article-post flex-grow-1">
           <nuxt-link :to="`/bai-viet/${article.slug}`" class="text-dec">
             <h2 class="title">{{ article.title }}</h2>
-            <div class="mt-1 description">{{article.excerpt}}</div>
+            <div class="mt-1 description">{{article.excerpt | unescape}}</div>
           </nuxt-link>
           <div class="mt-2">
             <nuxt-link :to="`/nguoi-dung/${article.author.username}`">{{ article.author.name }}</nuxt-link>
@@ -73,7 +73,6 @@ export default {
       }
       .description {
         color: $n100;
-        font-weight: 300;
         font-size: 1rem;
       }
       :hover {

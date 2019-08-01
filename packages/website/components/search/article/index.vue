@@ -12,7 +12,7 @@
         :fullname="article.author.name"
         :image="article.thumbnail"
         :category="article.category.name"
-        :description="article.excerpt"
+        :description="article.excerpt | unescape"
         :clap="article.claps"
         :comment="0"
         :date="article.createdAt"

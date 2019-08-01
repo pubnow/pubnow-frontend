@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "API_URL=https://api.staging.pubnow.co/api nuxt",
+    "dev:local": "API_URL=http://localhost:8000/api nuxt",
     "build": "API_URL=https://api.staging.pubnow.co/api nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"

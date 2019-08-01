@@ -15,7 +15,7 @@
       >{{ article.category.name }}</nuxt-link>
       &nbsp; · &nbsp; {{ article.content | timeRead }}
     </span>
-    <p class="text-body">{{ article.excerpt }}</p>
+    <p class="text-body">{{ article.excerpt | unescape }}</p>
     <div class="d-flex justify-content-between mt-4">
       <div>
         <img src="@/assets/images/icons/clap.svg" alt="clap icon" />
@@ -103,7 +103,6 @@ export default {
   }
   .text-body {
     font-size: 16px;
-    font-weight: 300;
     line-height: 1.5;
     word-break: break-word;
     color: $n500 !important;
