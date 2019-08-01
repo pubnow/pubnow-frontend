@@ -1,11 +1,13 @@
 export const state = () => ({
   comment: [],
   dataComment: [],
+  commentCount: 0,
 })
 
 export const getters = {
   dataComment: s => s.dataComment,
   comment: s => s.comment,
+  commentCount: s => s.commentCount,
 }
 
 export const mutations = {
@@ -15,6 +17,9 @@ export const mutations = {
   addComment(state, comment) {
     state.dataComment = comment
   },
+  setCommentCount(state, num) {
+    state.commentCount = num
+  }
 }
 
 export const actions = {
@@ -58,5 +63,8 @@ export const actions = {
     } catch (e) {
       return null
     }
+  },
+  async count({ commit }, data) {
+    commit('setCommentCount', data)
   },
 }

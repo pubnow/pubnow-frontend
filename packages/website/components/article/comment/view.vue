@@ -133,6 +133,7 @@ export default {
     ...mapGetters({
       user: 'auth/user',
       arrChildComments: 'comment/dataComment',
+      count: 'comment/commentCount',
     }),
   },
   data() {
@@ -178,6 +179,7 @@ export default {
       }
       this.$store.dispatch('comment/create', data).then(() => {
         let arr = this.childComment
+        this.$store.dispatch('comment/count', this.count + 1)
         this.childComment = [this.arrChildComments, ...arr]
       })
     },

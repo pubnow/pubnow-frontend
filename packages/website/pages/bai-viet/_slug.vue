@@ -12,7 +12,7 @@
           :clap="article.claps"
           :clapped="article.clapped"
           :bookmarked="article.bookmarked"
-          :commentNum="commentNum"
+          :commentNum="count"
           :articleID="article.id"
         />
         <h1 class="title my-4">{{ article.title }}</h1>
@@ -41,7 +41,7 @@
             <template slot="waiting">
               <div>Loading the comment...</div>
             </template>
-            <comment :comments="comment" :commentNum="commentNum" :articleID="article.id" />
+            <comment :comments="comment" :commentNum="count" :articleID="article.id" />
           </v-wait>
         </no-ssr>
       </b-col>
@@ -68,6 +68,7 @@ export default {
       article: 'article/article',
       comment: 'comment/comment',
       user: 'auth/user',
+      count: 'comment/commentCount',
     }),
   },
   async mounted() {
@@ -75,6 +76,7 @@ export default {
     await this.$store.dispatch('comment/show', this.article.slug)
     this.$wait.end('loading comment')
     this.numComment(this.comment)
+    this.$store.dispatch('comment/count', this.commentNum)
   },
   fetch({ store, params: { slug } }) {
     return store.dispatch('article/show', slug)

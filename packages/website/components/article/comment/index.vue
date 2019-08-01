@@ -63,6 +63,7 @@ export default {
       user: 'auth/user',
       arrChildComment: 'comment/comment',
       arrChildComments: 'comment/dataComment',
+      count: 'comment/commentCount',
     }),
   },
   mounted() {
@@ -78,6 +79,7 @@ export default {
       if (this.user) {
         this.$store.dispatch('comment/create', data).then(() => {
           let arr = this.dataComment
+          this.$store.dispatch('comment/count', this.count + 1)
           this.dataComment = [this.arrChildComments, ...arr]
         })
       } else {
