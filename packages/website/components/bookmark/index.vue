@@ -1,50 +1,98 @@
 <template>
-  <div class="latest">
-    <div class="mt-4">
-      <article class="article mb-5" v-for="article in articles" :key="article.id">
-        <div class="article-post flex-grow-1">
-          <div class="text-dec">
-            <nuxt-link :to="`/bai-viet/${article.slug}`" class="overflow-hidden w-100">
-              <h2 class="title">{{ article.title }}</h2>
-            </nuxt-link>
-            <a href="#" class="w-100">
-              <div class="mt-1 description">{{article.excerpt | unescape }}</div>
-            </a>
-          </div>
-          <div class="mt-2">
-            <nuxt-link to="/nguoi-dung/dacsang97">{{ article.author.name }}</nuxt-link>
-            <span class="ml-1">tại</span>
-            <nuxt-link to="/danh-muc/quan-diem-tranh-luan">{{ article.category.name }}</nuxt-link>
-            <div class="mt-1">
-              <span class="d-inline-block">{{ article.updatedAt | formatDate }}</span>
-              <span>.</span>
-              <span>{{ article.content | timeRead }}</span>
-              <span>
-                <i class="fas fa-star"></i>
-              </span>
+  <no-ssr>
+    <div class="latest my-2">
+      <article class="article mt-3" v-for="dataBookmark in bookmarks" :key="dataBookmark.id">
+        <div>
+          <div class="article-post flex-grow-1">
+            <div class="text-dec">
+              <nuxt-link
+                :to="`/bai-viet/${dataBookmark.article.slug}`"
+                class="overflow-hidden w-100"
+              >
+                <h2 class="title">{{ dataBookmark.article.title }}</h2>
+                <div class="mt-1 description">{{dataBookmark.article.excerpt}}</div>
+              </nuxt-link>
+            </div>
+            <div class="mt-2">
+              <nuxt-link
+                :to="`/nguoi-dung/${dataBookmark.article.author.username}`"
+              >{{ dataBookmark.article.author.name }}</nuxt-link>
+              <span class="ml-1">tại</span>
+              <nuxt-link
+                :to="`/danh-muc/${dataBookmark.article.category.slug}`"
+              >{{ dataBookmark.article.category.name }}</nuxt-link>
+              <div class="mt-1">
+                <span class="d-inline-block">{{ dataBookmark.article.updatedAt | formatDate }}</span>
+                <span>.</span>
+                <span>{{ dataBookmark.article.content | timeRead }}</span>
+                <span>
+                  <i class="fas fa-star"></i>
+                </span>
+              </div>
             </div>
           </div>
+          <div class="article-image">
+            <a
+              href="#"
+              class="d-block background-cover w-100 h-100"
+              v-bind:style="{ backgroundImage: `url(${dataBookmark.article.thumbnail})` }"
+            ></a>
+          </div>
         </div>
-        <div class="article-image">
-          <a
-            href="#"
-            class="d-block background-cover w-100 h-100"
-            v-bind:style="{ backgroundImage: `url(${article.thumbnail})` }"
-          ></a>
-        </div>
+        <va-button
+          class="mt-3 btn-remove px-3"
+          type="primary"
+          @click="showModal(dataBookmark.article.id)"
+        >
+          <i class="far fa-trash-alt mr-2"></i>
+          Xóa
+        </va-button>
       </article>
+      <va-modal title="Xác nhận" :backdrop-clickable="backdropClickable" ref="modal">
+        <div slot="body">Bạn có chắc chắn muốn xóa bookmark khỏi bài viết này không?</div>
+        <div slot="footer">
+          <div>
+            <va-button @click="$refs.modal.close()">Hủy</va-button>
+            <va-button type="primary" @click="removeBookmark(idArticle)">Đồng ý</va-button>
+          </div>
+        </div>
+      </va-modal>
     </div>
-  </div>
+  </no-ssr>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 
 export default {
+  data() {
+    return {
+      bookmarks: [],
+      backdropClickable: true,
+      idArticle: '',
+    }
+  },
   computed: {
     ...mapGetters({
-      articles: 'article/articles',
+      listBookmark: 'bookmark/listBookmark',
     }),
+  },
+  mounted() {
+    this.bookmarks = this.listBookmark
+  },
+  methods: {
+    removeBookmark(id) {
+      const index = this.bookmarks.findIndex(item => item.article.id === id)
+      let arr = [...this.bookmarks]
+      arr.splice(index, 1)
+      this.bookmarks = [...arr]
+      this.$store.dispatch('bookmark/unBookmark', id, this.bookmarks)
+      this.$refs.modal.close()
+    },
+    showModal(id) {
+      this.idArticle = id
+      this.$refs.modal.open()
+    },
   },
 }
 </script>
@@ -56,11 +104,9 @@ export default {
 
 .latest {
   .article {
-    display: flex;
-    -webkit-box-align: stretch;
-    align-items: stretch;
-    -webkit-box-flex: 1;
-    flex: 1 1 auto;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+    background: white;
     width: 100%;
 
     .text-dec {
@@ -91,12 +137,12 @@ export default {
     }
   }
   a {
-    color: rgba(0, 0, 0, 0.84) !important;
+    color: rgba(0, 0, 0, 0.85) !important;
     text-decoration: none !important;
-    :hover {
-      color: rgba(0, 0, 0, 0.84) !important;
-      text-decoration: none !important;
-    }
+  }
+  .btn-remove {
+    color: #fff !important;
+    cursor: pointer;
   }
 }
 </style>

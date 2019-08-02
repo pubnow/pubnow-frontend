@@ -3,7 +3,12 @@
     <b-container>
       <b-row>
         <b-col :sm="8">
-          <LeftDetailCategory v-for="i in 5" :key="i" />
+          <div v-if="category.articles.length > 0">
+            <div v-for="(article, id) in category.articles" :key="id">
+              <LeftDetailCategory :article="article" :categoryName="category.name" />
+            </div>
+          </div>
+          <h2 v-else class="text-align-center">Không có bài viết nào!</h2>
         </b-col>
         <b-col :sm="4">
           <HeaderDetailCategory />
@@ -14,6 +19,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import {
   HeaderDetailCategory,
   LeftDetailCategory,
@@ -26,6 +32,14 @@ export default {
     HeaderDetailCategory,
     LeftDetailCategory,
     RightDetailCategory,
+  },
+  computed: {
+    ...mapGetters({
+      category: 'category/category',
+    }),
+  },
+  fetch({ store, params: { slug } }) {
+    return store.dispatch('category/show', slug)
   },
 }
 </script>

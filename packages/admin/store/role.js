@@ -23,6 +23,15 @@ export const actions = {
       return false
     }
   },
+  async update(_, { id, ...updateData }) {
+    this.$http.setHeader('Accept', 'application/json')
+    await this.$http.$put(`roles/${id}`, {
+      ...updateData,
+    })
+  },
+  async delRole(_, id) {
+    await this.$http.delete(`roles/${id}`)
+  },
   async create(_, create) {
     this.$http.setHeader('Accept', 'application/json')
     await this.$http.$post('roles', create.submit)
