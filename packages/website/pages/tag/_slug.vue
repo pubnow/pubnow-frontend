@@ -6,14 +6,14 @@
           <div v-if="tag.articles.length > 0">
             <NameTag :tagName="tag.name" />
             <div v-for="(article, id) in tag.articles" :key="id">
-              <LeftDetailCategory :article="article" :categoryName="tag.name" />
+              <LeftDetailTag :article="article" :tagName="tag.name" />
             </div>
           </div>
           <h2 v-else class="text-align-center">Không có bài viết nào!</h2>
         </div>
         <div class="col-sm-4">
-          <HeaderDetailCategory />
-          <RightDetailCategory />
+          <HeaderDetailTag :name="tag.name" :following="tag.following" :slug="tag.slug" />
+          <RightDetailTag />
         </div>
       </div>
     </div>
@@ -21,17 +21,17 @@
 </template>
 <script>
 import {
-  HeaderDetailCategory,
-  LeftDetailCategory,
-  RightDetailCategory,
-} from '~/components/category'
+  HeaderDetailTag,
+  LeftDetailTag,
+  RightDetailTag,
+  NameTag,
+} from '~/components/tags'
 import { mapGetters } from 'vuex'
-import NameTag from '@/components/tags/NameTag'
 export default {
   components: {
-    HeaderDetailCategory,
-    LeftDetailCategory,
-    RightDetailCategory,
+    HeaderDetailTag,
+    LeftDetailTag,
+    RightDetailTag,
     NameTag,
   },
   computed: {

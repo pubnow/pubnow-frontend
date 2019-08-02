@@ -1,5 +1,5 @@
 <template>
-  <div class="category-heading">
+  <div class="tag-heading">
     <no-ssr>
       <div class="background">
         <img src="https://source.unsplash.com/random" alt />
@@ -7,14 +7,14 @@
       <div class="text-box">
         <div class="title">{{name}}</div>
         <va-button
-          v-if="followCategoryStatus"
-          @click="handleFollowCategory(slug)"
+          v-if="followTagStatus"
+          @click="handleFollowTag(slug)"
           class="mt-2 btn-active btn-round btn-follow"
         >Đang theo dõi</va-button>
         <va-button
           v-else
           class="mt-2 btn btn-default btn-round btn-follow"
-          @click="handleFollowCategory(slug)"
+          @click="handleFollowTag(slug)"
         >Theo dõi</va-button>
       </div>
     </no-ssr>
@@ -36,32 +36,32 @@ export default {
     slug: {
       type: String,
       required: true,
-    }
+    },
   },
   data() {
     return {
-      followCategoryStatus: false,
+      followTagStatus: false,
     }
   },
   computed: {
     ...mapGetters({
       user: 'auth/user',
-      followedCategoryStatus: 'follow/followCategory',
+      followedTagStatus: 'follow/followTag',
     }),
   },
   mounted() {
-    this.followCategoryStatus = this.following
+    this.followTagStatus = this.following
   },
   methods: {
-    handleFollowCategory(slug) {
+    handleFollowTag(slug) {
       if (this.user) {
-        if (this.followCategoryStatus) {
-          this.$store.dispatch('follow/unFollowCategory', slug).then(() => {
-            this.followCategoryStatus = this.followedCategoryStatus
+        if (this.followTagStatus) {
+          this.$store.dispatch('follow/unFollowTag', slug).then(() => {
+            this.followTagStatus = this.followedTagStatus
           })
         } else {
-          this.$store.dispatch('follow/followCategory', slug).then(() => {
-            this.followCategoryStatus = this.followedCategoryStatus
+          this.$store.dispatch('follow/followTag', slug).then(() => {
+            this.followTagStatus = this.followedTagStatus
           })
         }
       } else {
@@ -77,7 +77,7 @@ export default {
 @import '@pubnow/ui/scss/_fonts.scss';
 @import '@pubnow/ui/scss/_colors.scss';
 
-.category-heading {
+.tag-heading {
   width: 100%;
   font-size: 0;
   height: 200px;
