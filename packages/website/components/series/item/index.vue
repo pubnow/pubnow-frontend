@@ -1,7 +1,20 @@
 <template>
   <div class="mb-2 wrap-all p-3 bg-white">
     <div class="d-flex flex-column wrap-content">
-      <nuxt-link to="#" class="title">{{ title }}</nuxt-link>
+      <div class="d-flex justify-content-between">
+        <nuxt-link to="#" class="title">{{ title }}</nuxt-link>
+        <va-dropdown effect="fadeUp">
+          <div slot="trigger">
+            <i class="fas fa-ellipsis-h" />
+          </div>
+          <li>
+            <nuxt-link to="/series/abcde/chinh-sua">Chỉnh sửa</nuxt-link>
+          </li>
+          <li>
+            <a href="#" @click="deleteSeries">Xóa</a>
+          </li>
+        </va-dropdown>
+      </div>
       <div>
         <va-badge v-for="(tag, index) in tags" :key="`tag-${index}`" class="mr-1">{{ tag }}</va-badge>
       </div>
@@ -74,6 +87,11 @@ export default {
     claps: {
       type: Number,
       required: true,
+    },
+  },
+  methods: {
+    deleteSeries() {
+      console.log('delete')
     },
   },
 }
