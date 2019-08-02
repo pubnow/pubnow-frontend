@@ -11,7 +11,11 @@
           <h2 v-else class="text-align-center">Không có bài viết nào!</h2>
         </b-col>
         <b-col :sm="4">
-          <HeaderDetailCategory />
+          <HeaderDetailCategory
+            :name="category.name"
+            :following="category.following"
+            :slug="category.slug"
+          />
           <RightDetailCategory />
         </b-col>
       </b-row>

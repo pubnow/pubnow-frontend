@@ -52,6 +52,8 @@ export default {
             this.followCategoryStatus = this.followedCategoryStatus
           })
         }
+      }else {
+        this.$router.push('/dang-nhap')
       }
     },
   },

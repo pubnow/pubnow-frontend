@@ -1,11 +1,13 @@
 export const state = () => ({
   followUser: false,
   followCategory: false,
+  followTag: false,
 })
 
 export const getters = {
   followUser: s => s.followUser,
   followCategory: s => s.followCategory,
+  followTag: s => s.followTag,
 }
 
 export const mutations = {
@@ -20,6 +22,12 @@ export const mutations = {
   },
   setUnFollowCategory(state) {
     state.followCategory = false
+  },
+  setFollowTag(state, follow) {
+    state.followTag = follow.following
+  },
+  setUnFollowTag(state) {
+    state.followTag = false
   }
 }
 
@@ -67,6 +75,30 @@ export const actions = {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$delete(`categories/${slug}/follow`)
       commit('setUnFollowCategory')
+      return result
+    } catch (e) {
+      return null
+    }
+  },
+  async followTag({ commit }, slug) {
+    try {
+      this.$http.setHeader('Accept', 'application/json')
+      const result = await this.$http.$post(`tags/${slug}/follow`)
+      const { data: follow } = result
+      const index = follow.followingTags.findIndex(item => item.slug === slug)
+      if (index !== -1) {
+        commit('setFollowTag', follow.followingTags[index])
+      }
+      return follow
+    } catch (e) {
+      return null
+    }
+  },
+  async unFollowTag({ commit }, slug) {
+    try {
+      this.$http.setHeader('Accept', 'application/json')
+      const result = await this.$http.$delete(`tags/${slug}/follow`)
+      commit('setUnFollowTag')
       return result
     } catch (e) {
       return null
