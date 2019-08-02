@@ -41,15 +41,16 @@ export default {
         },
       ],
       menuItems: [
-        {
-          name: 'Chức vụ',
-          route: '/roles/create',
-          icon: 'medal',
-        },
+       
         {
           name: 'Tài khoản',
           route: '/accounts/create',
           icon: 'user',
+        },
+         {
+          name: 'Chức vụ',
+          route: '/roles/create',
+          icon: 'medal',
         },
         {
           name: 'Tổ chức',
