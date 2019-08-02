@@ -9,6 +9,7 @@
           class="comment mx-3"
           v-model="commentInput"
           placeholder="Hãy chia sẻ cảm nghĩ của bạn về bài viết"
+          @click="clickComment"
         />
         <i class="far fa-smile smile"></i>
         <va-button class="text-uppercase font-weight-bold ml-2" @click="sendComment">Gửi</va-button>
@@ -70,21 +71,22 @@ export default {
     this.dataComment = this.arrChildComment
   },
   methods: {
+    clickComment() {
+      if (!this.user) {
+        this.$router.push('/dang-nhap')
+      }
+    },
     sendComment() {
       const data = {
         article_id: this.articleID,
         content: this.commentInput,
       }
       this.commentInput = ''
-      if (this.user) {
-        this.$store.dispatch('comment/create', data).then(() => {
-          let arr = this.dataComment
-          this.$store.dispatch('comment/count', this.count + 1)
-          this.dataComment = [this.arrChildComments, ...arr]
-        })
-      } else {
-        this.$router.push('/dang-nhap')
-      }
+      this.$store.dispatch('comment/create', data).then(() => {
+        let arr = this.dataComment
+        this.$store.dispatch('comment/count', this.count + 1)
+        this.dataComment = [this.arrChildComments, ...arr]
+      })
     },
   },
 }
