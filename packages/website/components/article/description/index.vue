@@ -13,7 +13,23 @@
             <span class="small">@{{ username }}</span>
           </div>
         </div>
-        <div v-if="idUser === '' && idUser !== userID">
+        <div v-if="user && user.id !== userID">
+          <va-button
+            v-if="followUserStatus"
+            type="primary"
+            size="xs"
+            class="button"
+            @click="handleFollowUser(username)"
+          >Đang theo dõi</va-button>
+          <va-button
+            v-else
+            type="default"
+            size="xs"
+            class="button"
+            @click="handleFollowUser(username)"
+          >Theo dõi</va-button>
+        </div>
+        <div v-if="!user">
           <va-button
             v-if="followUserStatus"
             type="primary"
@@ -98,7 +114,6 @@ export default {
     return {
       followUserStatus: false,
       followCategoryStatus: false,
-      idUser: '',
     }
   },
   computed: {
@@ -111,9 +126,6 @@ export default {
   mounted() {
     this.followUserStatus = this.followUser
     this.followCategoryStatus = this.followCategory
-    if (this.user) {
-      this.idUser = this.user.id
-    }
   },
   methods: {
     handleFollowUser(id) {
