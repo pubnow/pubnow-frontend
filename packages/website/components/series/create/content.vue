@@ -6,10 +6,26 @@
     </div>
     <articles-selected :listSelected="listSelected" @deleteItem="deleteItem" />
     <hr class="mt-4 break" />
-    <va-button type="subtle" class="mb-4" v-b-modal.list-posts>
-      <va-icon type="plus" class="mr-2" />Thêm bài viết
-    </va-button>
+    <div class="d-flex justify-content-between">
+      <va-dropdown>
+        <div slot="trigger">
+          <va-button icon-after="angle-up">
+            <va-icon type="plus" class="mr-2" />Thêm bài viết
+          </va-button>
+        </div>
+        <li>
+          <nuxt-link :to="`/series/${slug}/bai-viet/tao-moi`">Tạo mới</nuxt-link>
+        </li>
+        <li>
+          <a href="#" v-b-modal.list-posts>Thêm bài viết có sẵn</a>
+        </li>
+      </va-dropdown>
+      <va-button type="success">
+        <va-icon type="check" class="mr-2" />Lưu
+      </va-button>
+    </div>
     <b-modal id="list-posts" title="Danh sách bài viết" centered ref="updateArticles">
+      <search />
       <articles @addArticle="addArticle" :listSelected="listSelected" />
       <template slot="modal-footer">
         <va-button @click="closeModel">Đóng</va-button>
@@ -21,15 +37,18 @@
 <script>
 import Articles from './articles'
 import ArticlesSelected from './item'
+import Search from './search'
 export default {
   data() {
     return {
+      slug: 'abcde',
       listSelected: [],
     }
   },
   components: {
     Articles,
     ArticlesSelected,
+    Search,
   },
   methods: {
     addArticle(article) {

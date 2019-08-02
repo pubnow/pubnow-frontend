@@ -1,17 +1,24 @@
 <template>
   <b-container>
     <editor-create />
-    <content-create />
+    <va-button class="mt-2" @click="create">
+      <va-icon type="plus" class="mr-2" />Tạo series
+    </va-button>
   </b-container>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { EditorCreate, ContentCreate } from '@/components/series'
+import { EditorCreate } from '@/components/series'
 export default {
+  middleware: 'auth',
   components: {
     EditorCreate,
-    ContentCreate,
+  },
+  methods: {
+    create() {
+      const slug = 'abcde'
+      this.$router.push(`/series/${slug}/chinh-sua`)
+    },
   },
 }
 </script>
