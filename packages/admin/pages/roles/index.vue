@@ -68,7 +68,6 @@ export default {
   methods: {
     rowSelected(item) {
       this.selected = item
-      console.log(item)
       this.$refs.myAsideCate.open()
     },
     onClose(e) {

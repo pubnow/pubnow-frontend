@@ -118,14 +118,14 @@ export default {
         ...(this.nameChanged && { name: this.name }),
         ...(this.descriptionChanged && { description: this.description }),
       }
-      await this.$store.dispatch('roles/update', {
+      await this.$store.dispatch('role/update', {
         id: this.role.id,
         ...submit,
       })
       this.$router.go()
     },
     async delRole() {
-      await this.$store.dispatch('roles/delRole', this.role.id)
+      await this.$store.dispatch('role/delRole', this.role.id)
       this.$router.go()
     },
   },
