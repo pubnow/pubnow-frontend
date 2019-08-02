@@ -77,7 +77,7 @@ export const actions = {
     const data = {
       title: state.title,
       content: state.content,
-      category: state.category,
+      category_id: state.category,
       tags: state.tags,
       draft,
     }
@@ -95,7 +95,7 @@ export const actions = {
     const data = {
       title: state.title,
       content: state.content,
-      category: state.category,
+      category_id: state.category,
       tags: state.tags,
       private: state.isPrivate,
     }
