@@ -31,6 +31,7 @@ export default {
         requestHeaders: {
           Authorization: `Bearer ${this.$cookiz.get('token')}`,
         },
+        imagePaste: false,
         imageUploadURL: `${this.api}/editor-upload`,
         imageUploadParam: 'file',
         imageManagerLoadURL: `${this.api}/editor-gallery`,

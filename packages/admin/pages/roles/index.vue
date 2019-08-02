@@ -25,8 +25,6 @@
             <template slot="checkBox">
               <b-form-checkbox></b-form-checkbox>
             </template>
-            <template slot="roles.name" slot-scope="data">{{ data.name }}</template>
-            <template slot="roles.descriptopn" slot-scope="data">{{ data.description }}</template>
           </b-table>
         </va-table>
       </va-column>
@@ -38,18 +36,18 @@
       ref="myAsideCate"
       @hide="onClose"
     >
-      <EditUser v-if="selected" :user="selected" @close="$refs.myAsideCate.close()" />
+      <EditRole v-if="selected" :role="selected" @close="$refs.myAsideCate.close()" />
     </va-aside>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { EditUser } from '@/components/aside'
+import { mapGetters, mapActions } from 'vuex'
+import { EditRole } from '@/components/aside'
 
 export default {
   components: {
-    EditUser,
+    EditRole,
   },
   computed: {
     ...mapGetters({

@@ -44,6 +44,7 @@
         :src="require('@/assets/images/icons/facebook.svg')"
         alt="facebook icon"
         class="icon icon-small mt-3"
+        @click="shareArticle"
       />
       <img
         :src="require('@/assets/images/icons/lock.svg')"
@@ -94,6 +95,8 @@ export default {
       clapStatus: false,
       bookmarkStatus: false,
       backdropClickable: true,
+      popupWidth: 600,
+      popupHeight: 359,
     }
   },
   computed: {
@@ -138,6 +141,45 @@ export default {
     },
     showModal() {
       this.$refs.modal.open()
+    },
+    shareArticle() {
+      if (process.client) {
+        const dualScreenLeft =
+          window.screenLeft !== undefined ? window.screenLeft : screen.left
+        const dualScreenTop =
+          window.screenTop !== undefined ? window.screenTop : screen.top
+        const width = window.innerWidth
+          ? window.innerWidth
+          : document.documentElement.clientWidth
+          ? document.documentElement.clientWidth
+          : screen.width
+        const height = window.innerHeight
+          ? window.innerHeight
+          : document.documentElement.clientHeight
+          ? document.documentElement.clientHeight
+          : screen.height
+        const left =
+          Math.round(width / 2 - this.popupWidth / 2) + dualScreenLeft
+        let top = 0
+        if (height > this.popupHeight) {
+          top = Math.round(height / 3 - this.popupHeight / 2) + dualScreenTop
+        }
+        const url = `https://www.facebook.com/sharer/sharer.php?u=${location.href}`
+        window.open(
+          url,
+          null,
+          'left=' +
+            left +
+            ',top=' +
+            top +
+            ',' +
+            'width=' +
+            this.popupWidth +
+            ',height=' +
+            this.popupHeight +
+            ',personalbar=0,toolbar=0,scrollbars=1,resizable=1',
+        )
+      }
     },
   },
 }
