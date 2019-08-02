@@ -19,7 +19,7 @@ export default {
         {
           name: 'Chức vụ',
           route: '/roles',
-          icon: 'user',
+          icon: 'medal',
         },
         {
           name: 'Tổ chức',

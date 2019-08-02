@@ -99,6 +99,7 @@ export default {
     logout() {
       this.$router.push('/', () => {
         this.$store.commit('auth/clear')
+        this.$router.go(0)
       })
     },
   },

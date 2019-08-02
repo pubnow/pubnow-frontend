@@ -79,27 +79,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-@import '@pubnow/ui/scss/_sizes.scss';
-@import '@pubnow/ui/scss/_colors.scss';
-@import '@pubnow/ui/scss/_mixins.scss';
-
-.badge {
-  background-color: $primary;
-  color: $white;
-  font-size: 9px;
-  text-transform: uppercase;
-  padding: $unit/4 $unit;
-
-  &.admin {
-    background-color: $primary;
-  }
-
-  &.testing,
-  &.member {
-    background-color: $violet;
-  }
-}
-</style>
-

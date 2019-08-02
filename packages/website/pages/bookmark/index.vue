@@ -1,8 +1,8 @@
 <template>
   <b-container>
     <b-row>
-      <b-col>
-        <h1>Danh sách bài đã Bookmark</h1>
+      <b-col cols="8">
+        <h1>Danh sách các bài Bookmark</h1>
         <bookmark />
       </b-col>
     </b-row>
@@ -20,7 +20,7 @@ export default {
     Bookmark,
   },
   async fetch({ store }) {
-    await store.dispatch('article/index')
+    await store.dispatch('bookmark/show')
   },
 }
 </script>

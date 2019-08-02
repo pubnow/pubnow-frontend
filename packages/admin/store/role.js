@@ -32,4 +32,8 @@ export const actions = {
   async delRole(_, id) {
     await this.$http.delete(`roles/${id}`)
   },
+  async create(_, create) {
+    this.$http.setHeader('Accept', 'application/json')
+    await this.$http.$post('roles', create.submit)
+  },
 }
