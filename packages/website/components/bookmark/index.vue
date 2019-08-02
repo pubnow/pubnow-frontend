@@ -1,6 +1,6 @@
 <template>
-  <div class="latest">
-    <div class="my-2">
+  <no-ssr>
+    <div class="latest my-2">
       <article class="article mt-3" v-for="dataBookmark in bookmarks" :key="dataBookmark.id">
         <div>
           <div class="article-post flex-grow-1">
@@ -39,19 +39,26 @@
             ></a>
           </div>
         </div>
-        <no-ssr>
-          <va-button
-            class="mt-3 btn-remove px-3"
-            type="primary"
-            @click="removeBookmark(dataBookmark.article.id)"
-          >
-            <i class="far fa-trash-alt mr-2"></i>
-            Xóa
-          </va-button>
-        </no-ssr>
+        <va-button
+          class="mt-3 btn-remove px-3"
+          type="primary"
+          @click="showModal(dataBookmark.article.id)"
+        >
+          <i class="far fa-trash-alt mr-2"></i>
+          Xóa
+        </va-button>
       </article>
+      <va-modal title="Xác nhận" :backdrop-clickable="backdropClickable" ref="modal">
+        <div slot="body">Bạn có chắc chắn muốn xóa bookmark khỏi bài viết này không?</div>
+        <div slot="footer">
+          <div>
+            <va-button @click="$refs.modal.close()">Hủy</va-button>
+            <va-button type="primary" @click="removeBookmark(idArticle)">Đồng ý</va-button>
+          </div>
+        </div>
+      </va-modal>
     </div>
-  </div>
+  </no-ssr>
 </template>
 
 <script>
@@ -61,6 +68,8 @@ export default {
   data() {
     return {
       bookmarks: [],
+      backdropClickable: true,
+      idArticle: '',
     }
   },
   computed: {
@@ -77,7 +86,12 @@ export default {
       let arr = [...this.bookmarks]
       arr.splice(index, 1)
       this.bookmarks = [...arr]
-      this.$store.dispatch('bookmark/delete', id)
+      this.$store.dispatch('bookmark/unBookmark', id, this.bookmarks)
+      this.$refs.modal.close()
+    },
+    showModal(id) {
+      this.idArticle = id
+      this.$refs.modal.open()
     },
   },
 }

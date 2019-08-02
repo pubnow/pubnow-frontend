@@ -3,8 +3,13 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8">
-          <NameTag />
-          <LeftDetailCategory v-for="i in 5" :key="i" />
+          <div v-if="tag.articles.length > 0">
+            <NameTag :tagName="tag.name" />
+            <div v-for="(article, id) in tag.articles" :key="id">
+              <LeftDetailCategory :article="article" :categoryName="tag.name" />
+            </div>
+          </div>
+          <h2 v-else class="text-align-center">Không có bài viết nào!</h2>
         </div>
         <div class="col-sm-4">
           <HeaderDetailCategory />
@@ -20,6 +25,7 @@ import {
   LeftDetailCategory,
   RightDetailCategory,
 } from '~/components/category'
+import { mapGetters } from 'vuex'
 import NameTag from '@/components/tags/NameTag'
 export default {
   components: {
@@ -27,6 +33,14 @@ export default {
     LeftDetailCategory,
     RightDetailCategory,
     NameTag,
+  },
+  computed: {
+    ...mapGetters({
+      tag: 'tag/tag',
+    }),
+  },
+  fetch({ store, params: { slug } }) {
+    return store.dispatch('tag/show', slug)
   },
 }
 </script>

@@ -109,14 +109,17 @@ export const actions = {
       return null
     }
   },
-  async show({ commit }, slug) {
+  async show({ commit, dispatch }, slug) {
     try {
+      dispatch('wait/start', 'article.show', { root: true })
       const result = await this.$http.$get(`articles/${slug}`)
       const { data: article } = result
       commit('setArticle', article)
       commit('fillData', article)
+      dispatch('wait/end', 'article.show', { root: true })
       return article
     } catch (e) {
+      dispatch('wait/end', 'article.show', { root: true })
       return null
     }
   },

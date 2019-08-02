@@ -112,6 +112,8 @@ export default {
             .author {
               font-size: 13px;
               line-height: 15px;
+              color: #99a3ad;
+              display: flex;
               margin-bottom: 15px;
               &:hover {
                 text-decoration: none !important;
@@ -123,8 +125,8 @@ export default {
                 height: 36px;
                 width: 36px;
                 border-radius: 50%;
+                margin-right: $unit / 4;
                 object-fit: cover;
-                margin-right: 5px;
               }
               .username {
                 color: $n70;

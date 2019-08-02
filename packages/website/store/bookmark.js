@@ -46,9 +46,10 @@ export const actions = {
       return null
     }
   },
-  async unBookmark({ commit }, article_id) {
+  async unBookmark({ commit }, article_id, data) {
     try {
       commit('setUnBookmark')
+      commit('setListBookmark', data)
       const result = await this.$http.$delete(`articles/${article_id}/bookmark`)
       return result
     } catch (e) {

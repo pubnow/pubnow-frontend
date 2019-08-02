@@ -9,7 +9,7 @@
         <p>
           <b>Quy định</b>
         </p>
-        <ul>
+        <ul class="mt-2">
           <li>Những nội dung không thuộc phạm trù của danh mục sẽ bị nhắc nhở và xoá (nếu không thay đổi thích hợp)</li>
         </ul>
       </div>
@@ -71,13 +71,29 @@
         <span>Tags nổi bật</span>
       </div>
       <ul class="tags-list list-unstyled">
-        <li class="tag-item" v-for="i in 6" :key="i">
-          <a href="#">TÌNH YÊU</a>
+        <li class="tag-item" v-for="tag in tags" :key="tag.id">
+          <a href="#">{{tag.name}}</a>
         </li>
       </ul>
     </div>
   </div>
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  computed: {
+    ...mapGetters({
+      tags: 'tag/tags',
+    }),
+  },
+  mounted() {
+    this.$store.dispatch('tag/list')
+  },
+}
+</script>
+
+
 <style lang="scss" scoped>
 .box .box-top {
   padding-bottom: 15px;
@@ -97,6 +113,7 @@
 .item-post.avatar-thumb-post {
   padding: 0 0 0 50px;
   position: relative;
+  list-style-type: none;
 }
 .thumb {
   position: absolute;

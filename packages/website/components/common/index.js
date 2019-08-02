@@ -14,3 +14,7 @@ export { default as Oops } from './Oops.vue'
 export {
   default as ArticleLargePlaceholder,
 } from './Placeholder/ArticleLarge.vue'
+export {
+  default as ArticleContentPlaceholder,
+} from './Placeholder/ArticleContent.vue'
+export { default as CommentPlaceholder } from './Placeholder/Comment.vue'
