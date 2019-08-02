@@ -13,20 +13,38 @@
             <span class="small">@{{ username }}</span>
           </div>
         </div>
-        <va-button
-          v-if="followUserStatus"
-          type="primary"
-          size="xs"
-          class="button"
-          @click="handleFollowUser(username)"
-        >Đang theo dõi</va-button>
-        <va-button
-          v-else
-          type="default"
-          size="xs"
-          class="button"
-          @click="handleFollowUser(username)"
-        >Theo dõi</va-button>
+        <div v-if="user && user.id !== userID">
+          <va-button
+            v-if="followUserStatus"
+            type="primary"
+            size="xs"
+            class="button"
+            @click="handleFollowUser(username)"
+          >Đang theo dõi</va-button>
+          <va-button
+            v-else
+            type="default"
+            size="xs"
+            class="button"
+            @click="handleFollowUser(username)"
+          >Theo dõi</va-button>
+        </div>
+        <div v-if="!user">
+          <va-button
+            v-if="followUserStatus"
+            type="primary"
+            size="xs"
+            class="button"
+            @click="handleFollowUser(username)"
+          >Đang theo dõi</va-button>
+          <va-button
+            v-else
+            type="default"
+            size="xs"
+            class="button"
+            @click="handleFollowUser(username)"
+          >Theo dõi</va-button>
+        </div>
       </div>
       <va-button type="primary" size="xs" class="button mt-3">Ủng hộ tác giả</va-button>
     </b-col>
@@ -60,6 +78,9 @@ export default {
     fullname: {
       type: String,
       required: true,
+    },
+    userID: {
+      type: String,
     },
     username: {
       type: String,
@@ -108,25 +129,33 @@ export default {
   },
   methods: {
     handleFollowUser(id) {
-      if (this.followUserStatus) {
-        this.$store.dispatch('follow/unFollowUser', id).then(() => {
-          this.followUserStatus = this.followedUserStatus
-        })
+      if (this.user) {
+        if (this.followUserStatus) {
+          this.$store.dispatch('follow/unFollowUser', id).then(() => {
+            this.followUserStatus = this.followedUserStatus
+          })
+        } else {
+          this.$store.dispatch('follow/followUser', id).then(() => {
+            this.followUserStatus = this.followedUserStatus
+          })
+        }
       } else {
-        this.$store.dispatch('follow/followUser', id).then(() => {
-          this.followUserStatus = this.followedUserStatus
-        })
+        this.$router.push('/dang-nhap')
       }
     },
     handleFollowCategory(slug) {
-      if (this.followCategoryStatus) {
-        this.$store.dispatch('follow/unFollowCategory', slug).then(() => {
-          this.followCategoryStatus = this.followedCategoryStatus
-        })
+      if (this.user) {
+        if (this.followCategoryStatus) {
+          this.$store.dispatch('follow/unFollowCategory', slug).then(() => {
+            this.followCategoryStatus = this.followedCategoryStatus
+          })
+        } else {
+          this.$store.dispatch('follow/followCategory', slug).then(() => {
+            this.followCategoryStatus = this.followedCategoryStatus
+          })
+        }
       } else {
-        this.$store.dispatch('follow/followCategory', slug).then(() => {
-          this.followCategoryStatus = this.followedCategoryStatus
-        })
+        this.$router.push('/dang-nhap')
       }
     },
   },

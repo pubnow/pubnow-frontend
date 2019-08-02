@@ -1,12 +1,14 @@
 <template>
   <div class="category-heading">
-    <div class="background">
-      <img src="https://source.unsplash.com/random" alt />
-    </div>
-    <div class="text-box">
-      <div class="title">Quan điểm - tranh luận</div>
-      <va-button class="action-button btn btn-default btn-round btn-follow">Theo dõi</va-button>
-    </div>
+    <no-ssr>
+      <div class="background">
+        <img src="https://source.unsplash.com/random" alt />
+      </div>
+      <div class="text-box">
+        <div class="title">Quan điểm - tranh luận</div>
+        <va-button class="action-button btn btn-default btn-round btn-follow">Theo dõi</va-button>
+      </div>
+    </no-ssr>
   </div>
 </template>
 
