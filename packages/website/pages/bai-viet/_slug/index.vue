@@ -113,6 +113,26 @@ export default {
   head() {
     return {
       title: (this.article && this.article.title) || 'Bài viết',
+      meta: [
+        {
+          property: 'og:title',
+          content: (this.article && this.article.title) || 'Bài viết',
+        },
+        {
+          property: 'og:description',
+          content: (this.article && this.article.excerpt) || 'Tóm tắt bài viết',
+        },
+        {
+          property: 'og:image',
+          content:
+            (this.article && this.article.thumbnail) ||
+            'https://i.imgur.com/nUSXOIF.png',
+        },
+        {
+          property: 'og:type',
+          content: 'article',
+        },
+      ],
     }
   },
   data() {
