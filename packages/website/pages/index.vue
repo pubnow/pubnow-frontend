@@ -1,8 +1,6 @@
 <template>
   <div class="home-page container">
-    <div class="row">
-      <FeaturedArea />
-    </div>
+    <FeaturedArea />
     <div class="row mt-2">
       <div class="col-sm-8">
         <Latest />
