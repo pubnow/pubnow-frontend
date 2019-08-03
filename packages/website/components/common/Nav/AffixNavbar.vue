@@ -1,7 +1,7 @@
 <template>
   <no-ssr>
     <va-affix :offset="0">
-      <nav class="nav-wrapper navbar-expand-lg bg-white py-2">
+      <nav class="nav-wrapper navbar-expand-lg d-lg-flex d-none bg-white py-2">
         <b-container>
           <b-navbar-nav>
             <NavItem to="/">Trang chủ</NavItem>

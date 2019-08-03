@@ -1,29 +1,37 @@
 <template>
   <no-ssr>
-    <nav class="nav-wrapper navbar navbar-expand-lg navbar-light bg-white">
-      <b-container>
-        <b-navbar-nav class="d-flex align-items-center">
+    <b-container class="nav-wrapper bg-white">
+      <b-row>
+        <b-col md="6" class="d-flex align-items-center">
           <nuxt-link to="/">
             <img class="mr-2" :src="require('@/assets/images/logo.svg')" />
           </nuxt-link>
           <va-input
             v-model="keyword"
             icon="search"
-            width="xl"
-            placeholder="Tìm kiếm theo nội dung, tác giả hoặc tag"
+            placeholder="Tìm kiếm"
             iconStyle="solid"
             @confirm="search"
           ></va-input>
-        </b-navbar-nav>
-        <b-navbar-nav class="ml-auto d-flex align-items-center">
-          <va-icon v-if="user" type="bell" class="icon" iconStyle="regular" color="#97a0af" />
-          <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
+        </b-col>
+        <b-col
+          md="6"
+          class="d-flex align-items-center justify-content-md-end justify-content-between mt-md-0 mt-2"
+        >
+          <va-icon
+            v-if="user"
+            type="bell"
+            class="icon order-md-1"
+            iconStyle="regular"
+            color="#97a0af"
+          />
+          <nuxt-link class="write-btn ml-md-3 ml-0 order-md-2 order-first" to="/bai-viet/tao-moi">
             <va-button type="primary" icon-before="feather-alt">Viết bài</va-button>
           </nuxt-link>
-          <UserAvatar :user="user" :organizations="organizations" />
-        </b-navbar-nav>
-      </b-container>
-    </nav>
+          <UserAvatar :user="user" class="order-md-3" :organizations="organizations" />
+        </b-col>
+      </b-row>
+    </b-container>
   </no-ssr>
 </template>
 
@@ -70,6 +78,7 @@ export default {
 @import '@pubnow/ui/scss/_mixins.scss';
 
 .nav-wrapper {
+  padding: 0.5rem 1rem;
   .icon {
     font-size: 1.25em !important;
     margin-left: $unit !important;
@@ -77,7 +86,6 @@ export default {
   }
 
   .write-btn {
-    margin-left: $unit !important;
     &:hover {
       text-decoration: none !important;
     }

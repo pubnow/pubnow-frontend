@@ -3517,6 +3517,17 @@ bootstrap-vue@^2.0.0-rc.25:
     portal-vue "^2.1.5"
     vue-functional-data-merge "^3.1.0"
 
+bootstrap-vue@^2.0.0-rc.27:
+  version "2.0.0-rc.27"
+  resolved "https://registry.yarnpkg.com/bootstrap-vue/-/bootstrap-vue-2.0.0-rc.27.tgz#884a46a71948d13c9729134cb564467f79a7b2b9"
+  integrity sha512-gXdpt2IsKbmC3SU0bf/RgldWwgrXK7G47yslOtkk4OA1z6fOzb2orM2vU5L8NCNZQomYax9LapRucv+8PByfdA==
+  dependencies:
+    "@nuxt/opencollective" "^0.2.2"
+    bootstrap "^4.3.1"
+    popper.js "^1.15.0"
+    portal-vue "^2.1.5"
+    vue-functional-data-merge "^3.1.0"
+
 bootstrap@^4.3.1:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-4.3.1.tgz#280ca8f610504d99d7b6b4bfc4b68cec601704ac"

@@ -1,5 +1,5 @@
 <template>
-  <div class="article-h mb-2 mx-2">
+  <div class="article-h mb-2 mx-md-2 mt-md-0 mt-2">
     <div class="overlay" :style="`background-image: url(${article.thumbnail})`"></div>
     <div class="content">
       <nuxt-link :to="link">
