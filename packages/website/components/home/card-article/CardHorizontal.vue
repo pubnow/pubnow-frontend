@@ -51,6 +51,7 @@ $line-height-title: 28px;
 .article-h {
   position: relative;
   background-size: cover;
+
   @include radius-md;
   overflow: hidden;
   &::after {
@@ -60,7 +61,13 @@ $line-height-title: 28px;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+    background: rgba(0, 0, 0, 0.3);
+    transition: all 0.25s ease-in-out;
+  }
+  &:hover {
+    &::after {
+      background: rgba(0, 0, 0, 0.4);
+    }
   }
   .overlay {
     position: absolute;
@@ -69,12 +76,7 @@ $line-height-title: 28px;
     right: 0;
     bottom: 0;
     background-size: cover;
-    transition: transform 0.2s ease-in-out;
-  }
-  &:hover {
-    .overlay {
-      transform: scale(1.1);
-    }
+    filter: blur(2px);
   }
   .content {
     position: relative;
