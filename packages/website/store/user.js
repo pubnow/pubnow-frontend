@@ -32,6 +32,7 @@ export const getters = {
   following: s => s.following,
   spiders: s => s.spiders,
   articles: s => slice(s.articles, 2),
+  articlesAll: s => s.articles,
   first: s => get(s, 'articles[0]', null),
   second: s => get(s, 'articles[1]', null),
   author: s => s.user,
@@ -49,14 +50,17 @@ export const actions = {
       return false
     }
   },
-  async articles({ commit }, username) {
+  async articles({ commit, dispatch }, username) {
     try {
+      dispatch('wait/start', 'user.article', { root: true })
       const result = await this.$http.$get(`users/${username}/articles`)
       const { data } = result
       commit('setArticles', data)
+      dispatch('wait/end', 'user.article', { root: true })
       return true
     } catch (e) {
       commit('setArticles', [])
+      dispatch('wait/end', 'user.article', { root: true })
       return false
     }
   },

@@ -2,9 +2,11 @@
   <div class="categories">
     <b-container>
       <b-row>
-        <b-col v-for="(i,index) in listCategory" :key="index" sm="6" class="mb-4">
+        <b-col v-for="(category, index) in listCategory" :key="index" sm="6" class="mb-4">
           <CardCategory
-            :title="i.name"
+            :title="category.name"
+            :slug="category.slug"
+            :following="category.following"
             :image="`https://source.unsplash.com/collection/1163637/480x480?sig=${index+1}`"
           ></CardCategory>
         </b-col>
@@ -22,7 +24,11 @@ export default {
   computed: {
     ...mapGetters({
       listCategory: 'category/categories',
+      user: 'auth/user',
     }),
+  },
+  mounted() {
+    this.$store.dispatch('category/list')
   },
 }
 </script>

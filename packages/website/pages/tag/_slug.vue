@@ -3,12 +3,17 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-8">
-          <NameTag />
-          <LeftDetailCategory v-for="i in 5" :key="i" />
+          <div v-if="tag.articles.length > 0">
+            <NameTag :tagName="tag.name" />
+            <div v-for="(article, id) in tag.articles" :key="id">
+              <LeftDetailTag :article="article" :tagName="tag.name" />
+            </div>
+          </div>
+          <h2 v-else class="text-align-center">Không có bài viết nào!</h2>
         </div>
         <div class="col-sm-4">
-          <HeaderDetailCategory />
-          <RightDetailCategory />
+          <HeaderDetailTag :name="tag.name" :following="tag.following" :slug="tag.slug" />
+          <RightDetailTag />
         </div>
       </div>
     </div>
@@ -16,17 +21,26 @@
 </template>
 <script>
 import {
-  HeaderDetailCategory,
-  LeftDetailCategory,
-  RightDetailCategory,
-} from '~/components/category'
-import NameTag from '@/components/tags/NameTag'
+  HeaderDetailTag,
+  LeftDetailTag,
+  RightDetailTag,
+  NameTag,
+} from '~/components/tags'
+import { mapGetters } from 'vuex'
 export default {
   components: {
-    HeaderDetailCategory,
-    LeftDetailCategory,
-    RightDetailCategory,
+    HeaderDetailTag,
+    LeftDetailTag,
+    RightDetailTag,
     NameTag,
+  },
+  computed: {
+    ...mapGetters({
+      tag: 'tag/tag',
+    }),
+  },
+  fetch({ store, params: { slug } }) {
+    return store.dispatch('tag/show', slug)
   },
 }
 </script>

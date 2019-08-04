@@ -28,19 +28,18 @@
               </nuxt-link>
 
               <div class="d-flex justify-content-end my-2">{{ article.seen_count }} lượt xem</div>
-              <div v-if="user">
-                <hr />
-                <description
-                  :fullname="article.author.name"
-                  :username="article.author.username"
-                  :avatar="article.author.avatar"
-                  :category="article.category.name"
-                  :categorySlug="article.category.slug"
-                  :description="article.category.description"
-                  :followUser="article.author.following"
-                  :followCategory="article.category.following"
-                />
-              </div>
+              <hr />
+              <description
+                :fullname="article.author.name"
+                :username="article.author.username"
+                :userID="article.author.id"
+                :avatar="article.author.avatar"
+                :category="article.category.name"
+                :categorySlug="article.category.slug"
+                :description="article.category.description"
+                :followUser="article.author.following"
+                :followCategory="article.category.following"
+              />
               <hr />
             </no-ssr>
           </div>
@@ -49,12 +48,19 @@
     </b-row>
     <b-row>
       <b-col :sm="8" :offset-sm="2">
-        <v-wait for="loading comment">
-          <template slot="waiting" transition="fade" mode="out-in">
-            <CommentPlaceholder />
-          </template>
-          <comment v-if="article" :comments="comment" :commentNum="count" :articleID="article.id" />
-        </v-wait>
+        <no-ssr>
+          <v-wait for="loading comment">
+            <template slot="waiting" transition="fade" mode="out-in">
+              <CommentPlaceholder />
+            </template>
+            <comment
+              v-if="article"
+              :comments="comment"
+              :commentNum="count"
+              :articleID="article.id"
+            />
+          </v-wait>
+        </no-ssr>
       </b-col>
     </b-row>
   </b-container>

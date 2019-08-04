@@ -1,16 +1,16 @@
 <template>
-  <div class="d-flex pt-3">
-    <div class="d-flex align-items-center">
-      <img :src="avatar" alt="avatar" class="avatar mr-3" />
-      <div>
-        <nuxt-link :to="`/nguoi-dung/${author.username}`" class="fullname mb-2">{{ author.name }}</nuxt-link>
-        <p class="mt-0">
-          Đăng {{ time | formatDate }} trong
-          <nuxt-link :to="`/danh-muc/${category.slug}`" class="category">{{ category.name }}</nuxt-link>
-        </p>
+  <no-ssr>
+    <div class="d-flex pt-3">
+      <div class="d-flex align-items-center">
+        <img :src="avatar" alt="avatar" class="avatar mr-3" />
+        <div>
+          <nuxt-link :to="`/nguoi-dung/${author.username}`" class="fullname mb-2">{{ author.name }}</nuxt-link>
+          <p class="mt-0">
+            Đăng {{ time | formatDate }} trong
+            <nuxt-link :to="`/danh-muc/${category.slug}`" class="category">{{ category.name }}</nuxt-link>
+          </p>
+        </div>
       </div>
-    </div>
-    <no-ssr>
       <div class="d-flex ml-auto align-items-center" v-if="isAuthor">
         <va-dropdown>
           <div slot="trigger">
@@ -39,8 +39,8 @@
           >Xóa</va-button>
         </div>
       </va-modal>
-    </no-ssr>
-  </div>
+    </div>
+  </no-ssr>
 </template>
 
 <script>

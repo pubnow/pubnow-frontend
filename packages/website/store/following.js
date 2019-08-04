@@ -5,9 +5,9 @@ export const state = () => ({
 })
 
 export const getters = {
-  followingUser: s => s.followingUser,
-  followingCategory: s => s.followingCategory,
-  followingOrganizations: s => s.followingOrganizations,
+  followingUser: state => state.followingUser,
+  followingCategory: state => state.followingCategory,
+  followingOrganizations: state => state.followingOrganizations,
 }
 
 export const mutations = {
@@ -23,12 +23,10 @@ export const mutations = {
 }
 
 export const actions = {
-  async followingUser({ state, commit, dispatch }) {
+  async getFollowingUser({ commit, dispatch }, username) {
     try {
       this.$http.setHeader('Accept', 'application/json')
-      const result = await this.$http.$get(
-        `users/${state.user.username}/following-users`,
-      )
+      const result = await this.$http.$get(`users/${username}/following-users`)
       const { data } = result
       commit('setFollowingUser', data)
       dispatch('wait/end', 'following.followingUser', { root: true })
@@ -38,11 +36,11 @@ export const actions = {
       return false
     }
   },
-  async followingOrganizations({ state, commit, dispatch }) {
+  async getFollowingOrganizations({ commit, dispatch }, username) {
     try {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$get(
-        `users/${state.user.username}/following-organizations`,
+        `users/${username}/following-organizations`,
       )
       const { data } = result
       commit('setFollowingOrganizations', data)

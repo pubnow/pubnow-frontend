@@ -21,10 +21,7 @@
                     >{{article.author.name}}</nuxt-link>
                   </span>
                   trong
-                  <nuxt-link
-                    :to="`/danh-muc/${article.category.slug}`"
-                    class="category-name"
-                  >{{categoryName}}</nuxt-link>
+                  <nuxt-link :to="`/tag/${article.tags.slug}`" class="tag-name">{{tagName}}</nuxt-link>
                 </div>
                 <div class="created">
                   <span class="date">{{article.updatedAt | formatDate}}</span>
@@ -119,7 +116,7 @@ export default {
     article: {
       type: Object,
     },
-    categoryName: {
+    tagName: {
       type: String,
     },
   },
@@ -210,7 +207,7 @@ export default {
             object-fit: cover;
           }
 
-          .category-name {
+          .tag-name {
             color: #2c3e50 !important;
           }
         }
