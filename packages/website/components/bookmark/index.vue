@@ -1,59 +1,25 @@
 <template>
   <no-ssr>
     <div class="latest my-2">
-      <article class="article mt-3" v-for="dataBookmark in bookmarks" :key="dataBookmark.id">
-        <div>
-          <div class="article-post flex-grow-1">
-            <div class="text-dec">
-              <nuxt-link
-                :to="`/bai-viet/${dataBookmark.article.slug}`"
-                class="overflow-hidden w-100"
-              >
-                <h2 class="title">{{ dataBookmark.article.title }}</h2>
-                <div class="mt-1 description">{{dataBookmark.article.excerpt}}</div>
-              </nuxt-link>
-            </div>
-            <div class="mt-2">
-              <nuxt-link
-                :to="`/nguoi-dung/${dataBookmark.article.author.username}`"
-              >{{ dataBookmark.article.author.name }}</nuxt-link>
-              <span class="ml-1">tại</span>
-              <nuxt-link
-                :to="`/danh-muc/${dataBookmark.article.category.slug}`"
-              >{{ dataBookmark.article.category.name }}</nuxt-link>
-              <div class="mt-1">
-                <span class="d-inline-block">{{ dataBookmark.article.updatedAt | formatDate }}</span>
-                <span class="middot"></span>
-                <span>{{ dataBookmark.article.reading_time | timeRead }}</span>
-                <span>
-                  <i class="fas fa-star"></i>
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="article-image">
-            <a
-              href="#"
-              class="d-block background-cover w-100 h-100"
-              v-bind:style="{ backgroundImage: `url(${dataBookmark.article.thumbnail})` }"
-            ></a>
-          </div>
-        </div>
-        <va-button
-          class="mt-3 btn-remove px-3"
-          type="primary"
-          @click="showModal(dataBookmark.article.id)"
-        >
-          <i class="far fa-trash-alt mr-2"></i>
-          Xóa
-        </va-button>
-      </article>
+      <div v-if="!bookmarks.length" class="empty-img">
+        <img src="@/assets/images/empty_state.png" />
+        <span>Bạn chưa bookmark bài viết nào !!!</span>
+      </div>
+      <div v-else>
+        <ArticleCard
+          v-for="bookmark in bookmarks"
+          :key="bookmark.id"
+          :article="bookmark.article"
+          :id="bookmark.id"
+          @remove="showModal"
+        />
+      </div>
       <va-modal title="Xác nhận" :backdrop-clickable="backdropClickable" ref="modal">
         <div slot="body">Bạn có chắc chắn muốn xóa bookmark khỏi bài viết này không?</div>
         <div slot="footer">
           <div>
             <va-button @click="$refs.modal.close()">Hủy</va-button>
-            <va-button type="primary" @click="removeBookmark(idArticle)">Đồng ý</va-button>
+            <va-button type="danger" icon-before="trash" @click="removeBookmark(idArticle)">Xóa</va-button>
           </div>
         </div>
       </va-modal>
@@ -63,6 +29,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import ArticleCard from './article-card'
 
 export default {
   data() {
@@ -71,6 +38,9 @@ export default {
       backdropClickable: true,
       idArticle: '',
     }
+  },
+  components: {
+    ArticleCard,
   },
   computed: {
     ...mapGetters({
@@ -101,48 +71,22 @@ export default {
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_fonts.scss';
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_sizes.scss';
 
-.latest {
-  .article {
-    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.25);
-    padding: 10px;
-    background: white;
-    width: 100%;
-
-    .text-dec {
-      a {
-        .title {
-          font-family: $ale !important;
-          font-size: 1.3rem;
-          font-weight: 700;
-          color: $n800;
-        }
-        .description {
-          color: $n100;
-          font-size: 1rem;
-        }
-        :hover {
-          text-decoration: none !important;
-        }
-      }
-    }
-    .article-image {
-      min-width: 152px;
-    }
-    .background-cover {
-      background-position: 50% 50% !important;
-      background-position: center !important;
-      background-origin: border-box !important;
-      background-size: cover !important;
-    }
+.empty-img {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  img {
+    max-width: 300px;
   }
-  a {
-    color: rgba(0, 0, 0, 0.85) !important;
-    text-decoration: none !important;
-  }
-  .btn-remove {
-    color: #fff !important;
-    cursor: pointer;
+  span {
+    color: $n100;
+    font-size: $unit;
+    border: 1px dashed $n100;
+    padding: $unit / 2;
+    margin-top: $unit / 4;
+    user-select: none;
   }
 }
 </style>

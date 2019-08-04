@@ -23,14 +23,16 @@
       <li>
         <nuxt-link to="/cai-dat/to-chuc">Quản lý tổ chức</nuxt-link>
       </li>
+      <hr />
       <li>
-        <nuxt-link to="/bookmark">Danh sách Bookmark</nuxt-link>
+        <nuxt-link to="/cai-dat/noi-dung">Nội dung của tôi</nuxt-link>
       </li>
-      <li>
-        <nuxt-link to="/series/tao-moi">Tạo mới series</nuxt-link>
-      </li>
+      <hr />
       <li>
         <nuxt-link to="/danh-sach-theo-doi">Danh sách theo dõi</nuxt-link>
+      </li>
+      <li>
+        <nuxt-link to="/bookmark">Quản lý bookmark</nuxt-link>
       </li>
       <hr />
       <li>

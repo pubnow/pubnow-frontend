@@ -1,8 +1,8 @@
 <template>
   <b-container>
     <b-row>
-      <b-col cols="8">
-        <h1>Danh sách các bài Bookmark</h1>
+      <b-col md="8" offset-md="2">
+        <h1>Danh sách các bài đã bookmark</h1>
         <bookmark />
       </b-col>
     </b-row>
