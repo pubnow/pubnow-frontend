@@ -6,9 +6,11 @@
   >
     <div class="container">
       <nuxt-link class="title" :to="`/bai-viet/${article.slug}`">{{ article.title }}</nuxt-link>
-      <span
-        class="more"
-      >{{ article.updatedAt | formatDate }} &nbsp; · &nbsp; {{ article.content | timeRead }}</span>
+      <span class="more">
+        {{ article.updatedAt | formatDate }}
+        <span class="middot" />
+        {{ article.reading_time | timeRead }}
+      </span>
       <p class="description">{{ article.excerpt | unescape }}</p>
     </div>
   </div>

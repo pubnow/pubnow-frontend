@@ -13,7 +13,8 @@
         :to="`/danh-muc/${article.category.slug}`"
         class="text-uppercase mt-2"
       >{{ article.category.name }}</nuxt-link>
-      &nbsp; · &nbsp; {{ article.content | timeRead }}
+      <span class="middot"></span>
+      {{ article.reading_time | timeRead }}
     </span>
     <p class="text-body">{{ article.excerpt | unescape }}</p>
     <div class="d-flex justify-content-between mt-4">

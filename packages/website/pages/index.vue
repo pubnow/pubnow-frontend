@@ -1,6 +1,8 @@
 <template>
   <div class="home-page container">
-    <FeaturedArea />
+    <no-ssr>
+      <FeaturedArea />
+    </no-ssr>
     <div class="row mt-2">
       <div class="col-sm-8">
         <Latest />
@@ -21,10 +23,34 @@ export default {
     PopularOnPubnow,
     Latest,
   },
+  data() {
+    return {
+      ssr: false,
+    }
+  },
+  asyncData() {
+    if (process.server) {
+      return {
+        ssr: true,
+      }
+    }
+    return {
+      ssr: false,
+    }
+  },
+  mounted() {
+    if (!this.ssr) {
+      this.$store.dispatch('article/index')
+      this.$store.dispatch('article/popular')
+      this.$store.dispatch('article/featured')
+    }
+  },
   async fetch({ store }) {
-    await store.dispatch('article/index')
-    await store.dispatch('article/popular')
-    await store.dispatch('article/featured')
+    if (process.server) {
+      await store.dispatch('article/index')
+      await store.dispatch('article/popular')
+      await store.dispatch('article/featured')
+    }
   },
 }
 </script>

@@ -14,8 +14,8 @@
             <nuxt-link :to="`/danh-muc/${article.category.slug}`">{{ article.category.name }}</nuxt-link>
             <div class="mt-1">
               <span class="d-inline-block">{{ article.updatedAt | formatDate }}</span>
-              <span>.</span>
-              <span>{{ article.content | timeRead }}</span>
+              <span class="middot"></span>
+              <span>{{ article.reading_time | timeRead }}</span>
               <span>
                 <i class="fas fa-star"></i>
               </span>

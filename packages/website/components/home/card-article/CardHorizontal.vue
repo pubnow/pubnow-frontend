@@ -1,5 +1,5 @@
 <template>
-  <div class="article-h mb-2 mx-md-2 mt-md-0 mt-2">
+  <div class="article-h mb-2 mt-md-0 mt-2">
     <div class="overlay" :style="`background-image: url(${article.thumbnail})`"></div>
     <div class="content">
       <nuxt-link :to="link">
@@ -12,7 +12,7 @@
         <div class="time">
           {{ article.publishedAt }}
           <span class="middot"></span>
-          {{ article.content | timeRead }}
+          {{ article.reading_time | timeRead }}
         </div>
       </nuxt-link>
     </div>
@@ -60,7 +60,7 @@ $line-height-title: 28px;
     left: 0;
     right: 0;
     bottom: 0;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4));
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
   }
   .overlay {
     position: absolute;
