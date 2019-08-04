@@ -50,7 +50,7 @@ export const mutations = {
     state.title = ''
     state.content = null
     state.category = null
-    state.private = false
+    state.isPrivate = false
   },
   fillData(state, article) {
     state.tags = article.tags.map(tag => tag.name)

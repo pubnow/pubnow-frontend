@@ -25,9 +25,22 @@
             iconStyle="regular"
             color="#97a0af"
           />
-          <nuxt-link class="write-btn ml-md-3 ml-0 order-md-2 order-first" to="/bai-viet/tao-moi">
-            <va-button type="primary" icon-before="feather-alt">Viết bài</va-button>
-          </nuxt-link>
+          <va-dropdown class="order-md-2 order-first">
+            <div slot="trigger">
+              <va-button
+                type="primary"
+                class="write-btn ml-md-3 ml-0"
+                icon-before="feather-alt"
+              >Viết ngay</va-button>
+            </div>
+            <li>
+              <nuxt-link to="/bai-viet/tao-moi">Bài viết</nuxt-link>
+            </li>
+            <li>
+              <nuxt-link to="/series/tao-moi">Series</nuxt-link>
+            </li>
+          </va-dropdown>
+
           <UserAvatar :user="user" class="order-md-3" :organizations="organizations" />
         </b-col>
       </b-row>
