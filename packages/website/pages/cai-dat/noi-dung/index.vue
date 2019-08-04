@@ -35,7 +35,17 @@
             Series của tôi
             <va-button active class="ml-auto" @click="newSeries">+ Thêm mới</va-button>
           </HeadingText>
-          <b-table :items="articles" :fields="fields" v-if="isArticle" striped>
+          <b-table
+            :items="articles"
+            :fields="fields"
+            v-if="isArticle"
+            :busy="$wait.is('article.user')"
+            striped
+          >
+            <div slot="table-busy" class="text-center text-primary my-4">
+              <b-spinner class="align-middle"></b-spinner>
+              <strong>Đang tải dữ liệu ...</strong>
+            </div>
             <template slot="status" slot-scope="{ item }">
               <b-badge variant="warning" v-if="item.private">Không công khai</b-badge>
               <b-badge variant="dark" v-else-if="item.draft">Nháp</b-badge>
