@@ -27,9 +27,6 @@ export default {
       user: 'auth/user',
     }),
   },
-  mounted() {
-    this.$store.dispatch('category/list')
-  },
 }
 </script>
 
