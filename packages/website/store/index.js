@@ -16,6 +16,7 @@ export const actions = {
   async nuxtServerInit({ commit, dispatch }, { req }) {
     let token = null
     await dispatch('category/list')
+    await dispatch('organization/userOrgs')
     commit('setApi', process.env.API_URL)
     if (req.headers.cookie) {
       try {

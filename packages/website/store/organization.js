@@ -1,16 +1,21 @@
 export const state = () => ({
   organizations: [],
+  userOrgs: [],
   param: 'fd',
 })
 
 export const getters = {
   organizations: state => state.organizations,
+  userOrgs: state => state.userOrgs,
   param: state => state.param,
 }
 
 export const mutations = {
   setOrganizations(state, organizations) {
     state.organizations = organizations
+  },
+  setUserOrgs(state, orgs) {
+    state.userOrgs = orgs
   },
   setParam(state, param) {
     state.param = param
@@ -28,6 +33,16 @@ export const actions = {
       return true
     } catch (e) {
       dispatch('wait/end', 'organizations.list', { root: true })
+      return false
+    }
+  },
+  async userOrgs({ commit }) {
+    try {
+      const result = await this.$http.$get('users/organizations')
+      const { data } = result
+      commit('setUserOrgs', data)
+      return true
+    } catch (e) {
       return false
     }
   },
