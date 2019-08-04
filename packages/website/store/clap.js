@@ -11,7 +11,7 @@ export const getters = {
 export const mutations = {
   setClap(state, clap) {
     state.clapped = clap.article.clapped
-    state.clapNum = clap.count
+    state.clapNum = clap.article.claps
   },
 }
 

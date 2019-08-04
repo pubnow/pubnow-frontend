@@ -15,8 +15,18 @@
             </div>
           </div>
           <div class="d-flex align-items-center report" v-if="userInfo.id !== uID">
-            <va-button class="ml-2 button" type="subtle-link" size="xs">Lưu</va-button>
-            <va-button class="ml-2 button" type="subtle-link" size="xs">Báo cáo</va-button>
+            <va-button
+              class="ml-2 button"
+              type="subtle-link"
+              size="xs"
+              @click="handleSaveComment"
+            >Lưu</va-button>
+            <va-button
+              class="ml-2 button"
+              type="subtle-link"
+              size="xs"
+              @click="handleReportComment"
+            >Báo cáo</va-button>
             <va-button
               class="ml-2 button"
               type="subtle-link"
@@ -207,6 +217,16 @@ export default {
     },
     showModal() {
       this.$refs.modal.open()
+    },
+    handleSaveComment() {
+      if (!this.user) {
+        this.$router.push('/dang-nhap')
+      }
+    },
+    handleReportComment() {
+      if (!this.user) {
+        this.$router.push('/dang-nhap')
+      }
     },
   },
 }
