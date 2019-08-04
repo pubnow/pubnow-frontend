@@ -134,13 +134,16 @@ export const actions = {
       return false
     }
   },
-  async index({ commit }) {
+  async index({ commit, dispatch }) {
     try {
+      dispatch('wait/start', 'article.index', { root: true })
       const result = await this.$http.$get(`articles`)
+      dispatch('wait/end', 'article.index', { root: true })
       const { data: articles } = result
       commit('setArticles', articles)
       return articles
     } catch (e) {
+      dispatch('wait/end', 'article.index', { root: true })
       return null
     }
   },
@@ -156,12 +159,15 @@ export const actions = {
       return null
     }
   },
-  async popular({ commit }) {
+  async popular({ commit, dispatch }) {
     try {
+      dispatch('wait/start', 'article.popular', { root: true })
       const result = await this.$http.$get(`articles/popular`)
       const { data: articles } = result
+      dispatch('wait/end', 'article.popular', { root: true })
       commit('setPopular', articles)
     } catch (e) {
+      dispatch('wait/end', 'article.popular', { root: true })
       return null
     }
   },

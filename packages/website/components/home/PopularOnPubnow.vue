@@ -5,39 +5,44 @@
         <aside class="uiScale name-dec">
           <HeadingText>Phổ biến tại Pubnow</HeadingText>
           <div class="mt-4">
-            <ul class="list">
-              <li class="d-flex mb-3 item" v-for="(article, index) in articles" :key="index">
-                <div class="counter">0{{index+1}}</div>
-                <div class="flex-grow-1 ml-2">
-                  <div>
-                    <nuxt-link
-                      :to="`/bai-viet/${article.slug}`"
-                      class="overflow-hidden flex-grow-0 w-100"
-                    >
-                      <h2 class="title mb-0">{{ article.title }}</h2>
-                    </nuxt-link>
-                  </div>
-                  <div class="mt-1 colorText">
-                    <nuxt-link
-                      :to="`/nguoi-dung/${article.author.username}`"
-                      class="author mr-1"
-                    >{{ article.author.name }}</nuxt-link>tại
-                    <nuxt-link
-                      :to="`/danh-muc/${article.category.slug}`"
-                      class="category"
-                    >{{ article.category.name }}</nuxt-link>
+            <v-wait for="article.popular" transition="fade" mode="out-in">
+              <template slot="waiting">
+                <PopularArticlePlaceholder v-for="i in 5" :key="i" />
+              </template>
+              <ul class="list">
+                <li class="d-flex mb-3 item" v-for="(article, index) in articles" :key="index">
+                  <div class="counter">0{{index+1}}</div>
+                  <div class="flex-grow-1 ml-2">
                     <div>
-                      <span>{{ article.updatedAt | formatDate }}</span>
-                      <span class="middot"></span>
-                      <span>{{ article.reading_time | timeRead }}</span>
-                      <span class="pl-1">
-                        <i class="fas fa-star"></i>
-                      </span>
+                      <nuxt-link
+                        :to="`/bai-viet/${article.slug}`"
+                        class="overflow-hidden flex-grow-0 w-100"
+                      >
+                        <h2 class="title mb-0">{{ article.title }}</h2>
+                      </nuxt-link>
+                    </div>
+                    <div class="mt-1 colorText">
+                      <nuxt-link
+                        :to="`/nguoi-dung/${article.author.username}`"
+                        class="author mr-1"
+                      >{{ article.author.name }}</nuxt-link>tại
+                      <nuxt-link
+                        :to="`/danh-muc/${article.category.slug}`"
+                        class="category"
+                      >{{ article.category.name }}</nuxt-link>
+                      <div>
+                        <span>{{ article.updatedAt | formatDate }}</span>
+                        <span class="middot"></span>
+                        <span>{{ article.reading_time | timeRead }}</span>
+                        <span class="pl-1">
+                          <i class="fas fa-star"></i>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </li>
-            </ul>
+                </li>
+              </ul>
+            </v-wait>
           </div>
         </aside>
       </div>
@@ -46,11 +51,12 @@
 </template>
 
 <script>
-import HeadingText from '../common/HeadingText'
+import { HeadingText, PopularArticlePlaceholder } from '../common'
 import { mapGetters } from 'vuex'
 export default {
   components: {
     HeadingText,
+    PopularArticlePlaceholder,
   },
   computed: {
     ...mapGetters({

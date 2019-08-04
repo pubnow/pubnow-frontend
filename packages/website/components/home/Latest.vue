@@ -2,41 +2,46 @@
   <div class="latest">
     <HeadingText>Mới nhất</HeadingText>
     <div class="mt-4">
-      <article class="article mb-5" v-for="article in articles" :key="article.id">
-        <div class="article-post flex-grow-1">
-          <nuxt-link :to="`/bai-viet/${article.slug}`" class="text-dec">
-            <h2 class="title">{{ article.title }}</h2>
-            <div class="mt-1 description">{{article.excerpt | unescape}}</div>
-          </nuxt-link>
-          <div class="mt-2">
-            <nuxt-link :to="`/nguoi-dung/${article.author.username}`">{{ article.author.name }}</nuxt-link>
-            <span class="ml-1">tại</span>
-            <nuxt-link :to="`/danh-muc/${article.category.slug}`">{{ article.category.name }}</nuxt-link>
-            <div class="mt-1">
-              <span class="d-inline-block">{{ article.updatedAt | formatDate }}</span>
-              <span class="middot"></span>
-              <span>{{ article.reading_time | timeRead }}</span>
-              <span>
-                <i class="fas fa-star"></i>
-              </span>
+      <v-wait for="article.index" transition="fade" mode="out-in">
+        <template slot="waiting">
+          <LatestArticlePlaceholder v-for="i in 5" :key="i" />
+        </template>
+        <article class="article mb-5" v-for="article in articles" :key="article.id">
+          <div class="article-post flex-grow-1">
+            <nuxt-link :to="`/bai-viet/${article.slug}`" class="text-dec">
+              <h2 class="title">{{ article.title }}</h2>
+              <div class="mt-1 description">{{article.excerpt | unescape}}</div>
+            </nuxt-link>
+            <div class="mt-2">
+              <nuxt-link :to="`/nguoi-dung/${article.author.username}`">{{ article.author.name }}</nuxt-link>
+              <span class="ml-1">tại</span>
+              <nuxt-link :to="`/danh-muc/${article.category.slug}`">{{ article.category.name }}</nuxt-link>
+              <div class="mt-1">
+                <span class="d-inline-block">{{ article.updatedAt | formatDate }}</span>
+                <span class="middot"></span>
+                <span>{{ article.reading_time | timeRead }}</span>
+                <span>
+                  <i class="fas fa-star"></i>
+                </span>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="article-image">
-          <nuxt-link
-            :to="`/bai-viet/${article.slug}`"
-            class="d-block background-cover w-100 h-100"
-            v-bind:style="{ backgroundImage: `url(${article.thumbnail})` }"
-          ></nuxt-link>
-        </div>
-      </article>
+          <div class="article-image">
+            <nuxt-link
+              :to="`/bai-viet/${article.slug}`"
+              class="d-block background-cover w-100 h-100"
+              v-bind:style="{ backgroundImage: `url(${article.thumbnail})` }"
+            ></nuxt-link>
+          </div>
+        </article>
+      </v-wait>
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import HeadingText from '../common/HeadingText'
+import { HeadingText, LatestArticlePlaceholder } from '../common'
 
 export default {
   computed: {
@@ -46,6 +51,7 @@ export default {
   },
   components: {
     HeadingText,
+    LatestArticlePlaceholder,
   },
 }
 </script>

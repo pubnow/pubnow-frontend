@@ -19,3 +19,9 @@ export {
 } from './Placeholder/ArticleContent.vue'
 export { default as CommentPlaceholder } from './Placeholder/Comment.vue'
 export { default as FeaturedPlaceholder } from './Placeholder/Featured.vue'
+export {
+  default as LatestArticlePlaceholder,
+} from './Placeholder/LatestArticle.vue'
+export {
+  default as PopularArticlePlaceholder,
+} from './Placeholder/PopularArticle.vue'
