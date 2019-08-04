@@ -144,12 +144,15 @@ export const actions = {
       return null
     }
   },
-  async featured({ commit }) {
+  async featured({ commit, dispatch }) {
     try {
+      dispatch('wait/start', 'article.featured', { root: true })
       const result = await this.$http.$get(`articles/featured`)
+      dispatch('wait/end', 'article.featured', { root: true })
       const { data: articles } = result
       commit('setFeatured', articles)
     } catch (e) {
+      dispatch('wait/end', 'article.featured', { root: true })
       return null
     }
   },

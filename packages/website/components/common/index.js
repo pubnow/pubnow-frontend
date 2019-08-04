@@ -18,3 +18,4 @@ export {
   default as ArticleContentPlaceholder,
 } from './Placeholder/ArticleContent.vue'
 export { default as CommentPlaceholder } from './Placeholder/Comment.vue'
+export { default as FeaturedPlaceholder } from './Placeholder/Featured.vue'

@@ -28,8 +28,8 @@
                     >{{ article.category.name }}</nuxt-link>
                     <div>
                       <span>{{ article.updatedAt | formatDate }}</span>
-                      <span>.</span>
-                      <span>{{ article.content | timeRead }}</span>
+                      <span class="middot"></span>
+                      <span>{{ article.reading_time | timeRead }}</span>
                       <span class="pl-1">
                         <i class="fas fa-star"></i>
                       </span>

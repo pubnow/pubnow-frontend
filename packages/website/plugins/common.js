@@ -13,8 +13,7 @@ Vue.filter('formatDate', source => {
 })
 
 Vue.filter('timeRead', source => {
-  const word = source.replace(/(<([^>]+)>)/gi, '').split(' ')
-  return Math.round(word.length / 220) + ' phút đọc'
+  return source + ' phút đọc'
 })
 
 Vue.filter('unescape', str => he.decode(str))

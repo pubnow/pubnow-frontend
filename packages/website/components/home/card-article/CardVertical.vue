@@ -20,7 +20,7 @@
     <div class="time">
       {{ article.publishedAt }}
       <span class="middot"></span>
-      {{ article.content | timeRead }}
+      {{ article.reading_time | timeRead }}
     </div>
   </div>
 </template>
@@ -54,13 +54,22 @@ export default {
 @import '@pubnow/ui/scss/_fonts.scss';
 
 .article-v {
+  &:hover {
+    .thumbnail {
+      @include box-shadow-lg;
+    }
+  }
   .thumbnail {
     width: 100%;
     height: 234px;
     object-fit: cover;
     background: $n20;
     @include radius-md;
+    @include border;
+    @include box-shadow-sm;
+    transition: all 0.2s ease-in-out;
     margin-bottom: $unit / 2;
+
     img {
       user-select: none;
     }

@@ -87,6 +87,11 @@ export default {
     ArticleContentPlaceholder,
     CommentPlaceholder,
   },
+  data() {
+    return {
+      ssr: false,
+    }
+  },
   computed: {
     ...mapGetters({
       article: 'article/article',
@@ -97,7 +102,7 @@ export default {
   },
   async mounted() {
     const { slug } = this.$route.params
-    if (!this.article || (this.article && slug !== this.article.slug)) {
+    if (!this.ssr) {
       this.$store.dispatch('article/show', slug)
     }
     this.$wait.start('loading comment')
@@ -105,6 +110,16 @@ export default {
     this.$wait.end('loading comment')
     this.numComment(this.comment)
     this.$store.dispatch('comment/count', this.commentNum)
+  },
+  asyncData() {
+    if (process.server) {
+      return {
+        ssr: true,
+      }
+    }
+    return {
+      ssr: false,
+    }
   },
   fetch({ store, params: { slug } }) {
     if (process.server) {

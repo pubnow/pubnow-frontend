@@ -23,8 +23,8 @@
               >{{ dataBookmark.article.category.name }}</nuxt-link>
               <div class="mt-1">
                 <span class="d-inline-block">{{ dataBookmark.article.updatedAt | formatDate }}</span>
-                <span>.</span>
-                <span>{{ dataBookmark.article.content | timeRead }}</span>
+                <span class="middot"></span>
+                <span>{{ dataBookmark.article.reading_time | timeRead }}</span>
                 <span>
                   <i class="fas fa-star"></i>
                 </span>
