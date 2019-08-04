@@ -8,7 +8,7 @@
             <ul class="list">
               <li class="d-flex mb-3 item" v-for="(article, index) in articles" :key="index">
                 <div class="counter">0{{index+1}}</div>
-                <div class="flex-grow-1 ml-2">
+                <div class="flex-grow-1 ml-3">
                   <div>
                     <nuxt-link
                       :to="`/bai-viet/${article.slug}`"
@@ -71,7 +71,7 @@ export default {
     padding-left: 0;
     .item {
       .counter {
-        font-size: 36px;
+        font-size: 34px;
         color: $n50;
         margin-top: $unit / 3;
       }

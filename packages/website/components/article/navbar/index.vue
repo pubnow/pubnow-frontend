@@ -2,13 +2,17 @@
   <no-ssr>
     <div class="wrap-affix d-flex flex-column py-2">
       <div>
-        <img
-          v-if="clapStatus"
-          :src="require('@/assets/images/icons/clap-filter.svg')"
-          @click="clapArticle(articleSlug)"
-          alt="clap filter icon"
-          class="icon icon-large evenodd"
-        />
+        <div v-if="clapStatus" class="clap-filter d-flex">
+          <img
+            :src="require('@/assets/images/icons/clap-filter.svg')"
+            @click="clapArticle(articleSlug)"
+            alt="clap filter icon"
+            class="icon icon-clap icon-large evenodd"
+          />
+          <div @click="deleteClap(articleSlug)" class="icon-close">
+            <va-icon type="times" size="1em" iconStyle="solid" color="#97a0af" />
+          </div>
+        </div>
         <img
           v-else
           :src="require('@/assets/images/icons/clap.svg')"
@@ -127,6 +131,16 @@ export default {
         this.$router.push('/dang-nhap')
       }
     },
+    deleteClap(slug) {
+      if (this.user) {
+        this.$store.dispatch('clap/delete', slug).then(() => {
+          this.clapNum = this.numClap
+          this.clapStatus = this.clappedStatus
+        })
+      } else {
+        this.$router.push('/dang-nhap')
+      }
+    },
     bookmarkArticle(id) {
       if (this.user) {
         if (this.bookmarkStatus) {
@@ -203,6 +217,25 @@ $icon-small: 20px;
   justify-content: center;
   text-align: center;
   align-items: center;
+  .clap-filter {
+    align-items: center;
+    .icon-clap {
+      z-index: 2;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+    .icon-close {
+      position: absolute;
+      left: 16px;
+      transition: transform 0.25s cubic-bezier(0.25, 0, 0.6, 1.4) 1s;
+      cursor: pointer;
+    }
+    &:hover {
+      .icon-close {
+        transform: translateX(-20px);
+      }
+    }
+  }
   .icon {
     cursor: pointer;
   }

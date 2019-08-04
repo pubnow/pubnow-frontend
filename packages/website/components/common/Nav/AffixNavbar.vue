@@ -11,7 +11,7 @@
               :key="category.id"
               :to="`/danh-muc/${category.slug}`"
             >{{category.name}}</NavItem>
-            <NavItem to="/danh-muc">Tất cả chuyên mục</NavItem>
+            <NavItem to="/danh-muc/">Tất cả chuyên mục</NavItem>
           </b-navbar-nav>
         </b-container>
       </nav>

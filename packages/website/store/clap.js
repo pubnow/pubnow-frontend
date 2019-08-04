@@ -37,8 +37,8 @@ export const actions = {
   async delete({ commit }, slug) {
     try {
       this.$http.setHeader('Accept', 'application/json')
-      const result = await this.$http.$delete(`articles/${slug}/clap`)
       commit('deleteClap')
+      const result = await this.$http.$delete(`articles/${slug}/clap`)
       return result
     } catch (e) {
       return null

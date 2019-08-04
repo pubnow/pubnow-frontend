@@ -2,7 +2,7 @@
   <div class="categories">
     <b-container>
       <b-row>
-        <b-col v-for="(category, index) in listCategory" :key="index" sm="6" class="mb-4">
+        <b-col v-for="(category, index) in dataCategory" :key="index" sm="6" class="mb-4">
           <CardCategory
             :title="category.name"
             :slug="category.slug"
@@ -21,6 +21,11 @@ export default {
   components: {
     CardCategory,
   },
+  data() {
+    return {
+      dataCategory: null,
+    }
+  },
   computed: {
     ...mapGetters({
       listCategory: 'category/categories',
@@ -28,7 +33,9 @@ export default {
     }),
   },
   mounted() {
-    this.$store.dispatch('category/list')
+    this.$store.dispatch('category/list').then(() => {
+      this.dataCategory = this.listCategory
+    })
   },
 }
 </script>
