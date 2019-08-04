@@ -5,14 +5,14 @@
         <img
           v-if="clapStatus"
           :src="require('@/assets/images/icons/clap-filter.svg')"
-          @click="clapArticle(articleID)"
+          @click="clapArticle(articleSlug)"
           alt="clap filter icon"
           class="icon icon-large evenodd"
         />
         <img
           v-else
           :src="require('@/assets/images/icons/clap.svg')"
-          @click="clapArticle(articleID)"
+          @click="clapArticle(articleSlug)"
           alt="clap icon"
           class="icon icon-large"
         />
@@ -80,6 +80,10 @@ export default {
       type: String,
       required: true,
     },
+    articleSlug: {
+      type: String,
+      required: true,
+    },
     clapped: {
       type: Boolean,
       required: true,
@@ -113,9 +117,9 @@ export default {
     this.bookmarkStatus = this.bookmarked
   },
   methods: {
-    clapArticle(id) {
+    clapArticle(slug) {
       if (this.user) {
-        this.$store.dispatch('clap/write', id).then(() => {
+        this.$store.dispatch('clap/write', slug).then(() => {
           this.clapNum = this.numClap
           this.clapStatus = this.clappedStatus
         })
