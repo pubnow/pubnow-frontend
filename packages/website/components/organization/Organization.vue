@@ -13,9 +13,7 @@
         </div>
         <va-badge v-else>Chờ duyệt</va-badge>
       </div>
-      <div
-        class="description"
-      >{{ org.description }} Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+      <div class="description">{{ org.description }}</div>
       <div class="owner">
         Thành lập bởi
         <img :src="org.owner.avatar" />
