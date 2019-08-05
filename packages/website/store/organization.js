@@ -8,6 +8,7 @@ export const getters = {
   organizations: state => state.organizations,
   userOrgs: state => state.userOrgs,
   param: state => state.param,
+  userOrgs: state => state.userOrgs,
 }
 
 export const mutations = {
@@ -43,6 +44,17 @@ export const actions = {
       commit('setUserOrgs', data)
       return true
     } catch (e) {
+      return false
+    }
+  },
+  async create({ dispatch }, data) {
+    try {
+      dispatch('wait/start', 'org.create', { root: true })
+      const result = await this.$http.$post('organizations', data)
+      dispatch('wait/end', 'org.create', { root: true })
+      return result
+    } catch (e) {
+      dispatch('wait/end', 'org.create', { root: true })
       return false
     }
   },

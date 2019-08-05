@@ -1,19 +1,39 @@
 <template>
-  <va-card :elevation="1" :padding="13" class="mt-1 px-3 py-2 card">
-    <img :src="image" :alt="`Tổ chức ${name}`" class="image" />
-    {{ name }}
-  </va-card>
+  <div class="org-wrapper mt-2">
+    <div class="left">
+      <img :src="org.logo" :alt="`Tổ chức ${org.name}`" class="logo" />
+    </div>
+    <div class="right">
+      <div class="top">
+        <h2 class="title">{{ org.name }}</h2>
+        <div v-if="org.active">
+          <va-button v-if="isOwner">
+            <va-icon type="cog"></va-icon>
+          </va-button>
+        </div>
+        <va-badge v-else>Chờ duyệt</va-badge>
+      </div>
+      <div
+        class="description"
+      >{{ org.description }} Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+      <div class="owner">
+        Thành lập bởi
+        <img :src="org.owner.avatar" />
+        {{ org.owner.name }}
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   props: {
-    image: {
-      type: String,
+    org: {
+      type: Object,
       required: true,
     },
-    name: {
-      type: String,
+    isOwner: {
+      type: Boolean,
       required: true,
     },
   },
@@ -21,15 +41,59 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$size-image: 25px;
+@import '@pubnow/ui/scss/_sizes.scss';
+@import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_mixins.scss';
 
-.card {
-  cursor: pointer;
-  line-height: $size-image;
-}
-.image {
-  width: $size-image;
-  height: $size-image;
-  border-radius: $size-image / 2;
+$logo: 80px;
+
+.org-wrapper {
+  @include border;
+  @include radius-md;
+  @include box-shadow-sm;
+  padding: $unit / 2;
+  display: flex;
+  .left {
+    .logo {
+      width: $logo;
+      height: $logo;
+      object-fit: cover;
+      margin-right: $unit / 2;
+      @include border;
+      @include radius-md;
+    }
+  }
+  .right {
+    width: 100%;
+    .top {
+      display: flex;
+      align-items: center;
+      height: 34px;
+      .title {
+        color: $b500;
+        margin-bottom: 0;
+        margin-right: auto;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 19px;
+        line-height: 19px;
+        max-height: 19px;
+        word-break: break-word;
+      }
+    }
+    .description {
+      font-size: 16px;
+      color: $n400;
+    }
+    .owner {
+      margin-top: $unit / 4;
+      color: $n300;
+      img {
+        width: $unit;
+        height: $unit;
+        border-radius: $unit / 2;
+      }
+    }
+  }
 }
 </style>

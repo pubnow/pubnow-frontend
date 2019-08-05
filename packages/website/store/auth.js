@@ -34,6 +34,7 @@ export const actions = {
       commit('setUser', user)
       commit('setToken', token)
       this.$cookiz.set('token', token)
+      dispatch('organization/userOrgs', null, { root: true })
       dispatch('wait/end', 'auth.login', { root: true })
       return true
     } catch (e) {
