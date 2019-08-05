@@ -11,7 +11,7 @@
         <va-button class="username" icon-after="angle-down" type="subtle-link">{{user.name}}</va-button>
       </div>
       <li v-for="(item, id) in getGroup" :key="id" class="organization-wrapper">
-        <nuxt-link :to="`/to-chuc/${item.id}`" class>
+        <nuxt-link :to="`/to-chuc/${item.slug}`" class>
           <img class="organization-avatar" v-if="item.logo" :src="item.logo" />
           <div class="organization-name">{{item.name}}</div>
         </nuxt-link>

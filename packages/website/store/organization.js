@@ -1,19 +1,23 @@
 export const state = () => ({
   organizations: [],
   userOrgs: [],
+  organization: {},
   param: 'fd',
 })
 
 export const getters = {
   organizations: state => state.organizations,
   userOrgs: state => state.userOrgs,
+  organization: state => state.organization,
   param: state => state.param,
-  userOrgs: state => state.userOrgs,
 }
 
 export const mutations = {
   setOrganizations(state, organizations) {
     state.organizations = organizations
+  },
+  setOrganization(state, organization) {
+    state.organization = organization
   },
   setUserOrgs(state, orgs) {
     state.userOrgs = orgs
@@ -34,6 +38,19 @@ export const actions = {
       return true
     } catch (e) {
       dispatch('wait/end', 'organizations.list', { root: true })
+      return false
+    }
+  },
+  async show({ commit, dispatch }, id) {
+    try {
+      dispatch('wait/start', 'organizations.show', { root: true })
+      const result = await this.$http.$get(`organizations/${id}`)
+      const { data } = result
+      commit('setOrganization', data)
+      dispatch('wait/end', 'organizations.show', { root: true })
+      return true
+    } catch (e) {
+      dispatch('wait/end', 'organizations.show', { root: true })
       return false
     }
   },

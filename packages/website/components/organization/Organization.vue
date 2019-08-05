@@ -7,7 +7,7 @@
       <div class="top">
         <h2 class="title">{{ org.name }}</h2>
         <div v-if="org.active">
-          <va-button v-if="isOwner">
+          <va-button v-if="isOwner" @click="goSetting">
             <va-icon type="cog"></va-icon>
           </va-button>
         </div>
@@ -33,6 +33,11 @@ export default {
     isOwner: {
       type: Boolean,
       required: true,
+    },
+  },
+  methods: {
+    goSetting() {
+      this.$router.push('/to-chuc/' + this.org.slug + '/quan-ly')
     },
   },
 }
