@@ -24,10 +24,10 @@ export const mutations = {
 }
 
 export const actions = {
-  async write({ commit }, article_id) {
+  async write({ commit }, id) {
     try {
       this.$http.setHeader('Accept', 'application/json')
-      const result = await this.$http.$post(`articles/${article_id}/bookmark`)
+      const result = await this.$http.$post(`articles/${id}/bookmark`)
       const { data: bookmark } = result
       commit('setBookmark', bookmark)
       return bookmark
@@ -46,11 +46,11 @@ export const actions = {
       return null
     }
   },
-  async unBookmark({ commit }, article_id, data) {
+  async unBookmark({ commit }, { id, data }) {
     try {
       commit('setUnBookmark')
       commit('setListBookmark', data)
-      const result = await this.$http.$delete(`articles/${article_id}/bookmark`)
+      const result = await this.$http.$delete(`articles/${id}/bookmark`)
       return result
     } catch (e) {
       return null

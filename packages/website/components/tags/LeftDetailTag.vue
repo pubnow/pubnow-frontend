@@ -87,7 +87,7 @@
                   <img
                     v-else
                     :src="require('@/assets/images/icons/bookmark.svg')"
-                    @click="bookmarkArticle(article.id)"
+                    @click="bookmarkArticle(article.slug)"
                     alt="bookmark icon"
                   />
                 </span>
@@ -101,7 +101,7 @@
         <div slot="footer">
           <div>
             <va-button @click="$refs.modal.close()">Hủy</va-button>
-            <va-button type="primary" @click="bookmarkArticle(article.id)">Đồng ý</va-button>
+            <va-button type="primary" @click="bookmarkArticle(article.slug)">Đồng ý</va-button>
           </div>
         </div>
       </va-modal>

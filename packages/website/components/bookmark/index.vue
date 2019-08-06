@@ -52,11 +52,14 @@ export default {
   },
   methods: {
     removeBookmark(id) {
-      const index = this.bookmarks.findIndex(item => item.article.id === id)
+      const index = this.bookmarks.findIndex(item => item.article.slug === id)
       let arr = [...this.bookmarks]
       arr.splice(index, 1)
       this.bookmarks = [...arr]
-      this.$store.dispatch('bookmark/unBookmark', id, this.bookmarks)
+      this.$store.dispatch('bookmark/unBookmark', {
+        id,
+        data: this.bookmarks,
+      })
       this.$refs.modal.close()
     },
     showModal(id) {
