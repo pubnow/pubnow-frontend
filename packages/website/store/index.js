@@ -22,6 +22,7 @@ export const actions = {
         token = this.$cookiz.get('token')
         commit('auth/setToken', token)
         const result = await this.$http.$get('auth/me')
+        await dispatch('organization/userOrgs')
         const { data: user } = result
         commit('auth/setUser', user)
       } catch (e) {

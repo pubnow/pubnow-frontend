@@ -3,6 +3,8 @@ export const state = () => ({
   userOrgs: [],
   organization: {},
   param: 'fd',
+  members: [],
+  articles: [],
 })
 
 export const getters = {
@@ -10,6 +12,8 @@ export const getters = {
   userOrgs: state => state.userOrgs,
   organization: state => state.organization,
   param: state => state.param,
+  members: state => state.members,
+  articles: state => state.articles,
 }
 
 export const mutations = {
@@ -24,6 +28,12 @@ export const mutations = {
   },
   setParam(state, param) {
     state.param = param
+  },
+  setMembers(state, members) {
+    state.members = members
+  },
+  setArticles(state, articles) {
+    state.articles = articles
   },
 }
 
@@ -64,6 +74,26 @@ export const actions = {
       return false
     }
   },
+  async members({ commit }, id) {
+    try {
+      const result = await this.$http.$get(`organizations/${id}/members`)
+      const { data } = result
+      commit('setMembers', data)
+      return true
+    } catch (e) {
+      return false
+    }
+  },
+  async articles({ commit }, id) {
+    try {
+      const result = await this.$http.$get(`organizations/${id}/articles`)
+      const { data } = result
+      commit('setArticles', data)
+      return true
+    } catch (e) {
+      return false
+    }
+  },
   async create({ dispatch }, data) {
     try {
       dispatch('wait/start', 'org.create', { root: true })
@@ -72,6 +102,18 @@ export const actions = {
       return result
     } catch (e) {
       dispatch('wait/end', 'org.create', { root: true })
+      return false
+    }
+  },
+  async update({ dispatch, commit }, { id, data }) {
+    try {
+      dispatch('wait/start', 'org.update', { root: true })
+      const result = await this.$http.$put(`organizations/${id}`, data)
+      commit('setOrganization', result.data)
+      dispatch('wait/end', 'org.update', { root: true })
+      return result
+    } catch (e) {
+      dispatch('wait/end', 'org.update', { root: true })
       return false
     }
   },

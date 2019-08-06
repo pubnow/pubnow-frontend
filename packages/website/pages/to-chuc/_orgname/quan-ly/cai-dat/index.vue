@@ -38,9 +38,9 @@
                 ></b-form-input>
               </b-form-group>
               <va-button
-                :active="!canCreate"
-                :disabled="!canCreate"
-                @click="create"
+                :active="!canUpdate"
+                :disabled="!canUpdate"
+                @click="update"
                 type="primary"
               >Cập nhật</va-button>
             </b-form>
@@ -105,12 +105,34 @@ export default {
       },
     },
   },
+  mounted() {
+    this.initData()
+  },
   computed: {
     ...mapGetters({
       org: 'organization/organization',
     }),
-    canCreate() {
-      return !this.$v.form.$invalid && !this.avatarUploading
+    nameChanged() {
+      return this.form.name !== this.org.name
+    },
+    emailChanged() {
+      return this.form.email !== this.org.email
+    },
+    desChanged() {
+      return this.form.description !== this.org.description
+    },
+    avatarChanged() {
+      return !!this.avatar
+    },
+    canUpdate() {
+      return (
+        !this.$v.form.$invalid &&
+        !this.avatarUploading &&
+        (this.nameChanged ||
+          this.emailChanged ||
+          this.desChanged ||
+          this.avatarChanged)
+      )
     },
     avatarUploading() {
       return this.$wait.is('upload.image')
@@ -119,10 +141,15 @@ export default {
       if (this.avatar) {
         return this.avatar.link
       }
-      return ''
+      return this.org.logo
     },
   },
   methods: {
+    initData() {
+      this.form.name = this.org.name
+      this.form.description = this.org.description
+      this.form.email = this.org.email
+    },
     async onFileChange(e) {
       let files = e.target.files || e.dataTransfer.files
       if (files.length) {
@@ -135,27 +162,32 @@ export default {
         this.$wait.end('upload.image')
       }
     },
-    async create() {
+    async update() {
+      const { orgname } = this.$route.params
       const data = {
-        name: this.form.name,
-        email: this.form.email,
-        ...(this.form.description && { description: this.form.description }),
+        ...(this.nameChanged && { name: this.form.name }),
+        ...(this.emailChanged && { email: this.form.email }),
+        ...(this.desChanged && { description: this.form.description }),
         ...(this.avatar && { image_id: this.avatar.id }),
       }
-      const result = await this.$store.dispatch('organization/create', data)
+      const result = await this.$store.dispatch('organization/update', {
+        id: orgname,
+        data,
+      })
       if (result) {
         this.notification.info({
           title: `Success`,
-          message: `Tạo Tổ chức thành công`,
+          message: `Cập nhật thông tin Tổ chức thành công`,
           duration: 1690,
           onHide: () => {
-            this.$router.push('/cai-dat/to-chuc')
+            console.log({ result })
+            this.$router.push(`/to-chuc/${result.data.slug}/quan-ly`)
           },
         })
       } else {
         this.notification.danger({
           title: `Thất bại`,
-          message: `Bạn không thể tạo được tổ chức này`,
+          message: `Bạn không thể chỉnh sửa thông tin`,
           duration: 1690,
         })
       }

@@ -1,5 +1,5 @@
 <template>
-  <div class="org-wrapper mt-2">
+  <div class="org-wrapper mt-4">
     <div class="left">
       <img :src="org.logo" :alt="`Tổ chức ${org.name}`" class="logo" />
     </div>
