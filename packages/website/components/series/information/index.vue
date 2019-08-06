@@ -1,61 +1,90 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
-    <va-badge v-for="(tag, index) in tags" :key="`tag-${index}`" class="mr-2">{{ tag }}</va-badge>
+    <div class="d-flex justify-content-between align-items-center">
+      <h1>{{ title }}</h1>
+      <va-dropdown effect="fadeUp">
+        <div slot="trigger">
+          <i class="fas fa-ellipsis-h" />
+        </div>
+        <li>
+          <nuxt-link :to="`${slug}/chinh-sua`">Chỉnh sửa</nuxt-link>
+        </li>
+        <li>
+          <a @click="openModal">Xóa</a>
+        </li>
+      </va-dropdown>
+    </div>
+    <va-modal title="Xóa series" ref="deleteModal" :backdrop-clickable="true">
+      <div slot="body">
+        <p>Bạn có chắc chắn muốn xóa series này không?</p>
+      </div>
+      <div slot="footer">
+        <va-button @click="$refs.deleteModal.close()">Hủy bỏ</va-button>
+        <va-button type="danger" @click="deleteSeries" icon-before="trash">Xóa</va-button>
+      </div>
+    </va-modal>
     <div class="mt-2">
-      <span>Đăng lúc {{ date }} &nbsp; · &nbsp;</span>
-      <va-tooltip trigger="hover" content="Views" placement="bottom">
-        <i class="fas fa-eye icon"></i>
-      </va-tooltip>
-      <span class="number">{{ views }}</span>
-      <va-tooltip trigger="hover" content="Clips" placement="bottom">
-        <i class="fas fa-paperclip icon"></i>
-      </va-tooltip>
-      <span class="number">{{ clips }}</span>
-      <va-tooltip trigger="hover" content="Comments" placement="bottom">
-        <i class="fas fa-paperclip icon"></i>
-      </va-tooltip>
-      <span class="number">{{ comments }}</span>
-      <va-tooltip trigger="hover" content="Posts" placement="bottom">
+      <span>{{ date }}</span>
+      <va-tooltip trigger="hover" content="Posts" placement="bottom" class="ml-2">
         <i class="fas fa-paste icon"></i>
       </va-tooltip>
-      <span class="number">{{ posts }}</span>
+      <span class="number">{{ articles.length }}</span>
     </div>
-    <p class="description">{{ description }}</p>
+    <p class="description" v-html="content"></p>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
-  data() {
-    return {
-      title: 'Cộng hòa xã hội chủ nghĩa việt nam',
-      date: '16 tháng 6 năm 2019',
-      tags: [
-        'cộng hòa',
-        'xã hội',
-        'chủ nghĩa',
-        'việt nam',
-        'độc lập',
-        'tự do',
-        'hạnh phúc',
-        'tôi',
-        'nói',
-        'đồng bào',
-        'có nghe',
-        'rõ không',
-        'hả',
-        'nếu không',
-        'nghe',
-        'rõ',
-      ],
-      views: 12,
-      clips: 25,
-      comments: 153,
-      posts: 12,
-      description:
-        'Việc gì, dù lợi cho mình, phải xét nó có lợi cho nước không? Nếu không có lợi, mà có hại cho nước thì quyết không làm. Mỗi ngày cố làm một việc có lợi cho nước (lợi cho nước tức là lợi cho mình), dù là việc nhỏ, thì một năm ta làm được 365 việc. Nhiều lợi nhỏ cộng lại thành lợi to',
-    }
+  props: {
+    slug: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+    content: {
+      type: String,
+      required: true,
+    },
+    articles: {
+      type: Array,
+      required: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/user',
+    }),
+  },
+  methods: {
+    openModal() {
+      this.$refs.deleteModal.open()
+    },
+    deleteSeries() {
+      if (this.user) {
+        this.$store.dispatch('series/delete', this.slug)
+        this.notification.info({
+          title: `Thông báo`,
+          message: `Xóa series thành công`,
+          duration: 1690,
+          onHide: () => {
+            this.$router.push(`/series`)
+          },
+        })
+        this.$refs.deleteModal.close()
+      } else {
+        this.$router.push('/dang-nhap')
+      }
+    },
   },
 }
 </script>

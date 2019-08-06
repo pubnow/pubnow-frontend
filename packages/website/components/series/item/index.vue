@@ -2,43 +2,25 @@
   <div class="mb-2 wrap-all p-3 bg-white">
     <div class="d-flex flex-column wrap-content">
       <div class="d-flex justify-content-between">
-        <nuxt-link to="#" class="title">{{ title }}</nuxt-link>
-        <va-dropdown effect="fadeUp">
-          <div slot="trigger">
-            <i class="fas fa-ellipsis-h" />
-          </div>
-          <li>
-            <nuxt-link to="/series/abcde/chinh-sua">Chỉnh sửa</nuxt-link>
-          </li>
-          <li>
-            <a href="#" @click="deleteSeries">Xóa</a>
-          </li>
-        </va-dropdown>
+        <nuxt-link :to="`/series/${slug}`" class="title">{{ title }}</nuxt-link>
       </div>
-      <div>
-        <va-badge v-for="(tag, index) in tags" :key="`tag-${index}`" class="mr-1">{{ tag }}</va-badge>
-      </div>
-      <div class="d-flex justify-content-between mt-3">
+      <div class="d-flex justify-content-between mt-1">
         <div class="wrap-left">
           <p class="small mb-0 mt-0">
-            <img :src="avatar" alt="avatar" class="avatar" />
-            <nuxt-link to="#" class="author">{{ author }}</nuxt-link>
+            <img
+              :src="author.avatar === ''?'https://cdn.head-fi.org/g/2283245_l.jpg':author.avatar"
+              alt="avatar"
+              class="avatar"
+            />
+            <nuxt-link :to="`/nguoi-dung/${author.username}`" class="author">{{ author.name }}</nuxt-link>
             &nbsp; · &nbsp; {{ date }}
           </p>
         </div>
         <div class="wrap-right">
-          <va-tooltip trigger="hover" content="Views" placement="bottom">
-            <i class="fas fa-eye icon"></i>
-          </va-tooltip>
-          <span class="number">{{ views }}</span>
           <va-tooltip trigger="hover" content="Posts" placement="bottom">
             <i class="fas fa-paste icon"></i>
           </va-tooltip>
-          <span class="number">{{ posts }}</span>
-          <va-tooltip trigger="hover" content="Claps" placement="bottom">
-            <i class="fas fa-hand-paper icon"></i>
-          </va-tooltip>
-          <span class="number">{{ posts }}</span>
+          <span class="number">{{ articles.length }}</span>
         </div>
       </div>
     </div>
@@ -48,11 +30,11 @@
 <script>
 export default {
   props: {
-    avatar: {
-      type: String,
+    author: {
+      type: Object,
       required: true,
     },
-    author: {
+    slug: {
       type: String,
       required: true,
     },
@@ -64,32 +46,17 @@ export default {
       type: String,
       required: true,
     },
-    tags: {
+    articles: {
       type: Array,
-      required: true,
-    },
-    views: {
-      type: Number,
-      required: true,
-    },
-    clips: {
-      type: Number,
-      required: true,
-    },
-    comments: {
-      type: Number,
-      required: true,
-    },
-    posts: {
-      type: Number,
-      required: true,
-    },
-    claps: {
-      type: Number,
       required: true,
     },
   },
   methods: {
+    editSeries(slug) {
+      this.$store.dispatch('series/index', slug).then(() => {
+        this.$router.push(`series/${slug}/chinh-sua`)
+      })
+    },
     deleteSeries() {
       console.log('delete')
     },
@@ -111,6 +78,7 @@ $size-avatar: 24px;
     height: $size-avatar;
     width: $size-avatar;
     border-radius: $size-avatar / 2;
+    object-fit: cover;
   }
   .wrap-content {
     width: 100%;

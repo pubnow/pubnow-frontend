@@ -1,31 +1,20 @@
 <template>
   <no-ssr>
     <b-container>
-      <b-row>
+      <b-row v-if="dataSeries">
         <b-col md="8">
-          <information />
-          <contents />
-          <div>
-            <item-series
-              v-for="(item, index) in series"
-              :key="`series-${index}`"
-              :avatar="item.avatar"
-              :author="item.author"
-              :title="item.title"
-              :date="item.date"
-              :tags="item.tags"
-              :views="item.views"
-              :clips="item.clips"
-              :comments="item.comments"
-              :posts="item.posts"
-              :claps="item.claps"
-            />
-          </div>
-          <comments />
+          <information
+            :slug="dataSeries.slug"
+            :title="dataSeries.title"
+            :content="dataSeries.content"
+            :date="dataSeries.publishedAt"
+            :articles="dataSeries.articles"
+          />
+          <contents :articles="dataSeries.articles" />
         </b-col>
         <b-col md="4">
           <va-affix :offset="70">
-            <user />
+            <user :author="dataSeries.author" />
           </va-affix>
         </b-col>
       </b-row>
@@ -41,7 +30,7 @@ import {
   Comments,
   User,
 } from '@/components/series'
-import data from '@/components/series/dataFake'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     Information,
@@ -50,9 +39,20 @@ export default {
     Comments,
     User,
   },
+  async fetch({ store, params: { slug } }) {
+    await store.dispatch('series/index', slug)
+  },
+  mounted() {
+    this.dataSeries = this.series
+  },
+  computed: {
+    ...mapGetters({
+      series: 'series/series',
+    }),
+  },
   data() {
     return {
-      series: data,
+      dataSeries: null,
     }
   },
 }
