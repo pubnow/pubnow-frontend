@@ -5,15 +5,25 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { Information, Tab } from '@/components/control'
+
 export default {
-  asyncData({ store, params }) {
-    store.dispatch('organization/param', params.orgname)
-  },
   layout: 'organization',
   components: {
     Information,
     Tab,
+  },
+  computed: {
+    ...mapGetters({
+      org: 'organization/organization',
+    }),
+  },
+  head() {
+    return {
+      title:
+        (this.org && `Quản lý tổ chức - ${this.org.name}`) || 'Quản lý tổ chức',
+    }
   },
 }
 </script>

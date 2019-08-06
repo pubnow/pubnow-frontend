@@ -179,7 +179,7 @@ export const actions = {
   async user({ commit, dispatch }, username) {
     try {
       dispatch('wait/start', 'article.user', { root: true })
-      const result = await this.$http.$get(`users/${username}/articles`)
+      const result = await this.$http.$get(`users/articles`)
       const { data } = result
       commit('setUserArticles', data)
       dispatch('wait/end', 'article.user', { root: true })

@@ -16,13 +16,13 @@ export const actions = {
   async nuxtServerInit({ commit, dispatch }, { req }) {
     let token = null
     await dispatch('category/list')
-    await dispatch('organization/userOrgs')
     commit('setApi', process.env.API_URL)
     if (req.headers.cookie) {
       try {
         token = this.$cookiz.get('token')
         commit('auth/setToken', token)
         const result = await this.$http.$get('auth/me')
+        await dispatch('organization/userOrgs')
         const { data: user } = result
         commit('auth/setUser', user)
       } catch (e) {

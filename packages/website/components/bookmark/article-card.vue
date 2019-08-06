@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     removeBookmark() {
-      this.$emit('remove', this.id)
+      this.$emit('remove', this.article.slug)
     },
   },
   computed: {

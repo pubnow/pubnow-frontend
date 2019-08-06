@@ -16,13 +16,10 @@ export const mutations = {
 }
 
 export const actions = {
-  async write({ commit }, article_id) {
-    const data = {
-      article_id
-    }
+  async write({ commit }, id) {
     try {
       this.$http.setHeader('Accept', 'application/json')
-      const result = await this.$http.$post(`claps`, data)
+      const result = await this.$http.$post(`articles/${id}/clap`)
       const { data: clap } = result
       commit('setClap', clap)
       return clap

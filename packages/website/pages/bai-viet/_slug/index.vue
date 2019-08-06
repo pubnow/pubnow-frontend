@@ -18,7 +18,7 @@
               :clapped="article.clapped"
               :bookmarked="article.bookmarked"
               :commentNum="count"
-              :articleID="article.id"
+              :slug="article.slug"
             />
             <h1 class="title my-4">{{ article.title }}</h1>
             <div class="content-article fr-element fr-view" v-html="article.content"></div>

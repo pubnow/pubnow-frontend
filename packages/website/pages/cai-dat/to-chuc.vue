@@ -1,46 +1,50 @@
 <template>
-  <div class="container bg-white pb-3">
-    <h1>Danh sách tổ chức</h1>
-    <organization
-      v-for="(organization, index) in organizations"
-      :key="index"
-      :image="organization.image"
-      :name="organization.name"
-    />
-  </div>
+  <no-ssr>
+    <b-container class="bg-white pb-3">
+      <b-row>
+        <b-col md="10" offset-md="1">
+          <HeadingText class="d-flex align-items-center">
+            Danh sách tổ chức
+            <va-button active class="ml-auto" icon-before="plus" @click="addOrg">Thêm tổ chức</va-button>
+          </HeadingText>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col md="10" offset-md="1">
+          <b-row>
+            <b-col md="6" v-for="(organization) in orgs" :key="organization.id">
+              <organization :org="organization" :is-owner="user.id === organization.owner.id" />
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </b-container>
+  </no-ssr>
 </template>
 
 <script>
+import { HeadingText } from '@/components/common'
 import { Organization } from '@/components/organization'
+import { mapGetters } from 'vuex'
+
 export default {
   components: {
     Organization,
+    HeadingText,
   },
-  data() {
-    return {
-      organizations: [
-        {
-          image: 'https://bulma.io/images/placeholders/128x128.png',
-          name: 'Công hòa xã hội chủ nghĩa Việt Nam',
-        },
-        {
-          image: 'https://bulma.io/images/placeholders/128x128.png',
-          name: 'Độc lập tự do hạnh phúc',
-        },
-        {
-          image: 'https://bulma.io/images/placeholders/128x128.png',
-          name: 'Đố ai đếm được vì sao',
-        },
-        {
-          image: 'https://bulma.io/images/placeholders/128x128.png',
-          name: 'Đố ai đếm được công lao bác Hồ',
-        },
-        {
-          image: 'https://bulma.io/images/placeholders/128x128.png',
-          name: 'Công hòa xã hội chủ nghĩa Việt Nam',
-        },
-      ],
-    }
+  computed: {
+    ...mapGetters({
+      orgs: 'organization/userOrgs',
+      user: 'auth/user',
+    }),
+  },
+  methods: {
+    addOrg() {
+      this.$router.push('/to-chuc/tao-moi')
+    },
+  },
+  mounted() {
+    this.$store.dispatch('organization/userOrgs')
   },
 }
 </script>

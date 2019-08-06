@@ -10,7 +10,7 @@
           <va-button class="btn-add" type="success" @click="showCustom">Thêm thành viên</va-button>
         </b-col>
       </b-row>
-      <b-row v-for="(item,id) in member" :key="id" class="member mt-3 d-flex">
+      <b-row v-for="(item,id) in members" :key="id" class="member mt-3 d-flex">
         <b-col class="md-6 info d-flex">
           <img class="member-avatar" :src="item.avatar" />
           <div class="member-detail">
@@ -19,9 +19,9 @@
           </div>
         </b-col>
         <b-col class="md-6 setting d-flex">
-          <va-icon type="user" size="1.25em" iconStyle="regular" color="#97a0af" />
-          <div class="member-role">{{item.role}}</div>
-          <va-icon type="cog" size="1.25em" iconStyle="solid" color="#97a0af" />
+          <div v-if="item.id === organization.owner.id">Chủ sở hữu</div>
+          <div v-else>Thành viên</div>
+          <va-icon type="cog" size="1.25em" class="ml-1" iconStyle="solid" color="#97a0af" />
         </b-col>
       </b-row>
       <va-modal :backdrop-clickable="backdropClickable" ref="customModal" class="modal-container">
@@ -57,6 +57,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   layout: 'organization',
   middleware: ['auth'],
@@ -65,42 +67,20 @@ export default {
   },
   data() {
     return {
-      member: [
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/21234122?s=96&v=4',
-          name: 'PhongPV',
-          email: 'phong@gmail.com',
-          role: 'Quản trị viên',
-        },
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/21234772?s=96&v=4',
-          name: 'TuanPV',
-          email: 'tuan@gmail.com',
-          role: 'Thành viên',
-        },
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/21234222?s=96&v=4',
-          name: 'SangND',
-          email: 'sang@gmail.com',
-          role: 'Thành viên',
-        },
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/24434122?s=96&v=4',
-          name: 'TuNR',
-          email: 'tu@gmail.com',
-          role: 'Thành viên',
-        },
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/21244122?s=96&v=4',
-          name: 'ManhTT',
-          email: 'manh@gmail.com',
-          role: 'Thành viên',
-        },
-      ],
       backdropClickable: true,
       activeButton: false,
       inputWidth: '',
     }
+  },
+  computed: {
+    ...mapGetters({
+      members: 'organization/members',
+      organization: 'organization/organization',
+    }),
+  },
+  mounted() {
+    const { orgname } = this.$route.params
+    this.$store.dispatch('organization/members', orgname)
   },
   methods: {
     showCustom() {
@@ -145,7 +125,7 @@ export default {
     .member-avatar {
       width: 50px;
       height: 50px;
-      object-fit: stretch;
+      object-fit: cover;
     }
     .member-detail {
       margin-left: 10px;

@@ -150,13 +150,13 @@ export default {
         ...(this.activeChanged && { active: this.active }),
       }
       await this.$store.dispatch('organization/update', {
-        id: this.organization.id,
+        id: this.organization.slug,
         ...submit,
       })
       this.$router.go()
     },
     async removeOrg() {
-      await this.$store.dispatch('organization/remove', this.organization.id)
+      await this.$store.dispatch('organization/remove', this.organization.slug)
       this.$router.go()
     },
   },

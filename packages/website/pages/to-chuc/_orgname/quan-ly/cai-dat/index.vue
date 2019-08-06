@@ -1,146 +1,196 @@
 <template>
   <no-ssr>
-    <b-container>
-      <b-row class="mt-3">
-        <b-col cols="3" offset="1" class="text-center">
-          <p class="text-profile mt-0">Logo đại diện</p>
-          <img
-            :src="imageUrl === '' ? 'https://bulma.io/images/placeholders/256x256.png': imageUrl"
-            alt="avatar to chuc"
-            class="avatar"
-          />
-          <span class="va-btn va-btn-md va-btn-success btn-file mt-3">
-            <input type="file" accept="image/*" @change="onFilePicked" />
-            <div class="va-btn-text-fade" style="padding-left: 26px">
-              <va-icon type="upload" style="position: absolute;left: 3px;" />Upload ảnh
-            </div>
-          </span>
-        </b-col>
-        <b-col cols="md-7">
-          <va-form ref="form" type="vertical">
-            <va-form-item label="Tên tổ chức">
-              <va-input
-                :value="name"
-                @input="updateName"
-                name="name"
-                size="lg"
-                placeholder="Tên tổ chức"
-                :rules="[{type:'required', tip:'Bạn vui lòng nhập tên tổ chức'}]"
+    <div class="organization-create">
+      <b-container>
+        <b-row>
+          <b-col md="6" offset-md="2">
+            <b-form class="mt-2">
+              <b-form-group id="input-group-name" label="Tên tổ chức" label-for="input-name">
+                <b-form-input
+                  id="input-name"
+                  placeholder="Tên tổ chức"
+                  v-model.trim="$v.form.name.$model"
+                  :state="$v.form.name.$dirty ? !$v.form.name.$error : null"
+                ></b-form-input>
+                <div v-if="!$v.form.name.required" class="invalid-feedback">Trường bắt buộc</div>
+              </b-form-group>
+              <b-form-group id="input-group-email" label="Email đại diện" label-for="input-email">
+                <b-form-input
+                  id="input-email"
+                  placeholder="Email đại diện tổ chức"
+                  type="email"
+                  v-model.trim="$v.form.email.$model"
+                  :state="$v.form.email.$dirty ? !$v.form.email.$error : null"
+                ></b-form-input>
+                <div v-if="!$v.form.email.required" class="invalid-feedback">Trường bắt buộc</div>
+                <div v-if="!$v.form.email.email" class="invalid-feedback">Email không hợp lệ</div>
+              </b-form-group>
+
+              <b-form-group
+                id="input-group-email"
+                label="Giới thiệu tổ chức"
+                label-for="input-description"
+              >
+                <b-form-input
+                  id="input-description"
+                  placeholder="Mô tả ngắn về tổ chức của bạn"
+                  v-model.trim="form.description"
+                ></b-form-input>
+              </b-form-group>
+              <va-button
+                :active="!canUpdate"
+                :disabled="!canUpdate"
+                @click="update"
+                type="primary"
+              >Cập nhật</va-button>
+            </b-form>
+          </b-col>
+          <b-col md="2">
+            <div class="mt-2">
+              <legend class="col-form-label pt-0">Logo tổ chức</legend>
+              <div
+                class="rounded avatar d-block mb-2"
+                :style="`background-image: url(${avatarUrl})`"
               />
-            </va-form-item>
-            <va-form-item label="Email công khai">
-              <va-input
-                name="email"
-                :value="email"
-                @input="updateEmail"
-                size="lg"
-                placeholder="Email công khai"
-                :rules="[{type:'required', tip:'Bạn vui lòng nhập email'}, {type:'email', tip:'Bạn vui lòng nhập email'}]"
-              />
-            </va-form-item>
-            <va-form-item label="Mô tả">
-              <va-textarea :resize="false" :value="description" @input="updateDescription" />
-            </va-form-item>
-            <div class="va-form-group">
-              <div class="va-col-sm-12 va-flex justify-content-end">
+              <label for="file-input">
                 <va-button
-                  :active="!canUpdate"
-                  :disabled="!canUpdate"
-                  type="primary"
-                  @click="submit"
-                  class="mr-1"
-                  icon-before="pen"
-                >Chỉnh sửa</va-button>
-                <va-button type="danger" @click="removeOrgan" icon-before="trash">Xóa tổ chức</va-button>
-              </div>
+                  active
+                  icon-before="camera"
+                  :loading="avatarUploading"
+                  :disabled="avatarUploading"
+                >Upload</va-button>
+              </label>
+              <b-form-file
+                class="d-none"
+                type="file"
+                id="file-input"
+                @change="onFileChange"
+                accept=".jpg, .png, .gif"
+              ></b-form-file>
             </div>
-          </va-form>
-        </b-col>
-        <va-modal
-          title="Thông báo"
-          class="modal-container"
-          :backdrop-clickable="backdropClickable"
-          ref="customModal"
-        >
-          <div slot="body" class="mb-3">
-            <p class="content-rm">Bạn có chắc chắn muốn xóa tổ chức này không?</p>
-          </div>
-          <div slot="footer">
-            <div>
-              <va-button type="primary" @click="acceptRemove">Đồng ý</va-button>
-              <va-button @click="$refs.customModal.close()">Hủy bỏ</va-button>
-            </div>
-          </div>
-        </va-modal>
-      </b-row>
-    </b-container>
+          </b-col>
+        </b-row>
+      </b-container>
+    </div>
   </no-ssr>
 </template>
-
 <script>
+import { validationMixin } from 'vuelidate'
+import { mapGetters } from 'vuex'
+import { required, minLength, email } from 'vuelidate/lib/validators'
+import { HeadingText } from '@/components/common'
+
 export default {
   layout: 'organization',
-  data() {
-    return {
-      backdropClickable: true,
-      name: 'Young Tailor',
-      email: 'youngtailor@gmail.com',
-      description:
-        'Young Tailor là một tổ chức phi chính phủ, đem lại nhiều công việc có ích cho xã hội :v',
-      image: '',
-      imageUrl: 'https://avatars0.githubusercontent.com/u/49083246?s=200&v=4',
-      editable: false,
-    }
+  mixins: [validationMixin],
+  data: () => ({
+    form: {
+      name: '',
+      email: '',
+      description: '',
+    },
+    avatar: null,
+  }),
+  components: {
+    HeadingText,
   },
-  methods: {
-    submit() {
-      console.log('change')
+  validations: {
+    form: {
+      name: {
+        required,
+      },
+      email: {
+        required,
+        email,
+      },
     },
-    acceptRemove() {
-      console.log('remove')
-      this.$refs.customModal.close()
-    },
-    removeOrgan() {
-      this.$refs.customModal.open()
-    },
-    onFilePicked(event) {
-      const files = event.target.files
-      const fileName = files[0].name
-      this.image = files[0]
-      const fileReader = new FileReader()
-      fileReader.addEventListener('load', () => {
-        this.imageUrl = fileReader.result
-      })
-      fileReader.readAsDataURL(files[0])
-    },
-    updateName(value) {
-      this.name = value
-    },
-    updateEmail(value) {
-      this.email = value
-    },
-    updateDescription(value) {
-      this.description = value
-    },
-    change() {
-      this.editable = !this.editable
-    },
+  },
+  mounted() {
+    this.initData()
   },
   computed: {
+    ...mapGetters({
+      org: 'organization/organization',
+    }),
     nameChanged() {
-      return this.name !== 'Young Tailor'
+      return this.form.name !== this.org.name
     },
     emailChanged() {
-      return this.email !== 'youngtailor@gmail.com'
+      return this.form.email !== this.org.email
     },
-    descriptionChanged() {
-      return (
-        this.description !==
-        'Young Tailor là một tổ chức phi chính phủ, đem lại nhiều công việc có ích cho xã hội :v'
-      )
+    desChanged() {
+      return this.form.description !== this.org.description
+    },
+    avatarChanged() {
+      return !!this.avatar
     },
     canUpdate() {
-      return this.nameChanged || this.descriptionChanged || this.emailChanged
+      return (
+        !this.$v.form.$invalid &&
+        !this.avatarUploading &&
+        (this.nameChanged ||
+          this.emailChanged ||
+          this.desChanged ||
+          this.avatarChanged)
+      )
+    },
+    avatarUploading() {
+      return this.$wait.is('upload.image')
+    },
+    avatarUrl() {
+      if (this.avatar) {
+        return this.avatar.link
+      }
+      return this.org.logo
+    },
+  },
+  methods: {
+    initData() {
+      this.form.name = this.org.name
+      this.form.description = this.org.description
+      this.form.email = this.org.email
+    },
+    async onFileChange(e) {
+      let files = e.target.files || e.dataTransfer.files
+      if (files.length) {
+        this.avatar = files[0]
+        const formImg = new FormData()
+        formImg.append('file', files[0])
+        this.$wait.start('upload.image')
+        const uploadedImage = await this.$http.$post('upload', formImg)
+        this.avatar = uploadedImage.data
+        this.$wait.end('upload.image')
+      }
+    },
+    async update() {
+      const { orgname } = this.$route.params
+      const data = {
+        ...(this.nameChanged && { name: this.form.name }),
+        ...(this.emailChanged && { email: this.form.email }),
+        ...(this.desChanged && { description: this.form.description }),
+        ...(this.avatar && { image_id: this.avatar.id }),
+      }
+      const result = await this.$store.dispatch('organization/update', {
+        id: orgname,
+        data,
+      })
+      if (result) {
+        this.notification.info({
+          title: `Success`,
+          message: `Cập nhật thông tin Tổ chức thành công`,
+          duration: 1690,
+          onHide: () => {
+            console.log({ result })
+            this.$router.push(`/to-chuc/${result.data.slug}/quan-ly`)
+          },
+        })
+      } else {
+        this.notification.danger({
+          title: `Thất bại`,
+          message: `Bạn không thể chỉnh sửa thông tin`,
+          duration: 1690,
+        })
+      }
     },
   },
 }
@@ -150,48 +200,30 @@ export default {
 @import '@pubnow/ui/scss/_sizes.scss';
 @import '@pubnow/ui/scss/_colors.scss';
 @import '@pubnow/ui/scss/_mixins.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
 
-$size-image: 235px;
+.organization-create {
+  .avatar {
+    width: 140px;
+    height: 140px;
+    background-size: cover;
+    @include border;
+    @include box-shadow-sm;
+  }
 
-.avatar {
-  width: $size-image;
-  height: $size-image;
-  border-radius: $size-image / 2;
-  @include box-shadow;
-}
-.text-profile {
-  font-weight: 600;
-  color: #5d6b83;
-  font-size: 12px;
-  margin-bottom: 8px;
-}
+  .form-control {
+    &:disabled {
+      background: $n20;
+    }
+  }
 
-.btn-file {
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.btn-file input[type='file'] {
-  position: absolute;
-  top: 0;
-  right: 0;
-  min-width: 100%;
-  min-height: 100%;
-  font-size: 100px;
-  text-align: right;
-  filter: alpha(opacity=0);
-  opacity: 0;
-  outline: none;
-  background: white;
-  cursor: inherit;
-  display: block;
-}
-
-.modal-container {
-  .content-rm {
-    color: #5d6b83;
-    font-size: 20px;
+  .change-password {
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.25s ease-in;
+    &:hover {
+      background: $n20;
+    }
   }
 }
 </style>
