@@ -11,14 +11,24 @@
       <p class="bio" v-if="author.bio">{{ author.bio }}</p>
       <div v-if="user">
         <div v-if="user.id !== author.id" class="mt-3 network">
-          <va-button active @click="followUser(author.username)">Theo dõi</va-button>
+          <va-button
+            v-if="followUserStatus"
+            type="primary"
+            @click="handleFollowUser(author.username)"
+          >Đang theo dõi</va-button>
+          <va-button v-else type="default" @click="handleFollowUser(author.username)">Theo dõi</va-button>
         </div>
         <div v-else class="mt-3 network">
           <va-button active @click="editUser">Chỉnh sửa</va-button>
         </div>
       </div>
       <div v-else class="mt-3 network">
-        <va-button active @click="followUser(author.username)">Theo dõi</va-button>
+        <va-button
+          v-if="followUserStatus"
+          type="primary"
+          @click="handleFollowUser(author.username)"
+        >Đang theo dõi</va-button>
+        <va-button v-else type="default" @click="handleFollowUser(author.username)">Theo dõi</va-button>
       </div>
     </div>
   </no-ssr>
@@ -32,17 +42,35 @@ export default {
       type: Object,
     },
   },
+  data() {
+    return {
+      followUserStatus: false,
+    }
+  },
   computed: {
     ...mapGetters({
       user: 'auth/user',
+      followedUserStatus: 'follow/followUser',
     }),
+  },
+  mounted() {
+    this.followUserStatus = this.author.following
   },
   methods: {
     editUser() {
       this.$router.push('/cai-dat/tai-khoan')
     },
-    followUser(username) {
+    handleFollowUser(id) {
       if (this.user) {
+        if (this.followUserStatus) {
+          this.$store.dispatch('follow/unFollowUser', id).then(() => {
+            this.followUserStatus = this.followedUserStatus
+          })
+        } else {
+          this.$store.dispatch('follow/followUser', id).then(() => {
+            this.followUserStatus = this.followedUserStatus
+          })
+        }
       } else {
         this.$router.push('/dang-nhap')
       }

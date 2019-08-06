@@ -9,6 +9,7 @@
             :content="dataSeries.content"
             :date="dataSeries.publishedAt"
             :articles="dataSeries.articles"
+            :author="dataSeries.author"
           />
           <contents :articles="dataSeries.articles" />
         </b-col>

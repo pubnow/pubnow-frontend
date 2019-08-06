@@ -2,7 +2,7 @@
   <div>
     <div class="d-flex justify-content-between align-items-center">
       <h1>{{ title }}</h1>
-      <va-dropdown effect="fadeUp">
+      <va-dropdown effect="fadeUp" v-if="user.id === author.id ">
         <div slot="trigger">
           <i class="fas fa-ellipsis-h" />
         </div>
@@ -57,6 +57,10 @@ export default {
     },
     articles: {
       type: Array,
+      required: true,
+    },
+    author: {
+      type: Object,
       required: true,
     },
   },
