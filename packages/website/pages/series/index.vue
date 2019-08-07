@@ -5,26 +5,24 @@
         <b-col md="8">
           <HeadingText>Series</HeadingText>
           <div class="mt-2">
-            <ItemSeries
-              v-for="(item, index) in series"
-              :key="`series-${index}`"
-              :avatar="item.avatar"
-              :author="item.author"
-              :title="item.title"
-              :date="item.date"
-              :tags="item.tags"
-              :views="item.views"
-              :clips="item.clips"
-              :comments="item.comments"
-              :posts="item.posts"
-              :claps="item.claps"
-            />
-            <va-pagination
-              :total="pagedItems.length"
-              :max="max"
-              :per-page="perPage"
-              class="mt-3 mb-5"
-            ></va-pagination>
+            <div v-if="series.length > 0">
+              <ItemSeries
+                v-for="(item, index) in series"
+                :key="`series-${index}`"
+                :slug="item.slug"
+                :author="item.author"
+                :title="item.title"
+                :date="item.publishedAt"
+                :articles="item.articles"
+              />
+              <va-pagination
+                :total="series.length"
+                :max="max"
+                :per-page="perPage"
+                class="mt-3 mb-5"
+              ></va-pagination>
+            </div>
+            <h2 v-else class="mt-3">Hiện tại không có series nào</h2>
           </div>
         </b-col>
         <b-col md="4">
@@ -41,24 +39,27 @@
 <script>
 import { HeadingText } from '@/components/common'
 import { ItemSeries } from '@/components/series'
-import data from '@/components/series/dataFake'
-
+import { mapGetters } from 'vuex'
 export default {
   components: {
     HeadingText,
     ItemSeries,
   },
+  mounted() {
+    this.$store.dispatch('series/show').then(() => {
+      this.series = this.listSeries
+    })
+  },
+  computed: {
+    ...mapGetters({
+      listSeries: 'series/listSeries',
+    }),
+  },
   data() {
-    let pagedItems = []
-    for (let i = 0; i < 150; i++) {
-      pagedItems.push(i + 1)
-    }
     return {
-      max: 5,
-      perPage: 10,
-      pagedItems: pagedItems,
-      activePagedItems: [],
-      series: data,
+      max: 2,
+      perPage: 2,
+      series: [],
     }
   },
 }

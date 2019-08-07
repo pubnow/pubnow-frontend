@@ -1,10 +1,9 @@
 <template>
-  <b-container>
-    <editor-create />
-    <va-button class="mt-2" @click="create">
-      <va-icon type="plus" class="mr-2" />Tạo series
-    </va-button>
-  </b-container>
+  <no-ssr>
+    <b-container>
+      <editor-create status="create" />
+    </b-container>
+  </no-ssr>
 </template>
 
 <script>
@@ -13,12 +12,6 @@ export default {
   middleware: 'auth',
   components: {
     EditorCreate,
-  },
-  methods: {
-    create() {
-      const slug = 'abcde'
-      this.$router.push(`/series/${slug}/chinh-sua`)
-    },
   },
 }
 </script>

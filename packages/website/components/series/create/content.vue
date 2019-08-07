@@ -4,7 +4,7 @@
       <h2 class="title">Danh sách bài viết</h2>
       <hr class="split mb-0 mt-3" />
     </div>
-    <articles-selected :listSelected="listSelected" @deleteItem="deleteItem" />
+    <articles-selected v-if="series" :listArticles="series.articles" />
     <hr class="mt-4 break" />
     <div class="d-flex justify-content-between">
       <va-dropdown>
@@ -20,13 +20,9 @@
           <a href="#" v-b-modal.list-posts>Thêm bài viết có sẵn</a>
         </li>
       </va-dropdown>
-      <va-button type="success">
-        <va-icon type="check" class="mr-2" />Lưu
-      </va-button>
     </div>
     <b-modal id="list-posts" title="Danh sách bài viết" centered ref="updateArticles">
-      <search />
-      <articles @addArticle="addArticle" :listSelected="listSelected" />
+      <articles @closeModel="closeModel" />
       <template slot="modal-footer">
         <va-button @click="closeModel">Đóng</va-button>
       </template>
@@ -37,30 +33,24 @@
 <script>
 import Articles from './articles'
 import ArticlesSelected from './item'
-import Search from './search'
+import { mapGetters } from 'vuex'
 export default {
+  computed: {
+    ...mapGetters({
+      series: 'series/series',
+    }),
+  },
   data() {
     return {
       slug: 'abcde',
-      listSelected: [],
+      listSelected: null,
     }
   },
   components: {
     Articles,
     ArticlesSelected,
-    Search,
   },
   methods: {
-    addArticle(article) {
-      if (this.listSelected.includes(article)) {
-        this.listSelected = this.listSelected.filter(item => item !== article)
-      } else {
-        this.listSelected.push(article)
-      }
-    },
-    deleteItem(index) {
-      this.listSelected.splice(index, 1)
-    },
     closeModel() {
       this.$refs.updateArticles.hide()
     },
