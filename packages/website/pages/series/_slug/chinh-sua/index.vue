@@ -1,8 +1,10 @@
 <template>
-  <b-container>
-    <editor-create />
-    <content-create />
-  </b-container>
+  <no-ssr>
+    <b-container>
+      <editor-create status="edit" :dataSeries="series" v-if="series" />
+      <content-create />
+    </b-container>
+  </no-ssr>
 </template>
 
 <script>
@@ -13,6 +15,16 @@ export default {
   components: {
     EditorCreate,
     ContentCreate,
+  },
+  fetch({ store, params: { slug } }) {
+    if (process.server) {
+      return store.dispatch('series/index', slug)
+    }
+  },
+  computed: {
+    ...mapGetters({
+      series: 'series/series',
+    }),
   },
 }
 </script>
