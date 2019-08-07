@@ -18,13 +18,12 @@
           md="6"
           class="d-flex align-items-center justify-content-md-end justify-content-between mt-md-0 mt-2"
         >
-          <va-icon
-            v-if="user"
-            type="bell"
-            class="icon order-md-1"
-            iconStyle="regular"
-            color="#97a0af"
-          />
+          <va-dropdown class="order-md-1" @show="notiShow = true" @hide="notiShow = false">
+            <div slot="trigger">
+              <va-icon v-if="user" type="bell" class="icon" iconStyle="regular" color="#97a0af" />
+            </div>
+            <Notification :show="notiShow" />
+          </va-dropdown>
           <va-dropdown class="order-md-2 order-first">
             <div slot="trigger">
               <va-button
@@ -53,13 +52,16 @@ import { mapGetters } from 'vuex'
 import shuffle from 'lodash.shuffle'
 import take from 'lodash.take'
 import UserAvatar from '../UserAvatar'
+import Notification from '../../notification'
 
 export default {
   components: {
     UserAvatar,
+    Notification,
   },
   data: () => ({
     keyword: '',
+    notiShow: false,
   }),
   computed: {
     ...mapGetters({

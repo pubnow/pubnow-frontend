@@ -109,11 +109,26 @@ export const actions = {
     try {
       dispatch('wait/start', 'org.update', { root: true })
       const result = await this.$http.$put(`organizations/${id}`, data)
-      commit('setOrganization', result.data)
       dispatch('wait/end', 'org.update', { root: true })
       return result
     } catch (e) {
+      console.log({ e })
       dispatch('wait/end', 'org.update', { root: true })
+      return false
+    }
+  },
+  async invite({ commit, dispatch, state }, { organization_id, user_id }) {
+    try {
+      dispatch('wait/start', `org.invite.${user_id}`, { root: true })
+      const result = await this.$http.$post(`invite-requests`, {
+        organization_id,
+        user_id,
+      })
+      dispatch('members', state.organization.slug)
+      dispatch('wait/end', `org.invite.${user_id}`, { root: true })
+      return result
+    } catch (e) {
+      dispatch('wait/end', `org.invite.${user_id}`, { root: true })
       return false
     }
   },
