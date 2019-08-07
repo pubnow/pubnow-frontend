@@ -18,9 +18,10 @@ export default {
     NavItem,
   },
   computed: {
-    ...mapGetters({
-      param: 'organization/param',
-    }),
+    param() {
+      const { orgname } = this.$route.params
+      return orgname
+    },
   },
 }
 </script>

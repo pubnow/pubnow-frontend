@@ -39,7 +39,7 @@
         <img
           v-else
           :src="require('@/assets/images/icons/bookmark.svg')"
-          @click="bookmarkArticle(articleID)"
+          @click="bookmarkArticle"
           alt="bookmark icon"
           class="icon icon-large mt-3"
         />
@@ -60,7 +60,7 @@
         <div slot="footer">
           <div>
             <va-button @click="$refs.modal.close()">Hủy</va-button>
-            <va-button type="primary" @click="bookmarkArticle(articleID)">Đồng ý</va-button>
+            <va-button type="primary" @click="bookmarkArticle">Đồng ý</va-button>
           </div>
         </div>
       </va-modal>
@@ -80,10 +80,6 @@ export default {
       type: Number,
       required: true,
     },
-    articleID: {
-      type: String,
-      required: true,
-    },
     articleSlug: {
       type: String,
       required: true,
@@ -94,6 +90,10 @@ export default {
     },
     bookmarked: {
       type: Boolean,
+      required: true,
+    },
+    userClaps: {
+      type: Number,
       required: true,
     },
   },
@@ -119,6 +119,10 @@ export default {
     this.clapNum = this.clap
     this.clapStatus = this.clapped
     this.bookmarkStatus = this.bookmarked
+    this.$store.commit('clap/setCountClap', {
+      count: this.userClaps,
+      clap: this.clapNum,
+    })
   },
   methods: {
     clapArticle(slug) {
@@ -141,15 +145,17 @@ export default {
         this.$router.push('/dang-nhap')
       }
     },
-    bookmarkArticle(id) {
+    bookmarkArticle() {
       if (this.user) {
         if (this.bookmarkStatus) {
-          this.$store.dispatch('bookmark/unBookmark', id).then(() => {
-            this.bookmarkStatus = this.bookmarkedStatus
-          })
+          this.$store
+            .dispatch('bookmark/unBookmark', { id: this.articleSlug })
+            .then(() => {
+              this.bookmarkStatus = this.bookmarkedStatus
+            })
           this.$refs.modal.close()
         } else {
-          this.$store.dispatch('bookmark/write', id).then(() => {
+          this.$store.dispatch('bookmark/write', this.articleSlug).then(() => {
             this.bookmarkStatus = this.bookmarkedStatus
           })
         }

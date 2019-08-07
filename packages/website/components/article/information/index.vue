@@ -107,9 +107,6 @@ export default {
       }))
     },
   },
-  async mounted() {
-    await this.$store.dispatch('category/list')
-  },
   methods: {
     remove(index) {
       this.$store.commit('article/removeTag', index)

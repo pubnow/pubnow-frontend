@@ -39,6 +39,10 @@ export default {
       split: false,
     }
   },
+  mounted() {
+    const { orgname } = this.$route.params
+    this.$store.dispatch('organization/show', orgname)
+  },
 }
 </script>
 

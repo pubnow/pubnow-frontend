@@ -1,16 +1,10 @@
 <template>
   <no-ssr>
     <b-container>
-      <b-row>
-        <b-col :md="4">
-          <va-input placeholder="Tìm kiếm bài viết"></va-input>
-        </b-col>
-        <b-col :md="8" class="add-article-container d-flex">
-          <nuxt-link class="write-btn" to="/bai-viet/tao-moi">
-            <va-button type="primary" icon-before="plus">Thêm bài viết</va-button>
-          </nuxt-link>
-        </b-col>
-      </b-row>
+      <div class="d-flex align-items-center">
+        <h1 class="mr-auto">Danh sách bài viết</h1>
+        <va-button icon-before="plus" active>Thêm bài viết</va-button>
+      </div>
       <b-row>
         <b-col :xs="12">
           <va-table size="lg">
@@ -33,8 +27,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import { HeadingText } from '@/components/common'
+
 export default {
   layout: 'organization',
+  components: {
+    HeadingText,
+  },
+  computed: {
+    ...mapGetters({
+      articles: 'organization/articles',
+    }),
+  },
   data: () => ({
     fields: [
       'checkBox',
@@ -45,10 +50,9 @@ export default {
       { key: 'delete', label: '' },
     ],
   }),
-  async asyncData({ $http }) {
-    const temp = await $http.$get('articles')
-    const articles = temp.data
-    return { articles }
+  mounted() {
+    const { orgname } = this.$route.params
+    this.$store.dispatch('organization/articles', orgname)
   },
 }
 </script>

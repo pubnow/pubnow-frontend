@@ -17,16 +17,22 @@ export const mutations = {
     state.count = clap.count
   },
   deleteClap(state) {
-    state.clapped = false
     state.clapNum -= state.count
+    console.log(state.clapNum, state.count)
+    state.clapped = false
   },
+  setCountClap(state, { count, clap }) {
+    state.count = count
+    state.clapNum = clap
+  },
+
 }
 
 export const actions = {
-  async write({ commit }, slug) {
+  async write({ commit }, id) {
     try {
       this.$http.setHeader('Accept', 'application/json')
-      const result = await this.$http.$post(`articles/${slug}/clap`)
+      const result = await this.$http.$post(`articles/${id}/clap`)
       const { data: clap } = result
       commit('setClap', clap)
       return clap

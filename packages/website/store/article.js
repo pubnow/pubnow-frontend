@@ -8,6 +8,7 @@ export const state = () => ({
   category: null,
   article: null,
   isPrivate: false,
+  userArticles: [],
 })
 
 export const mutations = {
@@ -49,7 +50,7 @@ export const mutations = {
     state.title = ''
     state.content = null
     state.category = null
-    state.private = false
+    state.isPrivate = false
   },
   fillData(state, article) {
     state.tags = article.tags.map(tag => tag.name)
@@ -57,6 +58,9 @@ export const mutations = {
     state.content = article.content
     state.category = article.category.id
     state.isPrivate = article.private
+  },
+  setUserArticles(state, articles) {
+    state.userArticles = articles
   },
 }
 
@@ -70,6 +74,7 @@ export const getters = {
   title: s => s.title,
   article: s => s.article,
   isPrivate: s => s.isPrivate,
+  userArticles: s => s.userArticles,
 }
 
 export const actions = {
@@ -169,6 +174,20 @@ export const actions = {
     } catch (e) {
       dispatch('wait/end', 'article.popular', { root: true })
       return null
+    }
+  },
+  async user({ commit, dispatch }, username) {
+    try {
+      dispatch('wait/start', 'article.user', { root: true })
+      const result = await this.$http.$get(`users/articles`)
+      const { data } = result
+      commit('setUserArticles', data)
+      dispatch('wait/end', 'article.user', { root: true })
+      return true
+    } catch (e) {
+      commit('setUserArticles', [])
+      dispatch('wait/end', 'article.user', { root: true })
+      return false
     }
   },
 }
