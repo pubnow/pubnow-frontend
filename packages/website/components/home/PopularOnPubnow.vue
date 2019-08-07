@@ -77,7 +77,7 @@ export default {
     padding-left: 0;
     .item {
       .counter {
-        font-size: 36px;
+        font-size: 34px;
         color: $n50;
         margin-top: $unit / 3;
       }
