@@ -14,7 +14,7 @@
           </va-button>
         </div>
         <li>
-          <nuxt-link :to="`/series/${slug}/bai-viet/tao-moi`">Tạo mới</nuxt-link>
+          <nuxt-link :to="`/series/${series.slug}/bai-viet/tao-moi`">Tạo mới</nuxt-link>
         </li>
         <li>
           <a href="#" v-b-modal.list-posts>Thêm bài viết có sẵn</a>
@@ -42,7 +42,6 @@ export default {
   },
   data() {
     return {
-      slug: 'abcde',
       listSelected: null,
     }
   },
