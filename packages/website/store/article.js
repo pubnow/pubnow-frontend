@@ -9,9 +9,13 @@ export const state = () => ({
   article: null,
   isPrivate: false,
   userArticles: [],
+  organization: null,
 })
 
 export const mutations = {
+  setOrganization(state, organization) {
+    state.organization = organization
+  },
   setArticles(state, articles) {
     state.articles = articles
   },
@@ -45,12 +49,15 @@ export const mutations = {
   setArticle(state, article) {
     state.article = article
   },
-  reset(state) {
+  reset(state, org = true) {
     state.tags = []
     state.title = ''
     state.content = null
     state.category = null
     state.isPrivate = false
+    if (org) {
+      state.organization = null
+    }
   },
   fillData(state, article) {
     state.tags = article.tags.map(tag => tag.name)
@@ -75,6 +82,7 @@ export const getters = {
   article: s => s.article,
   isPrivate: s => s.isPrivate,
   userArticles: s => s.userArticles,
+  organization: s => s.organization,
 }
 
 export const actions = {
@@ -86,11 +94,14 @@ export const actions = {
       tags: state.tags,
       draft,
     }
+    if (state.organization) {
+      data.organization_id = state.organization.id
+    }
     try {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$post('articles', data)
       const { data: article } = result
-      commit('reset')
+      commit('reset', state.organization ? false : true)
       return article
     } catch (e) {
       return null

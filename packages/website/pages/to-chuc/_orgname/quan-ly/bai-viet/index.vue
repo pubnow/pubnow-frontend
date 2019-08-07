@@ -3,7 +3,7 @@
     <b-container>
       <div class="d-flex align-items-center">
         <h1 class="mr-auto">Danh sách bài viết</h1>
-        <va-button icon-before="plus" active>Thêm bài viết</va-button>
+        <va-button icon-before="plus" active @click="writeArticle">Thêm bài viết</va-button>
       </div>
       <b-row>
         <b-col :xs="12">
@@ -53,6 +53,12 @@ export default {
   mounted() {
     const { orgname } = this.$route.params
     this.$store.dispatch('organization/articles', orgname)
+  },
+  methods: {
+    writeArticle() {
+      const { orgname } = this.$route.params
+      this.$router.push(`/to-chuc/${orgname}/bai-viet/tao-moi`)
+    },
   },
 }
 </script>
