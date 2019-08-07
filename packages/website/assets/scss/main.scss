@@ -56,3 +56,9 @@ body {
 .w-title {
   width: 40% !important;
 }
+
+.notification-dropdown {
+  .va-dropdown-menu {
+    left: -96px !important;
+  }
+}

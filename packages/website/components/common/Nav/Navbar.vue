@@ -18,7 +18,11 @@
           md="6"
           class="d-flex align-items-center justify-content-md-end justify-content-between mt-md-0 mt-2"
         >
-          <va-dropdown class="order-md-1" @show="notiShow = true" @hide="notiShow = false">
+          <va-dropdown
+            class="order-md-1 notification-dropdown"
+            @show="notiShow = true"
+            @hide="notiShow = false"
+          >
             <div slot="trigger">
               <va-icon v-if="user" type="bell" class="icon" iconStyle="regular" color="#97a0af" />
             </div>

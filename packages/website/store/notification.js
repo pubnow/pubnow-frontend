@@ -26,4 +26,18 @@ export const actions = {
       return false
     }
   },
+  async interact({ dispatch }, { id, type }) {
+    try {
+      dispatch('wait/start', `notification.acceptIvt`, { root: true })
+      await this.$http.$post(`invite-requests/${id}/${type}`)
+      dispatch('listInvitations')
+      dispatch('organization/userOrgs', null, { root: true })
+      dispatch('wait/end', `notification.acceptIvt`, { root: true })
+      return true
+    } catch (e) {
+      console.log({ e })
+      dispatch('wait/end', `notification.acceptIvt`, { root: true })
+      return false
+    }
+  },
 }
