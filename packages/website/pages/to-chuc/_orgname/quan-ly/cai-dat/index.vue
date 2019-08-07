@@ -108,6 +108,26 @@ export default {
   mounted() {
     this.initData()
   },
+  async fetch({ store, params, error }) {
+    const user = store.getters['auth/user']
+    const userOrgs = store.getters['organization/userOrgs']
+    const { orgname } = params
+    const isMember = userOrgs.findIndex(org => org.slug === orgname)
+    if (isMember !== -1) {
+      const org = userOrgs[isMember]
+      if (org.owner.id !== user.id) {
+        error({
+          statusCode: 403,
+          message: 'Bạn không được phép vào khu vực này',
+        })
+      }
+    } else {
+      error({
+        statusCode: 403,
+        message: 'Bạn không phải thành viên của tổ chức này',
+      })
+    }
+  },
   computed: {
     ...mapGetters({
       org: 'organization/organization',

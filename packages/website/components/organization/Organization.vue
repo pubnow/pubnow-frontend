@@ -6,11 +6,9 @@
     <div class="right">
       <div class="top">
         <h2 class="title">{{ org.name }}</h2>
-        <div v-if="org.active">
-          <va-button v-if="isOwner" @click="goSetting">
-            <va-icon type="cog"></va-icon>
-          </va-button>
-        </div>
+        <va-button v-if="org.active" @click="goSetting">
+          <va-icon type="cog"></va-icon>
+        </va-button>
         <va-badge v-else>Chờ duyệt</va-badge>
       </div>
       <div class="description">{{ org.description }}</div>

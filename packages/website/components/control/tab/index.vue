@@ -4,7 +4,7 @@
       <NavItem :to="`/to-chuc/${param}/quan-ly`" icon="chart-bar">Tổng quan</NavItem>
       <NavItem :to="`/to-chuc/${param}/quan-ly/bai-viet`" icon="newspaper">Bài viết</NavItem>
       <NavItem :to="`/to-chuc/${param}/quan-ly/thanh-vien`" icon="users">Thành viên</NavItem>
-      <NavItem :to="`/to-chuc/${param}/quan-ly/cai-dat`" icon="cog">Cài đặt</NavItem>
+      <NavItem :to="`/to-chuc/${param}/quan-ly/cai-dat`" icon="cog" v-if="isOwner">Cài đặt</NavItem>
     </ul>
   </no-ssr>
 </template>
@@ -18,6 +18,18 @@ export default {
     NavItem,
   },
   computed: {
+    ...mapGetters({
+      organization: 'organization/organization',
+      user: 'auth/user',
+    }),
+    isOwner() {
+      return (
+        this.organization &&
+        this.organization.owner &&
+        this.user &&
+        this.user.id === this.organization.owner.id
+      )
+    },
     param() {
       const { orgname } = this.$route.params
       return orgname
