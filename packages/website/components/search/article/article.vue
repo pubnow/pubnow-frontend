@@ -1,41 +1,40 @@
 <template>
   <div class="d-flex flex-column mt-4 bg-white px-4 py-4 wrap-all">
     <div class="d-flex align-items-center mb-3">
-      <img :src="avatar" alt="avatar" class="avatar mr-2" />
+      <img :src="avatarUrl" alt="avatar" class="avatar mr-2" />
+
       <div>
-        <nuxt-link to="#" class="font-weight-bold">{{ fullname }}</nuxt-link>
+        <nuxt-link
+          :to="`/nguoi-dung/${author.username}`"
+          class="font-weight-bold author"
+        >{{ author.name }}</nuxt-link>
         <span>trong</span>
-        <nuxt-link to="#">{{ category }}</nuxt-link>
-        <p
-          class="mt-0 font-weight-lighter small"
-        >Đăng {{ date | formatDate }} &nbsp; · &nbsp; {{ time }} đọc</p>
+        <nuxt-link :to="`/danh-muc/${category.slug}`" class="category">{{ category.name }}</nuxt-link>
+        <p class="mt-0 font-weight-lighter small">
+          Đăng {{ article.publishedAt }}
+          <span class="middot"></span>
+          {{ article.reading_time | timeRead }}
+        </p>
       </div>
     </div>
-    <img :src="image" alt="hot post" class="image cursor-poiter" />
-    <p class="title font-weight-bold cursor-poiter">
+    <nuxt-link :to="`/bai-viet/${article.slug}`">
+      <img :src="thumbnailUrl" alt="hot post" class="image cursor-poiter" />
+    </nuxt-link>
+    <h1 class="title font-weight-bold cursor-poiter mt-3">
       <span
         v-for="(character, index) in titleArray"
         :key="index"
         :class="textSearhArray.includes(character.toLowerCase()) ? 'selected' : ''"
       >{{ character }}</span>
-    </p>
-    <p class="text-body cursor-poiter">{{ description }}</p>
+    </h1>
+    <p class="cursor-poiter description">{{ article.excerpt | unescape }}</p>
     <div class="d-flex justify-content-between mt-4">
       <div>
         <img :src="require('@/assets/images/icons/clap.svg')" alt="clap icon" class="cursor-poiter" />
-        <span class="clap">{{ clap }}</span>
+        <span class="clap">{{ article.claps }}</span>
       </div>
-      <div class="d-flex wrap-right">
-        <nuxt-link to="#" class="link">{{ comment }} Bình luận</nuxt-link>
-        <nuxt-link class="mx-3 link" to="#">
-          <img :src="require('@/assets/images/icons/share.svg')" alt="share icon" class="icon" />
-          Chia sẻ
-        </nuxt-link>
-        <img
-          :src="require('@/assets/images/icons/bookmark.svg')"
-          alt="bookmark icon"
-          class="cursor-poiter"
-        />
+      <div>
+        <span class="link mr-1">{{ article.seen_count }} lượt xem</span>
       </div>
     </div>
   </div>
@@ -51,50 +50,30 @@ export default {
       type: String,
       required: true,
     },
-    avatar: {
-      type: String,
-      default: 'https://bulma.io/images/placeholders/128x128.png',
-    },
-    fullname: {
-      type: String,
-      required: true,
-    },
-    image: {
-      type: String,
-      required: true,
-    },
-    category: {
-      type: String,
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-    },
-    date: {
-      type: String,
-      required: true,
-    },
-    time: {
-      type: String,
-      required: true,
-    },
-    description: {
-      type: String,
-      required: true,
-    },
-    clap: {
-      type: Number,
-      required: true,
-    },
-    comment: {
-      type: Number,
+    article: {
+      type: Object,
       required: true,
     },
   },
   computed: {
+    author() {
+      return this.article.author
+    },
+    avatarUrl() {
+      return this.author.avatar
+        ? this.author.avatar
+        : require('@/assets/images/logo.svg')
+    },
+    thumbnailUrl() {
+      return this.article.thumbnail
+        ? this.article.thumbnail
+        : 'https://i.imgur.com/nUSXOIF.png'
+    },
+    category() {
+      return this.article.category
+    },
     titleArray() {
-      return this.title.split(' ')
+      return this.article.title.split(' ')
     },
     textSearhArray() {
       return this.keyword.toLowerCase().split(' ')
@@ -106,6 +85,7 @@ export default {
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_sizes.scss';
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
 @import '@pubnow/ui/scss/_mixins.scss';
 
 $size-image: 50px;
@@ -124,17 +104,40 @@ $size-image: 50px;
   width: $size-image;
   height: $size-image;
   border-radius: $size-image / 2;
+  object-fit: cover;
+  @include border;
+}
+
+.author,
+.category {
+  color: $n300 !important;
+
+  &:hover {
+    color: $n500 !important;
+    text-decoration: none !important;
+  }
 }
 
 .title {
-  font-size: $unit * 1.1;
-  line-height: $unit * 2;
+  color: $b500;
   span {
+    font-family: $ale;
+    font-weight: 700;
     &:after {
       content: ' ';
       background: white;
     }
+    &.selected {
+      background: gray;
+      color: white;
+    }
   }
+}
+
+.description {
+  font-family: $noto;
+  color: $n400;
+  font-size: 16px;
 }
 
 .clap {
@@ -143,23 +146,9 @@ $size-image: 50px;
   vertical-align: bottom;
 }
 
-.wrap-right {
-  line-height: 25px;
-  .link {
-    color: $text !important;
-  }
-}
-
 .image {
   width: 100%;
-}
-
-.icon {
-  margin-bottom: $unit / 4;
-}
-
-.selected {
-  background: gray;
-  color: white;
+  max-height: 250px;
+  object-fit: cover;
 }
 </style>
