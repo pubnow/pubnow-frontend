@@ -6,7 +6,7 @@
         <va-input
           autofocus
           :clearable="clearable"
-          @change="onChange"
+          @confirm="search"
           v-model="searchText"
           class="mr-2"
         />
@@ -15,18 +15,19 @@
     </div>
     <div>
       <h3>Bài viết của bạn</h3>
-      <template v-if="!$wait.is('user.article')">
+      <template v-if="!$wait.is('search.articles')">
         <template v-if="userArticles">
-          <va-radio-group
-            v-model="post"
-            v-for="(article, index) in userArticles"
-            :key="`article-${index}`"
-            class="wrap-article py-1 px-1"
-          >
-            <va-radio-btn :label="article.id">
-              <div class="title-item w-100">{{ article.title }}</div>
-            </va-radio-btn>
-          </va-radio-group>
+          <va-checkbox-group v-model="post" class="d-flex flex-column">
+            <div
+              class="wrap-article py-1 px-1"
+              v-for="(article, index) in userArticles"
+              :key="`article-${index}`"
+            >
+              <va-checkbox-btn :label="article.id">
+                <div class="title-item w-100">{{ article.title }}</div>
+              </va-checkbox-btn>
+            </div>
+          </va-checkbox-group>
         </template>
         <span v-else>Chưa có bài viết nào ở đây</span>
       </template>
@@ -44,16 +45,21 @@ export default {
       originArticles: [],
       clearable: false,
       searchText: '',
-      post: '',
+      post: [],
       dataID: [],
     }
   },
   computed: {
     ...mapGetters({
-      articles: 'user/articlesAll',
       user: 'auth/user',
       series: 'series/series',
+      articles: 'search/articles',
     }),
+  },
+  mounted() {
+    if (this.series) {
+      this.series.articles.forEach(item => this.dataID.push(item.id))
+    }
   },
   methods: {
     removeSign(str) {
@@ -76,49 +82,28 @@ export default {
     select(article, index) {
       this.$emit('addArticle', article)
     },
-    onChange() {
+    search() {
       if (this.searchText !== '') {
-        this.userArticles = this.originArticles.filter(item =>
-          this.removeSign(item.title).includes(
-            this.removeSign(this.searchText),
-          ),
-        )
+        this.$store
+          .dispatch('search/article', { keyword: this.searchText })
+          .then(() => {
+            this.userArticles = this.articles
+          })
       } else {
-        this.userArticles = this.originArticles
+        this.userArticles = null
       }
     },
     addArticleToSeries() {
-      if (this.post !== '') {
-        this.dataID.push(this.post)
+      if (this.post.length !== 0) {
+        this.dataID = [...new Set([...this.dataID, ...this.post])]
         let data = {
-          articles: [...this.dataID],
+          articles: this.dataID,
           slug: this.series.slug,
         }
         this.$store.dispatch('series/edit', data)
         this.$emit('closeModel')
       }
     },
-  },
-  async mounted() {
-    if (this.user) {
-      await this.$store
-        .dispatch('user/articles', this.user.username)
-        .then(() => {
-          this.articles.forEach(item => {
-            let check = false
-            this.series.articles.forEach(element => {
-              if (item.title === element.title) {
-                check = true
-              }
-            })
-            if (!check) {
-              this.originArticles.push(item)
-            }
-          })
-          this.userArticles = [...this.originArticles]
-        })
-    }
-    this.series.articles.forEach(item => this.dataID.push(item.id))
   },
 }
 </script>
@@ -134,6 +119,8 @@ export default {
     width: 100%;
     .title-item {
       text-align: left;
+      white-space: normal;
+      line-height: 1.5rem;
     }
   }
   .title {

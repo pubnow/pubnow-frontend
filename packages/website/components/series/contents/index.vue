@@ -11,13 +11,19 @@
             :key="`show-${index}`"
             class="wrap-article py-1 px-1 mb-2 d-flex justify-content-between"
           >
-            <div class="d-flex align-items-lg-center">
+            <div class="wrapper d-flex py-1 px-1 align-items-lg-center">
               <img
                 :src="article.author.avatar ===''?'https://bulma.io/images/placeholders/256x256.png':article.author.avatar"
                 alt="avatar"
                 class="avatar mr-2"
               />
-              <nuxt-link :to="`/bai-viet/${article.slug}`" class="title mb-0">{{ article.title }}</nuxt-link>
+              <div class="wrapper-item d-flex flex-column">
+                <nuxt-link :to="`/bai-viet/${article.slug}`" class="title mb-0">{{ article.title }}</nuxt-link>
+                <nuxt-link
+                  :to="`/nguoi-dung/${article.author.username}`"
+                  class="author mb-0"
+                >{{article.author.name}}</nuxt-link>
+              </div>
             </div>
           </div>
         </div>
@@ -55,21 +61,43 @@ export default {
 $size-image: 30px;
 .wrap-article {
   @include border;
-  cursor: pointer;
-  .title {
-    font-size: $unit;
-    color: #172c4f;
-    &:hover {
-      color: #172c4f;
-      text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  .wrapper {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    .wrapper-item {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      .title {
+        font-size: $unit * 0.85;
+        color: #172c4f;
+        text-overflow: ellipsis;
+        &:hover {
+          color: #172c4f;
+          text-decoration: none;
+        }
+      }
+      .author {
+        font-size: $unit * 0.7;
+        color: #505e77;
+        text-overflow: ellipsis;
+        &:hover {
+          color: #505e77;
+          text-decoration: none;
+        }
+      }
     }
   }
 }
 
 .avatar {
-  width: $size-image * 1.5;
-  height: $size-image * 1.5;
-  border-radius: $size-image * 1.5 / 2;
+  width: $size-image * 1.25;
+  height: $size-image * 1.25;
+  border-radius: $size-image * 1.25 / 2;
 }
 .split {
   border-bottom: 1px solid $tumblr;
