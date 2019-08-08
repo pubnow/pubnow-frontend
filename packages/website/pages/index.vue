@@ -6,6 +6,13 @@
     <div class="row mt-2">
       <div class="col-sm-8">
         <Latest />
+        <no-ssr>
+          <infinite-loading @infinite="infiniteHandler">
+            <LatestArticlePlaceholder slot="spinner" />
+            <div slot="no-more"></div>
+            <div slot="no-results"></div>
+          </infinite-loading>
+        </no-ssr>
       </div>
       <div class="col-sm-4">
         <PopularOnPubnow />
@@ -15,13 +22,23 @@
 </template>
 
 <script>
+import InfiniteLoading from 'vue-infinite-loading'
+import { mapGetters } from 'vuex'
 import { FeaturedArea, Latest, PopularOnPubnow } from '@/components/home'
+import { LatestArticlePlaceholder } from '@/components/common'
 
 export default {
   components: {
     FeaturedArea,
     PopularOnPubnow,
     Latest,
+    InfiniteLoading,
+    LatestArticlePlaceholder,
+  },
+  computed: {
+    ...mapGetters({
+      currentPage: 'article/currentPage',
+    }),
   },
   data() {
     return {
@@ -51,6 +68,18 @@ export default {
       await store.dispatch('article/popular')
       await store.dispatch('article/featured')
     }
+  },
+  methods: {
+    infiniteHandler($state) {
+      this.$store.commit('article/setCurrentPage', this.currentPage + 1)
+      this.$store.dispatch('article/loadMore').then(articles => {
+        if (articles.length) {
+          $state.loaded()
+        } else {
+          $state.complete()
+        }
+      })
+    },
   },
 }
 </script>

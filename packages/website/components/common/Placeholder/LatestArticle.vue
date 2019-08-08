@@ -12,7 +12,7 @@
     <rect x="90" y="75" rx="5" ry="5" width="66" height="16" />
     <rect x="0" y="100" rx="5" ry="5" width="130" height="16" />
     <rect x="150" y="100" rx="5" ry="5" width="100" height="16" />
-    <rect x="580" y="13" rx="5" ry="5" width="150" height="105" />
+    <rect x="590" y="13" rx="5" ry="5" width="150" height="105" />
   </content-loader>
 </template>
     

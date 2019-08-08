@@ -1,4 +1,6 @@
 export const state = () => ({
+  currentPage: 1,
+  lastPage: 0,
   articles: [],
   tags: [],
   featured: [],
@@ -70,9 +72,13 @@ export const mutations = {
   setUserArticles(state, articles) {
     state.userArticles = articles
   },
+  setCurrentPage(state, page) {
+    state.currentPage = page
+  },
 }
 
 export const getters = {
+  currentPage: s => s.currentPage,
   articles: s => s.articles,
   featured: s => s.featured,
   popular: s => s.popular,
@@ -163,16 +169,35 @@ export const actions = {
       return false
     }
   },
-  async index({ commit, dispatch }) {
+  async index({ commit, dispatch, getters }) {
     try {
       dispatch('wait/start', 'article.index', { root: true })
       const result = await this.$http.$get(`articles`)
       dispatch('wait/end', 'article.index', { root: true })
       const { data: articles } = result
+      commit('setCurrentPage', 1)
       commit('setArticles', articles)
       return articles
     } catch (e) {
       dispatch('wait/end', 'article.index', { root: true })
+      return null
+    }
+  },
+  async loadMore({ commit, getters }) {
+    const page = getters['currentPage']
+    const currentArticles = getters['articles']
+    try {
+      const result = await this.$http.$get(`articles?page=${page}`)
+      const { data: articles } = result
+      let newArticles
+      if (page === 1) {
+        newArticles = articles
+      } else {
+        newArticles = currentArticles.concat(articles)
+      }
+      commit('setArticles', newArticles)
+      return articles
+    } catch (e) {
       return null
     }
   },
