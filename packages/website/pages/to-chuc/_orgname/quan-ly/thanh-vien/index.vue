@@ -7,7 +7,13 @@
           <va-input type="text" placeholder="Tìm kiếm" class="input" />
         </b-col>
         <b-col class="md-6 add-member d-flex">
-          <va-button class="btn-add" icon-before="plus" active @click="showCustom">Mời thành viên</va-button>
+          <va-button
+            v-if="organization.owner && user.id === organization.owner.id"
+            class="btn-add"
+            icon-before="plus"
+            active
+            @click="showCustom"
+          >Mời thành viên</va-button>
         </b-col>
       </b-row>
       <b-row v-for="(item,id) in members" :key="id" class="member mt-3 d-flex">
@@ -90,6 +96,7 @@ export default {
       members: 'organization/members',
       organization: 'organization/organization',
       users: 'search/users',
+      user: 'auth/user',
     }),
     activeButton() {
       return this.keyword !== ''
