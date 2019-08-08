@@ -42,15 +42,13 @@
           </div>
         </b-col>
       </b-row>
-      <div class="d-flex justify-content-end my-3">
+      <div class="d-flex justify-content-end my-3 create" v-if="!slug">
         <va-button class="mr-1" active @click="create(true)">Lưu nháp</va-button>
-        <va-button
-          v-if="!slug"
-          class="button justify-content-end"
-          type="success"
-          @click="create"
-        >Đăng bài</va-button>
-        <va-button v-else class="button justify-content-end" type="success" @click="update">Cập nhật</va-button>
+        <va-button class="button justify-content-end" type="success" @click="create">Đăng bài</va-button>
+      </div>
+      <div class="d-flex justify-content-end my-3 update" v-else>
+        <va-button class="mr-1" active @click="update(true)">Lưu nháp</va-button>
+        <va-button class="button justify-content-end" type="success" @click="update">Cập nhật</va-button>
       </div>
     </div>
   </no-ssr>
@@ -116,7 +114,9 @@ export default {
       this.inputTag = ''
     },
     async create(draft = false) {
-      const result = await this.$store.dispatch('article/write', draft)
+      const result = await this.$store.dispatch('article/write', {
+        draft,
+      })
       if (result) {
         this.notification.info({
           title: `Đăng bài thành công`,
@@ -134,8 +134,11 @@ export default {
         })
       }
     },
-    async update() {
-      const result = await this.$store.dispatch('article/edit', this.slug)
+    async update(draft = false) {
+      const result = await this.$store.dispatch('article/edit', {
+        draft,
+        slug: this.slug,
+      })
       if (result) {
         this.notification.info({
           title: `Cập nhật thành công`,

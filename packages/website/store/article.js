@@ -64,7 +64,8 @@ export const mutations = {
     state.title = article.title
     state.content = article.content
     state.category = article.category.id
-    state.isPrivate = article.private
+    state.isPrivate = article.private || article.organization_private
+    state.organization = article.organization
   },
   setUserArticles(state, articles) {
     state.userArticles = articles
@@ -86,16 +87,21 @@ export const getters = {
 }
 
 export const actions = {
-  async write({ commit, state }, draft = false) {
+  async write({ commit, state }, { draft }) {
     const data = {
       title: state.title,
       content: state.content,
       category_id: state.category,
       tags: state.tags,
-      draft,
+    }
+    if (draft) {
+      data.draft = true
     }
     if (state.organization) {
       data.organization_id = state.organization.id
+      data.organization_private = state.isPrivate
+    } else {
+      data.private = state.isPrivate
     }
     try {
       this.$http.setHeader('Accept', 'application/json')
@@ -107,13 +113,20 @@ export const actions = {
       return null
     }
   },
-  async edit({ commit, state }, slug) {
+  async edit({ commit, state }, { slug, draft }) {
     const data = {
       title: state.title,
       content: state.content,
       category_id: state.category,
       tags: state.tags,
-      private: state.isPrivate,
+    }
+    if (draft) {
+      data.draft = true
+    }
+    if (state.organization) {
+      data.organization_private = state.isPrivate
+    } else {
+      data.private = state.isPrivate
     }
     try {
       this.$http.setHeader('Accept', 'application/json')
