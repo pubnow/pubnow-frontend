@@ -92,6 +92,7 @@ $size-image: 50px;
   width: $size-image;
   height: $size-image;
   border-radius: $size-image / 2;
+  object-fit: cover;
   @include border;
 }
 
