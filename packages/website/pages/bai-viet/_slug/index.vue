@@ -102,16 +102,16 @@ export default {
   },
   async mounted() {
     const { slug } = this.$route.params
-    let article
     if (!this.ssr) {
-      article = await this.$store.dispatch('article/show', slug)
+      const article = await this.$store.dispatch('article/show', slug)
+      if (!article) {
+        this.$nuxt.error({
+          statusCode: 404,
+          message: 'Bài viết không tồn tài',
+        })
+      }
     }
-    if (!article) {
-      this.$nuxt.error({
-        statusCode: 404,
-        message: 'Bài viết không tồn tài',
-      })
-    }
+
     this.$wait.start('loading comment')
     await this.$store.dispatch('comment/show', slug)
     this.$wait.end('loading comment')
