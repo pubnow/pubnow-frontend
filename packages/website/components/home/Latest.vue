@@ -26,13 +26,16 @@
               </div>
             </div>
           </div>
-          <div class="article-image">
-            <nuxt-link
-              :to="`/bai-viet/${article.slug}`"
+          <nuxt-link class="article-image" :to="`/bai-viet/${article.slug}`">
+            <div
+              v-if="article.thumbnail"
               class="d-block background-cover w-100 h-100"
-              v-bind:style="{ backgroundImage: `url(${article.thumbnail})` }"
-            ></nuxt-link>
-          </div>
+              :style="`backgroundImage: url(${article.thumbnail})`"
+            ></div>
+            <div v-else class="placeholder-image w-100 h-100">
+              <img src="@/assets/images/logo.svg" />
+            </div>
+          </nuxt-link>
         </article>
       </v-wait>
     </div>
@@ -88,6 +91,13 @@ export default {
     .article-image {
       min-width: 152px;
       @include border;
+
+      .placeholder-image {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: $n10;
+      }
     }
     .background-cover {
       background-position: 50% 50% !important;
