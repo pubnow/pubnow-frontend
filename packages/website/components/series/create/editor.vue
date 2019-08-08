@@ -45,11 +45,25 @@ export default {
         content: this.content,
         articles: [],
       }
-      this.$store.dispatch('series/write', data).then(() => {
-        if (this.series) {
-          this.$router.push(`/series/${this.series.slug}/chinh-sua`)
-        }
-      })
+      let result = this.$store.dispatch('series/write', data)
+      if (result) {
+        this.notification.info({
+          title: `Thông báo`,
+          message: `Sửa thông tin series thành công`,
+          duration: 1690,
+          onHide: () => {
+            if (this.series) {
+              this.$router.push(`/series/${this.series.slug}/chinh-sua`)
+            }
+          },
+        })
+      } else {
+        this.notification.danger({
+          title: `Rất tiếc`,
+          message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
+          duration: 2000,
+        })
+      }
     },
     edit() {
       this.series.articles.forEach(item => this.dataID.push(item.id))
@@ -59,7 +73,8 @@ export default {
         content: this.content,
         slug: this.series.slug,
       }
-      this.$store.dispatch('series/edit', data).then(() => {
+      let result = this.$store.dispatch('series/edit', data)
+      if (result) {
         this.notification.info({
           title: `Thông báo`,
           message: `Sửa thông tin series thành công`,
@@ -68,7 +83,13 @@ export default {
             this.$router.push(`/series/${this.series.slug}`)
           },
         })
-      })
+      } else {
+        this.notification.danger({
+          title: `Rất tiếc`,
+          message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
+          duration: 2000,
+        })
+      }
     },
   },
   data() {

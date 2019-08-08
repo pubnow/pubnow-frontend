@@ -64,12 +64,17 @@ export default {
       textSearch: '',
       isShowCategory: false,
       isSaveArticle: true,
+      dataID: [],
     }
   },
   props: {
     slug: {
       type: String,
       default: '',
+    },
+    type: {
+      type: String,
+      default: 'article',
     },
   },
   computed: {
@@ -81,6 +86,7 @@ export default {
     ...mapGetters({
       listCategory: 'category/categories',
       tags: 'article/tags',
+      series: 'series/series',
     }),
     categorySelected: {
       get() {
@@ -118,14 +124,40 @@ export default {
         draft,
       })
       if (result) {
-        this.notification.info({
-          title: `Đăng bài thành công`,
-          message: `Cảm ơn bạn đã sử dụng Pubnow.`,
-          duration: 1690,
-          onHide: () => {
-            this.$router.push(`/bai-viet/${result.slug}`)
-          },
-        })
+        if (this.type === 'series') {
+          this.series.articles.forEach(item => this.dataID.push(item.id))
+          this.dataID.push(result.id)
+          let data = {
+            articles: [...this.dataID],
+            slug: this.series.slug,
+          }
+          let resultSeries = this.$store.dispatch('series/edit', data)
+          if (resultSeries) {
+            this.notification.info({
+              title: `Thông báo`,
+              message: `Thêm bài viết vào series thành công`,
+              duration: 1690,
+              onHide: () => {
+                this.$router.push(`/series/${this.series.slug}/chinh-sua`)
+              },
+            })
+          } else {
+            this.notification.danger({
+              title: `Rất tiếc`,
+              message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
+              duration: 2000,
+            })
+          }
+        } else {
+          this.notification.info({
+            title: `Đăng bài thành công`,
+            message: `Cảm ơn bạn đã sử dụng Pubnow.`,
+            duration: 1690,
+            onHide: () => {
+              this.$router.push(`/bai-viet/${result.slug}`)
+            },
+          })
+        }
       } else {
         this.notification.danger({
           title: `Rất tiếc`,
