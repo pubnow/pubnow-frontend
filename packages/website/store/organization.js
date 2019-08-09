@@ -5,6 +5,7 @@ export const state = () => ({
   param: 'fd',
   members: [],
   articles: [],
+  statistic: null,
 })
 
 export const getters = {
@@ -14,6 +15,7 @@ export const getters = {
   param: state => state.param,
   members: state => state.members,
   articles: state => state.articles,
+  statistic: state => state.statistic,
 }
 
 export const mutations = {
@@ -34,6 +36,9 @@ export const mutations = {
   },
   setArticles(state, articles) {
     state.articles = articles
+  },
+  setStatistic(state, statistic) {
+    state.statistic = statistic
   },
 }
 
@@ -61,6 +66,21 @@ export const actions = {
       return true
     } catch (e) {
       dispatch('wait/end', 'organizations.show', { root: true })
+      return false
+    }
+  },
+  async statistic({ commit, dispatch }, { slug, start, end }) {
+    try {
+      dispatch('wait/start', 'organizations.statistic', { root: true })
+      const result = await this.$http.$get(
+        `organizations/${slug}/statistic?start=${start}&end=${end}`,
+      )
+      const { data } = result
+      commit('setStatistic', data)
+      dispatch('wait/end', 'organizations.statistic', { root: true })
+      return true
+    } catch (e) {
+      dispatch('wait/end', 'organizations.statistic', { root: true })
       return false
     }
   },
