@@ -1,12 +1,19 @@
 export const state = () => ({
+  currentPage: 1,
+  perPage: 10,
+  total: -1,
   series: null,
   listSeries: null,
+  userSeries: [],
 })
-
 
 export const getters = {
   series: s => s.series,
   listSeries: s => s.listSeries,
+  currentPage: s => s.currentPage,
+  total: state => state.total,
+  perPage: state => state.perPage,
+  userSeries: state => state.userSeries,
 }
 
 export const mutations = {
@@ -16,8 +23,19 @@ export const mutations = {
   setListSeries(state, series) {
     state.listSeries = series
   },
+  setUserSeries(state, series) {
+    state.userSeries = series
+  },
+  setCurrentPage(state, page) {
+    state.currentPage = page
+  },
+  setPerPage(state, perPage) {
+    state.perPage = perPage
+  },
+  setTotal(state, total) {
+    state.total = total
+  },
 }
-
 
 export const actions = {
   async write({ commit }, data) {
@@ -38,11 +56,11 @@ export const actions = {
       dataArticles = {
         articles: data.articles,
         title: data.title,
-        content: data.content
+        content: data.content,
       }
     } else {
       dataArticles = {
-        articles: data.articles
+        articles: data.articles,
       }
     }
     try {
@@ -55,12 +73,14 @@ export const actions = {
       return null
     }
   },
-  async delete({ commit }, slug) {
+  async delete({ dispatch }, slug) {
     try {
-      this.$http.setHeader('Accept', 'application/json')
-      const result = await this.$http.$delete(`series/${slug}`)
+      dispatch('wait/start', 'series.remove', { root: true })
+      const result = await this.$http.delete(`series/${slug}`)
+      dispatch('wait/end', 'series.remove', { root: true })
       return result
     } catch (e) {
+      dispatch('wait/end', 'series.remove', { root: true })
       return null
     }
   },
@@ -85,5 +105,31 @@ export const actions = {
     } catch (e) {
       return null
     }
+  },
+  async user({ commit, dispatch, state }) {
+    try {
+      dispatch('wait/start', 'series.user', { root: true })
+      const result = await this.$http.$get(
+        `users/series?page=${state.currentPage}`,
+      )
+      const {
+        data,
+        meta: { current_page: currentPage, per_page: perPage, total },
+      } = result
+      commit('setUserSeries', data)
+      commit('setCurrentPage', currentPage)
+      commit('setPerPage', perPage)
+      commit('setTotal', total)
+      dispatch('wait/end', 'series.user', { root: true })
+      return true
+    } catch (e) {
+      commit('setUserSeries', [])
+      dispatch('wait/end', 'series.user', { root: true })
+      return false
+    }
+  },
+  async changeUserPage({ dispatch, commit }, payload) {
+    commit('setCurrentPage', payload)
+    dispatch('user')
   },
 }

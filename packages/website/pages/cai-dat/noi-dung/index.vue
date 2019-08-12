@@ -36,7 +36,12 @@
             <va-button active class="ml-auto" @click="newSeries">+ Thêm mới</va-button>
           </HeadingText>
           <div v-if="isArticle">
-            <b-table :items="articles" :fields="fields" :busy="$wait.is('article.user')" striped>
+            <b-table
+              :items="articles"
+              :fields="articleFields"
+              :busy="$wait.is('article.user')"
+              striped
+            >
               <div slot="table-busy" class="text-center text-primary my-4">
                 <b-spinner class="align-middle"></b-spinner>
                 <strong>Đang tải dữ liệu ...</strong>
@@ -82,16 +87,52 @@
                 </va-modal>
               </template>
             </b-table>
-            <va-pagination :total="total" :per-page="perPage" @change="change" />
+            <va-pagination v-if="total > 1" :total="total" :per-page="perPage" @change="change" />
           </div>
           <div v-else>
-            <b-table :items="[]" :fields="fields" v-if="isSeries" striped>
-              <template slot="status" slot-scope="{ item }">
-                <b-badge variant="warning" v-if="item.private">Không công khai</b-badge>
-                <b-badge variant="dark" v-else-if="item.draft">Nháp</b-badge>
-                <b-badge variant="success" v-else>Đã xuất bản</b-badge>
+            <b-table :items="series" :fields="seriesFields" striped>
+              <template slot="menu" slot-scope="{ item }">
+                <va-dropdown class="pull-right">
+                  <div slot="trigger">
+                    <va-button type="subtle">
+                      <va-icon type="angle-down" />
+                    </va-button>
+                  </div>
+                  <li>
+                    <nuxt-link :to="`/series/${item.slug}/chinh-sua`">Chỉnh sửa</nuxt-link>
+                  </li>
+                  <li @click="openModalSeries">
+                    <a href="#">Xóa</a>
+                  </li>
+                  <va-modal title="Xóa series" ref="deleteSeriesModal" :backdrop-clickable="true">
+                    <div slot="body">
+                      <p>
+                        Bạn có chắc chắn muốn xóa series
+                        <span
+                          class="font-weight-bold"
+                        >{{ item.title }}</span> không?
+                      </p>
+                    </div>
+                    <div slot="footer">
+                      <va-button @click="$refs.deleteSeriesModal.close()">Hủy bỏ</va-button>
+                      <va-button
+                        type="danger"
+                        @click="deleteSeries(item.slug)"
+                        icon-before="trash"
+                        :disable="removingSeries"
+                        :loading="removingSeries"
+                      >Xóa</va-button>
+                    </div>
+                  </va-modal>
+                </va-dropdown>
               </template>
             </b-table>
+            <va-pagination
+              v-if="totalSeriesPage > 1"
+              :total="totalSeriesPage"
+              :per-page="perPageSeries"
+              @change="changeSeriesPage"
+            />
           </div>
         </b-col>
       </b-row>
@@ -107,9 +148,8 @@ export default {
   middleware: ['auth'],
   data() {
     return {
-      series: [],
       type: 'article',
-      fields: [
+      articleFields: [
         {
           key: 'title',
           label: 'Tiêu đề',
@@ -136,6 +176,24 @@ export default {
           label: '',
         },
       ],
+      seriesFields: [
+        {
+          key: 'title',
+          label: 'Tiêu đề',
+        },
+        {
+          key: 'articles.length',
+          label: 'Số bài viết',
+        },
+        {
+          key: 'publishedAt',
+          label: 'Thời gian đăng',
+        },
+        {
+          key: 'menu',
+          label: '',
+        },
+      ],
     }
   },
   head() {
@@ -153,8 +211,10 @@ export default {
       currentPage: 'article/currentPage',
       total: 'article/total',
       perPage: 'article/perPage',
-      // TODO: SERIES
-      // series: 'article/userArticles',
+      series: 'series/userSeries',
+      currentPageSeris: 'series/currentPage',
+      totalSeriesPage: 'series/total',
+      perPageSeries: 'series/perPage',
     }),
     isArticle() {
       return this.type === 'article'
@@ -171,13 +231,20 @@ export default {
     removing() {
       return this.$wait.is('article.remove')
     },
+    removingSeries() {
+      return this.$wait.is('series.remove')
+    },
   },
   methods: {
     ...mapActions({
       changePage: 'article/changeUserPage',
+      changePageSeries: 'series/changeUserPage',
     }),
     change(e) {
       this.changePage(e.pageNumber)
+    },
+    changeSeriesPage(e) {
+      this.changePageSeries(e.pageNumber)
     },
     changeType(type) {
       this.type = type
@@ -205,13 +272,35 @@ export default {
         })
       }
     },
+    async deleteSeries(slug) {
+      const result = await this.$store.dispatch('series/delete', slug)
+      this.$refs.deleteSeriesModal.close()
+      if (result) {
+        this.$store.dispatch('series/user', this.user.username)
+        this.notification.info({
+          title: `Xóa series thành công`,
+          duration: 1690,
+        })
+      } else {
+        this.notification.danger({
+          title: `Có lỗi xảy ra`,
+          message: `Bạn không thể xóa được series này`,
+          duration: 1690,
+        })
+      }
+    },
     openModal() {
       this.$refs.deleteModal.open()
+    },
+    openModalSeries() {
+      this.$refs.deleteSeriesModal.open()
     },
   },
   mounted() {
     this.$store.commit('article/setCurrentPage', 1)
+    this.$store.commit('series/setCurrentPage', 1)
     this.$store.dispatch('article/user')
+    this.$store.dispatch('series/user')
   },
 }
 </script>
