@@ -13,7 +13,9 @@
     </div>
   </div>
 </template>
+
 <script>
+import { mapGetters } from 'vuex'
 import { FeaturedArea, Latest, Popular } from '@/components/organization/home'
 
 export default {
@@ -25,6 +27,16 @@ export default {
   data() {
     return {
       ssr: false,
+    }
+  },
+  computed: {
+    ...mapGetters({
+      org: 'organization/organization',
+    }),
+  },
+  head() {
+    return {
+      title: this.org.name || 'Publish your content',
     }
   },
   asyncData() {
