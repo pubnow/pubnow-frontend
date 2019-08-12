@@ -5,7 +5,7 @@
         <b-col md="9" class="mx-auto">
           <HtmlEditor :api="api" />
           <hr />
-          <Information />
+          <Information type="series" />
         </b-col>
       </b-row>
     </b-container>

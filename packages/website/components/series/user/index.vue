@@ -1,46 +1,79 @@
 <template>
-  <div class="infor-auth text-center" v-if="user">
-    <img :src="avatarUrl" alt="avatar" class="avatar mt-2" />
-    <h2 class="mt-3 name">{{ user.name }}</h2>
-    <p class="mt-0 username">@{{ user.username }}</p>
-    <p class="bio" v-if="user.bio">{{ user.bio }}</p>
-    <div class="network d-flex justify-content-between">
-      <div v-for="(item, index) in demo.network" :key="index">
-        <p class="number">{{ item.number }}</p>
-        <p class="type">{{ item.name }}</p>
+  <no-ssr>
+    <div class="infor-auth text-center">
+      <img
+        :src="author.avatar == ''?'https://bulma.io/images/placeholders/256x256.png':author.avatar"
+        alt="avatar"
+        class="avatar mt-2"
+      />
+      <h2 class="mt-3 name">{{ author.name }}</h2>
+      <p class="mt-0 username">@{{ author.username }}</p>
+      <p class="bio" v-if="author.bio">{{ author.bio }}</p>
+      <div v-if="user">
+        <div v-if="user.id !== author.id" class="mt-3 network">
+          <va-button
+            v-if="followUserStatus"
+            type="primary"
+            @click="handleFollowUser(author.username)"
+          >Đang theo dõi</va-button>
+          <va-button v-else type="default" @click="handleFollowUser(author.username)">Theo dõi</va-button>
+        </div>
+        <div v-else class="mt-3 network">
+          <va-button active @click="editUser">Chỉnh sửa</va-button>
+        </div>
+      </div>
+      <div v-else class="mt-3 network">
+        <va-button
+          v-if="followUserStatus"
+          type="primary"
+          @click="handleFollowUser(author.username)"
+        >Đang theo dõi</va-button>
+        <va-button v-else type="default" @click="handleFollowUser(author.username)">Theo dõi</va-button>
       </div>
     </div>
-    <no-ssr>
-      <va-button active>Theo dõi</va-button>
-    </no-ssr>
-  </div>
+  </no-ssr>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import get from 'lodash.get'
-
 export default {
+  props: {
+    author: {
+      type: Object,
+    },
+  },
   data() {
     return {
-      user: {
-        name: 'Pham Ngoc Hoa',
-        username: 'thaycacac',
-        bio: 'Cong hoa xa hoi chu nghia viet nam',
-      },
-      demo: {
-        network: [
-          { name: 'Lượt theo dõi', number: 20 },
-          { name: 'bài viết', number: 15 },
-        ],
-      },
+      followUserStatus: false,
     }
   },
   computed: {
-    avatarUrl() {
-      const avatar = get(this, 'user.avatar')
-      if (avatar) return avatar
-      return 'https://bulma.io/images/placeholders/256x256.png'
+    ...mapGetters({
+      user: 'auth/user',
+      followedUserStatus: 'follow/followUser',
+    }),
+  },
+  mounted() {
+    this.followUserStatus = this.author.following
+  },
+  methods: {
+    editUser() {
+      this.$router.push('/cai-dat/tai-khoan')
+    },
+    handleFollowUser(id) {
+      if (this.user) {
+        if (this.followUserStatus) {
+          this.$store.dispatch('follow/unFollowUser', id).then(() => {
+            this.followUserStatus = this.followedUserStatus
+          })
+        } else {
+          this.$store.dispatch('follow/followUser', id).then(() => {
+            this.followUserStatus = this.followedUserStatus
+          })
+        }
+      } else {
+        this.$router.push('/dang-nhap')
+      }
     },
   },
 }
@@ -77,22 +110,7 @@ $size-image: 100px;
   }
   .network {
     border-top: 2px solid $n30;
-    border-bottom: 2px solid $n30;
-    padding-top: $unit;
-    padding-bottom: $unit;
-    margin-bottom: $unit;
-    margin-top: $unit;
-
-    .number {
-      color: $b500;
-      font-size: $unit * 1.5;
-      user-select: none;
-    }
-    .type {
-      color: $n100;
-      text-transform: uppercase;
-      user-select: none;
-    }
+    padding-top: $unit/2;
   }
   .avatar {
     width: $size-image;

@@ -1,23 +1,84 @@
 <template>
-  <div class="container">
-    <div v-for="(i,index) in 5" :key="index">
-      <ListOrganization v-if="index%3===0" />
-      <CardHorizontalOrganization v-if="index%3===1" />
-      <CardVerticalOrganization v-if="index%3===2" />
+  <div class="home-page container">
+    <no-ssr>
+      <FeaturedArea />
+    </no-ssr>
+    <div class="row mt-2">
+      <div class="col-md-8">
+        <Latest />
+      </div>
+      <div class="col-md-4">
+        <Popular />
+      </div>
     </div>
   </div>
 </template>
+
 <script>
-import {
-  ListOrganization,
-  CardHorizontalOrganization,
-  CardVerticalOrganization,
-} from '@/components/organization'
+import { mapGetters } from 'vuex'
+import { FeaturedArea, Latest, Popular } from '@/components/organization/home'
+
 export default {
   components: {
-    ListOrganization,
-    CardHorizontalOrganization,
-    CardVerticalOrganization,
+    FeaturedArea,
+    Latest,
+    Popular,
+  },
+  data() {
+    return {
+      ssr: false,
+    }
+  },
+  computed: {
+    ...mapGetters({
+      org: 'organization/organization',
+    }),
+  },
+  head() {
+    return {
+      title: this.org.name || 'Publish your content',
+    }
+  },
+  asyncData() {
+    if (process.server) {
+      return {
+        ssr: true,
+      }
+    }
+    return {
+      ssr: false,
+    }
+  },
+  mounted() {
+    const { orgname } = this.$route.params
+    if (!this.ssr) {
+      Promise.all([
+        this.$store.dispatch('organization/articles', orgname),
+        this.$store.dispatch('organization/popular', orgname),
+        this.$store.dispatch('organization/featured', orgname),
+      ]).catch(e => {
+        this.$nuxt.error({
+          statusCode: 403,
+          message: 'Tổ chức này chưa được kích hoạt.',
+        })
+      })
+    }
+  },
+  async fetch({ store, params, error }) {
+    const { orgname } = params
+    await store.dispatch('organization/show', orgname)
+    if (process.server) {
+      try {
+        await store.dispatch('organization/articles', orgname)
+        await store.dispatch('organization/popular', orgname)
+        await store.dispatch('organization/featured', orgname)
+      } catch (e) {
+        error({
+          statusCode: 403,
+          message: 'Tổ chức này chưa được kích hoạt.',
+        })
+      }
+    }
   },
 }
 </script>

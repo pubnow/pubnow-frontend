@@ -4,13 +4,13 @@
       <BackToHome />
       <va-form ref="form" type="vertical">
         <img class="logo mx-auto d-block mb-4" :src="require('@/assets/images/logo.svg')" />
-        <va-form-item label="Tài khoản" need>
+        <va-form-item label="Tên tài khoản" need>
           <va-input
             name="username"
             v-model="username"
             size="lg"
-            placeholder="Tài khoản"
-            :rules="[{type:'required', tip:'Bạn vui lòng nhập tài khoản'}]"
+            placeholder="Tên tài khoản"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập tên tài khoản'}]"
           />
         </va-form-item>
         <va-form-item label="Mật khẩu" need>

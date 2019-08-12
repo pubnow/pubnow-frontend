@@ -57,13 +57,13 @@
                     <img
                       v-if="clapStatus"
                       :src="require('@/assets/images/icons/clap-filter.svg')"
-                      @click="clapArticle(article.id)"
+                      @click="clapArticle(article.slug)"
                       alt="clap filter icon"
                     />
                     <img
                       v-else
                       :src="require('@/assets/images/icons/clap.svg')"
-                      @click="clapArticle(article.id)"
+                      @click="clapArticle(article.slug)"
                       alt="clap icon"
                     />
                   </span>
@@ -87,7 +87,7 @@
                   <img
                     v-else
                     :src="require('@/assets/images/icons/bookmark.svg')"
-                    @click="bookmarkArticle(article.id)"
+                    @click="bookmarkArticle(article.slug)"
                     alt="bookmark icon"
                   />
                 </span>
@@ -101,7 +101,7 @@
         <div slot="footer">
           <div>
             <va-button @click="$refs.modal.close()">Hủy</va-button>
-            <va-button type="primary" @click="bookmarkArticle(article.id)">Đồng ý</va-button>
+            <va-button type="primary" @click="bookmarkArticle(article.slug)">Đồng ý</va-button>
           </div>
         </div>
       </va-modal>
@@ -142,9 +142,9 @@ export default {
     this.bookmarkStatus = this.article.bookmarked
   },
   methods: {
-    clapArticle(id) {
+    clapArticle(slug) {
       if (this.user) {
-        this.$store.dispatch('clap/write', id).then(() => {
+        this.$store.dispatch('clap/write', slug).then(() => {
           this.clapNum = this.numClap
           this.clapStatus = this.clappedStatus
         })

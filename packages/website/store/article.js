@@ -1,4 +1,8 @@
 export const state = () => ({
+  currentPage: 1,
+  perPage: 10,
+  total: -1,
+  lastPage: 0,
   articles: [],
   tags: [],
   featured: [],
@@ -8,9 +12,14 @@ export const state = () => ({
   category: null,
   article: null,
   isPrivate: false,
+  userArticles: [],
+  organization: null,
 })
 
 export const mutations = {
+  setOrganization(state, organization) {
+    state.organization = organization
+  },
   setArticles(state, articles) {
     state.articles = articles
   },
@@ -44,23 +53,42 @@ export const mutations = {
   setArticle(state, article) {
     state.article = article
   },
-  reset(state) {
+  reset(state, org = true) {
     state.tags = []
     state.title = ''
     state.content = null
     state.category = null
-    state.private = false
+    state.isPrivate = false
+    if (org) {
+      state.organization = null
+    }
   },
   fillData(state, article) {
     state.tags = article.tags.map(tag => tag.name)
     state.title = article.title
     state.content = article.content
     state.category = article.category.id
-    state.isPrivate = article.private
+    state.isPrivate = article.private || article.organization_private
+    state.organization = article.organization
+  },
+  setUserArticles(state, articles) {
+    state.userArticles = articles
+  },
+  setCurrentPage(state, page) {
+    state.currentPage = page
+  },
+  setPerPage(state, perPage) {
+    state.perPage = perPage
+  },
+  setTotal(state, total) {
+    state.total = total
   },
 }
 
 export const getters = {
+  currentPage: s => s.currentPage,
+  total: state => state.total,
+  perPage: state => state.perPage,
   articles: s => s.articles,
   featured: s => s.featured,
   popular: s => s.popular,
@@ -70,34 +98,51 @@ export const getters = {
   title: s => s.title,
   article: s => s.article,
   isPrivate: s => s.isPrivate,
+  userArticles: s => s.userArticles,
+  organization: s => s.organization,
 }
 
 export const actions = {
-  async write({ commit, state }, draft = false) {
+  async write({ commit, state }, { draft }) {
     const data = {
       title: state.title,
       content: state.content,
       category_id: state.category,
       tags: state.tags,
-      draft,
+    }
+    if (draft) {
+      data.draft = true
+    }
+    if (state.organization) {
+      data.organization_id = state.organization.id
+      data.organization_private = state.isPrivate
+    } else {
+      data.private = state.isPrivate
     }
     try {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$post('articles', data)
       const { data: article } = result
-      commit('reset')
+      commit('reset', state.organization ? false : true)
       return article
     } catch (e) {
       return null
     }
   },
-  async edit({ commit, state }, slug) {
+  async edit({ commit, state }, { slug, draft }) {
     const data = {
       title: state.title,
       content: state.content,
       category_id: state.category,
       tags: state.tags,
-      private: state.isPrivate,
+    }
+    if (draft) {
+      data.draft = true
+    }
+    if (state.organization) {
+      data.organization_private = state.isPrivate
+    } else {
+      data.private = state.isPrivate
     }
     try {
       this.$http.setHeader('Accept', 'application/json')
@@ -134,32 +179,86 @@ export const actions = {
       return false
     }
   },
-  async index({ commit }) {
+  async index({ commit, dispatch, getters }) {
     try {
+      dispatch('wait/start', 'article.index', { root: true })
       const result = await this.$http.$get(`articles`)
+      dispatch('wait/end', 'article.index', { root: true })
       const { data: articles } = result
+      commit('setCurrentPage', 1)
       commit('setArticles', articles)
+      return articles
+    } catch (e) {
+      dispatch('wait/end', 'article.index', { root: true })
+      return null
+    }
+  },
+  async loadMore({ commit, getters }) {
+    const page = getters['currentPage']
+    const currentArticles = getters['articles']
+    try {
+      const result = await this.$http.$get(`articles?page=${page}`)
+      const { data: articles } = result
+      let newArticles
+      if (page === 1) {
+        newArticles = articles
+      } else {
+        newArticles = currentArticles.concat(articles)
+      }
+      commit('setArticles', newArticles)
       return articles
     } catch (e) {
       return null
     }
   },
-  async featured({ commit }) {
+  async featured({ commit, dispatch }) {
     try {
+      dispatch('wait/start', 'article.featured', { root: true })
       const result = await this.$http.$get(`articles/featured`)
+      dispatch('wait/end', 'article.featured', { root: true })
       const { data: articles } = result
       commit('setFeatured', articles)
     } catch (e) {
+      dispatch('wait/end', 'article.featured', { root: true })
       return null
     }
   },
-  async popular({ commit }) {
+  async popular({ commit, dispatch }) {
     try {
+      dispatch('wait/start', 'article.popular', { root: true })
       const result = await this.$http.$get(`articles/popular`)
       const { data: articles } = result
+      dispatch('wait/end', 'article.popular', { root: true })
       commit('setPopular', articles)
     } catch (e) {
+      dispatch('wait/end', 'article.popular', { root: true })
       return null
     }
+  },
+  async user({ commit, dispatch, state }) {
+    try {
+      dispatch('wait/start', 'article.user', { root: true })
+      const result = await this.$http.$get(
+        `users/articles?page=${state.currentPage}`,
+      )
+      const {
+        data,
+        meta: { current_page: currentPage, per_page: perPage, total },
+      } = result
+      commit('setUserArticles', data)
+      commit('setCurrentPage', currentPage)
+      commit('setPerPage', perPage)
+      commit('setTotal', total)
+      dispatch('wait/end', 'article.user', { root: true })
+      return true
+    } catch (e) {
+      commit('setUserArticles', [])
+      dispatch('wait/end', 'article.user', { root: true })
+      return false
+    }
+  },
+  async changeUserPage({ dispatch, commit }, payload) {
+    commit('setCurrentPage', payload)
+    dispatch('user')
   },
 }

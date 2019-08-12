@@ -5,7 +5,7 @@
         <div class="col-sm-8">
           <div v-if="tag.articles.length > 0">
             <NameTag :tagName="tag.name" />
-            <div v-for="(article, id) in tag.articles" :key="id">
+            <div v-for="article in tag.articles" :key="article.id">
               <LeftDetailTag :article="article" :tagName="tag.name" />
             </div>
           </div>

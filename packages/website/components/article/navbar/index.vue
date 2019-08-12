@@ -2,17 +2,21 @@
   <no-ssr>
     <div class="wrap-affix d-flex flex-column py-2">
       <div>
-        <img
-          v-if="clapStatus"
-          :src="require('@/assets/images/icons/clap-filter.svg')"
-          @click="clapArticle(articleID)"
-          alt="clap filter icon"
-          class="icon icon-large evenodd"
-        />
+        <div v-if="clapStatus" class="clap-filter d-flex">
+          <img
+            :src="require('@/assets/images/icons/clap-filter.svg')"
+            @click="clapArticle(articleSlug)"
+            alt="clap filter icon"
+            class="icon icon-clap icon-large evenodd"
+          />
+          <div @click="deleteClap(articleSlug)" class="icon-close">
+            <va-icon type="times" size="1em" iconStyle="solid" color="#97a0af" />
+          </div>
+        </div>
         <img
           v-else
           :src="require('@/assets/images/icons/clap.svg')"
-          @click="clapArticle(articleID)"
+          @click="clapArticle(articleSlug)"
           alt="clap icon"
           class="icon icon-large"
         />
@@ -35,7 +39,7 @@
         <img
           v-else
           :src="require('@/assets/images/icons/bookmark.svg')"
-          @click="bookmarkArticle(articleID)"
+          @click="bookmarkArticle"
           alt="bookmark icon"
           class="icon icon-large mt-3"
         />
@@ -56,7 +60,7 @@
         <div slot="footer">
           <div>
             <va-button @click="$refs.modal.close()">Hủy</va-button>
-            <va-button type="primary" @click="bookmarkArticle(articleID)">Đồng ý</va-button>
+            <va-button type="primary" @click="bookmarkArticle">Đồng ý</va-button>
           </div>
         </div>
       </va-modal>
@@ -76,7 +80,7 @@ export default {
       type: Number,
       required: true,
     },
-    articleID: {
+    articleSlug: {
       type: String,
       required: true,
     },
@@ -86,6 +90,10 @@ export default {
     },
     bookmarked: {
       type: Boolean,
+      required: true,
+    },
+    userClaps: {
+      type: Number,
       required: true,
     },
   },
@@ -111,11 +119,15 @@ export default {
     this.clapNum = this.clap
     this.clapStatus = this.clapped
     this.bookmarkStatus = this.bookmarked
+    this.$store.commit('clap/setCountClap', {
+      count: this.userClaps,
+      clap: this.clapNum,
+    })
   },
   methods: {
-    clapArticle(id) {
+    clapArticle(slug) {
       if (this.user) {
-        this.$store.dispatch('clap/write', id).then(() => {
+        this.$store.dispatch('clap/write', slug).then(() => {
           this.clapNum = this.numClap
           this.clapStatus = this.clappedStatus
         })
@@ -123,15 +135,27 @@ export default {
         this.$router.push('/dang-nhap')
       }
     },
-    bookmarkArticle(id) {
+    deleteClap(slug) {
+      if (this.user) {
+        this.$store.dispatch('clap/delete', slug).then(() => {
+          this.clapNum = this.numClap
+          this.clapStatus = this.clappedStatus
+        })
+      } else {
+        this.$router.push('/dang-nhap')
+      }
+    },
+    bookmarkArticle() {
       if (this.user) {
         if (this.bookmarkStatus) {
-          this.$store.dispatch('bookmark/unBookmark', id).then(() => {
-            this.bookmarkStatus = this.bookmarkedStatus
-          })
+          this.$store
+            .dispatch('bookmark/unBookmark', { id: this.articleSlug })
+            .then(() => {
+              this.bookmarkStatus = this.bookmarkedStatus
+            })
           this.$refs.modal.close()
         } else {
-          this.$store.dispatch('bookmark/write', id).then(() => {
+          this.$store.dispatch('bookmark/write', this.articleSlug).then(() => {
             this.bookmarkStatus = this.bookmarkedStatus
           })
         }
@@ -199,6 +223,25 @@ $icon-small: 20px;
   justify-content: center;
   text-align: center;
   align-items: center;
+  .clap-filter {
+    align-items: center;
+    .icon-clap {
+      z-index: 2;
+      background-color: #fff;
+      border-radius: 50%;
+    }
+    .icon-close {
+      position: absolute;
+      left: 16px;
+      transition: transform 0.25s cubic-bezier(0.25, 0, 0.6, 1.4) 1s;
+      cursor: pointer;
+    }
+    &:hover {
+      .icon-close {
+        transform: translateX(-20px);
+      }
+    }
+  }
   .icon {
     cursor: pointer;
   }

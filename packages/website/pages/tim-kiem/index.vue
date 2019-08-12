@@ -17,43 +17,6 @@
                 <va-tab name="Bài đăng">
                   <Article :keyword="keyword" />
                 </va-tab>
-                <va-tab name="Người dùng">
-                  <div class="demoTabContent">
-                    <users :users="users" />
-                    <b-pagination
-                      v-model="currentPageUser"
-                      :total-rows="rowsUser"
-                      size="sm"
-                      class="mt-4 justify-content-center"
-                    />
-                  </div>
-                </va-tab>
-                <va-tab name="Tags">
-                  <div class="demoTabContent">
-                    <tags
-                      v-for="(article, index) in articles"
-                      :key="index"
-                      :avatar="article.avatar"
-                      :textSearch="keyword"
-                      :fullname="article.fullname"
-                      :category="article.category"
-                      :date="article.date"
-                      :time="article.time"
-                      :title="article.title"
-                      :description="article.description"
-                      :image="article.image"
-                      :clap="article.clap"
-                      :comment="article.comment"
-                      :tags="article.tags"
-                    />
-                    <b-pagination
-                      v-model="currentPageTag"
-                      :total-rows="rowsTag"
-                      size="sm"
-                      class="mt-4 justify-content-center"
-                    />
-                  </div>
-                </va-tab>
               </va-tabs>
             </div>
           </div>

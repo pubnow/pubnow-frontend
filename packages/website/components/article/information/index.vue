@@ -42,15 +42,13 @@
           </div>
         </b-col>
       </b-row>
-      <div class="d-flex justify-content-end my-3">
+      <div class="d-flex justify-content-end my-3 create" v-if="!slug">
         <va-button class="mr-1" active @click="create(true)">Lưu nháp</va-button>
-        <va-button
-          v-if="!slug"
-          class="button justify-content-end"
-          type="success"
-          @click="create"
-        >Đăng bài</va-button>
-        <va-button v-else class="button justify-content-end" type="success" @click="update">Cập nhật</va-button>
+        <va-button class="button justify-content-end" type="success" @click="create">Đăng bài</va-button>
+      </div>
+      <div class="d-flex justify-content-end my-3 update" v-else>
+        <va-button class="mr-1" active @click="update(true)">Lưu nháp</va-button>
+        <va-button class="button justify-content-end" type="success" @click="update">Cập nhật</va-button>
       </div>
     </div>
   </no-ssr>
@@ -66,12 +64,17 @@ export default {
       textSearch: '',
       isShowCategory: false,
       isSaveArticle: true,
+      dataID: [],
     }
   },
   props: {
     slug: {
       type: String,
       default: '',
+    },
+    type: {
+      type: String,
+      default: 'article',
     },
   },
   computed: {
@@ -83,6 +86,7 @@ export default {
     ...mapGetters({
       listCategory: 'category/categories',
       tags: 'article/tags',
+      series: 'series/series',
     }),
     categorySelected: {
       get() {
@@ -107,9 +111,6 @@ export default {
       }))
     },
   },
-  async mounted() {
-    await this.$store.dispatch('category/list')
-  },
   methods: {
     remove(index) {
       this.$store.commit('article/removeTag', index)
@@ -119,16 +120,44 @@ export default {
       this.inputTag = ''
     },
     async create(draft = false) {
-      const result = await this.$store.dispatch('article/write', draft)
+      const result = await this.$store.dispatch('article/write', {
+        draft,
+      })
       if (result) {
-        this.notification.info({
-          title: `Đăng bài thành công`,
-          message: `Cảm ơn bạn đã sử dụng Pubnow.`,
-          duration: 1690,
-          onHide: () => {
-            this.$router.push(`/bai-viet/${result.slug}`)
-          },
-        })
+        if (this.type === 'series') {
+          this.series.articles.forEach(item => this.dataID.push(item.id))
+          this.dataID.push(result.id)
+          let data = {
+            articles: [...this.dataID],
+            slug: this.series.slug,
+          }
+          let resultSeries = this.$store.dispatch('series/edit', data)
+          if (resultSeries) {
+            this.notification.info({
+              title: `Thông báo`,
+              message: `Thêm bài viết vào series thành công`,
+              duration: 1690,
+              onHide: () => {
+                this.$router.push(`/series/${this.series.slug}/chinh-sua`)
+              },
+            })
+          } else {
+            this.notification.danger({
+              title: `Rất tiếc`,
+              message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
+              duration: 2000,
+            })
+          }
+        } else {
+          this.notification.info({
+            title: `Đăng bài thành công`,
+            message: `Cảm ơn bạn đã sử dụng Pubnow.`,
+            duration: 1690,
+            onHide: () => {
+              this.$router.push(`/bai-viet/${result.slug}`)
+            },
+          })
+        }
       } else {
         this.notification.danger({
           title: `Rất tiếc`,
@@ -137,8 +166,11 @@ export default {
         })
       }
     },
-    async update() {
-      const result = await this.$store.dispatch('article/edit', this.slug)
+    async update(draft = false) {
+      const result = await this.$store.dispatch('article/edit', {
+        draft,
+        slug: this.slug,
+      })
       if (result) {
         this.notification.info({
           title: `Cập nhật thành công`,

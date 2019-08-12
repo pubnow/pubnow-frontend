@@ -4,8 +4,8 @@
       :height="515"
       :width="750"
       :speed="2"
-      primaryColor="#f3f3f3"
-      secondaryColor="#ecebeb"
+      primaryColor="#f4f5f7"
+      secondaryColor="#dfe1e6"
     >
       <circle cx="60" cy="60" r="25" />
       <rect x="95" y="40" rx="0" ry="0" width="290" height="18" />

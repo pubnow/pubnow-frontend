@@ -4,20 +4,7 @@
       <ArticleLargePlaceholder v-for="i in 2" :key="i" />
     </div>
     <div v-else>
-      <Article
-        v-for="article in articles"
-        :key="article.id"
-        :keyword="keyword"
-        :title="article.title"
-        :fullname="article.author.name"
-        :image="article.thumbnail"
-        :category="article.category.name"
-        :description="article.excerpt | unescape"
-        :clap="article.claps"
-        :comment="0"
-        :date="article.createdAt"
-        time="5 phút"
-      />
+      <Article v-for="article in articles" :key="article.id" :article="article" :keyword="keyword" />
     </div>
   </div>
 </template>

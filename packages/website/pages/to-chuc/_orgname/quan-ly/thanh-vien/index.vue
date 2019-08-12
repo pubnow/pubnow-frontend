@@ -7,10 +7,16 @@
           <va-input type="text" placeholder="Tìm kiếm" class="input" />
         </b-col>
         <b-col class="md-6 add-member d-flex">
-          <va-button class="btn-add" type="success" @click="showCustom">Thêm thành viên</va-button>
+          <va-button
+            v-if="organization.owner && user.id === organization.owner.id"
+            class="btn-add"
+            icon-before="plus"
+            active
+            @click="showCustom"
+          >Mời thành viên</va-button>
         </b-col>
       </b-row>
-      <b-row v-for="(item,id) in member" :key="id" class="member mt-3 d-flex">
+      <b-row v-for="(item,id) in members" :key="id" class="member mt-3 d-flex">
         <b-col class="md-6 info d-flex">
           <img class="member-avatar" :src="item.avatar" />
           <div class="member-detail">
@@ -19,99 +25,114 @@
           </div>
         </b-col>
         <b-col class="md-6 setting d-flex">
-          <va-icon type="user" size="1.25em" iconStyle="regular" color="#97a0af" />
-          <div class="member-role">{{item.role}}</div>
-          <va-icon type="cog" size="1.25em" iconStyle="solid" color="#97a0af" />
+          <div v-if="organization.owner && item.id === organization.owner.id">Chủ sở hữu</div>
+          <div v-else-if="item.status === 'pending'">Đã mời</div>
+          <div v-else>Thành viên</div>
+          <va-icon type="ellipsis-h" size="1.25em" class="ml-1" iconStyle="solid" color="#97a0af" />
         </b-col>
       </b-row>
-      <va-modal :backdrop-clickable="backdropClickable" ref="customModal" class="modal-container">
-        <div slot="body">
-          <div class="modal-body">
-            <div class="desc-container d-flex mb-5">
-              <img
-                class="organ-avatar"
-                src="https://avatars0.githubusercontent.com/u/49083246?s=200&v=4"
-              />
-              <div class="desc-text">Mời thành viên mới đến nhóm Young Tailor</div>
-            </div>
-            <div class="form d-flex">
-              <va-input
-                type="text"
-                v-model="inputWidth"
-                placeholder="Tìm theo tên hoặc email"
-                class="input-invite"
-                @change="onHanldeFindUser"
-              />
-              <va-button
-                :type="`${activeButton?'success':'default'}`"
-                :disabled="activeButton ? false : true"
-                class="btn-invite"
-              >Mời</va-button>
-            </div>
+      <b-modal
+        title="Mời thành viên mới"
+        :backdrop-clickable="backdropClickable"
+        ref="inviteModal"
+        class="modal-container"
+        centered
+        hide-footer
+      >
+        <div class="modal-body pb-2">
+          <div class="desc-container d-flex mb-4">
+            <img class="organ-avatar" :src="organization.logo" />
+            <div class="desc-text">{{ organization.name }}</div>
           </div>
+          <div class="form d-flex mb-3">
+            <va-input
+              type="text"
+              v-model="keyword"
+              placeholder="Tìm theo tên hoặc email"
+              class="input-invite mr-1"
+              @confirm="searchUser"
+            />
+            <va-button
+              :disabled="(!activeButton || searching) ? true : false"
+              :loading="searching"
+              icon-before="search"
+              class="btn-invite"
+              @click="searchUser"
+            >Tìm kiếm</va-button>
+          </div>
+          <SearchRow
+            v-for="user in searchResult"
+            :key="`${user.id}_${user.status}`"
+            :user="user"
+            @invite="inviteUser"
+          />
         </div>
-        <div slot="footer" />
-      </va-modal>
+      </b-modal>
     </b-container>
   </no-ssr>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import SearchRow from '@/components/organization/members/SearchRow'
+
 export default {
   layout: 'organization',
   middleware: ['auth'],
   head: {
     title: 'Thành viên',
   },
+  components: {
+    SearchRow,
+  },
   data() {
     return {
-      member: [
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/21234122?s=96&v=4',
-          name: 'PhongPV',
-          email: 'phong@gmail.com',
-          role: 'Quản trị viên',
-        },
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/21234772?s=96&v=4',
-          name: 'TuanPV',
-          email: 'tuan@gmail.com',
-          role: 'Thành viên',
-        },
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/21234222?s=96&v=4',
-          name: 'SangND',
-          email: 'sang@gmail.com',
-          role: 'Thành viên',
-        },
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/24434122?s=96&v=4',
-          name: 'TuNR',
-          email: 'tu@gmail.com',
-          role: 'Thành viên',
-        },
-        {
-          avatar: 'https://avatars2.githubusercontent.com/u/21244122?s=96&v=4',
-          name: 'ManhTT',
-          email: 'manh@gmail.com',
-          role: 'Thành viên',
-        },
-      ],
       backdropClickable: true,
-      activeButton: false,
-      inputWidth: '',
+      keyword: '',
     }
+  },
+  computed: {
+    ...mapGetters({
+      members: 'organization/members',
+      organization: 'organization/organization',
+      users: 'search/users',
+      user: 'auth/user',
+    }),
+    activeButton() {
+      return this.keyword !== ''
+    },
+    searching() {
+      return this.$wait.is('search.user')
+    },
+    searchResult() {
+      return this.users.map(user => {
+        const idx = this.members.findIndex(member => member.id === user.id)
+        if (idx !== -1) {
+          const mem = this.members[idx]
+          user.status = mem.status
+        }
+        return user
+      })
+    },
+  },
+  mounted() {
+    const { orgname } = this.$route.params
+    this.$store.dispatch('organization/members', orgname)
   },
   methods: {
     showCustom() {
-      this.$refs.customModal.open()
+      this.$refs.inviteModal.show()
     },
-    onHanldeFindUser() {
-      if (this.inputWidth === '') {
-        this.activeButton = false
-      } else {
-        this.activeButton = true
-      }
+    searchUser() {
+      this.$store.dispatch('search/user', {
+        keyword: this.keyword,
+      })
+    },
+    inviteUser(userId) {
+      this.$store.dispatch('organization/invite', {
+        user_id: userId,
+        organization_id: this.organization.id,
+      })
     },
   },
 }
@@ -120,6 +141,7 @@ export default {
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_sizes.scss';
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_mixins.scss';
 
 .member-option {
   align-items: center;
@@ -145,7 +167,10 @@ export default {
     .member-avatar {
       width: 50px;
       height: 50px;
-      object-fit: stretch;
+      object-fit: cover;
+      border-radius: 25px;
+      @include border;
+      @include box-shadow-sm;
     }
     .member-detail {
       margin-left: 10px;
@@ -169,32 +194,27 @@ export default {
   }
 }
 
-.modal-container {
-  .modal-body {
-    .desc-container {
-      flex-direction: column;
-      align-items: center;
-      .organ-avatar {
-        width: 60px;
-      }
-      .desc-text {
-        margin-top: 15px;
-        font-size: 25px;
-        color: #505e77;
-      }
+$avatar: 80px;
+.modal-body {
+  .desc-container {
+    flex-direction: column;
+    align-items: center;
+    .organ-avatar {
+      width: $avatar;
+      height: $avatar;
+      object-fit: cover;
+      @include border;
+      @include radius-md;
+      @include box-shadow-sm;
     }
-    .form {
-      align-items: center;
-      .input-invite {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-      }
-      .btn-invite {
-        border-top-left-radius: 0;
-        border-bottom-left-radius: 0;
-        padding: 0 20px;
-      }
+    .desc-text {
+      margin-top: 15px;
+      font-size: 25px;
+      color: #505e77;
     }
+  }
+  .form {
+    align-items: center;
   }
 }
 </style>

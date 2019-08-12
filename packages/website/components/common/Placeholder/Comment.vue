@@ -4,8 +4,8 @@
     :height="160"
     :width="750"
     :speed="2"
-    primaryColor="#f3f3f3"
-    secondaryColor="#ecebeb"
+    primaryColor="#f4f5f7"
+    secondaryColor="#dfe1e6"
   >
     <rect x="310" y="40" rx="3" ry="3" width="70" height="10" />
     <rect x="45" y="3" rx="3" ry="3" width="100" height="10" />

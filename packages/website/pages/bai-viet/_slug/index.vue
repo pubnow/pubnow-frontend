@@ -18,7 +18,8 @@
               :clapped="article.clapped"
               :bookmarked="article.bookmarked"
               :commentNum="count"
-              :articleID="article.id"
+              :articleSlug="article.slug"
+              :userClaps="article.user_claps"
             />
             <h1 class="title my-4">{{ article.title }}</h1>
             <div class="content-article fr-element fr-view" v-html="article.content"></div>
@@ -86,6 +87,11 @@ export default {
     ArticleContentPlaceholder,
     CommentPlaceholder,
   },
+  data() {
+    return {
+      ssr: false,
+    }
+  },
   computed: {
     ...mapGetters({
       article: 'article/article',
@@ -96,14 +102,31 @@ export default {
   },
   async mounted() {
     const { slug } = this.$route.params
-    if (!this.article || (this.article && slug !== this.article.slug)) {
-      this.$store.dispatch('article/show', slug)
+    if (!this.ssr) {
+      const article = await this.$store.dispatch('article/show', slug)
+      if (!article) {
+        this.$nuxt.error({
+          statusCode: 404,
+          message: 'Bài viết không tồn tài',
+        })
+      }
     }
+
     this.$wait.start('loading comment')
     await this.$store.dispatch('comment/show', slug)
     this.$wait.end('loading comment')
     this.numComment(this.comment)
     this.$store.dispatch('comment/count', this.commentNum)
+  },
+  asyncData() {
+    if (process.server) {
+      return {
+        ssr: true,
+      }
+    }
+    return {
+      ssr: false,
+    }
   },
   fetch({ store, params: { slug } }) {
     if (process.server) {
@@ -113,6 +136,26 @@ export default {
   head() {
     return {
       title: (this.article && this.article.title) || 'Bài viết',
+      meta: [
+        {
+          property: 'og:title',
+          content: (this.article && this.article.title) || 'Bài viết',
+        },
+        {
+          property: 'og:description',
+          content: (this.article && this.article.excerpt) || 'Tóm tắt bài viết',
+        },
+        {
+          property: 'og:image',
+          content:
+            (this.article && this.article.thumbnail) ||
+            'https://i.imgur.com/nUSXOIF.png',
+        },
+        {
+          property: 'og:type',
+          content: 'article',
+        },
+      ],
     }
   },
   data() {
