@@ -189,6 +189,7 @@ $size: 59px;
 .wrapper {
   .feedback-cat {
     position: fixed;
+    z-index: 9999;
     width: $size;
     height: $size;
     border-radius: 12px;
@@ -198,6 +199,7 @@ $size: 59px;
     @include border;
     @include box-shadow-lg;
     transform: rotate(9deg);
+    background: $white;
   }
 }
 </style>
