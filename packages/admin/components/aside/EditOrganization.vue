@@ -1,6 +1,6 @@
 <template>
   <div class="wrap-edit mt-3">
-    <h1 class="text-center my-5">Chỉnh sửa Thành viên</h1>
+    <h1 class="text-center my-5">Chỉnh sửa Tổ chức</h1>
     <b-form class="mt-2">
       <b-form-group label="Logo tổ chức" label-for="input-logo">W.I.P</b-form-group>
       <b-form-group label="Tên tổ chức" label-for="input-name">
