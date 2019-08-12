@@ -43,6 +43,26 @@
                 @click="update"
                 type="primary"
               >Cập nhật</va-button>
+              <va-button
+                type="danger"
+                icon-before="trash"
+                @click="$refs.removeOrgModal.show()"
+              >Xóa tổ chức</va-button>
+              <b-modal title="Xóa tổ chức" ref="removeOrgModal" centered hide-footer>
+                Bạn có chắc chắn muốn xóa tổ chức
+                <span class="font-weight-bold">{{ org.name }}</span>
+                <div class="d-flex justify-content-end mt-2">
+                  <va-button>Hủy bỏ</va-button>
+                  <va-button
+                    :disabled="deleting"
+                    :loading="deleting"
+                    class="ml-1"
+                    type="danger"
+                    icon-before="trash"
+                    @click="removeOrg"
+                  >Xóa</va-button>
+                </div>
+              </b-modal>
             </b-form>
           </b-col>
           <b-col md="2">
@@ -163,6 +183,9 @@ export default {
       }
       return this.org.logo
     },
+    deleting() {
+      return this.$wait.is('organizations.delete')
+    },
   },
   methods: {
     initData() {
@@ -200,7 +223,6 @@ export default {
           message: `Cập nhật thông tin Tổ chức thành công`,
           duration: 1690,
           onHide: () => {
-            console.log({ result })
             this.$router.push(`/to-chuc/${result.data.slug}/quan-ly`)
           },
         })
@@ -208,6 +230,27 @@ export default {
         this.notification.danger({
           title: `Thất bại`,
           message: `Bạn không thể chỉnh sửa thông tin`,
+          duration: 1690,
+        })
+      }
+    },
+    async removeOrg() {
+      const { orgname } = this.$route.params
+      const result = await this.$store.dispatch('organization/delete', orgname)
+      this.$refs.removeOrgModal.hide()
+      if (result) {
+        this.notification.info({
+          title: `Success`,
+          message: `Xóa Tổ chức thành công`,
+          duration: 1690,
+          onHide: () => {
+            this.$router.push(`/cai-dat/to-chuc`)
+          },
+        })
+      } else {
+        this.notification.danger({
+          title: `Thất bại`,
+          message: `Bạn không thể xóa tổ chức này`,
           duration: 1690,
         })
       }

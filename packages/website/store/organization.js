@@ -69,6 +69,17 @@ export const actions = {
       return false
     }
   },
+  async delete({ dispatch }, id) {
+    try {
+      dispatch('wait/start', 'organizations.delete', { root: true })
+      await this.$http.delete(`organizations/${id}`)
+      dispatch('wait/end', 'organizations.delete', { root: true })
+      return true
+    } catch (e) {
+      dispatch('wait/end', 'organizations.delete', { root: true })
+      return false
+    }
+  },
   async statistic({ commit, dispatch }, { slug, start, end }) {
     try {
       dispatch('wait/start', 'organizations.statistic', { root: true })
