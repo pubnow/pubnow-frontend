@@ -54,7 +54,65 @@
         :src="require('@/assets/images/icons/lock.svg')"
         alt="lock icon"
         class="icon icon-small mt-3"
+        @click="feedbackArticle"
       />
+      <va-modal title="Feedback bài viết" ref="feedbackModal">
+        <div slot="body">
+          <va-form type="vertical" ref="form">
+            <va-form-item label="Tên của bạn" need>
+              <va-input
+                name="username"
+                v-model="form.username"
+                placeholder="Tên của bạn"
+                :rules="[{type:'required', tip:'Bạn vui lòng nhập tên của mình.'}]"
+                clearable
+              />
+            </va-form-item>
+            <va-form-item label="Email liên hệ" need>
+              <va-input
+                name="email"
+                type="email"
+                v-model="form.email"
+                placeholder="Email cá nhân"
+                :rules="[
+                  { type: 'required', tip: 'Bạn vui lòng nhập email.' },
+                  { type: 'email', tip: 'Email sai định dạng' }
+                ]"
+                clearable
+              />
+            </va-form-item>
+            <va-form-item label="Bài viết">
+              <va-input :value="article.title" disabled />
+            </va-form-item>
+            <va-form-item label="Loại feedback">
+              <va-select v-model="form.type" :options="options" noUncheck></va-select>
+            </va-form-item>
+            <va-form-item label="Tiêu đề" need>
+              <va-input
+                name="title"
+                v-model="form.title"
+                placeholder="Tiêu đề feedback"
+                :rules="[{type:'required', tip:'Bạn vui lòng tiêu đề feedback.'}]"
+                clearable
+              />
+            </va-form-item>
+            <va-form-item label="Nội dung" need>
+              <va-textarea
+                name="content"
+                v-model="form.content"
+                placeholder="Cung cấp thêm cho chúng tôi về nội dung của bạn"
+                :rules="[{type:'required', tip:'Bạn vui lòng nội dung cho feedback.'}]"
+              />
+            </va-form-item>
+          </va-form>
+        </div>
+        <div slot="footer">
+          <div>
+            <va-button @click="$refs.feedbackModal.close()">Hủy</va-button>
+            <va-button type="primary" icon-before="paper-plane" @click="sendFeedback">Gửi</va-button>
+          </div>
+        </div>
+      </va-modal>
       <va-modal title="Xác nhận" :backdrop-clickable="backdropClickable" ref="modal">
         <div slot="body">Bạn có chắc chắn muốn xóa bookmark khỏi bài viết này không?</div>
         <div slot="footer">
@@ -70,6 +128,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+
 export default {
   props: {
     clap: {
@@ -105,6 +164,23 @@ export default {
       backdropClickable: true,
       popupWidth: 600,
       popupHeight: 359,
+      options: [
+        {
+          label: 'Báo cáo nội dung',
+          value: 3,
+        },
+        {
+          label: 'Góp ý nội dung',
+          value: 4,
+        },
+      ],
+      form: {
+        username: '',
+        email: '',
+        type: 3,
+        title: '',
+        content: '',
+      },
     }
   },
   computed: {
@@ -113,6 +189,7 @@ export default {
       clappedStatus: 'clap/clapped',
       bookmarkedStatus: 'bookmark/bookmarked',
       user: 'auth/user',
+      article: 'article/article',
     }),
   },
   mounted() {
@@ -123,6 +200,10 @@ export default {
       count: this.userClaps,
       clap: this.clapNum,
     })
+    if (this.user) {
+      this.form.username = this.user.name
+      this.form.email = this.user.email
+    }
   },
   methods: {
     clapArticle(slug) {
@@ -144,6 +225,43 @@ export default {
       } else {
         this.$router.push('/dang-nhap')
       }
+    },
+    feedbackArticle() {
+      this.$refs.feedbackModal.open()
+    },
+    sendFeedback() {
+      this.$refs.form.validateFields(async result => {
+        const { isvalid } = result
+        if (isvalid) {
+          const data = {
+            username: this.form.username,
+            email: this.form.email,
+            reference: window.location.href,
+            id_article: this.article.id,
+            type: this.form.type,
+            title: this.form.title,
+            content: this.form.content,
+          }
+          const result = await this.$store.dispatch(
+            'feedback/sendFeedback',
+            data,
+          )
+          this.$refs.feedbackModal.close()
+          if (result) {
+            this.notification.info({
+              title: `Feedback thành công`,
+              message: `Cảm ơn bạn đã feedback. Chúng tôi sẽ phản hồi lại sớm nhất có thể.`,
+              duration: 1690,
+            })
+          } else {
+            this.notification.danger({
+              title: `Feedback thất bại`,
+              message: `Có lỗi xảy ra trong quá trình feedback. Vui lòng thử lại sau.`,
+              duration: 1690,
+            })
+          }
+        }
+      })
     },
     bookmarkArticle() {
       if (this.user) {
