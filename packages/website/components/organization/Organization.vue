@@ -5,7 +5,10 @@
     </div>
     <div class="right">
       <div class="top">
-        <h2 class="title">{{ org.name }}</h2>
+        <nuxt-link class="title" :to="`/to-chuc/${org.slug}`">
+          <h2>{{ org.name }}</h2>
+        </nuxt-link>
+
         <va-button v-if="org.active" @click="goSetting">
           <va-icon type="cog"></va-icon>
         </va-button>
@@ -71,15 +74,21 @@ $logo: 80px;
       align-items: center;
       height: 34px;
       .title {
-        color: $b500;
         margin-bottom: 0;
         margin-right: auto;
         overflow: hidden;
         text-overflow: ellipsis;
-        font-size: 19px;
-        line-height: 19px;
-        max-height: 19px;
-        word-break: break-word;
+
+        h2 {
+          color: $b500 !important;
+          font-size: 19px;
+          line-height: 19px;
+          max-height: 19px;
+          word-break: break-word;
+        }
+        &:hover {
+          text-decoration: none;
+        }
       }
     }
     .description {

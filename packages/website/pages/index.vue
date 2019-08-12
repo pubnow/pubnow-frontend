@@ -83,8 +83,3 @@ export default {
   },
 }
 </script>
-<style lang="scss" scoped>
-.u-maxWidth1032 {
-  max-width: 1032px !important;
-}
-</style>

@@ -13,7 +13,7 @@
         <b-col md="10" offset-md="1">
           <b-row>
             <b-col md="6" v-for="(organization) in orgs" :key="organization.id">
-              <organization :org="organization" :is-owner="user.id === organization.owner.id" />
+              <Organization :org="organization" :is-owner="user.id === organization.owner.id" />
             </b-col>
           </b-row>
         </b-col>

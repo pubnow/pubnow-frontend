@@ -2,20 +2,26 @@
   <no-ssr>
     <b-container class="nav-wrapper bg-white">
       <b-row>
-        <b-col md="6" class="d-flex align-items-center">
+        <b-col md="8" class="d-flex align-items-center">
           <nuxt-link to="/">
             <img class="mr-2" :src="require('@/assets/images/logo.svg')" />
           </nuxt-link>
+          <div v-if="inOrg" class="org ml-1 pl-1 d-flex align-items-center">
+            <img class="logo" :src="org.logo" />
+            <h2 class="name m-0">{{ org.name }}</h2>
+          </div>
           <va-input
             v-model="keyword"
             icon="search"
             placeholder="Tìm kiếm"
             iconStyle="solid"
             @confirm="search"
+            :class="[{'ml-3 d-lg-block d-none': inOrg}]"
+            :width="inOrg ? 'lg' : 'xl'"
           ></va-input>
         </b-col>
         <b-col
-          md="6"
+          md="4"
           class="d-flex align-items-center justify-content-md-end justify-content-between mt-md-0 mt-2"
         >
           <va-dropdown
@@ -72,9 +78,14 @@ export default {
       user: 'auth/user',
       categories: 'category/categories',
       organizations: 'organization/organizations',
+      org: 'organization/organization',
     }),
     randomCategories() {
       return take(shuffle(this.categories), 6)
+    },
+    inOrg() {
+      const { orgname } = this.$route.params
+      return !!orgname
     },
   },
   methods: {
@@ -96,8 +107,19 @@ export default {
 @import '@pubnow/ui/scss/_colors.scss';
 @import '@pubnow/ui/scss/_mixins.scss';
 
+$logo: 42px;
 .nav-wrapper {
   padding: 0.5rem 1rem;
+  .org {
+    border-left: 1px solid $n40;
+    .logo {
+      width: $logo;
+      height: $logo;
+      object-fit: cover;
+    }
+    .name {
+    }
+  }
   .icon {
     font-size: 1.25em !important;
     margin-left: $unit !important;

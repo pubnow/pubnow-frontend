@@ -1,7 +1,7 @@
 <template>
   <div class="featured mb-3">
     <Heading>Nổi bật</Heading>
-    <v-wait for="article.featured" transition="fade" mode="out-in">
+    <v-wait for="org.featured" transition="fade" mode="out-in">
       <template slot="waiting">
         <FeaturedPlaceholder />
       </template>
@@ -27,14 +27,14 @@ import shuffle from 'lodash.shuffle'
 import take from 'lodash.take'
 import { mapGetters } from 'vuex'
 import { FeaturedPlaceholder } from '@/components/common'
-import Heading from '../common/HeadingText'
-import CardVertical from './card-article/CardVertical'
-import CardHorizontal from './card-article/CardHorizontal'
+import Heading from '@/components/common/HeadingText'
+import CardVertical from '@/components/home/card-article/CardVertical'
+import CardHorizontal from '@/components/home/card-article/CardHorizontal'
 
 export default {
   computed: {
     ...mapGetters({
-      articles: 'article/featured',
+      articles: 'organization/featured',
     }),
     featuredPosts() {
       return take(this.articles, 5)

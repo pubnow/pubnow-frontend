@@ -5,6 +5,8 @@ export const state = () => ({
   param: 'fd',
   members: [],
   articles: [],
+  featured: [],
+  popular: [],
   statistic: null,
 })
 
@@ -15,6 +17,8 @@ export const getters = {
   param: state => state.param,
   members: state => state.members,
   articles: state => state.articles,
+  featured: s => s.featured,
+  popular: s => s.popular,
   statistic: state => state.statistic,
 }
 
@@ -39,6 +43,12 @@ export const mutations = {
   },
   setStatistic(state, statistic) {
     state.statistic = statistic
+  },
+  setFeatured(state, featured) {
+    state.featured = featured
+  },
+  setPopular(state, popular) {
+    state.popular = popular
   },
 }
 
@@ -115,14 +125,41 @@ export const actions = {
       return false
     }
   },
-  async articles({ commit }, id) {
+  async articles({ commit, dispatch }, id) {
     try {
+      dispatch('wait/start', 'org.articles', { root: true })
       const result = await this.$http.$get(`organizations/${id}/articles`)
       const { data } = result
+      dispatch('wait/end', 'org.articles', { root: true })
       commit('setArticles', data)
       return true
     } catch (e) {
-      return false
+      dispatch('wait/end', 'org.articles', { root: true })
+      throw e
+    }
+  },
+  async featured({ commit, dispatch }, id) {
+    try {
+      dispatch('wait/start', 'org.featured', { root: true })
+      const result = await this.$http.$get(`organizations/${id}/featured`)
+      dispatch('wait/end', 'org.featured', { root: true })
+      const { data: articles } = result
+      commit('setFeatured', articles)
+    } catch (e) {
+      dispatch('wait/end', 'org.featured', { root: true })
+      throw e
+    }
+  },
+  async popular({ commit, dispatch }, id) {
+    try {
+      dispatch('wait/start', 'org.popular', { root: true })
+      const result = await this.$http.$get(`organizations/${id}/popular`)
+      dispatch('wait/end', 'org.popular', { root: true })
+      const { data: articles } = result
+      commit('setPopular', articles)
+    } catch (e) {
+      dispatch('wait/end', 'org.popular', { root: true })
+      throw e
     }
   },
   async create({ dispatch }, data) {
@@ -161,13 +198,6 @@ export const actions = {
     } catch (e) {
       dispatch('wait/end', `org.invite.${user_id}`, { root: true })
       return false
-    }
-  },
-  async param({ commit }, param) {
-    try {
-      commit('setParam', param)
-    } catch (e) {
-      return null
     }
   },
 }
