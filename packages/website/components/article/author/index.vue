@@ -96,7 +96,7 @@ export default {
       user: 'auth/user',
     }),
     removing() {
-      return this.$wait.is('article/remove')
+      return this.$wait.is('article.remove')
     },
     isAuthor() {
       return this.user && this.user.id === this.author.id

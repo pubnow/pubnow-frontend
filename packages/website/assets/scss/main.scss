@@ -54,7 +54,11 @@ body {
 }
 
 .w-title {
-  width: 40% !important;
+  width: 30% !important;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
 }
 
 .notification-dropdown {

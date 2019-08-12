@@ -1,5 +1,7 @@
 export const state = () => ({
   currentPage: 1,
+  perPage: 10,
+  total: -1,
   lastPage: 0,
   articles: [],
   tags: [],
@@ -75,10 +77,18 @@ export const mutations = {
   setCurrentPage(state, page) {
     state.currentPage = page
   },
+  setPerPage(state, perPage) {
+    state.perPage = perPage
+  },
+  setTotal(state, total) {
+    state.total = total
+  },
 }
 
 export const getters = {
   currentPage: s => s.currentPage,
+  total: state => state.total,
+  perPage: state => state.perPage,
   articles: s => s.articles,
   featured: s => s.featured,
   popular: s => s.popular,
@@ -225,12 +235,20 @@ export const actions = {
       return null
     }
   },
-  async user({ commit, dispatch }, username) {
+  async user({ commit, dispatch, state }) {
     try {
       dispatch('wait/start', 'article.user', { root: true })
-      const result = await this.$http.$get(`users/articles`)
-      const { data } = result
+      const result = await this.$http.$get(
+        `users/articles?page=${state.currentPage}`,
+      )
+      const {
+        data,
+        meta: { current_page: currentPage, per_page: perPage, total },
+      } = result
       commit('setUserArticles', data)
+      commit('setCurrentPage', currentPage)
+      commit('setPerPage', perPage)
+      commit('setTotal', total)
       dispatch('wait/end', 'article.user', { root: true })
       return true
     } catch (e) {
@@ -238,5 +256,9 @@ export const actions = {
       dispatch('wait/end', 'article.user', { root: true })
       return false
     }
+  },
+  async changeUserPage({ dispatch, commit }, payload) {
+    commit('setCurrentPage', payload)
+    dispatch('user')
   },
 }
