@@ -6,11 +6,11 @@
           <div class="text">Danh sách những người đang theo dõi</div>
         </div>
         <card-author
-          v-for="(item,id) in followingAuthor"
+          v-for="(item,id) in followingUser"
           :key="id"
-          :url="item.url"
+          :url="item.avatar"
           :name="item.name"
-          :description="item.description"
+          :description="item.bio"
         />
       </b-col>
       <b-col md="4" class="suggest-follow">
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import CardAuthor from './CardAuthor'
 import SuggestAuthor from './SuggestAuthor'
 
@@ -38,38 +39,19 @@ export default {
     CardAuthor,
     SuggestAuthor,
   },
+  computed: {
+    ...mapGetters({
+      followingUser: 'following/followingUser',
+    }),
+  },
+  async mounted() {
+    await this.$store.dispatch(
+      'following/getFollowingUser',
+      this.$store.getters['auth/user'].username,
+    )
+  },
   data() {
     return {
-      followingAuthor: [
-        {
-          url:
-            'https://cdn-images-1.medium.com/fit/c/60/60/1*kYpxLO6YTTPzdYOyErHN9g.jpeg',
-          name: 'Akali BO3',
-          description:
-            'Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.',
-        },
-        {
-          url:
-            'https://cdn-images-1.medium.com/fit/c/60/60/1*kYpxLO6YTTPzdYOyErHN9g.jpeg',
-          name: 'Garen BO3',
-          description:
-            'Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.',
-        },
-        {
-          url:
-            'https://cdn-images-1.medium.com/fit/c/60/60/1*kYpxLO6YTTPzdYOyErHN9g.jpeg',
-          name: 'Ryze BO3',
-          description:
-            'Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.',
-        },
-        {
-          url:
-            'https://cdn-images-1.medium.com/fit/c/60/60/1*kYpxLO6YTTPzdYOyErHN9g.jpeg',
-          name: 'Teemo BO3',
-          description:
-            'Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.',
-        },
-      ],
       suggestFollow: [
         {
           url:

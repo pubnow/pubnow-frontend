@@ -6,13 +6,13 @@
         <b-col>
           <va-tabs @changed="onTabChange" :cache-lifetime="cacheLifetime">
             <va-tab name="Chuyên mục">
-              <category />
+              <Category />
             </va-tab>
             <va-tab name="Tác giả">
-              <author />
+              <Author />
             </va-tab>
             <va-tab name="Tổ chức">
-              <organization />
+              <Organization />
             </va-tab>
           </va-tabs>
         </b-col>

@@ -8,7 +8,7 @@
         <card-organization
           v-for="(item,id) in followingOrgan"
           :key="id"
-          :url="item.url"
+          :url="item.logo"
           :name="item.name"
           :description="item.description"
         />
@@ -30,6 +30,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import CardOrganization from './CardOrganization'
 import SuggestOrganization from './SuggestOrganization'
 export default {
@@ -37,34 +38,19 @@ export default {
     CardOrganization,
     SuggestOrganization,
   },
+  computed: {
+    ...mapGetters({
+      followingOrgan: 'following/followingOrganizations',
+    }),
+  },
+  async mounted() {
+    await this.$store.dispatch(
+      'following/getFollowingOrganizations',
+      this.$store.getters['auth/user'].username,
+    )
+  },
   data() {
     return {
-      followingOrgan: [
-        {
-          url: 'https://avatars3.githubusercontent.com/in/254?s=180&v=4',
-          name: 'Akali BO3',
-          description:
-            'Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.',
-        },
-        {
-          url: 'https://avatars2.githubusercontent.com/u/23234122?s=88&v=4',
-          name: 'Garen BO3',
-          description:
-            'Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.',
-        },
-        {
-          url: 'https://avatars2.githubusercontent.com/u/21234152?s=88&v=4',
-          name: 'Ryze BO3',
-          description:
-            'Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.',
-        },
-        {
-          url: 'https://avatars2.githubusercontent.com/u/21234802?s=88&v=4',
-          name: 'Teemo BO3',
-          description:
-            'Các nội dung thể hiện góc nhìn, quan điểm đa chiều về các vấn đề kinh tế, văn hoá – xã hội trong và ngoài nước.',
-        },
-      ],
       suggestFollow: [
         {
           url: 'https://avatars2.githubusercontent.com/u/21234155?s=88&v=4',

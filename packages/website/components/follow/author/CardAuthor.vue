@@ -1,6 +1,6 @@
 <template>
   <div class="item-container d-flex mt-3 pb-3">
-    <div class="desc-container d-flex">
+    <div class="desc-container d-flex mr-auto">
       <img class="author-avatar" :src="url" alt />
       <div class="content">
         <div class="name">{{name}}</div>
@@ -28,6 +28,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_mixins.scss';
+@import '@pubnow/ui/scss/_sizes.scss';
+
 .item-container {
   flex-direction: row;
   align-items: center;
@@ -39,17 +43,22 @@ export default {
     align-items: center;
     .author-avatar {
       width: 50px;
-      border-radius: 25px;
+      height: 50px;
+      object-fit: cover;
+      @include border;
+      @include radius-md;
     }
     .content {
-      margin: 0 10px;
+      margin-left: 10px;
       .name {
-        font-size: 14px;
-        color: #505e77;
+        font-size: 16px;
+        color: $b500;
+        font-weight: 700;
+        margin-bottom: $unit / 4;
       }
       .desc {
-        font-size: 13px;
-        color: #505e77;
+        font-size: 14px;
+        color: $n300;
       }
     }
   }
