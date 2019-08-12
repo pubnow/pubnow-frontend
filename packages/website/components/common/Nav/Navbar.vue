@@ -7,7 +7,7 @@
             <img class="mr-2" :src="require('@/assets/images/logo.svg')" />
           </nuxt-link>
           <div v-if="inOrg" class="org ml-1 pl-1 d-flex align-items-center">
-            <img class="logo" :src="org.logo" />
+            <img class="logo mr-1" :src="org.logo" />
             <h2 class="name m-0">{{ org.name }}</h2>
           </div>
           <va-input
