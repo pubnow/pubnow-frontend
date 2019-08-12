@@ -25,3 +25,6 @@ export {
 export {
   default as PopularArticlePlaceholder,
 } from './Placeholder/PopularArticle.vue'
+
+// Feedback
+export { default as FeedbackCat } from './FeedbackCat.vue'
