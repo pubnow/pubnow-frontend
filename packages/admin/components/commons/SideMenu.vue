@@ -41,6 +41,11 @@ export default {
           route: '/tags',
           icon: 'tags',
         },
+        {
+          name: 'Feedback',
+          route: '/feedback',
+          icon: 'envelope',
+        },
       ],
     }
   },
