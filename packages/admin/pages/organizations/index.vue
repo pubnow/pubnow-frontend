@@ -92,7 +92,7 @@ export default {
         label: 'Tên tổ chức',
       },
       { key: 'email', label: 'Email đại diện' },
-      { key: 'description', label: 'Giới thiệu', tdClass: 'w-50' },
+      { key: 'description', label: 'Giới thiệu', tdClass: 'w-25' },
       { key: 'owner', label: 'Chủ sở hữu' },
       { key: 'active', label: 'Trạng thái' },
     ],
