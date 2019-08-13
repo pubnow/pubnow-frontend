@@ -1,18 +1,37 @@
+import { list } from 'postcss'
+
 export const state = () => ({
   invitations: [],
+  notifications: [],
 })
 
 export const getters = {
   invitations: state => state.invitations,
+  notifications: state => state.notifications,
 }
 
 export const mutations = {
   setInvitations: (state, invitations) => {
     state.invitations = invitations
   },
+  setNotifications: (state, notifications) => {
+    state.notifications = notifications
+  },
 }
 
 export const actions = {
+  async list({ commit, dispatch }) {
+    try {
+      dispatch('wait/start', `notification.list`, { root: true })
+      const result = await this.$http.$get(`notifications`)
+      commit('setNotifications', result)
+      dispatch('wait/end', `notification.list`, { root: true })
+      return true
+    } catch (e) {
+      dispatch('wait/end', `notification.list`, { root: true })
+      return false
+    }
+  },
   async listInvitations({ commit, dispatch }) {
     try {
       dispatch('wait/start', `notification.invitations`, { root: true })

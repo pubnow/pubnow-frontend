@@ -2,8 +2,8 @@
   <div class="p-2 notification">
     <h3>Thông báo</h3>
     <hr />
-    <div v-if="invitations.length">
-      <InvitationItem v-for="item in invitations" :item="item" :key="item.id" />
+    <div v-if="notifications.length">
+      <NotificationItem v-for="item in notifications" :notification="item" :key="item.id"></NotificationItem>
     </div>
     <div v-else>
       <p>Bạn chưa có thông báo nào !!!</p>
@@ -14,10 +14,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import InvitationItem from './InvitationItem'
+import NotificationItem from './NotificationItem'
 
 export default {
   components: {
-    InvitationItem,
+    NotificationItem,
   },
   props: {
     show: {
@@ -27,7 +28,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      invitations: 'notification/invitations',
+      notifications: 'notification/notifications',
     }),
   },
   watch: {
@@ -39,7 +40,7 @@ export default {
   methods: {
     handleShow(show) {
       if (show) {
-        this.$store.dispatch('notification/listInvitations')
+        this.$store.dispatch('notification/list')
       }
     },
   },
