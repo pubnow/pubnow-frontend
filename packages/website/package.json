@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "API_URL=https://api.staging.pubnow.co/api WS_URL=ws.staging.pubnow.co nuxt",
     "dev:local": "API_URL=http://localhost:8000/api WS_URL=localhost nuxt",
-    "build": "API_URL=https://api.staging.pubnow.co/api nuxt build",
+    "build": "API_URL=https://api.staging.pubnow.co/api WS_URL=ws.staging.pubnow.co nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
     "run:staging": "pm2 start ecosystem.config.js --only pubnow-staging",
