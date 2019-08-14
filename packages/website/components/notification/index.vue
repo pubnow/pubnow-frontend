@@ -2,7 +2,7 @@
   <div class="notification">
     <div class="top d-flex align-items-center justify-content-between p-2">
       <h3 class="m-0">Thông báo</h3>
-      <div class="mark-as-read">Đánh dấu tất cả là đã đọc</div>
+      <div class="mark-as-read" @click="markAsRead">Đánh dấu tất cả là đã đọc</div>
     </div>
     <div v-if="notifications.length">
       <div class="notification-area">
@@ -48,6 +48,9 @@ export default {
         this.$store.dispatch('notification/list')
       }
     },
+    markAsRead() {
+      this.$store.dispatch('notification/markAsRead')
+    },
   },
 }
 </script>
@@ -64,6 +67,7 @@ export default {
 
     .mark-as-read {
       color: $n500;
+      cursor: pointer;
     }
   }
 

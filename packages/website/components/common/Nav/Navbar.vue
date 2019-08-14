@@ -35,7 +35,7 @@
                 type="bell"
                 class="icon"
                 :iconStyle="notificationNumber > 0 ? 'solid' : 'regular'"
-                :color="notificationNumber > 0 ? '#0052cc' : '#97a0af'"
+                color="#97a0af"
               />
               <div class="number" v-if="notificationNumber > 0">{{ notificationNumber }}</div>
             </div>
@@ -140,8 +140,6 @@ $logo: 42px;
       height: $logo;
       object-fit: cover;
     }
-    .name {
-    }
   }
   .icon {
     font-size: 1.25em !important;
@@ -159,7 +157,7 @@ $logo: 42px;
   }
   .bell {
     position: relative;
-
+    cursor: pointer;
     .number {
       position: absolute;
       right: -8px;

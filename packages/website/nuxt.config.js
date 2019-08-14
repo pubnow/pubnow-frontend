@@ -91,6 +91,7 @@ export default {
     extend(config, ctx) {},
   },
   router: {
+    middleware: 'init',
     scrollBehavior(to, from, savedPosition) {
       // savedPosition is only available for popstate navigations (back button)
       if (savedPosition) {

@@ -32,6 +32,15 @@ export const actions = {
       return false
     }
   },
+  async markAsRead({ dispatch }) {
+    try {
+      await this.$http.post(`notifications/read`)
+      dispatch('list')
+      return true
+    } catch (e) {
+      return false
+    }
+  },
   async listInvitations({ commit, dispatch }) {
     try {
       dispatch('wait/start', `notification.invitations`, { root: true })
