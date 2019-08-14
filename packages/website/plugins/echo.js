@@ -9,7 +9,10 @@ export default function({ store }) {
   window.Pusher = Pusher
   window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: '0669edf00c75d6bd2c25',
+    key:
+      process.env.mode === 'development'
+        ? '0669edf00c75d6bd2c25'
+        : '62db9ce44e56417e3b59',
     wsHost: process.env.WS_URL,
     wsPort: 6001,
     disableStats: true,

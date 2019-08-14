@@ -6,6 +6,7 @@ export default {
   env: {
     API_URL: process.env.API_URL,
     WS_URL: process.env.WS_URL,
+    mode: process.env.NODE_ENV,
   },
   head: {
     title: 'Publish your content',
