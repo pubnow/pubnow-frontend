@@ -1,4 +1,6 @@
 import Vue from 'vue'
+import { formatDistance, parseISO } from 'date-fns'
+import { vi } from 'date-fns/locale'
 import he from 'he'
 
 Vue.filter('formatDate', source => {
@@ -10,6 +12,10 @@ Vue.filter('formatDate', source => {
     ' năm ' +
     date.getFullYear()
   )
+})
+
+Vue.filter('diffDate', date => {
+  return formatDistance(parseISO(date), Date.now(), { locale: vi })
 })
 
 Vue.filter('timeRead', source => {

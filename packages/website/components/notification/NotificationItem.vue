@@ -3,7 +3,7 @@
     <img :src="item.avatar" class="logo mr-2" />
     <div>
       <p class="content mt-0" v-html="item.content"></p>
-      <div>{{ notification.created_at }}</div>
+      <div>{{ notification.created_at | diffDate }}</div>
     </div>
   </nuxt-link>
 </template>
