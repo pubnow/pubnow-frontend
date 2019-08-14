@@ -38,6 +38,7 @@ export default {
   computed: {
     ...mapGetters({
       currentPage: 'article/currentPage',
+      user: 'auth/user',
     }),
   },
   data() {
@@ -60,6 +61,13 @@ export default {
       this.$store.dispatch('article/index')
       this.$store.dispatch('article/popular')
       this.$store.dispatch('article/featured')
+    }
+    if (this.user) {
+      window.Echo.private('App.Models.User.' + this.user.id).notification(
+        notification => {
+          console.log({ notification })
+        },
+      )
     }
   },
   async fetch({ store }) {

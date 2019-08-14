@@ -7587,6 +7587,11 @@ ky@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/ky/-/ky-0.11.1.tgz#0bdffb441eb92ac910124ac6cd63088db9e66b5f"
 
+laravel-echo@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/laravel-echo/-/laravel-echo-1.5.4.tgz#4630671162d98442955bba8504846766dddece73"
+  integrity sha512-FTfgLQopGTPxIthYqFLbaZQ14kDuRH0AJa7N7HJNmWM5zJ4/qtZcP6zsfvATGazF+5Sr0M7IWgtF+OaNIUHqcw==
+
 last-call-webpack-plugin@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/last-call-webpack-plugin/-/last-call-webpack-plugin-3.0.0.tgz#9742df0e10e3cf46e5c0381c2de90d3a7a2d7555"
@@ -10250,6 +10255,11 @@ punycode@2.x.x, punycode@^2.1.0, punycode@^2.1.1:
 punycode@^1.2.4, punycode@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-1.4.1.tgz#c0d5a63b2718800ad8e1eb0fa5269c84dd41845e"
+
+pusher-js@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/pusher-js/-/pusher-js-5.0.0.tgz#db4132187c314153f3dc68500a615b836b10bd29"
+  integrity sha512-en/ec9ls/1/tY1qFKNddggYzrJtLy3FUoW8mD35S1Fx/MWwlImHluOgrpLvFtEUPy8Wdg95yEJC82NNb2KUtzw==
 
 q@^1.1.2, q@^1.5.1:
   version "1.5.1"
