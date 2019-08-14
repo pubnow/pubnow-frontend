@@ -3,8 +3,9 @@ import Pusher from 'pusher-js'
 
 export default function({ store }) {
   const { token } = store.state.auth
-  const authEndpoint =
-    process.env.API_URL.replace('/api', '') + '/broadcasting/auth'
+  let authEndpoint = process.env.API_URL
+  authEndpoint =
+    authEndpoint.substr(0, authEndpoint.length - 4) + '/broadcasting/auth'
   window.Pusher = Pusher
   window.Echo = new Echo({
     broadcaster: 'pusher',
