@@ -2,7 +2,8 @@ module.exports = {
   apps: [
     {
       name: 'pubnow-staging',
-      script: 'npm start',
+      script: './node_modules/.bin/nuxt-start',
+      exec_mode: 'cluster',
       watch: true,
       env: {
         NUXT_HOST: '0.0.0.0',
@@ -14,7 +15,8 @@ module.exports = {
     },
     {
       name: 'pubnow-production',
-      script: 'npm start',
+      script: './node_modules/.bin/nuxt-start',
+      exec_mode: 'cluster',
       watch: true,
       env: {
         NUXT_HOST: '0.0.0.0',
