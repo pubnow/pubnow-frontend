@@ -89,6 +89,9 @@ export default {
       notifications: 'notification/notifications',
     }),
     notificationNumber() {
+      if (!this.notifications) {
+        return 0
+      }
       let result = 0
       if (!this.notifications.length) {
         result = 0

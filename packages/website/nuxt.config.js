@@ -3,6 +3,10 @@ export default {
   /*
    ** Headers of the page
    */
+  env: {
+    API_URL: process.env.API_URL,
+    WS_URL: process.env.WS_URL,
+  },
   head: {
     title: 'Publish your content',
     meta: [
@@ -65,6 +69,10 @@ export default {
     {
       src: '~/plugins/vuelidate',
       ssr: false,
+    },
+    {
+      src: '~/plugins/echo',
+      mode: 'client',
     },
     '~/plugins/http',
     '~/plugins/common',
