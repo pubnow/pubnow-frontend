@@ -29,8 +29,15 @@
             @show="notiShow = true"
             @hide="notiShow = false"
           >
-            <div slot="trigger">
-              <va-icon v-if="user" type="bell" class="icon" iconStyle="regular" color="#97a0af" />
+            <div class="bell" slot="trigger">
+              <va-icon
+                v-if="user"
+                type="bell"
+                class="icon"
+                :iconStyle="notificationNumber > 0 ? 'solid' : 'regular'"
+                :color="notificationNumber > 0 ? '#0052cc' : '#97a0af'"
+              />
+              <div class="number" v-if="notificationNumber > 0">{{ notificationNumber }}</div>
             </div>
             <Notification :show="notiShow" />
           </va-dropdown>
@@ -79,7 +86,23 @@ export default {
       categories: 'category/categories',
       organizations: 'organization/organizations',
       org: 'organization/organization',
+      notifications: 'notification/notifications',
     }),
+    notificationNumber() {
+      let result = 0
+      if (!this.notifications.length) {
+        result = 0
+      }
+      result = this.notifications.reduce((v, notification) => {
+        if (notification.read_at !== null) return v
+        return v + 1
+      }, 0)
+
+      if (result > 9) {
+        return '9+'
+      }
+      return result
+    },
     randomCategories() {
       return take(shuffle(this.categories), 6)
     },
@@ -132,6 +155,24 @@ $logo: 42px;
     }
     a {
       cursor: pointer;
+    }
+  }
+  .bell {
+    position: relative;
+
+    .number {
+      position: absolute;
+      right: -8px;
+      bottom: -5px;
+      font-size: 8px;
+      background: $b400;
+      width: 15px;
+      height: 15px;
+      border-radius: 8px;
+      color: $white;
+      text-align: center;
+      line-height: 15px;
+      font-weight: 700;
     }
   }
 }

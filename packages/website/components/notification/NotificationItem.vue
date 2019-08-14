@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="item.link" class="notification-item d-flex">
+  <nuxt-link :to="item.link" :class="['notification-item d-flex', { read }]">
     <img :src="item.avatar" class="logo mr-2" />
     <div>
       <p class="content mt-0" v-html="item.content"></p>
@@ -19,6 +19,9 @@ export default {
     },
   },
   computed: {
+    read() {
+      return this.notification.read_at === null
+    },
     item() {
       switch (this.notification.type) {
         case 'App\\Notifications\\UserFollow': {
@@ -77,8 +80,18 @@ export default {
 $logo: 36px;
 .notification-item {
   color: $n400;
+  padding-top: $unit / 2;
+  padding-left: $unit / 2;
+  padding-right: $unit / 2;
   &:hover {
     text-decoration: none;
+    background: $n20;
+  }
+  &.read {
+    background: $n30;
+    &:hover {
+      background: $n40;
+    }
   }
   .logo {
     width: $logo;
@@ -88,6 +101,9 @@ $logo: 36px;
     object-fit: cover;
     @include border;
   }
-  margin-bottom: $unit / 2;
+  &:not(:last-child) {
+    border-bottom: 1px solid $n20;
+    padding-bottom: $unit / 2;
+  }
 }
 </style>
