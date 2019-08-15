@@ -17,6 +17,9 @@ export const mutations = {
   setNotifications: (state, notifications) => {
     state.notifications = notifications
   },
+  addNotification: (state, item) => {
+    state.notifications.unshift(item)
+  },
 }
 
 export const actions = {

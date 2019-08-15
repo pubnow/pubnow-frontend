@@ -62,13 +62,6 @@ export default {
       this.$store.dispatch('article/popular')
       this.$store.dispatch('article/featured')
     }
-    if (this.user) {
-      window.Echo.private('App.Models.User.' + this.user.id).notification(
-        notification => {
-          console.log({ notification })
-        },
-      )
-    }
   },
   async fetch({ store }) {
     if (process.server) {
