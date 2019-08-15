@@ -22,10 +22,16 @@
                 class="mt-3 mb-5"
               ></va-pagination>
             </div>
-            <h2 v-else class="mt-3">Hiện tại không có series nào</h2>
+            <Empty v-else type="series">
+              <va-button
+                class="mt-3 font-weight-bold"
+                icon-before="plus"
+                @click="createSeries"
+              >Tạo Series</va-button>
+            </Empty>
           </div>
         </b-col>
-        <b-col md="4">
+        <b-col md="4" v-if="series.length > 0">
           <va-affix :offset="80">
             <HeadingText>Top Series nổi bật</HeadingText>
             <div>WIP</div>
@@ -37,13 +43,14 @@
 </template>
 
 <script>
-import { HeadingText } from '@/components/common'
+import { HeadingText, Empty } from '@/components/common'
 import { ItemSeries } from '@/components/series'
 import { mapGetters } from 'vuex'
 export default {
   components: {
     HeadingText,
     ItemSeries,
+    Empty,
   },
   mounted() {
     this.$store.dispatch('series/show').then(() => {
@@ -61,6 +68,11 @@ export default {
       perPage: 2,
       series: [],
     }
+  },
+  methods: {
+    createSeries() {
+      this.$router.push('/series/tao-moi')
+    },
   },
 }
 </script>

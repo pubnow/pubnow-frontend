@@ -28,3 +28,6 @@ export {
 
 // Feedback
 export { default as FeedbackCat } from './FeedbackCat.vue'
+
+// Empty
+export { default as Empty } from './Empty.vue'

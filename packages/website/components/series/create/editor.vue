@@ -39,17 +39,17 @@ export default {
     }),
   },
   methods: {
-    create() {
+    async create() {
       let data = {
         title: this.title,
         content: this.content,
         articles: [],
       }
-      let result = this.$store.dispatch('series/write', data)
+      let result = await this.$store.dispatch('series/write', data)
       if (result) {
         this.notification.info({
           title: `Thông báo`,
-          message: `Sửa thông tin series thành công`,
+          message: `Tạo series thành công`,
           duration: 1690,
           onHide: () => {
             if (this.series) {
