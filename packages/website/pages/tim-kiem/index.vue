@@ -40,6 +40,10 @@ export default {
       keyword,
     }
   },
+  fetch({ store, query }) {
+    const { keyword } = query
+    return store.dispatch('search/article', { keyword })
+  },
   key(route) {
     return route.fullPath
   },
@@ -121,11 +125,6 @@ export default {
     ...mapGetters({
       articles: 'search/articles',
     }),
-  },
-  mounted() {
-    if (this.keyword) {
-      this.$store.dispatch('search/article', { keyword: this.keyword })
-    }
   },
   methods: {
     onTabChange() {
