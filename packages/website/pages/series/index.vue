@@ -14,6 +14,7 @@
                 :title="item.title"
                 :date="item.publishedAt"
                 :articles="item.articles"
+                :excerpt="item.excerpt"
               />
               <va-pagination
                 :total="series.length"
@@ -42,7 +43,6 @@
                   series
                 </div>
               </div>
-              
               <va-button
                 class="mt-3 font-weight-bold"
                 icon-before="plus"

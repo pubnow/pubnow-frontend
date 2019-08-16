@@ -28,10 +28,11 @@
             class="order-md-1 notification-dropdown"
             @show="notiShow = true"
             @hide="notiShow = false"
+            v-if="user"
           >
             <div class="bell" slot="trigger">
               <va-icon
-                v-if="user"
+                
                 type="bell"
                 class="icon"
                 :iconStyle="notificationNumber > 0 ? 'solid' : 'regular'"
