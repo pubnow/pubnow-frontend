@@ -19,7 +19,7 @@
     "@nuxtjs/axios": "^5.5.4",
     "@nuxtjs/pwa": "^2.6.0",
     "@pubnow/ui": "^0.0.0",
-    "bootstrap-vue": "^2.0.0-rc.27",
+    "bootstrap-vue": "^2.0.0-rc.28",
     "chart.js": "^2.8.0",
     "cookie-universal-nuxt": "^2.0.16",
     "cookieparser": "^0.1.0",

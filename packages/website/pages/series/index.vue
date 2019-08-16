@@ -33,8 +33,22 @@
         </b-col>
         <b-col md="4" v-if="series.length > 0">
           <va-affix :offset="80">
-            <HeadingText>Top Series nổi bật</HeadingText>
-            <div>WIP</div>
+            <div class="right-side text-center">
+              <div class="top">
+                <img src="@/assets/images/series.svg" class="image" />
+                <div class="count">
+                  <span class="number">{{ total }}</span>
+                  <br />
+                  series
+                </div>
+              </div>
+              
+              <va-button
+                class="mt-3 font-weight-bold"
+                icon-before="plus"
+                @click="createSeries"
+              >Tạo Series</va-button>
+            </div>
           </va-affix>
         </b-col>
       </b-row>
@@ -60,6 +74,7 @@ export default {
   computed: {
     ...mapGetters({
       listSeries: 'series/listSeries',
+      total: 'series/total'
     }),
   },
   data() {
@@ -76,3 +91,30 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.right-side {
+  .top {
+    position: relative;
+    .count {
+      user-select: none;
+      position: absolute;
+      color: white;
+      left: -10px;
+      right: 0;
+      bottom: 50px;
+      font-size: 16px;
+      text-transform: uppercase;
+      .number {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+    .image {
+      display: block;
+      margin: 0 auto;
+      max-width: 250px;
+    }
+  }
+}
+</style>

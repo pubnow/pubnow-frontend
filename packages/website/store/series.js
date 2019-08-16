@@ -86,10 +86,12 @@ export const actions = {
   },
   async show({ commit }) {
     try {
+      commit('setTotal', -1)
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$get('series')
-      const { data: series } = result
+      const { data: series, meta: { total } } = result
       commit('setListSeries', series)
+      commit('setTotal', total)
       return series
     } catch (e) {
       return null
@@ -99,8 +101,9 @@ export const actions = {
     try {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$get(`series/${slug}`)
-      const { data: series } = result
+      const { data: series  } = result
       commit('setSeries', series)
+      
       return series
     } catch (e) {
       return null
