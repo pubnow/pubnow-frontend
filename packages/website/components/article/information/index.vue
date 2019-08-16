@@ -116,8 +116,10 @@ export default {
       this.$store.commit('article/removeTag', index)
     },
     add() {
-      this.$store.commit('article/addTag', this.inputTag)
-      this.inputTag = ''
+      if (this.inputTag.trim()) {
+        this.$store.commit('article/addTag', this.inputTag)
+        this.inputTag = ''
+      }
     },
     async create(draft = false) {
       const result = await this.$store.dispatch('article/write', {
