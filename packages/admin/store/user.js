@@ -37,8 +37,14 @@ export const actions = {
     try {
       dispatch('wait/start', 'user.list', { root: true })
       const result = await this.$http.$get(`users${url}?page=${currentPage}`)
-      const { data } = result
+      const {
+        data,
+        meta: { current_page: currentPage, per_page: perPage, total },
+      } = result
       commit('setUsers', data)
+      commit('setCurrentPage', currentPage)
+      commit('setPerPage', perPage)
+      commit('setTotal', total)
       dispatch('wait/end', 'user.list', { root: true })
       return true
     } catch (e) {
