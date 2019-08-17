@@ -106,7 +106,8 @@ export default {
               message: `Cảm ơn bạn đã sử dụng Pubnow. Bạn đang được chuyển về Trang chủ.`,
               duration: 1690,
               onHide: () => {
-                this.$router.push('/')
+                const { redirectTo } = this.$route.query
+                this.$router.push(redirectTo ? redirectTo : '/')
               },
             })
           } else {

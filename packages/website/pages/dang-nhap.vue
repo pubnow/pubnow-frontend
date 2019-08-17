@@ -74,7 +74,8 @@ export default {
               message: `Chào mừng bạn quay trở lại. Bạn đang được chuyển về Trang chủ.`,
               duration: 1690,
               onHide: () => {
-                this.$router.push('/')
+                const { redirectTo } = this.$route.query
+                this.$router.push(redirectTo ? redirectTo : '/')
               },
             })
           } else {
