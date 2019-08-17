@@ -12,16 +12,26 @@
     </div>
     <va-row :gutter="15">
       <va-column :xs="12" :sm="6" :md="3">
-        <va-input placeholder="Tìm kiếm thành viên"></va-input>
+        <va-input placeholder="Tìm kiếm thành viên" v-model="input"></va-input>
       </va-column>
       <va-column :xs="12" :sm="6" :md="3">
-        <va-select v-model="type" :options="types"></va-select>
+        <va-select v-model="type" :options="types" noUncheck></va-select>
       </va-column>
     </va-row>
     <va-row>
       <va-column :xs="12">
         <va-table size="lg">
-          <b-table :fields="fields" :items="users" @row-clicked="rowSelected" responsive>
+          <b-table
+            :fields="fields"
+            :items="filterUsers"
+            @row-clicked="rowSelected"
+            responsive
+            :busy="$wait.is('user.list')"
+          >
+            <div slot="table-busy" class="text-center my-5">
+              <va-loading size="lg" color="blue" fixed class="align-middle"></va-loading>
+              <strong>Đang tải...</strong>
+            </div>
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -35,6 +45,7 @@
             </template>
           </b-table>
         </va-table>
+        <va-pagination :total="total" :per-page="perPage" @change="change" />
       </va-column>
     </va-row>
     <va-aside
@@ -50,7 +61,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { EditUser } from '@/components/aside'
 
 export default {
@@ -60,17 +71,26 @@ export default {
   computed: {
     ...mapGetters({
       users: 'user/users',
+      currentPage: 'user/currentPage',
+      total: 'user/total',
+      perPage: 'user/perPage',
     }),
+    filterUsers() {
+      return this.users.filter(
+        user =>
+          user.name.includes(this.input) || user.username.includes(this.input),
+      )
+    },
   },
   data: () => ({
+    input: '',
     breadcrumb: ['Dashboard', 'Thành viên'],
-    type: 'admin',
+    type: '/',
     types: [
-      { value: 'all', label: 'Tất cả thành viên' },
-      { value: 'admin', label: 'Quản trị viên' },
-      { value: 'newbie', label: 'Thành viên mới' },
-      { value: 'positive', label: 'Thành viên tích cực' },
-      { value: 'featured', label: 'Tác giả nổi bật' },
+      { value: '/', label: 'Tất cả thành viên' },
+      { value: '/admin-members', label: 'Quản trị viên' },
+      { value: '/new-members', label: 'Thành viên mới' },
+      { value: '/featured-authors', label: 'Tác giả nổi bật' },
     ],
     fields: [
       'checkBox',
@@ -83,6 +103,13 @@ export default {
     selected: null,
   }),
   methods: {
+    ...mapActions({
+      changePage: 'article/changePage',
+    }),
+    change(e) {
+      this.input = ''
+      this.changePage(e.pageNumber)
+    },
     rowSelected(item) {
       this.selected = item
       this.$refs.myAsideCate.open()
@@ -90,10 +117,20 @@ export default {
     onClose(e) {
       this.selected = null
     },
+    onOptionChange(v) {
+      this.input = ''
+      this.$store.dispatch('user/changeType', v)
+    },
   },
   async mounted() {
     await this.$store.dispatch('user/list')
     await this.$store.dispatch('role/list')
+  },
+  watch: {
+    type: {
+      immediate: true,
+      handler: 'onOptionChange',
+    },
   },
 }
 </script>

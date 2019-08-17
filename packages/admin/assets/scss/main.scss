@@ -1,3 +1,5 @@
+@import '@pubnow/ui/scss/_colors.scss';
+
 .page-enter-active,
 .page-leave-active {
   transition: all 0.25s ease-in-out;
@@ -15,4 +17,13 @@ body {
 
 .table > tbody > tr > td {
   vertical-align: middle;
+}
+
+.va-table thead tr th {
+  color: $n400 !important;
+  font-weight: bold !important;
+}
+
+.table td {
+  color: $n200 !important;
 }
