@@ -41,7 +41,7 @@ export default {
     User,
   },
   async fetch({ store, params: { slug } }) {
-    await store.dispatch('series/index', slug)
+    await store.dispatch('series/show', slug)
   },
   mounted() {
     this.dataSeries = this.series

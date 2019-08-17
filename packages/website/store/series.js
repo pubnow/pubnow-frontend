@@ -3,7 +3,7 @@ export const state = () => ({
   perPage: 10,
   total: -1,
   series: null,
-  listSeries: null,
+  listSeries: [],
   userSeries: [],
 })
 
@@ -84,26 +84,51 @@ export const actions = {
       return null
     }
   },
-  async show({ commit }) {
+  async index({ commit, dispatch }) {
     try {
       commit('setTotal', -1)
+      dispatch('wait/start', 'series.index', { root: true })
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$get('series')
-      const { data: series, meta: { total } } = result
+      const {
+        data: series,
+        meta: { current_page: currentPage, per_page: perPage, total },
+      } = result
       commit('setListSeries', series)
+      commit('setCurrentPage', currentPage)
+      commit('setPerPage', perPage)
       commit('setTotal', total)
+      dispatch('wait/end', 'series.index', { root: true })
+      return series
+    } catch (e) {
+      dispatch('wait/end', 'series.index', { root: true })
+      return null
+    }
+  },
+  async loadMore({ commit, getters }) {
+    const page = getters['currentPage']
+    const currentSeries = getters['listSeries']
+    try {
+      const result = await this.$http.$get(`series?page=${page}`)
+      const { data: series } = result
+      let newSeries
+      if (page === 1) {
+        newSeries = series
+      } else {
+        newSeries = currentSeries.concat(series)
+      }
+      commit('setListSeries', newSeries)
       return series
     } catch (e) {
       return null
     }
   },
-  async index({ commit }, slug) {
+  async show({ commit }, slug) {
     try {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$get(`series/${slug}`)
-      const { data: series  } = result
+      const { data: series } = result
       commit('setSeries', series)
-      
       return series
     } catch (e) {
       return null

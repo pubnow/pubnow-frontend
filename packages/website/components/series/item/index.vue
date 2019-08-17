@@ -2,7 +2,7 @@
   <div class="d-flex flex-column mt-3 bg-white p-3 wrap-all">
     <div>
       <nuxt-link :to="`/series/${slug}`" class="title">
-        <h1 class="title font-weight-bold cursor-poiter">{{ title }}</h1>
+        <h2 class="title font-weight-bold cursor-poiter">{{ title }}</h2>
       </nuxt-link>
       <p class="description cursor-poiter mt-0">{{ excerpt | unescape }}</p>
     </div>
@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     editSeries(slug) {
-      this.$store.dispatch('series/index', slug).then(() => {
+      this.$store.dispatch('series/show', slug).then(() => {
         this.$router.push(`series/${slug}/chinh-sua`)
       })
     },
@@ -118,9 +118,8 @@ $size-avatar: 28px;
     color: $b500;
   }
   .description {
-    font-family: $noto;
     color: $n400;
-    font-size: 16px;
+    font-size: 1rem;
   }
   .author {
     color: $n400;

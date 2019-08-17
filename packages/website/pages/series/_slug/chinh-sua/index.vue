@@ -17,7 +17,7 @@ export default {
     ContentCreate,
   },
   fetch({ store, params: { slug } }) {
-    return store.dispatch('series/index', slug)
+    return store.dispatch('series/show', slug)
   },
   computed: {
     ...mapGetters({
