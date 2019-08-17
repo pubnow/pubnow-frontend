@@ -41,7 +41,7 @@
             <img class="mt-2" style="max-width: 100%; max-height: 500px;" v-if="url" :src="url" />
             <img class="mt-2" style="max-width: 100%; max-height: 500px;" v-else />
           </b-form-group>
-          <va-button :active="canCreate" :disabled="canCreate" @click="create" type="primary">Tạo</va-button>
+          <va-button :active="!canCreate" :disabled="!canCreate" @click="create" type="primary">Tạo</va-button>
         </b-form>
       </b-col>
     </div>
@@ -50,9 +50,11 @@
 <script>
 import { mapGetters } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
+import { validationMixin } from 'vuelidate'
 import { errorProcess } from '../../utils/notification'
 
 export default {
+  mixins: [validationMixin],
   data: () => ({
     breadcrumb: ['Dashboard', 'Thêm Chuyên Mục'],
     url: null,
@@ -60,6 +62,7 @@ export default {
       name: '',
       description: '',
     },
+    image: '',
   }),
   validations: {
     form: {
@@ -70,23 +73,33 @@ export default {
   },
   computed: {
     canCreate() {
-      return this.$v.form.$anyError
+      return !this.$v.form.$invalid && !this.imageUploading
+    },
+    imageUploading() {
+      return this.$wait.is('upload.image')
     },
   },
   methods: {
-    onFileChange(e) {
+    async onFileChange(e) {
       const file = e.target.files[0]
       this.url = URL.createObjectURL(file)
+      this.image = file
+      const formImg = new FormData()
+      formImg.append('file', file)
+      this.$wait.start('upload.image')
+      const uploadedImage = await this.$http.$post('upload', formImg)
+      this.image = uploadedImage.data
+      this.$wait.end('upload.image')
     },
     async create() {
-      let submit = new Object()
-      submit.name = this.form.name
-      if (this.form.description) {
-        submit.description = this.form.description
+      const data = {
+        name: this.form.name,
+        ...(this.form.description && { description: this.form.description }),
+        ...(this.image && { image_id: this.image.id }),
       }
       try {
         await this.$store.dispatch('category/create', {
-          submit: submit,
+          submit: data,
         })
         this.$router.push('/categories')
       } catch (e) {

@@ -1,12 +1,8 @@
 <template>
   <div class="wrap-edit mt-3">
-    <h1 class="text-center">Chỉnh sửa chuyên mục</h1>
+    <h1 class="text-center my-5">Chỉnh sửa chuyên mục</h1>
     <b-form class="mt-2">
-      <b-form-group
-        id="input-group-name"
-        label="Tên chuyên mục:"
-        label-for="input-name"
-      >
+      <b-form-group id="input-group-name" label="Tên chuyên mục:" label-for="input-name">
         <b-form-input
           id="input-name"
           :value="name"
@@ -18,11 +14,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-description"
-        label="Mô tả:"
-        label-for="input-description"
-      >
+      <b-form-group id="input-group-description" label="Mô tả:" label-for="input-description">
         <b-form-input
           id="input-description"
           type="text"
@@ -46,11 +38,7 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-image"
-        label="Ảnh chuyên mục:"
-        label-for="input-image"
-      >
+      <b-form-group id="input-group-image" label="Ảnh chuyên mục:" label-for="input-image">
         <b-form-file
           id="input-image"
           @change="onFileChange"
@@ -60,15 +48,10 @@
         <img
           class="mt-2"
           style="max-width: 100%; max-height: 500px;"
-          v-if="url"
-          :src="url"
+          v-if="imageUrl"
+          :src="imageUrl"
         />
-        <img
-          class="mt-2"
-          style="max-width: 100%; max-height: 500px;"
-          v-else
-          :src="category.image"
-        />
+        <img class="mt-2" style="max-width: 100%; max-height: 500px;" v-else :src="category.image" />
       </b-form-group>
       <div class="d-flex">
         <va-button
@@ -76,42 +59,22 @@
           active
           class="mr-2"
           :icon-before="editable ? 'chevron-left' : 'edit'"
-          >{{ editable ? 'Hủy bỏ' : 'Chỉnh sửa' }}</va-button
-        >
-        <va-button
-          icon-before="trash"
-          class="mr-auto"
-          type="danger"
-          @click="deleteCategory()"
-          >Xóa</va-button
-        >
+        >{{ editable ? 'Hủy bỏ' : 'Chỉnh sửa' }}</va-button>
+        <va-button icon-before="trash" class="mr-auto" type="danger" @click="deleteCategory()">Xóa</va-button>
         <va-button
           :active="!canUpdate"
           :disabled="!canUpdate"
           @click="update"
           icon-after="check"
           type="primary"
-          >Cập nhật</va-button
-        >
+        >Cập nhật</va-button>
       </div>
-      <b-modal
-        centered
-        hide-header
-        hide-backdrop
-        hide-footer
-        v-model="modalShow"
-      >
+      <b-modal centered hide-header hide-backdrop hide-footer v-model="modalShow">
         <div>
-          <div class="text-center">
-            Bạn có muốn xóa chuyên mục {{ category.name }}
-          </div>
+          <div class="text-center">Bạn có muốn xóa chuyên mục {{ category.name }}</div>
           <div class="delete-category text-center">
-            <va-button class="not-delete" @click="modalShow = !modalShow"
-              >Không</va-button
-            >
-            <va-button class="btn-delete" type="danger" @click="deleteCat"
-              >Xóa</va-button
-            >
+            <va-button class="not-delete" @click="modalShow = !modalShow">Không</va-button>
+            <va-button class="btn-delete" type="danger" @click="deleteCat">Xóa</va-button>
           </div>
         </div>
       </b-modal>
@@ -133,6 +96,7 @@ export default {
       name: '',
       description: '',
       slug: '',
+      image: null,
     }
   },
   computed: {
@@ -148,8 +112,22 @@ export default {
       const oldSlug = this.category.slug
       return this.slug !== oldSlug
     },
+    imageUploading() {
+      return this.$wait.is('upload.image')
+    },
     canUpdate() {
-      return this.nameChanged || this.descriptionChanged || this.slugChanged
+      return (
+        this.nameChanged ||
+        this.descriptionChanged ||
+        this.slugChanged ||
+        this.image
+      )
+    },
+    imageUrl() {
+      if (this.image) {
+        return this.image.link
+      }
+      return this.url
     },
   },
   mounted() {
@@ -160,13 +138,20 @@ export default {
       this.name = this.category.name
       this.description = this.category.description
       this.slug = this.category.slug
+      this.url = this.category.image
     },
     deleteCategory() {
       this.modalShow = !this.modalShow
     },
-    onFileChange(e) {
+    async onFileChange(e) {
       const file = e.target.files[0]
-      this.url = URL.createObjectURL(file)
+      this.image = file
+      const formImg = new FormData()
+      formImg.append('file', file)
+      this.$wait.start('upload.image')
+      const uploadedImage = await this.$http.$post('upload', formImg)
+      this.image = uploadedImage.data
+      this.$wait.end('upload.image')
     },
     editBtn() {
       if (this.editable) {
@@ -195,6 +180,7 @@ export default {
         ...(this.nameChanged && { name: this.name }),
         ...(this.descriptionChanged && { description: this.description }),
         ...(this.slugChanged && { slug: this.slug }),
+        ...(this.image && { image_id: this.image.id }),
       }
       await this.$store.dispatch('category/update', {
         slug: this.category.slug,

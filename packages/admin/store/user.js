@@ -33,10 +33,11 @@ export const mutations = {
 
 export const actions = {
   async list({ commit, dispatch, state }) {
-    const { url, currentPage } = state
+    const { url, currentPage: page } = state
+    console.log({ page })
     try {
       dispatch('wait/start', 'user.list', { root: true })
-      const result = await this.$http.$get(`users${url}?page=${currentPage}`)
+      const result = await this.$http.$get(`users${url}?page=${page}`)
       const {
         data,
         meta: { current_page: currentPage, per_page: perPage, total },

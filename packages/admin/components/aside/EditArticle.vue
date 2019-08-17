@@ -1,12 +1,8 @@
 <template>
   <div class="wrap-edit mt-3">
-    <h1 class="text-center">Bài viết</h1>
+    <h1 class="text-center my-5">Bài viết</h1>
     <b-form class="mt-2">
-      <b-form-group
-        id="input-group-name"
-        label="Tên thẻ:"
-        label-for="input-name"
-      >
+      <b-form-group id="input-group-name" label="Tên thẻ:" label-for="input-name">
         <b-form-input
           id="input-name"
           :value="name"
@@ -28,75 +24,27 @@
         ></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-author"
-        label="Tác giả:"
-        label-for="input-author"
-      >
-        <b-form-input
-          id="input-author"
-          :value="author"
-          type="text"
-          required
-          readonly
-        ></b-form-input>
+      <b-form-group id="input-group-author" label="Tác giả:" label-for="input-author">
+        <b-form-input id="input-author" :value="author" type="text" required readonly></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-category"
-        label="Chuyên mục:"
-        label-for="input-category"
-      >
-        <b-form-input
-          id="input-category"
-          :value="category"
-          type="text"
-          required
-          readonly
-        ></b-form-input>
+      <b-form-group id="input-group-category" label="Chuyên mục:" label-for="input-category">
+        <b-form-input id="input-category" :value="category" type="text" required readonly></b-form-input>
       </b-form-group>
 
-      <b-form-group
-        id="input-group-view"
-        label="Lượt view:"
-        label-for="input-view"
-      >
-        <b-form-input
-          id="input-view"
-          :value="view"
-          type="text"
-          required
-          readonly
-        ></b-form-input>
+      <b-form-group id="input-group-view" label="Lượt view:" label-for="input-view">
+        <b-form-input id="input-view" :value="view" type="text" required readonly></b-form-input>
       </b-form-group>
 
       <div class="d-flex">
-        <va-button
-          icon-before="trash"
-          class="mr-auto"
-          type="danger"
-          @click="deleteArticle()"
-          >Xóa</va-button
-        >
+        <va-button icon-before="trash" class="mr-auto" type="danger" @click="deleteArticle()">Xóa</va-button>
       </div>
-      <b-modal
-        centered
-        hide-header
-        hide-backdrop
-        hide-footer
-        v-model="modalShow"
-      >
+      <b-modal centered hide-header hide-backdrop hide-footer v-model="modalShow">
         <div>
-          <div class="text-center">
-            Bạn có muốn xóa bài viết {{ article.title }}
-          </div>
+          <div class="text-center">Bạn có muốn xóa bài viết {{ article.title }}</div>
           <div class="delete-article text-center">
-            <va-button class="not-delete" @click="modalShow = !modalShow"
-              >Không</va-button
-            >
-            <va-button class="btn-delete" type="danger" @click="delArticle"
-              >Xóa</va-button
-            >
+            <va-button class="not-delete" @click="modalShow = !modalShow">Không</va-button>
+            <va-button class="btn-delete" type="danger" @click="delArticle">Xóa</va-button>
           </div>
         </div>
       </b-modal>
