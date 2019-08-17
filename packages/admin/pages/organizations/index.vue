@@ -18,7 +18,17 @@
     <va-row>
       <va-column :xs="12">
         <va-table size="lg">
-          <b-table :fields="fields" :items="organizations" @row-clicked="rowSelected" responsive>
+          <b-table
+            :fields="fields"
+            :items="organizations"
+            @row-clicked="rowSelected"
+            responsive
+            :busy="$wait.is('org.list')"
+          >
+            <div slot="table-busy" class="text-center my-5">
+              <va-loading size="lg" color="blue" fixed class="align-middle"></va-loading>
+              <strong>Đang tải...</strong>
+            </div>
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -51,6 +61,7 @@
             </template>
           </b-table>
         </va-table>
+        <va-pagination :total="total" :per-page="perPage" @change="change" />
       </va-column>
     </va-row>
     <va-aside
@@ -70,7 +81,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import { EditOrganization } from '@/components/aside'
 
 export default {
@@ -80,6 +91,9 @@ export default {
   computed: {
     ...mapGetters({
       organizations: 'organization/organizations',
+      currentPage: 'organization/currentPage',
+      total: 'organization/total',
+      perPage: 'organization/perPage',
     }),
   },
   data: () => ({
@@ -100,6 +114,12 @@ export default {
     selected: null,
   }),
   methods: {
+    ...mapActions({
+      changePage: 'organization/changePage',
+    }),
+    change(e) {
+      this.changePage(e.pageNumber)
+    },
     rowSelected(item) {
       this.selected = item
       this.$refs.myAsideCate.open()
