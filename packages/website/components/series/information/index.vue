@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex justify-content-between align-items-center">
-      <h1>{{ title }}</h1>
+      <h2 class="title">{{ title }}</h2>
       <va-dropdown effect="fadeUp" v-if="user && user.id === author.id ">
         <div slot="trigger">
           <i class="fas fa-ellipsis-h" />
@@ -24,13 +24,14 @@
       </div>
     </va-modal>
     <div class="mt-2">
-      <span>{{ date }}</span>
-      <va-tooltip trigger="hover" content="Posts" placement="bottom" class="ml-2">
+      <span>Đăng {{ date }}</span>
+      <span class="middot"></span>
+      <va-tooltip trigger="hover" content="Bài viết" placement="bottom" class="ml-2">
         <i class="fas fa-paste icon"></i>
       </va-tooltip>
       <span class="number">{{ articles.length }}</span>
     </div>
-    <p class="description" v-html="content"></p>
+    <div class="mt-3 content-article fr-element fr-view" v-html="content"></div>
   </div>
 </template>
 
@@ -95,6 +96,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
+
+.title {
+  font-family: $ale;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+}
 
 .icon {
   font-size: 12px;
@@ -102,8 +111,5 @@ export default {
 }
 .number {
   margin-right: 8px;
-}
-.description {
-  color: $tumblr;
 }
 </style>

@@ -1,47 +1,51 @@
 <template>
   <no-ssr>
-    <div>
+    <div class="pb-5">
       <HeadingText class="d-flex align-items-end my-2 mt-4">
-        <div>Nội dung</div>
+        <div>Bài viết</div>
       </HeadingText>
       <div>
-        <div v-if="articles.length">
-          <div
+        <b-list-group v-if="articles.length" class="wrap">
+          <b-list-group-item
             v-for="(article, index) in articles"
             :key="`show-${index}`"
-            class="wrap-article py-1 px-1 mb-2 d-flex justify-content-between"
+            class="wrap-article"
+            :to="`/bai-viet/${article.slug}`"
           >
-            <div class="wrapper d-flex py-1 px-1 align-items-lg-center">
-              <img
-                :src="article.author.avatar ===''?'https://bulma.io/images/placeholders/256x256.png':article.author.avatar"
-                alt="avatar"
-                class="avatar mr-2"
-              />
-              <div class="wrapper-item d-flex flex-column">
-                <nuxt-link :to="`/bai-viet/${article.slug}`" class="title mb-0">{{ article.title }}</nuxt-link>
-                <nuxt-link
-                  :to="`/nguoi-dung/${article.author.username}`"
-                  class="author mb-0"
-                >{{article.author.name}}</nuxt-link>
+            <h2 class="mt-0">
+              <nuxt-link :to="`/bai-viet/${article.slug}`" class="title mb-0">{{ article.title }}</nuxt-link>
+            </h2>
+            <div class="bottom d-flex">
+              <div class="author">
+                <span>Đăng bởi</span>
+                <nuxt-link :to="`/nguoi-dung/${article.author.username}`" class="author mb-0">
+                  <img :src="article.author.avatar" alt="avatar" class="avatar mx-1" />
+                  {{article.author.name}}
+                </nuxt-link>
+                <span class="middot"></span>
+                <span>{{ article.publishedAt }}</span>
+              </div>
+              <div class="additional-info ml-auto d-flex align-items-center">
+                <span>{{ article.seen_count }} lượt xem</span>
+                <span class="middot"></span>
+                <span>{{ article.comments_count }} bình luận</span>
               </div>
             </div>
-          </div>
-        </div>
-        <p
-          v-else
-          class="text-center"
-        >Chưa có bài viết nào. Vui lòng thêm bài viết vào loạt bài này để làm cho nó được hiển thị trên trang chủ!</p>
+          </b-list-group-item>
+        </b-list-group>
+        <Empty v-else />
       </div>
     </div>
   </no-ssr>
 </template>
 
 <script>
-import { HeadingText } from '@/components/common'
+import { HeadingText, Empty } from '@/components/common'
 
 export default {
   components: {
     HeadingText,
+    Empty,
   },
   props: {
     articles: {
@@ -57,47 +61,41 @@ export default {
 @import '@pubnow/ui/scss/_colors.scss';
 @import '@pubnow/ui/scss/_sizes.scss';
 @import '@pubnow/ui/scss/_mixins.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
 
-$size-image: 30px;
+$size-image: 28px;
+.wrap {
+  @include radius-md;
+  @include box-shadow-sm;
+}
 .wrap-article {
-  @include border;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  .wrapper {
-    white-space: nowrap;
-    overflow: hidden;
+  &:hover {
+    background: $n20;
+  }
+  .title {
+    font-size: 18px;
+    color: $n600;
     text-overflow: ellipsis;
-    .wrapper-item {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      .title {
-        font-size: $unit * 0.85;
-        color: #172c4f;
-        text-overflow: ellipsis;
-        &:hover {
-          color: #172c4f;
-          text-decoration: none;
-        }
-      }
-      .author {
-        font-size: $unit * 0.7;
-        color: #505e77;
-        text-overflow: ellipsis;
-        &:hover {
-          color: #505e77;
-          text-decoration: none;
-        }
-      }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+  .author {
+    font-size: $unit * 0.7;
+    color: #505e77;
+    text-overflow: ellipsis;
+    &:hover {
+      color: #505e77;
+      text-decoration: none;
     }
   }
 }
 
 .avatar {
-  width: $size-image * 1.25;
-  height: $size-image * 1.25;
-  border-radius: $size-image * 1.25 / 2;
+  width: $size-image;
+  height: $size-image;
+  border-radius: $size-image / 2;
+  @include border;
 }
 .split {
   border-bottom: 1px solid $tumblr;

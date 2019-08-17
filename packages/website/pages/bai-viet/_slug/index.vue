@@ -183,6 +183,7 @@ export default {
   font-family: $ale;
   font-size: 30px;
   font-weight: 700;
+  line-height: 1.1;
 }
 
 .content-article {

@@ -15,7 +15,7 @@
         </b-col>
         <b-col md="4">
           <va-affix :offset="70">
-            <user :author="dataSeries.author" />
+            <user :author="dataSeries.author" :articles="dataSeries.articles" />
           </va-affix>
         </b-col>
       </b-row>
