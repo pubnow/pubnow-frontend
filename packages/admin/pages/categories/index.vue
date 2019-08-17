@@ -3,9 +3,11 @@
     <va-page-header>
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
-          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{
+          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">
+            {{
             item
-          }}</va-breadcrumb-item>
+            }}
+          </va-breadcrumb-item>
         </va-breadcrumb>
       </div>
     </va-page-header>
@@ -28,12 +30,7 @@
             :busy="$wait.is('category.list')"
           >
             <div slot="table-busy" class="text-center my-5">
-              <va-loading
-                size="lg"
-                color="blue"
-                fixed
-                class="align-middle"
-              ></va-loading>
+              <va-loading size="lg" color="blue" fixed class="align-middle"></va-loading>
               <strong>Đang tải...</strong>
             </div>
             <template slot="HEAD_checkBox">
@@ -53,11 +50,7 @@
       ref="myAsideCate"
       @hide="onClose"
     >
-      <EditCategory
-        v-if="selected"
-        :category="selected"
-        @close="$refs.myAsideCate.close()"
-      />
+      <EditCategory v-if="selected" :category="selected" @close="$refs.myAsideCate.close()" />
     </va-aside>
   </div>
 </template>
@@ -81,11 +74,10 @@ export default {
     breadcrumb: ['Dashboard', 'Chuyên mục'],
     fields: [
       'checkBox',
+      'slug',
       { key: 'name', label: 'Tên chuyên mục' },
       { key: 'description', label: 'Mô tả' },
-      'slug',
-      { key: 'latest', label: 'Bài viết mới nhất' },
-      { key: 'count', label: 'Số lượng bài viết' },
+      { key: 'articles_count', label: 'Số lượng bài viết' },
     ],
     selected: null,
   }),

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <va-minibar class="minibar" theme="default" :top-items="minibarTopItem">
+    <va-minibar class="minibar" :top-items="minibarTopItem">
       <div slot="top">
         <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
         <div v-for="(item, index) in minibarTopItem" :key="index">
@@ -16,10 +16,10 @@
       </div>
     </va-minibar>
     <va-sidebar style="width: 430px;">
-    <div class="d-flex">
+      <div class="d-flex">
         <va-input class="pr-2" placeholder="Tìm kiếm thành viên, bài viết,..."></va-input>
-        <va-button  icon-before="search">Tìm kiếm</va-button>
-    </div>
+        <va-button type="primary" icon-before="search">Tìm kiếm</va-button>
+      </div>
     </va-sidebar>
   </div>
 </template>
@@ -44,3 +44,9 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.minibar {
+  background: #f3f4f6;
+}
+</style>

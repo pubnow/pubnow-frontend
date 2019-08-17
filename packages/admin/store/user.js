@@ -62,8 +62,12 @@ export const actions = {
     dispatch('list')
   },
   async create(_, create) {
-    this.$http.setHeader('Accept', 'application/json')
-    await this.$http.$post('users', create.submit)
+    try {
+      this.$http.setHeader('Accept', 'application/json')
+      await this.$http.$post('users', create.submit)
+    } catch (e) {
+      throw e
+    }
   },
   async update(_, { username, ...updateData }) {
     this.$http.setHeader('Accept', 'application/json')

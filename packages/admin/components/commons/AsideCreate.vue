@@ -41,13 +41,12 @@ export default {
         },
       ],
       menuItems: [
-       
         {
           name: 'Tài khoản',
           route: '/accounts/create',
           icon: 'user',
         },
-         {
+        {
           name: 'Chức vụ',
           route: '/roles/create',
           icon: 'medal',
@@ -70,6 +69,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_sizes.scss';
+
+.minibar {
+  background: #f3f4f6;
+}
 
 .site-name {
   margin-left: $unit / 2;
