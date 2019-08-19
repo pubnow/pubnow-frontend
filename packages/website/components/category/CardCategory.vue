@@ -15,6 +15,8 @@
           <va-button
             v-if="followCategoryStatus"
             @click="handleFollowCategory(slug)"
+            type="primary"
+            icon-before="check"
             class="action-button btn-active btn-round btn-follow"
           >Đang theo dõi</va-button>
           <va-button
