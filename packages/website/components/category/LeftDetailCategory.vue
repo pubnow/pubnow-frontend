@@ -12,7 +12,7 @@
                 alt
               />
               <img v-else class="avatar" src="https://cdn.head-fi.org/g/2283245_l.jpg" alt />
-              <div class="d-flex flex-column justify-content-center">
+              <div class="d-flex flex-column justify-content-between">
                 <div>
                   <span class="hover-username">
                     <nuxt-link
@@ -27,7 +27,7 @@
                   >{{categoryName}}</nuxt-link>
                 </div>
                 <div class="created">
-                  <span class="date">{{article.updatedAt | formatDate}}</span>
+                  <span class="date">Đăng {{ article.publishedAt }}</span>
                 </div>
               </div>
             </div>
@@ -44,7 +44,7 @@
                 </div>
               </div>
               <h3 class="title">{{article.title}}</h3>
-              <p class="content">{{article.excerpt}}</p>
+              <p class="content">{{ article.excerpt | unescape }}</p>
             </nuxt-link>
             <div class="tags" v-if="article.tags.length > 0">
               <ul class="list-unstyled" v-for="(tag, id) in article.tags" :key="id">
@@ -192,19 +192,20 @@ export default {
     .feed-post {
       margin-bottom: 10px;
       .inner {
-        padding: 15px 20px;
+        padding: $unit;
         background: #fff;
         position: relative;
+        @include border;
         @include radius-md;
-        @include box-shadow;
+        @include box-shadow-sm;
         .author {
-          font-size: 13px;
+          font-size: 14px;
           line-height: 15px;
           color: #99a3ad;
           display: flex;
           .avatar {
-            height: 36px;
-            width: 36px;
+            height: 40px;
+            width: 40px;
             border-radius: 50%;
             margin-right: $unit / 4;
             object-fit: cover;

@@ -1,9 +1,7 @@
 <template>
   <div class="category-heading">
     <no-ssr>
-      <div class="background">
-        <img src="https://source.unsplash.com/random" alt />
-      </div>
+      <img class="cover" :src="image ? image : `https://source.unsplash.com/random`" alt />
       <div class="text-box">
         <div class="title">{{name}}</div>
         <va-button
@@ -36,7 +34,19 @@ export default {
     slug: {
       type: String,
       required: true,
-    }
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    articles: {
+      type: Number,
+      required: true,
+    },
+    followers: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
@@ -76,77 +86,24 @@ export default {
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_fonts.scss';
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_mixins.scss';
 
 .category-heading {
-  width: 100%;
-  font-size: 0;
-  height: 200px;
-  position: relative;
-  text-align: center;
-  margin-bottom: 25px;
-  .background {
-    position: absolute;
-    overflow: hidden;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 10px;
-    overflow: hidden;
-    background: #000;
-    img {
-      width: 100%;
-    }
+  margin-bottom: 39px;
+
+  .cover {
+    width: 100%;
+    max-height: 235px;
+    object-fit: cover;
+    @include border;
+    @include radius-md;
+    box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
   }
-  .text-box {
-    padding-top: 3.5rem;
-    display: inline-block;
-    max-width: 100%;
-    font-size: 1rem;
-    position: relative;
-    color: #fff;
-    .title {
-      padding-bottom: 10px;
-      font-size: 24px;
-      letter-spacing: 1px;
-      font-weight: 800 !important;
-    }
-    .btn-default {
-      background: #fff;
-      border-color: #ccc;
-      color: $primary !important;
-    }
-    .btn-round {
-      border-radius: 20px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 6px 18px;
-      margin-bottom: 0;
-      font-size: 14px;
-      line-height: 1.42857143;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      touch-action: manipulation;
-      cursor: pointer;
-      user-select: none;
-      border: 1px solid transparent;
-    }
-    .btn-active {
-      padding: 6px 18px;
-      margin-bottom: 0;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 1.42857143;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      cursor: pointer;
-      user-select: none;
-      border: 1px solid #fff;
-      background-color: #2fb5fa;
-      color: #fff;
+
+  &:hover {
+    .cover {
+      box-shadow: 5px 12px 20px rgba(36, 37, 38, 0.13);
     }
   }
 }
