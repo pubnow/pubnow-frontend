@@ -2,12 +2,14 @@
   <div class="categories">
     <b-container>
       <b-row>
-        <b-col v-for="(category, index) in dataCategory" :key="index" sm="6" class="mb-4">
+        <b-col v-for="(category, index) in dataCategory" :key="index" md="4" class="mb-4">
           <CardCategory
             :title="category.name"
             :slug="category.slug"
             :following="category.following"
-            :image="`https://source.unsplash.com/collection/1163637/480x480?sig=${index+1}`"
+            :image="category.image"
+            :articles="category.articles_count"
+            :followers="category.followers_count"
           ></CardCategory>
         </b-col>
       </b-row>
