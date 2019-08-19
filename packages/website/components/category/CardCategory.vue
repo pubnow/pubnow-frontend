@@ -2,30 +2,23 @@
   <div class="category-card">
     <nuxt-link class="meta" :to="`/danh-muc/${slug}`">
       <img :src="image" class="cover" />
-      <h1 class="title mt-3">{{title}}</h1>
     </nuxt-link>
-    <no-ssr>
-      <div class="d-flex align-items-center">
-        <div>
-          <span>{{ articles }} Bài viết</span>
-          <span class="middot"></span>
-          <span>{{ followers }} Người quan tâm</span>
-        </div>
-        <div class="ml-auto">
-          <va-button
-            v-if="followCategoryStatus"
-            @click="handleFollowCategory(slug)"
-            type="primary"
-            icon-before="check"
-            class="action-button btn-active btn-round btn-follow"
-          >Đang theo dõi</va-button>
-          <va-button
-            v-else
-            class="action-button btn btn-default btn-round btn-follow"
-            @click="handleFollowCategory(slug)"
-          >Theo dõi</va-button>
-        </div>
+    <div class="d-flex align-items-center mt-3">
+      <nuxt-link class="meta" :to="`/danh-muc/${slug}`">
+        <h1 class="title">{{title}}</h1>
+      </nuxt-link>
+      <div class="ml-auto">
+        <va-button v-if="followCategoryStatus" @click="handleFollowCategory(slug)" active round>
+          <va-icon type="heart" />
+        </va-button>
+        <va-button v-else @click="handleFollowCategory(slug)">Theo dõi</va-button>
       </div>
+    </div>
+
+    <no-ssr>
+      <span>{{ articles }} Bài viết</span>
+      <span class="middot"></span>
+      <span>{{ followers }} Người quan tâm</span>
     </no-ssr>
   </div>
 </template>
@@ -80,6 +73,7 @@ export default {
 @import '@pubnow/ui/scss/_mixins.scss';
 
 .category-card {
+  margin-bottom: 39px;
   .meta {
     cursor: pointer;
     .cover {

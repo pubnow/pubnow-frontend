@@ -2,7 +2,7 @@
   <div class="categories">
     <b-container>
       <b-row>
-        <b-col v-for="(category, index) in dataCategory" :key="index" md="4" class="mb-4">
+        <b-col v-for="(category, index) in dataCategory" :key="index" md="4">
           <CardCategory
             :title="category.name"
             :slug="category.slug"
