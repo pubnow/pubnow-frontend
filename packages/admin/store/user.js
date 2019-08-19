@@ -34,7 +34,6 @@ export const mutations = {
 export const actions = {
   async list({ commit, dispatch, state }) {
     const { url, currentPage: page } = state
-    console.log({ page })
     try {
       dispatch('wait/start', 'user.list', { root: true })
       const result = await this.$http.$get(`users${url}?page=${page}`)

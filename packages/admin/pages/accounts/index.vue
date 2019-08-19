@@ -104,7 +104,7 @@ export default {
   }),
   methods: {
     ...mapActions({
-      changePage: 'article/changePage',
+      changePage: 'user/changePage',
     }),
     change(e) {
       this.input = ''
