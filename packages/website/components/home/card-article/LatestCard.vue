@@ -13,9 +13,9 @@
           <nuxt-link :to="`/to-chuc/${org.slug}`">{{ org.name }}</nuxt-link>
         </div>
         <div class="mt-1">
-          <span class="d-inline-block">{{ article.updatedAt | formatDate }}</span>
+          <span class="d-inline-block">{{ article.publishedAt }}</span>
           <span class="middot"></span>
-          <span>{{ article.reading_time | timeRead }}</span>
+          <span>{{ article.seen_count }} lượt xem</span>
           <span>
             <i class="fas fa-star"></i>
           </span>
