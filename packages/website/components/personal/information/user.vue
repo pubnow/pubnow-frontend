@@ -5,13 +5,19 @@
     <p class="mt-0 username">@{{ user.username }}</p>
     <p class="bio" v-if="user.bio">{{ user.bio }}</p>
     <div class="network d-flex justify-content-between">
-      <div v-for="(item, index) in demo.network" :key="index">
-        <p class="number">{{ item.number }}</p>
-        <p class="type">{{ item.name }}</p>
+      <div>
+        <p class="number">{{ user.articles }}</p>
+        <p class="type">bài viết</p>
+      </div>
+      <div>
+        <p class="number">{{ user.followers }}</p>
+        <p class="type">lượt theo dõi</p>
       </div>
     </div>
     <no-ssr>
-      <va-button active>Theo dõi</va-button>
+      <va-button v-if="auth && auth.id === user.id" active @click="editUser">Chỉnh sửa</va-button>
+      <va-button v-else-if="followStatus" active @click="followUser(user.username)">Đang theo dõi</va-button>
+      <va-button v-else active @click="followUser(user.username)">Theo dõi</va-button>
     </no-ssr>
   </div>
 </template>
@@ -29,16 +35,42 @@ export default {
           { name: 'bài viết', number: 15 },
         ],
       },
+      followStatus: false,
     }
   },
   computed: {
     ...mapGetters({
       user: 'user/author',
+      auth: 'auth/user',
+      followedUserStatus: 'follow/followUser',
     }),
     avatarUrl() {
       const avatar = get(this, 'user.avatar')
       if (avatar) return avatar
       return 'https://bulma.io/images/placeholders/256x256.png'
+    },
+  },
+  mounted() {
+    this.followStatus = this.user.following
+  },
+  methods: {
+    editUser() {
+      this.$router.push('/cai-dat/tai-khoan')
+    },
+    followUser(id) {
+      if (this.auth) {
+        if (this.followStatus) {
+          this.$store.dispatch('follow/unFollowUser', id).then(() => {
+            this.followStatus = this.followedUserStatus
+          })
+        } else {
+          this.$store.dispatch('follow/followUser', id).then(() => {
+            this.followStatus = this.followedUserStatus
+          })
+        }
+      } else {
+        this.$router.push('/dang-nhap')
+      }
     },
   },
 }

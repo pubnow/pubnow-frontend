@@ -28,29 +28,33 @@ export const mutations = {
   },
   setUnFollowTag(state) {
     state.followTag = false
-  }
+  },
 }
 
 export const actions = {
-  async followUser({ commit }, username) {
+  async followUser({ commit, dispatch }, username) {
     try {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$post(`users/${username}/follow`)
       const { data: follow } = result
-      const index = follow.followingUsers.findIndex(item => item.username === username)
+      const index = follow.followingUsers.findIndex(
+        item => item.username === username,
+      )
       if (index !== -1) {
         commit('setFollowUser', follow.followingUsers[index])
       }
+      dispatch('user/author', username, { root: true })
       return follow
     } catch (e) {
       return null
     }
   },
-  async unFollowUser({ commit }, username) {
+  async unFollowUser({ commit, dispatch }, username) {
     try {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$delete(`users/${username}/follow`)
       commit('setUnFollowUser')
+      dispatch('user/author', username, { root: true })
       return result
     } catch (e) {
       return null
@@ -61,7 +65,9 @@ export const actions = {
       this.$http.setHeader('Accept', 'application/json')
       const result = await this.$http.$post(`categories/${slug}/follow`)
       const { data: follow } = result
-      const index = follow.followingCategories.findIndex(item => item.slug === slug)
+      const index = follow.followingCategories.findIndex(
+        item => item.slug === slug,
+      )
       if (index !== -1) {
         commit('setFollowCategory', follow.followingCategories[index])
       }
