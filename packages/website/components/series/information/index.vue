@@ -100,6 +100,7 @@ export default {
 
 .title {
   font-size: 30px;
+  line-height: 1.1;
 }
 
 .icon {

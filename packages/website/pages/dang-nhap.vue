@@ -20,7 +20,8 @@
             type="password"
             size="lg"
             placeholder="Mật khẩu"
-            :rules="[{type:'required', tip:'Bạn vui lòng nhập mật khẩu'}]"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập mật khẩu'}, {type:'minlength=6', tip: 'Mật khẩu dài tối thiểu 6 ký tự'}]"
+            @confirm="submit"
           />
         </va-form-item>
         <va-form-item>

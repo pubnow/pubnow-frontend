@@ -39,7 +39,7 @@ export const actions = {
       return true
     } catch (e) {
       dispatch('wait/end', 'auth.login', { root: true })
-      return false
+      throw e
     }
   },
   async register({ commit, dispatch }, { username, password, name, email }) {
@@ -55,11 +55,12 @@ export const actions = {
       commit('setUser', user)
       commit('setToken', token)
       this.$cookiz.set('token', token)
+      dispatch('organization/userOrgs', null, { root: true })
       dispatch('wait/end', 'auth.register', { root: true })
       return true
     } catch (e) {
       dispatch('wait/end', 'auth.register', { root: true })
-      return false
+      throw e
     }
   },
   async update({ state, commit, dispatch }, updateData) {
