@@ -128,9 +128,15 @@ export default {
       ssr: false,
     }
   },
-  fetch({ store, params: { slug } }) {
+  async fetch({ store, error, params: { slug } }) {
     if (process.server) {
-      return store.dispatch('article/show', slug)
+      const article = await store.dispatch('article/show', slug)
+      if (!article) {
+        error({
+          statusCode: 404,
+          message: 'Bài viết không tồn tài',
+        })
+      }
     }
   },
   head() {
