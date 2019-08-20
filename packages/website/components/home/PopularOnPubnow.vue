@@ -83,8 +83,6 @@ export default {
       }
       a {
         .title {
-          font-family: $ale;
-          font-weight: 700;
           color: $n800;
         }
 

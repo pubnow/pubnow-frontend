@@ -87,7 +87,6 @@
                 color: #2c3e50;
                 font-size: 1.3rem;
                 font-weight: 700;
-                font-family: $ale;
                 text-decoration: none;
               }
             }

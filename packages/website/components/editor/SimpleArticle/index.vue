@@ -111,7 +111,6 @@ export default {
   min-height: 300px;
 
   .title {
-    font-family: $ale;
     border: 0;
     background: transparent;
     font-size: 32px;

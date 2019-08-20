@@ -56,7 +56,6 @@ export default {
       font-size: $unit * 1.7;
       line-height: $unit * 2;
       color: $n20;
-      font-family: $ale;
       font-weight: 700;
       transition: color 0.25s ease-in-out;
       display: block;

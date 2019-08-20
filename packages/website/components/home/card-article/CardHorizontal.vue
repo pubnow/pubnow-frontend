@@ -3,7 +3,7 @@
     <div class="overlay" :style="`background-image: url(${article.thumbnail})`"></div>
     <div class="content">
       <nuxt-link :to="link">
-        <h1 class="title">{{ article.title }}</h1>
+        <h2 class="title">{{ article.title }}</h2>
         <div class="additional">
           <nuxt-link :to="`/nguoi-dung/${author.username}`" class="author">{{ author.name }}</nuxt-link>
           <span class="middot"></span>
@@ -85,8 +85,6 @@ $line-height-title: 28px;
     .title {
       color: $n10;
       z-index: 9999;
-      font-family: $ale;
-      font-weight: 700;
       line-height: $line-height-title;
       max-height: $line-height-title * 2;
       text-overflow: ellipsis;

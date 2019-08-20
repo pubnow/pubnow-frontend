@@ -181,7 +181,6 @@ export default {
 @import '@pubnow/ui/scss/_fonts.scss';
 
 .title {
-  font-family: $ale;
   font-size: 30px;
   font-weight: 700;
 }

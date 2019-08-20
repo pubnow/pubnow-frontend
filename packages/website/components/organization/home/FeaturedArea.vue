@@ -10,11 +10,11 @@
           <b-col :md="5">
             <CardVertical :article="featuredPosts[0]" />
           </b-col>
-          <b-col :md="4">
+          <b-col :md="4" v-if="featuredPosts.length === 5">
             <CardVertical class="mx-md-2" :article="featuredPosts[4]" />
           </b-col>
           <b-col :md="3">
-            <CardHorizontal v-for="i in 3" :article="featuredPosts[i]" :key="i" />
+            <CardHorizontal v-for="i in top" :article="featuredPosts[i]" :key="i" />
           </b-col>
         </b-row>
       </div>
@@ -38,6 +38,13 @@ export default {
     }),
     featuredPosts() {
       return take(this.articles, 5)
+    },
+    top() {
+      if (this.featuredPosts.length === 5) {
+        return 3
+      } else {
+        return this.featuredPosts.length - 1
+      }
     },
   },
   components: {

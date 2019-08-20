@@ -5,7 +5,7 @@
       <div v-else class="thumbnail d-flex align-items-center justify-content-center">
         <img src="@/assets/images/logo.svg" />
       </div>
-      <h1 class="title">{{ article.title }}</h1>
+      <h2 class="title">{{ article.title }}</h2>
     </nuxt-link>
     <p class="description">{{ article.excerpt | unescape }}</p>
     <div class="additional">
@@ -76,8 +76,6 @@ export default {
   }
 
   .title {
-    font-family: $ale;
-    font-weight: 700;
     margin-bottom: $unit/ 4;
     color: $b500;
   }

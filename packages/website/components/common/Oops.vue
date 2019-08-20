@@ -26,7 +26,6 @@ export default {
 @import '@pubnow/ui/scss/_fonts.scss';
 
 h1 {
-  font-family: $ale;
   font-size: 2em;
 }
 

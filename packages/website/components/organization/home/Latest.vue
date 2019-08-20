@@ -74,7 +74,6 @@ export default {
 
     .text-dec {
       .title {
-        font-family: $ale !important;
         font-size: 1.3rem;
         font-weight: 700;
         color: $n800;

@@ -107,7 +107,6 @@ $size-image: 50px;
 }
 
 .title {
-  font-family: $ale;
   font-weight: 700;
   color: $b500;
 }

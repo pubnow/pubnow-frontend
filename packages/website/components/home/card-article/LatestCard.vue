@@ -69,12 +69,10 @@ export default {
   width: 100%;
 
   .text-dec {
+    padding-right: 5px;
+    display: block;
     .title {
-      font-family: $ale !important;
-      font-size: 1.3rem;
-      font-weight: 700;
       color: $n800;
-      letter-spacing: 0.5px;
     }
     .description {
       color: $n100;

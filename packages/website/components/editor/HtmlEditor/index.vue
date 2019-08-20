@@ -65,7 +65,6 @@ export default {
 @import '@pubnow/ui/scss/_colors.scss';
 
 .title-input {
-  font-family: $ale;
   border: 1px dashed $n70;
   background: transparent;
   font-size: 32px;

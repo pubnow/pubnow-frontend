@@ -121,7 +121,6 @@ $size-image: 50px;
 .title {
   color: $b500;
   span {
-    font-family: $ale;
     font-weight: 700;
     &:after {
       content: ' ';

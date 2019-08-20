@@ -231,9 +231,8 @@ export default {
           .title {
             margin: 15px 0 0;
             word-break: break-word;
-            & a {
+            a {
               color: #2c3e50;
-              font-family: $ale;
               font-size: 24px !important;
               font-weight: bold;
               line-height: 30px;

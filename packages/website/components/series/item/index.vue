@@ -2,7 +2,7 @@
   <div class="d-flex flex-column mt-3 bg-white p-3 wrap-all">
     <div>
       <nuxt-link :to="`/series/${slug}`" class="title">
-        <h2 class="title font-weight-bold cursor-poiter">{{ title }}</h2>
+        <h2 class="title cursor-poiter">{{ title }}</h2>
       </nuxt-link>
       <p class="description cursor-poiter mt-0">{{ excerpt | unescape }}</p>
     </div>
@@ -113,8 +113,6 @@ $size-avatar: 28px;
     object-fit: cover;
   }
   .title {
-    font-family: $ale;
-    font-weight: 700;
     color: $b500;
   }
   .description {

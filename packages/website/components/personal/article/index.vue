@@ -59,7 +59,6 @@ export default {
     .title {
       font-size: $unit * 1.1;
       color: $b500;
-      font-family: $ale;
       font-weight: 700;
       letter-spacing: 0.5px;
       margin-top: $unit / 2;
