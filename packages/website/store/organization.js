@@ -185,7 +185,7 @@ export const actions = {
       return false
     }
   },
-  async invite({ commit, dispatch, state }, { organization_id, user_id }) {
+  async invite({ dispatch, state }, { organization_id, user_id }) {
     try {
       dispatch('wait/start', `org.invite.${user_id}`, { root: true })
       const result = await this.$http.$post(`invite-requests`, {
@@ -197,6 +197,18 @@ export const actions = {
       return result
     } catch (e) {
       dispatch('wait/end', `org.invite.${user_id}`, { root: true })
+      return false
+    }
+  },
+  async removeUser({ dispatch, state }, { inviteId }) {
+    try {
+      dispatch('wait/start', `org.removeUser`, { root: true })
+      const result = await this.$http.delete(`invite-requests/${inviteId}`)
+      dispatch('members', state.organization.slug)
+      dispatch('wait/end', `org.removeUser`, { root: true })
+      return result
+    } catch (e) {
+      dispatch('wait/end', `org.removeUser`, { root: true })
       return false
     }
   },

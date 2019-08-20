@@ -26,11 +26,51 @@
         </b-col>
         <b-col class="md-6 setting d-flex">
           <div v-if="organization.owner && item.id === organization.owner.id">Chủ sở hữu</div>
-          <div v-else-if="item.status === 'pending'">Đã mời</div>
-          <div v-else>Thành viên</div>
-          <va-icon type="ellipsis-h" size="1.25em" class="ml-1" iconStyle="solid" color="#97a0af" />
+          <div class="d-flex align-items-center" v-else>
+            <div v-if="item.status === 'pending'">Đã mời</div>
+            <div v-else>Thành viên</div>
+            <va-dropdown>
+              <div slot="trigger">
+                <va-icon
+                  type="ellipsis-h"
+                  size="1.25em"
+                  class="ml-1 menu"
+                  iconStyle="solid"
+                  color="#97a0af"
+                />
+              </div>
+              <li>
+                <a href="#" @click="showDelete(item)">Xóa</a>
+              </li>
+            </va-dropdown>
+          </div>
         </b-col>
       </b-row>
+      <b-modal
+        title="Xóa thành viên"
+        :backdrop-clickable="backdropClickable"
+        ref="removeModal"
+        class="modal-container"
+        centered
+        hide-footer
+      >
+        <div class="modal-body pb-2" v-if="currentUser">
+          Bạn có chắc chắn muốn xóa thành viên
+          <span
+            class="font-weight-bold"
+          >{{ currentUser.name }} ({{ currentUser.email }})</span> khỏi tổ chức ?
+          <div class="mt-3 d-flex justify-content-end">
+            <va-button @click="$refs.removeModal.hide()" class="mr-1">Hủy bỏ</va-button>
+            <va-button
+              type="danger"
+              icon-before="trash"
+              :disabled="removing"
+              :loading="removing"
+              @click="removeUser(currentUser.invite_id)"
+            >Xóa</va-button>
+          </div>
+        </div>
+      </b-modal>
       <b-modal
         title="Mời thành viên mới"
         :backdrop-clickable="backdropClickable"
@@ -89,6 +129,7 @@ export default {
     return {
       backdropClickable: true,
       keyword: '',
+      currentUser: null,
     }
   },
   computed: {
@@ -114,6 +155,9 @@ export default {
         return user
       })
     },
+    removing() {
+      return this.$wait.is('org.removeUser')
+    },
   },
   mounted() {
     const { orgname } = this.$route.params
@@ -122,6 +166,10 @@ export default {
   methods: {
     showCustom() {
       this.$refs.inviteModal.show()
+    },
+    showDelete(user) {
+      this.currentUser = user
+      this.$refs.removeModal.show()
     },
     searchUser() {
       this.$store.dispatch('search/user', {
@@ -133,6 +181,25 @@ export default {
         user_id: userId,
         organization_id: this.organization.id,
       })
+    },
+    async removeUser(inviteId) {
+      try {
+        const result = await this.$store.dispatch('organization/removeUser', {
+          inviteId,
+        })
+        this.notification.info({
+          title: 'Thành công',
+          message: 'Xóa thành công thành viên.',
+          duration: 1690,
+        })
+      } catch (e) {
+        this.notification.info({
+          title: 'Thất bại',
+          message: 'Có lỗi xảy ra.',
+          duration: 1690,
+        })
+      }
+      this.$refs.removeModal.hide()
     },
   },
 }
@@ -190,6 +257,9 @@ export default {
       margin-left: 5px;
       margin-right: 30px;
       color: #505e77;
+    }
+    .menu {
+      cursor: pointer;
     }
   }
 }

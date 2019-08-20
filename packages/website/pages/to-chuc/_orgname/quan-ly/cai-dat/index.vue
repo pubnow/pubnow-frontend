@@ -50,7 +50,9 @@
               >Xóa tổ chức</va-button>
               <b-modal title="Xóa tổ chức" ref="removeOrgModal" centered hide-footer>
                 Bạn có chắc chắn muốn xóa tổ chức
-                <span class="font-weight-bold">{{ org.name }}</span>
+                <span class="font-weight-bold">{{ org.name }}</span> ?
+                <br />Mọi thông tin về tổ chức như thành viên, bài viết, ... sẽ không được lưu trữ.
+                <br />Tổ chức sau khi xóa sẽ không thể khôi phục lại.
                 <div class="d-flex justify-content-end mt-2">
                   <va-button>Hủy bỏ</va-button>
                   <va-button
