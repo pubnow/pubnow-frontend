@@ -65,6 +65,9 @@ export default {
       type: String,
       required: true,
     },
+    org: {
+      type: Object,
+    },
   },
   methods: {
     async deleteArticle() {
@@ -99,7 +102,13 @@ export default {
       return this.$wait.is('article.remove')
     },
     isAuthor() {
-      return this.user && this.user.id === this.author.id
+      return (
+        this.user &&
+        (this.user.isAdmin ||
+          this.user.id === this.author.id ||
+          this.org.owner.id ||
+          this.user.id)
+      )
     },
     avatar() {
       if (!this.author.avatar) {

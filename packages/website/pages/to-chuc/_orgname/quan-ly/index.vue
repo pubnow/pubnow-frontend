@@ -56,6 +56,7 @@ export default {
     ...mapGetters({
       org: 'organization/organization',
       statistic: 'organization/statistic',
+      user: 'auth/user',
     }),
     articleCount() {
       if (this.statistic) {
@@ -113,6 +114,14 @@ export default {
         }
       )
     },
+    isOwner() {
+      return (
+        this.org &&
+        this.org.owner &&
+        this.user &&
+        this.user.id === this.org.owner.id
+      )
+    },
   },
   head() {
     return {
@@ -122,13 +131,17 @@ export default {
   },
   mounted() {
     const { orgname } = this.$route.params
-    const end = format(new Date(), 'yyyy-MM-dd')
-    const start = format(subWeeks(new Date(), 1), 'yyyy-MM-dd')
-    this.$store.dispatch('organization/statistic', {
-      slug: orgname,
-      start,
-      end,
-    })
+    if (this.isOwner) {
+      const end = format(new Date(), 'yyyy-MM-dd')
+      const start = format(subWeeks(new Date(), 1), 'yyyy-MM-dd')
+      this.$store.dispatch('organization/statistic', {
+        slug: orgname,
+        start,
+        end,
+      })
+    } else {
+      this.$router.push(`/to-chuc/${orgname}/quan-ly/bai-viet`)
+    }
   },
 }
 </script>

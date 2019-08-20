@@ -15,7 +15,7 @@ import { Navbar, AffixNavbar } from '@/components/common'
 import { Information, Tab } from '@/components/control'
 
 export default {
-  middleware: ['auth'],
+  middleware: ['auth', 'org'],
   components: {
     Navbar,
     AffixNavbar,
@@ -38,10 +38,6 @@ export default {
       reverse: false,
       split: false,
     }
-  },
-  mounted() {
-    const { orgname } = this.$route.params
-    this.$store.dispatch('organization/show', orgname)
   },
 }
 </script>

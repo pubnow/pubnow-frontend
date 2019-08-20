@@ -1,7 +1,7 @@
 <template>
   <no-ssr>
     <ul class="clearfix va-nav-tabs mt-4 mb-3">
-      <NavItem :to="`/to-chuc/${param}/quan-ly`" icon="chart-bar">Tổng quan</NavItem>
+      <NavItem :to="`/to-chuc/${param}/quan-ly`" icon="chart-bar" v-if="isOwner">Tổng quan</NavItem>
       <NavItem :to="`/to-chuc/${param}/quan-ly/bai-viet`" icon="newspaper">Bài viết</NavItem>
       <NavItem :to="`/to-chuc/${param}/quan-ly/thanh-vien`" icon="users">Thành viên</NavItem>
       <NavItem :to="`/to-chuc/${param}/quan-ly/cai-dat`" icon="cog" v-if="isOwner">Cài đặt</NavItem>
