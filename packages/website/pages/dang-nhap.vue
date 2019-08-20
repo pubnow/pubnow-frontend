@@ -65,11 +65,11 @@ export default {
     submit() {
       this.$refs.form.validateFields(async result => {
         if (result.isvalid) {
-          const ok = await this.$store.dispatch('auth/login', {
-            username: this.username,
-            password: this.password,
-          })
-          if (ok) {
+          try {
+            const ok = await this.$store.dispatch('auth/login', {
+              username: this.username,
+              password: this.password,
+            })
             this.notification.info({
               title: `Đăng nhập thành công`,
               message: `Chào mừng bạn quay trở lại. Bạn đang được chuyển về Trang chủ.`,
@@ -79,7 +79,7 @@ export default {
                 this.$router.push(redirectTo ? redirectTo : '/')
               },
             })
-          } else {
+          } catch (e) {
             this.notification.danger({
               title: `Lỗi xác thực`,
               message: `Vui lòng kiểm tra lại thông tin đăng nhập`,
