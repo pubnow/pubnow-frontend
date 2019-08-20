@@ -19,8 +19,8 @@
           <li>
             <nuxt-link :to="`/bai-viet/${slug}/edit`">Chỉnh sửa</nuxt-link>
           </li>
-          <li @click="openModal">
-            <a href="#">Xóa</a>
+          <li>
+            <a @click="openModal">Xóa</a>
           </li>
         </va-dropdown>
       </div>

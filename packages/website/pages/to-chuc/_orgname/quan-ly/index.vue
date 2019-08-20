@@ -2,7 +2,7 @@
   <b-container class="mb-5">
     <b-row v-if="statistic" class="no-gutters">
       <b-col md="8">
-        <line-chart :chart-data="lineChart" :height="200" />
+        <line-chart v-if="lineChart" :chart-data="lineChart" :height="200" />
       </b-col>
       <b-col md="4" class="pl-2">
         <StatisticCard type="article" icon="file" :number="articleCount" name="Bài viết" />
@@ -25,7 +25,7 @@
         </div>
       </b-col>
       <b-col md="4" class="pl-2">
-        <pie-chart :chart-data="pieChart" />
+        <pie-chart v-if="pieChart" :chart-data="pieChart" />
       </b-col>
     </b-row>
   </b-container>

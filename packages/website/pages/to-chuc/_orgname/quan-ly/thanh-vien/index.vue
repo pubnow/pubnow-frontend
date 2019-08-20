@@ -29,7 +29,7 @@
           <div class="d-flex align-items-center" v-else>
             <div v-if="item.status === 'pending'">Đã mời</div>
             <div v-else>Thành viên</div>
-            <va-dropdown>
+            <va-dropdown v-if="organization.owner && user.id === organization.owner.id">
               <div slot="trigger">
                 <va-icon
                   type="ellipsis-h"
@@ -40,7 +40,7 @@
                 />
               </div>
               <li>
-                <a href="#" @click="showDelete(item)">Xóa</a>
+                <a @click="showDelete(item)">Xóa</a>
               </li>
             </va-dropdown>
           </div>

@@ -32,12 +32,17 @@ export default {
         message: 'Bài viết không tồn tài',
       })
     }
-    if (user.id !== article.author.id) {
-      error({
-        statusCode: 403,
-        message: 'Bạn không được phép chỉnh sửa bài viết này',
-      })
+    if (
+      user.isAdmin ||
+      user.id === article.author.id ||
+      user.id === article.organization.owner.id
+    ) {
+      return
     }
+    error({
+      statusCode: 403,
+      message: 'Bạn không được phép chỉnh sửa bài viết này',
+    })
   },
   head() {
     return {

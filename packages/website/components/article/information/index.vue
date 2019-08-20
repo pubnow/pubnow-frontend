@@ -180,7 +180,7 @@ export default {
     },
     async update(draft = false) {
       try {
-        await this.$store.dispatch('article/edit', {
+        const result = await this.$store.dispatch('article/edit', {
           draft,
           slug: this.slug,
         })

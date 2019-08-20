@@ -5,6 +5,10 @@
       <p class="content mt-0" v-html="item.content"></p>
       <div>{{ notification.created_at | diffDate }}</div>
     </div>
+    <div v-if="hasAction" class="d-flex align-items-start">
+      <va-button class="mr-1" size="sm" type="primary" @click="accept">Đồng ý</va-button>
+      <va-button size="sm" @click="deny">Xóa</va-button>
+    </div>
   </nuxt-link>
 </template>
 
@@ -18,9 +22,29 @@ export default {
       required: true,
     },
   },
+  methods: {
+    accept() {
+      this.$store.dispatch('notification/interact', {
+        id: get(this.notification, 'data.invite.id'),
+        type: 'accept',
+      })
+    },
+    deny() {
+      this.$store.dispatch('notification/interact', {
+        id: get(this.notification, 'data.invite.id'),
+        type: 'deny',
+      })
+    },
+  },
   computed: {
     read() {
       return this.notification.read_at === null
+    },
+    hasAction() {
+      return (
+        this.notification.type ===
+        'App\\Notifications\\InviteUserToOrganization'
+      )
     },
     item() {
       switch (this.notification.type) {
@@ -64,6 +88,16 @@ export default {
               this.notification,
               'data.clap.article.slug',
             )}`,
+          }
+        }
+        case 'App\\Notifications\\InviteUserToOrganization': {
+          return {
+            avatar: get(this.notification, 'data.invite.organization.logo'),
+            content: `Bạn nhận được lời mời tham gia tổ chức <span class="font-weight-bold">${get(
+              this.notification,
+              'data.invite.organization.name',
+            )}</span>.`,
+            link: '#',
           }
         }
       }
