@@ -85,6 +85,7 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxt/http',
     'vue-wait/nuxt',
+    'vue-scrollto/nuxt',
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
     '~/modules/froala',
   ],

@@ -26,6 +26,7 @@
         :src="require('@/assets/images/icons/comment.svg')"
         alt="clap icon"
         class="icon icon-small mt-3"
+        v-scroll-to="'#comment'"
       />
       <span>{{ commentNum }}</span>
       <div>

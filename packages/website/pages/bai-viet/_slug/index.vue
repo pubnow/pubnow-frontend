@@ -49,7 +49,7 @@
       </b-col>
     </b-row>
     <b-row>
-      <b-col :sm="8" :offset-sm="2">
+      <b-col :sm="8" :offset-sm="2" id="comment">
         <no-ssr>
           <v-wait for="loading comment">
             <template slot="waiting" transition="fade" mode="out-in">
