@@ -56,6 +56,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { errorProcess } from '../../../utils/notification'
 
 export default {
   data() {
@@ -122,10 +123,10 @@ export default {
       }
     },
     async create(draft = false) {
-      const result = await this.$store.dispatch('article/write', {
-        draft,
-      })
-      if (result) {
+      try {
+        const result = await this.$store.dispatch('article/write', {
+          draft,
+        })
         if (this.type === 'series') {
           this.series.articles.forEach(item => this.dataID.push(item.id))
           this.dataID.push(result.id)
@@ -160,20 +161,29 @@ export default {
             },
           })
         }
-      } else {
-        this.notification.danger({
-          title: `Rất tiếc`,
-          message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
-          duration: 2000,
-        })
+      } catch (e) {
+        if (e.response.status === 422) {
+          const message = await errorProcess(e)
+          this.notification.danger({
+            title: 'Có lỗi xảy ra',
+            message,
+            duration: 3000,
+          })
+        } else {
+          this.notification.danger({
+            title: 'Có lỗi xảy ra',
+            message: 'Bạn không thể tạo tài khoản vào lúc này.',
+            duration: 1690,
+          })
+        }
       }
     },
     async update(draft = false) {
-      const result = await this.$store.dispatch('article/edit', {
-        draft,
-        slug: this.slug,
-      })
-      if (result) {
+      try {
+        await this.$store.dispatch('article/edit', {
+          draft,
+          slug: this.slug,
+        })
         this.notification.info({
           title: `Cập nhật thành công`,
           message: `Cảm ơn bạn đã sử dụng Pubnow.`,
@@ -182,7 +192,7 @@ export default {
             this.$router.push(`/bai-viet/${result.slug}`)
           },
         })
-      } else {
+      } catch (e) {
         this.notification.danger({
           title: `Rất tiếc`,
           message: `Có lỗi xảy ra, vui lòng thử lại sau.`,

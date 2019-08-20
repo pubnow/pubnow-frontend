@@ -126,7 +126,7 @@ export const actions = {
       commit('reset', state.organization ? false : true)
       return article
     } catch (e) {
-      return null
+      throw e
     }
   },
   async edit({ commit, state }, { slug, draft }) {
@@ -151,7 +151,7 @@ export const actions = {
       commit('reset')
       return article
     } catch (e) {
-      return null
+      throw e
     }
   },
   async show({ commit, dispatch }, slug) {

@@ -1,6 +1,12 @@
 <template>
   <div>
     <input class="title-input" placeholder="Tiêu đề bài viết" v-model="title" />
+    <div class="tips">
+      <div class="title">
+        <va-icon type="lightbulb" class="mr-2"></va-icon>Mẹo
+      </div>
+      <div class="content">Bài viết của bạn sẽ sinh động hơn khi có thêm hình ảnh minh họa.</div>
+    </div>
     <froala :tag="'textarea'" :config="config" v-model="model"></froala>
   </div>
 </template>
@@ -72,6 +78,23 @@ export default {
   margin-bottom: $unit / 2;
   width: 100%;
   padding: $unit / 2;
+}
+
+.tips {
+  display: flex;
+  margin-bottom: $unit / 2;
+  border: 1px solid $b200;
+  font-size: 14px;
+  font-weight: 500;
+  .title {
+    padding: $unit / 4 $unit / 2;
+    background-color: $b200;
+    color: $white;
+  }
+  .content {
+    padding: $unit / 4 $unit / 2;
+    color: $n300;
+  }
 }
 </style>
 
