@@ -1,7 +1,7 @@
 ---
 home: true
 heroImage: /logo.png
-actionText: Get Started →
-actionLink: /user-interface/
+actionText: Bắt đầu →
+actionLink: /docs/
 footer: Copyright © 2019-present Pubnow Team
 ---

@@ -1,9 +1,9 @@
 module.exports = {
-  title: 'PubNow',
+  title: 'Pubnow',
   description: 'Publish your content',
   themeConfig: {
     sidebar: {
-      '/user-interface/': getUserInterfaceSidebar('Text'),
+      '/docs': getUserInterfaceSidebar('Tài liệu'),
     },
     displayAllHeaders: true,
   },
@@ -14,7 +14,7 @@ function getUserInterfaceSidebar(groupA, groupB) {
     {
       title: groupA,
       collapsable: false,
-      children: ['', 'text'],
+      children: ['/docs/wiki', '/docs/legal'],
     },
   ]
 }
