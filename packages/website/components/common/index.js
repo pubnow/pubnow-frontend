@@ -32,3 +32,6 @@ export { default as FeedbackCat } from './FeedbackCat.vue'
 
 // Empty
 export { default as Empty } from './Empty.vue'
+
+// Footer
+export { default as Footer } from './Footer.vue'
