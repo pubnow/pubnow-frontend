@@ -3,7 +3,11 @@
     <va-page-header>
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
-          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{ item }}</va-breadcrumb-item>
+          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">
+            {{
+            item
+            }}
+          </va-breadcrumb-item>
         </va-breadcrumb>
       </div>
     </va-page-header>
@@ -16,9 +20,19 @@
       </va-column>
     </va-row>
     <va-row>
-    <va-column :xs="12">
+      <va-column :xs="12">
         <va-table size="lg">
-          <b-table :fields="fields" :items="categories" responsive>
+          <b-table
+            :fields="fields"
+            :items="categories"
+            @row-clicked="rowSelected"
+            responsive
+            :busy="$wait.is('category.list')"
+          >
+            <div slot="table-busy" class="text-center my-5">
+              <va-loading size="lg" color="blue" fixed class="align-middle"></va-loading>
+              <strong>Đang tải...</strong>
+            </div>
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -29,56 +43,55 @@
         </va-table>
       </va-column>
     </va-row>
+    <va-aside
+      style="background-color: #f3f4f6;"
+      width="500px"
+      placement="right"
+      ref="myAsideCate"
+      @hide="onClose"
+    >
+      <EditCategory v-if="selected" :category="selected" @close="$refs.myAsideCate.close()" />
+    </va-aside>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { Breadcrumb } from '@/components/commons'
+import { EditCategory } from '@/components/aside'
 
 export default {
   components: {
     Breadcrumb,
+    EditCategory,
+  },
+  computed: {
+    ...mapGetters({
+      categories: 'category/categories',
+    }),
   },
   data: () => ({
     breadcrumb: ['Dashboard', 'Chuyên mục'],
     fields: [
       'checkBox',
+      'slug',
       { key: 'name', label: 'Tên chuyên mục' },
       { key: 'description', label: 'Mô tả' },
-      'slug',
-      { key: 'latest', label: 'Bài viết mới nhất' },
-      { key: 'count', label: 'Số lượng bài viết' },
+      { key: 'articles_count', label: 'Số lượng bài viết' },
     ],
-    categories: [
-      {
-        name: 'Khoa học - công nghệ',
-        description: 'Khoa học - công nghệ',
-        slug: 'khoa-hoc-cong-nghe',
-        latest: 'Iphone với 3 camera sắp trình làng trong tháng 10',
-        count: '2',
-      },
-      {
-        name: 'Thể thao',
-        description: 'Thể thao',
-        slug: 'the-thao',
-        latest: 'Argentina lách qua khe cửa hẹp',
-        count: '2',
-      },
-      {
-        name: 'Du lịch',
-        description: 'Du lịch',
-        slug: 'du-lich',
-        latest: 'Đi khắp thế giới',
-        count: '2',
-      },
-      {
-        name: 'Kỹ năng',
-        description: 'Khoa học - công nghệ',
-        slug: 'ky-nang',
-        latest: 'Vitamin dưới dạng thực phẩm chức năng',
-        count: '2',
-      },
-    ],
+    selected: null,
   }),
+  methods: {
+    rowSelected(item) {
+      this.selected = item
+      this.$refs.myAsideCate.open()
+    },
+    onClose(e) {
+      this.selected = null
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('category/list')
+  },
 }
 </script>

@@ -12,7 +12,7 @@ export const getters = {
 
 export const mutations = {
   setToken(state, token) {
-    this.$http.setHeader('Authorization', `Bearer ${token}`)
+    this.$http.setToken(token, 'Bearer')
     state.token = token
   },
   setUser(state, user) {
@@ -30,10 +30,11 @@ export const actions = {
     this.$http.setHeader('Accept', 'application/json')
     try {
       const result = await this.$http.$post('auth/login', {
-        user,
+        ...user,
       })
       commit('setUser', result.data)
       commit('setToken', result.token)
+
       Cookie.set('token', result.token)
       return result.data
     } catch (e) {

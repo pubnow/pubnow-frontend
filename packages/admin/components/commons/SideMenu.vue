@@ -17,6 +17,16 @@ export default {
           icon: 'user',
         },
         {
+          name: 'Chức vụ',
+          route: '/roles',
+          icon: 'medal',
+        },
+        {
+          name: 'Tổ chức',
+          route: '/organizations',
+          icon: 'users',
+        },
+        {
           name: 'Bài viết',
           route: '/articles',
           icon: 'file',
@@ -30,6 +40,11 @@ export default {
           name: 'Thẻ',
           route: '/tags',
           icon: 'tags',
+        },
+        {
+          name: 'Feedback',
+          route: '/feedback',
+          icon: 'envelope',
         },
       ],
     }

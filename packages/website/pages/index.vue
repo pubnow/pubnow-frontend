@@ -1,96 +1,86 @@
 <template>
-  <div class="home-page">
-    <div class="container">
-      <b-row>
-        <b-col md="4">
-          <card-vertical-home
-            title="Your Focus Is Priceless. Stop Giving It Away."
-            shortyBody="This is the eyeball economy, and your eyeballs are for sale"
-            authorName="Mark Allen"
-            groupName="Force"
-            doc="June 19"
-            timeReading="7 min read"
-          />
-        </b-col>
-        <b-col md="4">
-          <card-horizontal-home
-            v-for="i in 3"
-            :key="i"
-            title="Your Focus Is Priceless. Stop Giving It Away. it is the eyeball economy."
-            shortyBody="This is the eyeball economy, and your eyeballs are for sale"
-            authorName="Mark Allen"
-            groupName="Force"
-            doc="June 19"
-            timeReading="7 min read"
-          />
-        </b-col>
-        <b-col md="4">
-          <card-vertical-home
-            title="Your Focus Is Priceless. Stop Giving It Away."
-            shortyBody="This is the eyeball economy, and your eyeballs are for sale"
-            authorName="Mark Allen"
-            groupName="Force"
-            doc="June 19"
-            timeReading="7 min read"
-          />
-        </b-col>
-      </b-row>
-      <div class="line-split-section" />
-      <b-row>
-        <b-col md="4">
-          <div class="basedon mb-1">Top popular on Pubnow</div>
-          <card-horizontal-home
-            v-for="i in 3"
-            :key="i"
-            title="Your Focus Is Priceless. Stop Giving It Away. it is the eyeball economy."
-            shortyBody="This is the eyeball economy, and your eyeballs are for sale"
-            authorName="Mark Allen"
-            groupName="Force"
-            doc="June 19"
-            timeReading="7 min read"
-          />
-        </b-col>
-        <b-col md=8>
-          <card-vertical-text
-            v-for="i in 20"
-            :key="i"
-            categoryName="BASED ON YOUR READING HISTORY"
-            title="Your Focus Is Priceless. Stop Giving It Away. Your Focus Is Priceless. Stop Giving It Away."
-            shortyBody="This is the eyeball economy, and your eyeballs are for sale"
-            authorName="Mark Allen"
-            groupName="Force"
-            doc="June 19"
-            timeReading="7 min read"
-          />
-        </b-col>
-      </b-row>
+  <div class="home-page container">
+    <no-ssr>
+      <FeaturedArea />
+    </no-ssr>
+    <div class="row mt-2">
+      <div class="col-sm-8">
+        <Latest />
+        <no-ssr>
+          <infinite-loading @infinite="infiniteHandler">
+            <LatestArticlePlaceholder slot="spinner" />
+            <div slot="no-more"></div>
+            <div slot="no-results"></div>
+          </infinite-loading>
+        </no-ssr>
+      </div>
+      <div class="col-sm-4">
+        <PopularOnPubnow />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { CardVerticalHome, CardHorizontalHome, CardVerticalText } from '../components/common'
+import InfiniteLoading from 'vue-infinite-loading'
+import { mapGetters } from 'vuex'
+import { FeaturedArea, Latest, PopularOnPubnow } from '@/components/home'
+import { LatestArticlePlaceholder } from '@/components/common'
+
 export default {
   components: {
-    CardVerticalHome,
-    CardHorizontalHome,
-    CardVerticalText,
-  }
+    FeaturedArea,
+    PopularOnPubnow,
+    Latest,
+    InfiniteLoading,
+    LatestArticlePlaceholder,
+  },
+  computed: {
+    ...mapGetters({
+      currentPage: 'article/currentPage',
+      user: 'auth/user',
+    }),
+  },
+  data() {
+    return {
+      ssr: false,
+    }
+  },
+  asyncData() {
+    if (process.server) {
+      return {
+        ssr: true,
+      }
+    }
+    return {
+      ssr: false,
+    }
+  },
+  mounted() {
+    if (!this.ssr) {
+      this.$store.dispatch('article/index')
+      this.$store.dispatch('article/popular')
+      this.$store.dispatch('article/featured')
+    }
+  },
+  async fetch({ store }) {
+    if (process.server) {
+      await store.dispatch('article/index')
+      await store.dispatch('article/popular')
+      await store.dispatch('article/featured')
+    }
+  },
+  methods: {
+    infiniteHandler($state) {
+      this.$store.commit('article/setCurrentPage', this.currentPage + 1)
+      this.$store.dispatch('article/loadMore').then(articles => {
+        if (articles.length) {
+          $state.loaded()
+        } else {
+          $state.complete()
+        }
+      })
+    },
+  },
 }
 </script>
-
-<style>
-.home-page {
-  padding: 30px 0;
-}
-.line-split-section {
-  height: 1px;
-  width: 100%;
-  color: #949494;
-  margin: 20px 0;
-}
-.basedon {
-  color: #949494;
-  font-size: 18px;
-}
-</style>

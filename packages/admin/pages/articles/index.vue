@@ -3,7 +3,7 @@
     <va-page-header>
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
-          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{ item }}</va-breadcrumb-item>
+          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{item}}</va-breadcrumb-item>
         </va-breadcrumb>
       </div>
     </va-page-header>
@@ -16,69 +16,116 @@
       </va-column>
     </va-row>
     <va-row>
-    <va-column :xs="12">
+      <va-column :xs="12">
         <va-table size="lg">
-          <b-table :fields="fields" :items="articles" responsive>
+          <b-table
+            :fields="fields"
+            :items="articles"
+            @row-clicked="rowSelected"
+            responsive
+            :busy="$wait.is('article.list')"
+          >
+            <div slot="table-busy" class="text-center my-5">
+              <va-loading size="lg" color="blue" fixed class="align-middle"></va-loading>
+              <strong>Đang tải...</strong>
+            </div>
             <template slot="HEAD_checkBox">
               <div />
             </template>
             <template slot="checkBox">
               <b-form-checkbox></b-form-checkbox>
             </template>
-            <template slot="avatarauthor" slot-scope="data">
-              <img :src="data.item.avatar" alt="avatar" style="width: 36px; height: 36px; border-radius: 18px;"> 
-              <span>{{ data.item.author }}</span>
+            <template slot="title" slot-scope="data">{{ data.item.title }}</template>
+            <template slot="author" slot-scope="data">
+              <img
+                v-if="data.item.author.avatar"
+                :src="data.item.author.avatar"
+                alt="avatar"
+                style="width: 36px; height: 36px; border-radius: 18px;"
+              />
+              <img
+                v-else
+                src="~/assets/images/avatar.svg"
+                alt="avatar"
+                style="width: 36px; height: 36px; border-radius: 18px;"
+              />
+              <span>{{ data.item.author.name }}</span>
             </template>
+            <template slot="category" slot-scope="data">{{ data.item.category.name }}</template>
           </b-table>
         </va-table>
+        <va-pagination :total="total" :per-page="perPage" @change="change" />
       </va-column>
     </va-row>
+    <va-aside
+      style="background-color: #f3f4f6;"
+      width="500px"
+      placement="right"
+      ref="myAsideArticle"
+      @hide="onClose"
+    >
+      <EditArticle v-if="selected" :article="selected" />
+    </va-aside>
   </div>
 </template>
 
+
 <script>
+import { mapGetters, mapActions } from 'vuex'
+import truncate from 'lodash.truncate'
 import { Breadcrumb } from '@/components/commons'
+import { EditArticle } from '@/components/aside'
 
 export default {
   components: {
     Breadcrumb,
+    EditArticle,
+  },
+  filters: {
+    trunc(val) {
+      return truncate(val, {
+        length: 35,
+      })
+    },
   },
   data: () => ({
     breadcrumb: ['Dashboard', 'Bài viết'],
     fields: [
       'checkBox',
-      { key: 'name', label: 'Tên bài viết' },
-      'slug',
-      { key: 'avatarauthor', label: 'Tác giả' },
-      { key: 'article', label: 'Chuyên mục' },
-      { key: 'view', label: 'Lượt view' },
+      { key: 'title', label: 'Tên bài viết', tdClass: 'w-50' },
+      { key: 'author', label: 'Tác giả' },
+      { key: 'category', label: 'Chuyên mục' },
+      { key: 'seen_count', label: 'Lượt view' },
+      { key: 'claps', label: 'Vỗ tay' },
+      { key: 'publishedAt', label: 'Thời gian' },
     ],
-    articles: [
-      {
-        name: 'Cuộc sống rất giống cuộc đời',
-        slug: 'cuoc-song-rat-giong-cuoc-doi',
-        avatar: 'https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-9/32789851_1669417253172997_1743328170339205120_n.jpg?_nc_cat=110&_nc_oc=AQkOgwW6A37Y-TeD1CqaloQ4eQ6FnO3GWpjLX7IxdPlvGBmLMbCsYUjds7FC6QQ-HsE&_nc_ht=scontent.fhan2-4.fna&oh=020ca602d2d0ed83ea72bbca4c402984&oe=5DB936D6',
-        author: 'dacsang97',
-        article: 'Chia sẻ',
-        view: '2',
-      },
-      {
-        name: 'Đắc nhân tâm',
-        slug: 'dac-nhan-tam',
-        avatar: 'https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-9/32789851_1669417253172997_1743328170339205120_n.jpg?_nc_cat=110&_nc_oc=AQkOgwW6A37Y-TeD1CqaloQ4eQ6FnO3GWpjLX7IxdPlvGBmLMbCsYUjds7FC6QQ-HsE&_nc_ht=scontent.fhan2-4.fna&oh=020ca602d2d0ed83ea72bbca4c402984&oe=5DB936D6',
-        author: 'dacsang97',
-        article: 'Chia sẻ',
-        view: '2',
-      },
-      {
-        name: 'Xui thì chịu thôi',
-        slug: 'xui-thi-chiu-thoi',
-        avatar: 'https://scontent.fhan2-4.fna.fbcdn.net/v/t1.0-9/32789851_1669417253172997_1743328170339205120_n.jpg?_nc_cat=110&_nc_oc=AQkOgwW6A37Y-TeD1CqaloQ4eQ6FnO3GWpjLX7IxdPlvGBmLMbCsYUjds7FC6QQ-HsE&_nc_ht=scontent.fhan2-4.fna&oh=020ca602d2d0ed83ea72bbca4c402984&oe=5DB936D6',
-        author: 'dacsang97',
-        article: 'Chia sẻ',
-        view: '2',
-      },
-    ],
+    selected: null,
   }),
+  computed: {
+    ...mapGetters({
+      articles: 'article/articles',
+      currentPage: 'article/currentPage',
+      total: 'article/total',
+      perPage: 'article/perPage',
+    }),
+  },
+  methods: {
+    ...mapActions({
+      changePage: 'article/changePage',
+    }),
+    rowSelected(item) {
+      this.selected = item
+      this.$refs.myAsideArticle.open()
+    },
+    change(e) {
+      this.changePage(e.pageNumber)
+    },
+    onClose(e) {
+      this.selected = null
+    },
+  },
+  async mounted() {
+    await this.$store.dispatch('article/list')
+  },
 }
 </script>
