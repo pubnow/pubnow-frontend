@@ -8,8 +8,8 @@
       </b-col>
       <b-col md="6">
         <b-nav class="justify-content-end">
-          <b-nav-item>Wiki</b-nav-item>
-          <b-nav-item>Điều khoản sử dụng</b-nav-item>
+          <b-nav-item href="https://docs.pubnow.co/docs/wiki.html" target="_blank">Wiki</b-nav-item>
+          <b-nav-item href="https://docs.pubnow.co/docs/legal.html" target="_blank">Điều khoản sử dụng</b-nav-item>
           <b-nav-item>Fanpage</b-nav-item>
         </b-nav>
       </b-col>
