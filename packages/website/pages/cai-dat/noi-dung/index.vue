@@ -46,6 +46,9 @@
                 <b-spinner class="align-middle"></b-spinner>
                 <strong>Đang tải dữ liệu ...</strong>
               </div>
+              <template #title="{ item }">
+                <nuxt-link :to="`/bai-viet/${item.slug}`">{{ item.title }}</nuxt-link>
+              </template>
               <template slot="status" slot-scope="{ item }">
                 <b-badge variant="warning" v-if="item.private">Không công khai</b-badge>
                 <b-badge variant="dark" v-else-if="item.draft">Nháp</b-badge>
@@ -91,6 +94,9 @@
           </div>
           <div v-else>
             <b-table :items="series" :fields="seriesFields" striped>
+              <template #title="{ item }">
+                <nuxt-link :to="`/series/${item.slug}`">{{ item.title }}</nuxt-link>
+              </template>
               <template slot="menu" slot-scope="{ item }">
                 <va-dropdown class="pull-right">
                   <div slot="trigger">
@@ -180,6 +186,7 @@ export default {
         {
           key: 'title',
           label: 'Tiêu đề',
+          tdClass: 'w-title',
         },
         {
           key: 'articles.length',
