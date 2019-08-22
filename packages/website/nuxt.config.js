@@ -65,14 +65,18 @@ export default {
   plugins: [
     {
       src: '~/plugins/vue-atlas',
-      ssr: false,
+      mode: 'client',
     },
     {
       src: '~/plugins/vuelidate',
-      ssr: false,
+      mode: 'client',
     },
     {
       src: '~/plugins/echo',
+      mode: 'client',
+    },
+    {
+      src: '~/plugins/carousel',
       mode: 'client',
     },
     '~/plugins/http',

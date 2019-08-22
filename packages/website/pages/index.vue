@@ -1,22 +1,17 @@
 <template>
-  <div class="home-page container">
-    <no-ssr>
-      <FeaturedArea />
-    </no-ssr>
-    <div class="row mt-2">
-      <div class="col-sm-8">
-        <Latest />
-        <no-ssr>
-          <infinite-loading @infinite="infiniteHandler">
-            <LatestArticlePlaceholder slot="spinner" />
-            <div slot="no-more"></div>
-            <div slot="no-results"></div>
-          </infinite-loading>
-        </no-ssr>
-      </div>
-      <div class="col-sm-4">
+  <div class="home-page">
+    <div class="container">
+      <no-ssr>
         <PopularOnPubnow />
-      </div>
+        <v-wait for="article.home" transition="fade" mode="out-in">
+          <template slot="waiting">
+            <HomeCategoryPlaceholder v-for="i in 6" :key="i" />
+          </template>
+          <div v-if="categories.length > 0">
+            <Category v-for="category in categories" :key="category.id" :category="category" />
+          </div>
+        </v-wait>
+      </no-ssr>
     </div>
   </div>
 </template>
@@ -24,21 +19,21 @@
 <script>
 import InfiniteLoading from 'vue-infinite-loading'
 import { mapGetters } from 'vuex'
-import { FeaturedArea, Latest, PopularOnPubnow } from '@/components/home'
-import { LatestArticlePlaceholder } from '@/components/common'
+import { PopularOnPubnow, Category } from '@/components/home'
+import { HomeCategoryPlaceholder } from '@/components/common'
 
 export default {
   components: {
-    FeaturedArea,
     PopularOnPubnow,
-    Latest,
     InfiniteLoading,
-    LatestArticlePlaceholder,
+    Category,
+    HomeCategoryPlaceholder,
   },
   computed: {
     ...mapGetters({
       currentPage: 'article/currentPage',
       user: 'auth/user',
+      categories: 'article/categories',
     }),
   },
   data() {
@@ -58,16 +53,14 @@ export default {
   },
   mounted() {
     if (!this.ssr) {
-      this.$store.dispatch('article/index')
+      this.$store.dispatch('article/home')
       this.$store.dispatch('article/popular')
-      this.$store.dispatch('article/featured')
     }
   },
   async fetch({ store }) {
     if (process.server) {
-      await store.dispatch('article/index')
+      await store.dispatch('article/home')
       await store.dispatch('article/popular')
-      await store.dispatch('article/featured')
     }
   },
   methods: {
@@ -84,3 +77,10 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.home-page {
+  background-color: #fafafa;
+  padding-bottom: 30px;
+}
+</style>

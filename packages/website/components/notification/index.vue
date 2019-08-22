@@ -58,7 +58,6 @@ export default {
     if (this.user) {
       window.Echo.private('App.Models.User.' + this.user.id).notification(
         item => {
-          console.log({ item })
           const isUser = get(item, 'notification.data.type') === 'user'
 
           if (isUser) {

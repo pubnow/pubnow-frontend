@@ -78,3 +78,10 @@ a {
     text-decoration: none !important;
   }
 }
+
+.VueCarousel-dot-container {
+  margin-top: 5px !important;
+  .VueCarousel-dot {
+    margin-top: 0 !important;
+  }
+}
