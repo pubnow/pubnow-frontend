@@ -1,6 +1,6 @@
 <template>
   <no-ssr>
-    <va-affix :offset="0" style="z-index: 9999">
+    <va-affix :offset="0">
       <nav class="nav-wrapper navbar-expand-lg d-lg-flex d-none bg-white py-2">
         <b-container>
           <b-navbar-nav>
