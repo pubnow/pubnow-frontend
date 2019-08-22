@@ -58,9 +58,14 @@ export default {
     if (this.user) {
       window.Echo.private('App.Models.User.' + this.user.id).notification(
         item => {
+          console.log({ item })
           const isUser = get(item, 'notification.data.type') === 'user'
-          this.$store.commit('notification/addNotification', item.notification)
+
           if (isUser) {
+            this.$store.commit(
+              'notification/addNotification',
+              item.notification,
+            )
             const type = get(item, 'notification.type')
             switch (type) {
               case 'App\\Notifications\\UserFollow': {
