@@ -26,6 +26,10 @@ export {
   default as PopularArticlePlaceholder,
 } from './Placeholder/PopularArticle.vue'
 export { default as SeriesPlaceholder } from './Placeholder/Series.vue'
+export { default as WellReadPlaceholder } from './Placeholder/WellRead.vue'
+export {
+  default as HomeCategoryPlaceholder,
+} from './Placeholder/HomeCategory.vue'
 
 // Feedback
 export { default as FeedbackCat } from './FeedbackCat.vue'

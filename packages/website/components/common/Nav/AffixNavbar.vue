@@ -1,6 +1,6 @@
 <template>
   <no-ssr>
-    <va-affix :offset="0">
+    <va-affix :offset="0" style="z-index: 9999">
       <nav class="nav-wrapper navbar-expand-lg d-lg-flex d-none bg-white py-2">
         <b-container>
           <b-navbar-nav>
@@ -46,5 +46,6 @@ export default {
 
 .nav-wrapper {
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.05);
+  background: #fff;
 }
 </style>

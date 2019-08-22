@@ -14,6 +14,7 @@ export const state = () => ({
   isPrivate: false,
   userArticles: [],
   organization: null,
+  categories: [],
 })
 
 export const mutations = {
@@ -83,6 +84,9 @@ export const mutations = {
   setTotal(state, total) {
     state.total = total
   },
+  setCategories(state, categories) {
+    state.categories = categories
+  },
 }
 
 export const getters = {
@@ -100,6 +104,7 @@ export const getters = {
   isPrivate: s => s.isPrivate,
   userArticles: s => s.userArticles,
   organization: s => s.organization,
+  categories: s => s.categories,
 }
 
 export const actions = {
@@ -260,5 +265,17 @@ export const actions = {
   async changeUserPage({ dispatch, commit }, payload) {
     commit('setCurrentPage', payload)
     dispatch('user')
+  },
+  async home({ commit, dispatch }) {
+    try {
+      dispatch('wait/start', 'article.home', { root: true })
+      const result = await this.$http.$get(`articles/home`)
+      const { data: categories } = result
+      dispatch('wait/end', 'article.home', { root: true })
+      commit('setCategories', categories)
+    } catch (e) {
+      dispatch('wait/end', 'article.home', { root: true })
+      return null
+    }
   },
 }
