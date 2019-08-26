@@ -11,7 +11,7 @@
             <b-col md="8" class="pr-md-3 pr-0">
               <carousel :per-page="1" paginationActiveColor="#b3d4ff" paginationColor="#deebff">
                 <slide v-for="article in topSeven" :key="article.id">
-                  <TopPopularCard :article="article" />
+                  <TopPopularCard :article="article" show-category />
                 </slide>
               </carousel>
             </b-col>

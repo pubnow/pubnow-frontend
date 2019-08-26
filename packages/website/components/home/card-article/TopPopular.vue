@@ -1,9 +1,10 @@
 <template>
   <nuxt-link :to="link" class="top-popular-item">
     <img class="cover" :src="thumbnail" />
-    <nuxt-link :to="`/danh-muc/${cat.slug}`" class="category">{{ cat.name }}</nuxt-link>
+    <nuxt-link :to="`/danh-muc/${cat.slug}`" class="category" v-if="showCategory">{{ cat.name }}</nuxt-link>
     <div class="caption">
       <span class="title">{{ article.title }}</span>
+      <span class="excerpt" v-if="showExcerpt">{{ article.excerpt | unescape }}</span>
       <span class="author">
         <img :src="author.avatar" class="avatar" />
         <nuxt-link :to="`/nguoi-dung/${author.username}`" class="name">{{ author.name }}</nuxt-link>
@@ -23,6 +24,14 @@ export default {
     article: {
       type: Object,
       required: true,
+    },
+    showCategory: {
+      type: Boolean,
+      default: false,
+    },
+    showExcerpt: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {
@@ -82,6 +91,7 @@ $avatar: 24px;
     border: 0;
     object-fit: cover;
     transition: all 0.15s ease-in;
+    filter: brightness(75%) saturate(140%);
   }
 
   .caption {
@@ -101,6 +111,11 @@ $avatar: 24px;
       padding-bottom: 0.6rem;
       display: block;
       white-space: normal;
+    }
+    .excerpt {
+      color: #fff;
+      padding-bottom: 0.4rem;
+      display: block;
     }
     .author {
       .avatar {
