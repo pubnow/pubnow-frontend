@@ -64,32 +64,32 @@
                   <li>
                     <nuxt-link :to="`/bai-viet/${item.slug}/edit`">Chỉnh sửa</nuxt-link>
                   </li>
-                  <li @click="openModal">
+                  <li @click="openModal(item)">
                     <a href="#">Xóa</a>
                   </li>
                 </va-dropdown>
-                <va-modal title="Xóa bài viết" ref="deleteModal" :backdrop-clickable="true">
-                  <div slot="body">
-                    <p>
-                      Bạn có chắc chắn muốn xóa bài viết
-                      <span
-                        class="font-weight-bold"
-                      >{{ item.title }}</span> không?
-                    </p>
-                  </div>
-                  <div slot="footer">
-                    <va-button @click="$refs.deleteModal.close()">Hủy bỏ</va-button>
-                    <va-button
-                      type="danger"
-                      @click="deleteArticle(item.slug)"
-                      icon-before="trash"
-                      :disable="removing"
-                      :loading="removing"
-                    >Xóa</va-button>
-                  </div>
-                </va-modal>
               </template>
             </b-table>
+            <va-modal title="Xóa bài viết" ref="deleteModal" :backdrop-clickable="true">
+              <div slot="body">
+                <p v-if="current">
+                  Bạn có chắc chắn muốn xóa bài viết
+                  <span
+                    class="font-weight-bold"
+                  >{{ current.title }}</span> không?
+                </p>
+              </div>
+              <div slot="footer">
+                <va-button @click="$refs.deleteModal.close()">Hủy bỏ</va-button>
+                <va-button
+                  type="danger"
+                  @click="deleteArticle(current.slug)"
+                  icon-before="trash"
+                  :disable="removing"
+                  :loading="removing"
+                >Xóa</va-button>
+              </div>
+            </va-modal>
             <va-pagination v-if="total > 1" :total="total" :per-page="perPage" @change="change" />
           </div>
           <div v-else>
@@ -107,32 +107,32 @@
                   <li>
                     <nuxt-link :to="`/series/${item.slug}/chinh-sua`">Chỉnh sửa</nuxt-link>
                   </li>
-                  <li @click="openModalSeries">
+                  <li @click="openModalSeries(item)">
                     <a href="#">Xóa</a>
                   </li>
-                  <va-modal title="Xóa series" ref="deleteSeriesModal" :backdrop-clickable="true">
-                    <div slot="body">
-                      <p>
-                        Bạn có chắc chắn muốn xóa series
-                        <span
-                          class="font-weight-bold"
-                        >{{ item.title }}</span> không?
-                      </p>
-                    </div>
-                    <div slot="footer">
-                      <va-button @click="$refs.deleteSeriesModal.close()">Hủy bỏ</va-button>
-                      <va-button
-                        type="danger"
-                        @click="deleteSeries(item.slug)"
-                        icon-before="trash"
-                        :disable="removingSeries"
-                        :loading="removingSeries"
-                      >Xóa</va-button>
-                    </div>
-                  </va-modal>
                 </va-dropdown>
               </template>
             </b-table>
+            <va-modal title="Xóa series" ref="deleteSeriesModal" :backdrop-clickable="true">
+              <div slot="body">
+                <p v-if="currentSeries">
+                  Bạn có chắc chắn muốn xóa series
+                  <span
+                    class="font-weight-bold"
+                  >{{ currentSeries.title }}</span> không?
+                </p>
+              </div>
+              <div slot="footer">
+                <va-button @click="$refs.deleteSeriesModal.close()">Hủy bỏ</va-button>
+                <va-button
+                  type="danger"
+                  @click="deleteSeries(currentSeries.slug)"
+                  icon-before="trash"
+                  :disable="removingSeries"
+                  :loading="removingSeries"
+                >Xóa</va-button>
+              </div>
+            </va-modal>
             <va-pagination
               v-if="totalSeriesPage > 1"
               :total="totalSeriesPage"
@@ -201,6 +201,8 @@ export default {
           label: '',
         },
       ],
+      current: null,
+      currentSeries: null,
     }
   },
   head() {
@@ -296,10 +298,12 @@ export default {
         })
       }
     },
-    openModal() {
+    openModal(article) {
+      this.current = article
       this.$refs.deleteModal.open()
     },
-    openModalSeries() {
+    openModalSeries(series) {
+      this.currentSeries = series
       this.$refs.deleteSeriesModal.open()
     },
   },
