@@ -172,7 +172,7 @@ export default {
         } else {
           this.notification.danger({
             title: 'Có lỗi xảy ra',
-            message: 'Bạn không thể tạo tài khoản vào lúc này.',
+            message: 'Có lỗi xảy ra, vui lòng thử lại sau.',
             duration: 1690,
           })
         }
