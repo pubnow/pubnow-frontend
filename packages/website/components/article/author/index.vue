@@ -102,8 +102,6 @@ export default {
       return this.$wait.is('article.remove')
     },
     isAuthor() {
-      console.log(this.user)
-      console.log(this.org)
       return (
         (this.user && (this.user.isAdmin || this.user.id === this.author.id)) ||
         (this.org && this.org.owner.id === this.user.id)
