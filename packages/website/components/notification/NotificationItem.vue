@@ -47,7 +47,6 @@ export default {
       )
     },
     item() {
-      console.log(this.notification)
       switch (this.notification.type) {
         case 'App\\Notifications\\UserFollow': {
           return {

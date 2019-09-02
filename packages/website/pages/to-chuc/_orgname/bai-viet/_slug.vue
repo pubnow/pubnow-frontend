@@ -12,6 +12,7 @@
               :time="article.createdAt"
               :category="article.category"
               :slug="article.slug"
+              :org="article.organization"
             />
             <navbar
               :clap="article.claps"
