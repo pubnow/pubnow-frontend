@@ -77,7 +77,7 @@ export default {
         id: this.feedback.id,
         resolve: this.resolve,
       })
-      // this.$router.go()
+      this.$router.go()
     },
   },
 }
