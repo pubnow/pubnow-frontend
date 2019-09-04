@@ -11,13 +11,14 @@
             <h2 class="name m-0">{{ org.name }}</h2>
           </div>
           <va-input
+            v-if="!inOrg"
             v-model="keyword"
             icon="search"
             placeholder="Tìm kiếm"
             iconStyle="solid"
             @confirm="search"
             :class="[{'ml-3 d-lg-block d-none': inOrg}]"
-            :width="inOrg ? 'lg' : 'xl'"
+            width="xl"
           ></va-input>
         </b-col>
         <b-col
@@ -32,7 +33,6 @@
           >
             <div class="bell" slot="trigger">
               <va-icon
-                
                 type="bell"
                 class="icon"
                 :iconStyle="notificationNumber > 0 ? 'solid' : 'regular'"

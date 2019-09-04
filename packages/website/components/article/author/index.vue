@@ -104,7 +104,7 @@ export default {
     isAuthor() {
       return (
         (this.user && (this.user.isAdmin || this.user.id === this.author.id)) ||
-        (this.org && this.org.owner.id === this.user.id)
+        (this.user && this.org && this.org.owner.id === this.user.id)
       )
     },
     avatar() {
