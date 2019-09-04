@@ -108,7 +108,7 @@ export default {
       if (!article) {
         this.$nuxt.error({
           statusCode: 404,
-          message: 'Bài viết không tồn tài',
+          message: 'Bài viết không tồn tại',
         })
       }
     }
@@ -135,7 +135,7 @@ export default {
       if (!article) {
         error({
           statusCode: 404,
-          message: 'Bài viết không tồn tài',
+          message: 'Bài viết không tồn tại',
         })
       }
     }
