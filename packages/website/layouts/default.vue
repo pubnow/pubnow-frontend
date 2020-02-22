@@ -2,17 +2,21 @@
   <div class="wrapper">
     <Navbar />
     <AffixNavbar />
+    <FeedbackCat />
     <nuxt class="app" />
+    <Footer />
   </div>
 </template>
 
 <script>
-import { Navbar, AffixNavbar } from '@/components/common'
+import { Navbar, AffixNavbar, FeedbackCat, Footer } from '@/components/common'
 
 export default {
   components: {
     Navbar,
     AffixNavbar,
+    FeedbackCat,
+    Footer,
   },
   data() {
     return {

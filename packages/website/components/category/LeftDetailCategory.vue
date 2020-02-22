@@ -1,152 +1,258 @@
 <template>
-  <div class="left-content">
-    <ul class="feed-list">
-     <li class="feed-post">
-       <div class="inner">
-         <div class="author">
-           <div class="avatar">
-             <a href="#">
-               <img src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-xs-avatar/2284cd70739911e9bc561189dd157642.jpg" alt="">
-             </a>
-           </div>
-           <div>
-               <span class="hover-username">
-                 <a href="#" class="name">Ma kết</a>
-               </span>
-              trong 
-             <a class="category-name">Quan điểm-tranh luận</a>
-           </div>          
-           <div class="created">
-              <span class="date">
-                hôm qua
-              </span>
-           </div>
-         </div>
-         <div class="image">
-           <a href="#">
-               <img src="https://s3-ap-southeast-1.amazonaws.com/img.spiderum.com/sp-thumbnails/5b357c90a6ee11e9941c35ca1bbe261d.jpg" alt="">
-           </a>
-         </div>
-         <h3 class="title">
-           <a href="#">Thị trường tuyển dụng hiện nay – Ngành nào “an toàn” nhất?</a>
-         </h3>
-         <p class="content">
-           <a href="#" class="body">
-            Hằng ngày, trên trang chia sẻ của các trường đại học, chúng ta vẫn thường đọc được những confession tâm sự về chuyện học – chuyện nghề của các bạn...
-         </a>
-         </p>
-         <div class="tags">
-           <ul class="list-unstyled">
-             <li>
-               <a href="">thị trường</a>
-             </li>
-             <li>
-               <a href="">thị trường</a>
-             </li><li>
-               <a href="">thị trường</a>
-             </li><li>
-               <a href="">thị trường</a>
-             </li>
-           </ul>
-         </div>
-         <div class="toolbar">
-           <div class="pull-left">
-             <div class="vote-box">
-               <span class="icon">
-                 <i class="fas fa-sign-language"></i>
-               </span>
-               <a>5k</a>
-             </div>
-           </div>
-           <div class="pull-right">
-             <span class="views">
-               <span class="icon">
-              <i class="fas fa-eye"></i>
-               </span>
-             <span class="text">622</span>
-             </span>
-             <a href="#" class="comment">
-               <span class="icon">
-                 <i class="fas fa-comment-dots"></i>
-               </span>
-               <span class="text">4</span>
-             </a>
-           </div>
-         </div>
-       </div>
-     </li>
-    </ul>
-  </div>
+  <no-ssr>
+    <div class="left-content">
+      <ul class="feed-list">
+        <li class="feed-post">
+          <div class="inner">
+            <div class="author">
+              <img
+                :src="article.author.avatar"
+                class="avatar"
+                v-if="article.author.avatar !== ''"
+                alt
+              />
+              <img v-else class="avatar" src="https://cdn.head-fi.org/g/2283245_l.jpg" alt />
+              <div class="d-flex flex-column justify-content-between">
+                <div>
+                  <span class="hover-username">
+                    <nuxt-link
+                      :to="`/nguoi-dung/${article.author.username}`"
+                      class="name"
+                    >{{article.author.name}}</nuxt-link>
+                  </span>
+                  trong
+                  <nuxt-link
+                    :to="`/danh-muc/${article.category.slug}`"
+                    class="category-name"
+                  >{{categoryName}}</nuxt-link>
+                </div>
+                <div class="created">
+                  <span class="date">Đăng {{ article.publishedAt }}</span>
+                </div>
+              </div>
+            </div>
+            <nuxt-link :to="`/bai-viet/${article.slug}`" class="link-article">
+              <div class="image">
+                <img
+                  class="img-fluid w-100"
+                  v-if="article.thumbnail !== ''"
+                  :src="article.thumbnail"
+                  alt
+                />
+                <div v-else class="no-thumbnail h-100 d-flex justify-content-center">
+                  <img class="thumbnail-logo" src="@/assets/images/logo.svg" alt />
+                </div>
+              </div>
+              <h3 class="title">{{article.title}}</h3>
+              <p class="content">{{ article.excerpt | unescape }}</p>
+            </nuxt-link>
+            <div class="tags" v-if="article.tags.length > 0">
+              <ul class="list-unstyled" v-for="(tag, id) in article.tags" :key="id">
+                <li>
+                  <nuxt-link :to="`/tag/${tag.slug}`">{{tag.name}}</nuxt-link>
+                </li>
+              </ul>
+            </div>
+            <div class="toolbar">
+              <div class="pull-left">
+                <div class="vote-box">
+                  <span class="icon">
+                    <img
+                      v-if="clapStatus"
+                      :src="require('@/assets/images/icons/clap-filter.svg')"
+                      @click="clapArticle(article.slug)"
+                      alt="clap filter icon"
+                    />
+                    <img
+                      v-else
+                      :src="require('@/assets/images/icons/clap.svg')"
+                      @click="clapArticle(article.slug)"
+                      alt="clap icon"
+                    />
+                  </span>
+                  <span>{{clapNum}}</span>
+                </div>
+              </div>
+              <div class="pull-right">
+                <span class="views">
+                  <span class="icon">
+                    <img :src="require('@/assets/images/icons/comment.svg')" alt="clap icon" />
+                  </span>
+                  <span class="text">{{article.comments_count}}</span>
+                </span>
+                <span class="icon">
+                  <img
+                    v-if="bookmarkStatus"
+                    :src="require('@/assets/images/icons/bookmark-filter.svg')"
+                    @click="showModal"
+                    alt="bookmark filter icon"
+                  />
+                  <img
+                    v-else
+                    :src="require('@/assets/images/icons/bookmark.svg')"
+                    @click="bookmarkArticle(article.slug)"
+                    alt="bookmark icon"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+      <va-modal title="Xác nhận" :backdrop-clickable="backdropClickable" ref="modal">
+        <div slot="body">Bạn có chắc chắn muốn xóa bookmark khỏi bài viết này không?</div>
+        <div slot="footer">
+          <div>
+            <va-button @click="$refs.modal.close()">Hủy</va-button>
+            <va-button type="primary" @click="bookmarkArticle(article.slug)">Đồng ý</va-button>
+          </div>
+        </div>
+      </va-modal>
+    </div>
+  </no-ssr>
 </template>
+
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  props: {
+    article: {
+      type: Object,
+    },
+    categoryName: {
+      type: String,
+    },
+  },
+  data() {
+    return {
+      clapNum: 0,
+      clapStatus: false,
+      bookmarkStatus: false,
+      backdropClickable: true,
+    }
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/user',
+      numClap: 'clap/clapNum',
+      clappedStatus: 'clap/clapped',
+      bookmarkedStatus: 'bookmark/bookmarked',
+    }),
+  },
+  mounted() {
+    this.clapNum = this.article.claps
+    this.clapStatus = this.article.clapped
+    this.bookmarkStatus = this.article.bookmarked
+  },
+  methods: {
+    clapArticle(slug) {
+      if (this.user) {
+        this.$store.dispatch('clap/write', slug).then(() => {
+          this.clapNum = this.numClap
+          this.clapStatus = this.clappedStatus
+        })
+      } else {
+        this.$router.push('/dang-nhap')
+      }
+    },
+    showModal() {
+      this.$refs.modal.open()
+    },
+    bookmarkArticle(id) {
+      if (this.user) {
+        if (this.bookmarkStatus) {
+          this.$store.dispatch('bookmark/unBookmark', id).then(() => {
+            this.bookmarkStatus = this.bookmarkedStatus
+          })
+          this.$refs.modal.close()
+        } else {
+          this.$store.dispatch('bookmark/write', id).then(() => {
+            this.bookmarkStatus = this.bookmarkedStatus
+          })
+        }
+      } else {
+        this.$router.push('/dang-nhap')
+      }
+    },
+  },
+}
+</script>
+
+
 <style lang="scss" scoped>
+@import '@pubnow/ui/scss/_mixins.scss';
+@import '@pubnow/ui/scss/_fonts.scss';
+@import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_sizes.scss';
+
 .left-content {
   .feed-list {
     padding-left: 0;
+    list-style-type: none;
     .feed-post {
       margin-bottom: 10px;
       .inner {
-        padding: 15px 20px;
+        padding: $unit;
         background: #fff;
-        border-radius: 3px;
         position: relative;
-        box-shadow: 0 0.5px 1px rgba(0, 0, 0, 0.25);
+        @include border;
+        @include radius-md;
+        @include box-shadow-sm;
         .author {
-          font-size: 13px;
+          font-size: 14px;
           line-height: 15px;
           color: #99a3ad;
-          padding: 5px 0 5px 46px;
+          display: flex;
           .avatar {
-            height: 36px;
-            width: 36px;
-            overflow: hidden;
-            float: left;
-            text-align: center;
+            height: 40px;
+            width: 40px;
             border-radius: 50%;
-            margin-left: -46px;
-            .category-name {
-              color: #2c3e50 !important;
-            }
-            &li {
-              list-style: none;
-            }
-            &img {
-              max-width: 100%;
-              max-height: 100%;
-              border-radius: 50%;
-            }
+            margin-right: $unit / 4;
+            object-fit: cover;
+          }
+
+          .category-name {
+            color: #2c3e50 !important;
           }
         }
-        .image {
-          margin-top: 15px;
-          overflow: hidden;
-          display: block;
-          width: 100%;
-          height: 200px;
-          position: relative;
-          overflow: hidden;
-          &img {
-            width: 792px;
+        .link-article {
+          &:hover {
+            text-decoration: none;
+            color: #505e77;
           }
-        }
-        .title {
-          margin: 15px 0 0;
-          word-break: break-word;
-          & a {
-            color: #2c3e50;
-            font-family: SFD-Bold;
-            font-size: 20px !important;
-            font-weight: bold;
-            line-height: 30px;
+          .image {
+            margin-top: 15px;
+            overflow: hidden;
             display: block;
+            width: 100%;
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+            .no-thumbnail {
+              background-color: rgba(0, 0, 0, 0.05);
+            }
           }
-        }
-        .content {
-          .body {
-            display: block;
+          .title {
+            margin: 15px 0 0;
             word-break: break-word;
-            color: inherit;
-            font-size: 14px;
-            color: #34495e !important;
+            a {
+              color: #2c3e50;
+              font-size: 24px !important;
+              font-weight: bold;
+              line-height: 30px;
+              display: block;
+            }
+          }
+          .content {
+            color: #505e77;
+            .body {
+              display: block;
+              word-break: break-word;
+              color: inherit;
+              font-family: $noto;
+              font-size: 16px;
+              color: #34495e !important;
+            }
           }
         }
         .tags {
@@ -197,11 +303,6 @@
 .icon {
   color: #99a3ad;
   font-size: 20px;
-}
-a {
-  background-color: transparent;
-  text-decoration: none;
-  outline: none;
   cursor: pointer;
 }
 

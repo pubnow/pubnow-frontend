@@ -1,5 +1,9 @@
+@import '@pubnow/ui/scss/_fonts.scss';
+
 body {
-  background-color: #fcfcfc !important;
+  background-color: #fff !important;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 .page-enter-active,
@@ -9,7 +13,6 @@ body {
 .page-enter,
 .page-leave-active {
   opacity: 0;
-  transform: translate3d(0, 5px, 0);
 }
 
 .va-btn-block {
@@ -19,4 +22,66 @@ body {
 
 *:focus {
   outline: 0px !important;
+}
+
+// Froala Editor
+.fr-toolbar.fr-top,
+.second-toolbar {
+  border-radius: 0;
+}
+
+.content-article {
+  * {
+    font-size: 19px;
+    line-height: 1.58;
+    font-family: $noto !important;
+  }
+}
+
+// Dropdown
+.va-dropdown-con .va-dropdown-menu {
+  max-height: unset !important;
+}
+
+.middot {
+  padding-right: 0.3em;
+  padding-left: 0.3em;
+  font-size: 16px;
+  &::after {
+    content: '\00B7';
+  }
+}
+
+.w-title {
+  width: 30% !important;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.notification-dropdown {
+  .va-dropdown-menu {
+    left: -96px !important;
+  }
+}
+
+.text-support {
+  margin-top: -12px;
+  margin-bottom: 10px;
+  padding-left: 0.625rem;
+  font-size: 12px;
+}
+
+a {
+  &:hover {
+    text-decoration: none !important;
+  }
+}
+
+.VueCarousel-dot-container {
+  margin-top: 5px !important;
+  .VueCarousel-dot {
+    margin-top: 0 !important;
+  }
 }

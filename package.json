@@ -1,18 +1,18 @@
 {
   "name": "pubnow-frontend",
   "private": true,
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "build": "lerna run build",
-    "build:admin": "lerna run build --scope={@pubnow/ui,@pubnow/admin}",
-    "build:website": "lerna run build --scope={@pubnow/ui,@pubnow/website}",
+    "build:admin": "lerna run build --scope @pubnow/admin",
+    "build:website": "lerna run build --scope @pubnow/website",
     "dev": "lerna run --parallel dev",
-    "dev:web": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/website}",
-    "dev:admin": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/admin}",
+    "dev:web": "lerna run dev --parallel --scope @pubnow/website",
+    "dev:web:local": "lerna run dev:local --parallel --scope @pubnow/website",
+    "dev:admin": "lerna run dev --parallel --scope @pubnow/admin",
+    "dev:admin:local": "lerna run dev:local --parallel --scope @pubnow/admin",
     "clean": "rimraf packages/**/dist packages/**/.nuxt",
     "docs": "lerna run dev --parallel --scope={@pubnow/ui,@pubnow/docs}",
     "prebuild": "yarn clean",

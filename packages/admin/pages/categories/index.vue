@@ -3,9 +3,11 @@
     <va-page-header>
       <div slot="breadcrumb">
         <va-breadcrumb separator="/">
-          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">{{
+          <va-breadcrumb-item v-for="item in breadcrumb" :key="item">
+            {{
             item
-          }}</va-breadcrumb-item>
+            }}
+          </va-breadcrumb-item>
         </va-breadcrumb>
       </div>
     </va-page-header>
@@ -23,11 +25,14 @@
           <b-table
             :fields="fields"
             :items="categories"
-            selectable
-            select-mode="range"
-            @row-selected="rowSelected"
+            @row-clicked="rowSelected"
             responsive
+            :busy="$wait.is('category.list')"
           >
+            <div slot="table-busy" class="text-center my-5">
+              <va-loading size="lg" color="blue" fixed class="align-middle"></va-loading>
+              <strong>Đang tải...</strong>
+            </div>
             <template slot="HEAD_checkBox">
               <div />
             </template>
@@ -43,12 +48,9 @@
       width="500px"
       placement="right"
       ref="myAsideCate"
+      @hide="onClose"
     >
-      <EditCategory
-        v-if="selected"
-        :boolean="boolean"
-        :selected="selected[0]"
-      />
+      <EditCategory v-if="selected" :category="selected" @close="$refs.myAsideCate.close()" />
     </va-aside>
   </div>
 </template>
@@ -56,7 +58,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { Breadcrumb } from '@/components/commons'
-import EditCategory from './EditCategory'
+import { EditCategory } from '@/components/aside'
 
 export default {
   components: {
@@ -72,20 +74,20 @@ export default {
     breadcrumb: ['Dashboard', 'Chuyên mục'],
     fields: [
       'checkBox',
+      'slug',
       { key: 'name', label: 'Tên chuyên mục' },
       { key: 'description', label: 'Mô tả' },
-      'slug',
-      { key: 'latest', label: 'Bài viết mới nhất' },
-      { key: 'count', label: 'Số lượng bài viết' },
+      { key: 'articles_count', label: 'Số lượng bài viết' },
     ],
-    selected: '',
-    boolean: true,
+    selected: null,
   }),
   methods: {
-    rowSelected(items) {
-      this.selected = items
+    rowSelected(item) {
+      this.selected = item
       this.$refs.myAsideCate.open()
-      this.boolean = true
+    },
+    onClose(e) {
+      this.selected = null
     },
   },
   async mounted() {

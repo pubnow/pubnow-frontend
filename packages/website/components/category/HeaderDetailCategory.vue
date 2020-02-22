@@ -1,81 +1,109 @@
 <template>
-   <div class="category-heading">
-      <div class="background">
-        <img src="https://spiderum.com/assets/images/categories/business-min.jpg" alt="">
-      </div>
+  <div class="category-heading">
+    <no-ssr>
+      <img class="cover" :src="image ? image : `https://source.unsplash.com/random`" alt />
       <div class="text-box">
-        <div class="title">Quan điểm - tranh luận</div>
-        <va-button class="action-button btn btn-default btn-round btn-follow">
-         Theo dõi
-        </va-button >
+        <div class="title">{{name}}</div>
+        <va-button
+          v-if="followCategoryStatus"
+          @click="handleFollowCategory(slug)"
+          class="mt-2 btn-active btn-round btn-follow"
+        >Đang theo dõi</va-button>
+        <va-button
+          v-else
+          class="mt-2 btn btn-default btn-round btn-follow"
+          @click="handleFollowCategory(slug)"
+        >Theo dõi</va-button>
       </div>
-    </div>
+    </no-ssr>
+  </div>
 </template>
-<style lang="scss" scoped>
-.category-heading {
-  width: 100%;
-  font-size: 0;
-  height: 200px;
-  position: relative;
-  text-align: center;
-  margin-bottom: 25px;
-  .background {
-    position: absolute;
-    overflow: hidden;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    & img {
-      position: absolute;
-      width: 100%;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-  }
-  .text-box {
-    padding-top: 3.5rem;
-    vertical-align: middle;
-    display: inline-block;
-    max-width: 100%;
-    font-size: 1rem;
-    position: relative;
-    color: #fff;
-    .title {
-      padding-bottom: 10px;
-      font-size: 24px;
-      letter-spacing: 1px;
-      font-weight: 800 !important;
-      font-family: SFD-Bold;
-      text-shadow: 0 0 2px rgba(0, 0, 0, 0.75), 0 0 5px rgba(0, 0, 0, 0.25),
-        0 0 8px rgba(0, 0, 0, 0.25), 0 0 12px rgba(0, 0, 0, 0.25);
-    }
 
-    .btn-default {
-      background: #fff;
-      border-color: #ccc;
-      color: #2fb5fa !important;
+<script>
+import { mapGetters } from 'vuex'
+export default {
+  props: {
+    name: {
+      type: String,
+      required: true,
+    },
+    following: {
+      type: Boolean,
+      required: true,
+    },
+    slug: {
+      type: String,
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    articles: {
+      type: Number,
+      required: true,
+    },
+    followers: {
+      type: Number,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      followCategoryStatus: false,
     }
-    .btn-round {
-      border-radius: 20px;
-    }
-    .btn {
-      display: inline-block;
-      padding: 6px 18px;
-      margin-bottom: 0;
-      font-size: 14px;
-      line-height: 1.42857143;
-      text-align: center;
-      white-space: nowrap;
-      vertical-align: middle;
-      touch-action: manipulation;
-      cursor: pointer;
-      user-select: none;
-      border: 1px solid transparent;
-    }
-    .action-button {
-      padding-top: 8px;
+  },
+  computed: {
+    ...mapGetters({
+      user: 'auth/user',
+      followedCategoryStatus: 'follow/followCategory',
+    }),
+  },
+  mounted() {
+    this.followCategoryStatus = this.following
+  },
+  methods: {
+    handleFollowCategory(slug) {
+      if (this.user) {
+        if (this.followCategoryStatus) {
+          this.$store.dispatch('follow/unFollowCategory', slug).then(() => {
+            this.followCategoryStatus = this.followedCategoryStatus
+          })
+        } else {
+          this.$store.dispatch('follow/followCategory', slug).then(() => {
+            this.followCategoryStatus = this.followedCategoryStatus
+          })
+        }
+      } else {
+        this.$router.push('/dang-nhap')
+      }
+    },
+  },
+}
+</script>
+
+
+<style lang="scss" scoped>
+@import '@pubnow/ui/scss/_fonts.scss';
+@import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_mixins.scss';
+
+.category-heading {
+  margin-bottom: 39px;
+
+  .cover {
+    width: 100%;
+    max-height: 235px;
+    object-fit: cover;
+    @include border;
+    @include radius-md;
+    box-shadow: 0 6px 15px rgba(36, 37, 38, 0.08);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
+  }
+
+  &:hover {
+    .cover {
+      box-shadow: 5px 12px 20px rgba(36, 37, 38, 0.13);
     }
   }
 }

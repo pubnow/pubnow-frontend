@@ -1,5 +1,6 @@
 <template>
   <div class="editor">
+    <input class="title" placeholder="Tiêu đề bài viết" :value="title" @input="changeTitle" />
     <editor-content class="editor__content" :editor="editor" />
   </div>
 </template>
@@ -22,13 +23,35 @@ import {
   Italic,
   Link,
   History,
+  Image,
 } from 'tiptap-extensions'
-import SimpleArticleDoc from './Doc'
-import Title from './Title'
+import { mapGetters, mapMutations } from 'vuex'
 
 export default {
   components: {
     EditorContent,
+  },
+  computed: {
+    ...mapGetters({
+      title: 'article/title',
+    }),
+  },
+  props: {
+    content: {
+      type: Object,
+    },
+    editable: {
+      type: Boolean,
+      default: true,
+    },
+  },
+  methods: {
+    ...mapMutations({
+      setTitle: 'article/setTitle',
+    }),
+    changeTitle(evt) {
+      this.setTitle(evt.target.value)
+    },
   },
   data() {
     return {
@@ -36,8 +59,6 @@ export default {
       editor: new Editor({
         autoFocus: true,
         extensions: [
-          new SimpleArticleDoc(),
-          new Title(),
           new Blockquote(),
           new BulletList(),
           new CodeBlock(),
@@ -50,23 +71,29 @@ export default {
           new Bold(),
           new Code(),
           new Italic(),
+          new Image(),
           new Link(),
           new History(),
           new Placeholder({
             showOnlyCurrent: false,
             emptyNodeText: node => {
-              if (node.type.name === 'title') {
-                return 'Tiêu đề bài viết'
-              }
               return 'Viết về câu chuyện của bạn ...'
             },
           }),
         ],
-        onUpdate: ({ getJSON }) => {
-          this.json = getJSON()
-          this.$store.commit('article/setContent', getJSON())
+        onUpdate: ({ getHTML }) => {
+          this.json = getHTML()
+          this.$store.commit('article/setContent', getHTML())
         },
       }),
+    }
+  },
+  mounted() {
+    this.editor.setOptions({
+      editable: this.editable,
+    })
+    if (this.content) {
+      this.editor.setContent(this.content)
     }
   },
   beforeDestroy() {
@@ -78,19 +105,22 @@ export default {
 <style lang="scss">
 @import '@pubnow/ui/scss/_fonts.scss';
 @import '@pubnow/ui/scss/_colors.scss';
+@import '@pubnow/ui/scss/_sizes.scss';
 
 .editor {
   min-height: 300px;
+
+  .title {
+    border: 0;
+    background: transparent;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: $unit / 2;
+  }
 }
 
 .editor__content {
   word-wrap: break-word;
-
-  h1 {
-    font-family: $ale !important;
-    font-weight: 700;
-    font-size: 30px;
-  }
 }
 
 .editor__content * {
@@ -223,5 +253,9 @@ export default {
   color: $n300;
   pointer-events: none;
   height: 0;
+}
+
+::placeholder {
+  color: $n300;
 }
 </style>

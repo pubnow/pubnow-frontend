@@ -2,10 +2,7 @@
   <div>
     <va-minibar class="minibar" :top-items="minibarTopItem">
       <div slot="top">
-        <img
-          :src="require('@/assets/images/logo.svg')"
-          class="logo va-minibar-item-brand"
-        />
+        <img :src="require('@/assets/images/logo.svg')" class="logo va-minibar-item-brand" />
         <div v-for="(item, index) in minibarTopItem" :key="index">
           <va-minibar-item
             v-if="item.method"
@@ -13,11 +10,7 @@
             :brand="item.brand"
             @click.native="item.method"
           >
-            <va-icon
-              :type="item.icon"
-              :size="item.size"
-              :icon-style="item.iconStyle || 'solid'"
-            />
+            <va-icon :type="item.icon" :size="item.size" :icon-style="item.iconStyle || 'solid'" />
           </va-minibar-item>
         </div>
       </div>
@@ -50,8 +43,18 @@ export default {
       menuItems: [
         {
           name: 'Tài khoản',
-          route: '/create-acount',
+          route: '/accounts/create',
           icon: 'user',
+        },
+        {
+          name: 'Chức vụ',
+          route: '/roles/create',
+          icon: 'medal',
+        },
+        {
+          name: 'Tổ chức',
+          route: '/organizations/create',
+          icon: 'users',
         },
         {
           name: 'Chuyên mục',
@@ -66,6 +69,10 @@ export default {
 
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_sizes.scss';
+
+.minibar {
+  background: #f3f4f6;
+}
 
 .site-name {
   margin-left: $unit / 2;

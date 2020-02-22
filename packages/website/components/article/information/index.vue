@@ -37,13 +37,18 @@
         </b-col>
         <b-col>
           <div class="d-flex justify-content-end align-items-center">
-            Cho phép sao lưu bài viết
-            <va-toggle v-model="isSaveArticle" class="mb-0"></va-toggle>
+            Bài viết công khai
+            <va-toggle v-model="isPrivate" class="mb-0"></va-toggle>
           </div>
         </b-col>
       </b-row>
-      <div class="d-flex justify-content-end mt-3">
+      <div class="d-flex justify-content-end my-3 create" v-if="!slug">
+        <va-button class="mr-1" active @click="create(true)">Lưu nháp</va-button>
         <va-button class="button justify-content-end" type="success" @click="create">Đăng bài</va-button>
+      </div>
+      <div class="d-flex justify-content-end my-3 update" v-else>
+        <va-button class="mr-1" active @click="update(true)">Lưu nháp</va-button>
+        <va-button class="button justify-content-end" type="success" @click="update">Cập nhật</va-button>
       </div>
     </div>
   </no-ssr>
@@ -51,16 +56,27 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { errorProcess } from '../../../utils/notification'
 
 export default {
   data() {
     return {
       inputTag: '',
-      categorySelected: '',
       textSearch: '',
       isShowCategory: false,
       isSaveArticle: true,
+      dataID: [],
     }
+  },
+  props: {
+    slug: {
+      type: String,
+      default: '',
+    },
+    type: {
+      type: String,
+      default: 'article',
+    },
   },
   computed: {
     listFilter() {
@@ -71,7 +87,24 @@ export default {
     ...mapGetters({
       listCategory: 'category/categories',
       tags: 'article/tags',
+      series: 'series/series',
     }),
+    categorySelected: {
+      get() {
+        return this.$store.getters['article/category']
+      },
+      set(v) {
+        this.$store.commit('article/setCategory', v)
+      },
+    },
+    isPrivate: {
+      get() {
+        return !this.$store.getters['article/isPrivate']
+      },
+      set(v) {
+        this.$store.commit('article/setPrivate', !v)
+      },
+    },
     categoryOptions() {
       return this.listCategory.map(category => ({
         value: category.id,
@@ -79,40 +112,93 @@ export default {
       }))
     },
   },
-  async mounted() {
-    await this.$store.dispatch('category/list')
-  },
   methods: {
     remove(index) {
       this.$store.commit('article/removeTag', index)
     },
     add() {
-      this.$store.commit('article/addTag', this.inputTag)
-      this.inputTag = ''
+      if (this.inputTag.trim()) {
+        this.$store.commit('article/addTag', this.inputTag)
+        this.inputTag = ''
+      }
     },
-    async create() {
-      const result = this.$store.dispatch('article/write')
-      if (result) {
+    async create(draft = false) {
+      try {
+        const result = await this.$store.dispatch('article/write', {
+          draft,
+        })
+        if (this.type === 'series') {
+          this.series.articles.forEach(item => this.dataID.push(item.id))
+          this.dataID.push(result.id)
+          let data = {
+            articles: [...this.dataID],
+            slug: this.series.slug,
+          }
+          let resultSeries = this.$store.dispatch('series/edit', data)
+          if (resultSeries) {
+            this.notification.info({
+              title: `Thông báo`,
+              message: `Thêm bài viết vào series thành công`,
+              duration: 1690,
+              onHide: () => {
+                this.$router.push(`/series/${this.series.slug}/chinh-sua`)
+              },
+            })
+          } else {
+            this.notification.danger({
+              title: `Rất tiếc`,
+              message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
+              duration: 2000,
+            })
+          }
+        } else {
+          this.notification.info({
+            title: `Đăng bài thành công`,
+            message: `Cảm ơn bạn đã sử dụng Pubnow.`,
+            duration: 1690,
+            onHide: () => {
+              this.$router.push(`/bai-viet/${result.slug}`)
+            },
+          })
+        }
+      } catch (e) {
+        if (e.response.status === 422) {
+          const message = await errorProcess(e)
+          this.notification.danger({
+            title: 'Có lỗi xảy ra',
+            message,
+            duration: 3000,
+          })
+        } else {
+          this.notification.danger({
+            title: 'Có lỗi xảy ra',
+            message: 'Có lỗi xảy ra, vui lòng thử lại sau.',
+            duration: 1690,
+          })
+        }
+      }
+    },
+    async update(draft = false) {
+      try {
+        const result = await this.$store.dispatch('article/edit', {
+          draft,
+          slug: this.slug,
+        })
         this.notification.info({
-          title: `Đăng bài thành công`,
+          title: `Cập nhật thành công`,
           message: `Cảm ơn bạn đã sử dụng Pubnow.`,
           duration: 1690,
           onHide: () => {
-            this.$router.push('/')
+            this.$router.push(`/bai-viet/${result.slug}`)
           },
         })
-      } else {
+      } catch (e) {
         this.notification.danger({
           title: `Rất tiếc`,
           message: `Có lỗi xảy ra, vui lòng thử lại sau.`,
           duration: 2000,
         })
       }
-    },
-  },
-  watch: {
-    categorySelected(val) {
-      this.$store.commit('article/setCategory', val)
     },
   },
 }
@@ -167,15 +253,5 @@ export default {
       outline: none;
     }
   }
-}
-
-.button {
-  height: 30px !important ;
-  padding: 0.25rem 0.5rem !important;
-  font-size: 0.875rem !important;
-  line-height: 1.5 !important;
-  border-radius: 0.2rem !important;
-  font-weight: 300 !important;
-  text-transform: none !important;
 }
 </style>

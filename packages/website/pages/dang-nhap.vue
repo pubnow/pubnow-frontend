@@ -4,13 +4,13 @@
       <BackToHome />
       <va-form ref="form" type="vertical">
         <img class="logo mx-auto d-block mb-4" :src="require('@/assets/images/logo.svg')" />
-        <va-form-item label="Tài khoản" need>
+        <va-form-item label="Tên tài khoản" need>
           <va-input
             name="username"
             v-model="username"
             size="lg"
-            placeholder="Tài khoản"
-            :rules="[{type:'required', tip:'Bạn vui lòng nhập tài khoản'}]"
+            placeholder="Tên tài khoản"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập tên tài khoản'}]"
           />
         </va-form-item>
         <va-form-item label="Mật khẩu" need>
@@ -20,7 +20,8 @@
             type="password"
             size="lg"
             placeholder="Mật khẩu"
-            :rules="[{type:'required', tip:'Bạn vui lòng nhập mật khẩu'}]"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập mật khẩu'}, {type:'minlength=6', tip: 'Mật khẩu dài tối thiểu 6 ký tự'}]"
+            @confirm="submit"
           />
         </va-form-item>
         <va-form-item>
@@ -64,20 +65,21 @@ export default {
     submit() {
       this.$refs.form.validateFields(async result => {
         if (result.isvalid) {
-          const ok = await this.$store.dispatch('auth/login', {
-            username: this.username,
-            password: this.password,
-          })
-          if (ok) {
+          try {
+            const ok = await this.$store.dispatch('auth/login', {
+              username: this.username,
+              password: this.password,
+            })
             this.notification.info({
               title: `Đăng nhập thành công`,
               message: `Chào mừng bạn quay trở lại. Bạn đang được chuyển về Trang chủ.`,
               duration: 1690,
               onHide: () => {
-                this.$router.push('/')
+                const { redirectTo } = this.$route.query
+                this.$router.push(redirectTo ? redirectTo : '/')
               },
             })
-          } else {
+          } catch (e) {
             this.notification.danger({
               title: `Lỗi xác thực`,
               message: `Vui lòng kiểm tra lại thông tin đăng nhập`,

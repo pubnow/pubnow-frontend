@@ -4,13 +4,13 @@
       <BackToHome />
       <va-form ref="form" type="vertical">
         <img class="logo mx-auto d-block mb-4" :src="require('@/assets/images/logo.svg')" />
-        <va-form-item label="Tài khoản" need>
+        <va-form-item label="Tên tài khoản" need>
           <va-input
             v-model="username"
             name="username"
             size="lg"
-            placeholder="Tài khoản"
-            :rules="[{type:'required', tip:'Bạn vui lòng nhập tài khoản'}]"
+            placeholder="Tên tài khoản"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập tên  tài khoản'}]"
             :custom-validate="checkUsername"
           />
         </va-form-item>
@@ -39,7 +39,7 @@
             type="password"
             size="lg"
             placeholder="Mật khẩu"
-            :rules="[{type:'required', tip:'Bạn vui lòng nhập mật khẩu'}]"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập mật khẩu'}, {type:'minlength=6', tip: 'Mật khẩu dài tối thiểu 6 ký tự'}]"
           />
         </va-form-item>
         <va-form-item label="Nhập lại mật khẩu" need>
@@ -50,7 +50,8 @@
             size="lg"
             placeholder="Nhập lại mật khẩu"
             :custom-validate="reCheckPassword"
-            :rules="[{type:'required', tip:'Bạn vui lòng nhập lại mật khẩu'}]"
+            :rules="[{type:'required', tip:'Bạn vui lòng nhập lại mật khẩu'}, {type:'minlength=6', tip: 'Mật khẩu dài tối thiểu 6 ký tự'}]"
+            @confirm="submit"
           />
         </va-form-item>
         <va-form-item>
@@ -74,6 +75,7 @@
 
 <script>
 import { BackToHome } from '@/components/common'
+import { errorProcess } from '../utils/notification'
 
 export default {
   layout: 'empty',
@@ -94,27 +96,37 @@ export default {
     submit() {
       this.$refs.form.validateFields(async result => {
         if (result.isvalid) {
-          const ok = await this.$store.dispatch('auth/register', {
-            username: this.username,
-            password: this.password,
-            name: this.name,
-            email: this.email,
-          })
-          if (ok) {
+          try {
+            await this.$store.dispatch('auth/register', {
+              username: this.username,
+              password: this.password,
+              name: this.name,
+              email: this.email,
+            })
             this.notification.info({
               title: `Đăng ký thành công`,
               message: `Cảm ơn bạn đã sử dụng Pubnow. Bạn đang được chuyển về Trang chủ.`,
               duration: 1690,
               onHide: () => {
-                this.$router.push('/')
+                const { redirectTo } = this.$route.query
+                this.$router.push(redirectTo ? redirectTo : '/')
               },
             })
-          } else {
-            this.notification.danger({
-              title: `Lỗi đăng ký`,
-              message: `Vui lòng kiểm tra lại thông tin đăng ký`,
-              duration: 2000,
-            })
+          } catch (e) {
+            if (e.response.status === 422) {
+              const message = await errorProcess(e)
+              this.notification.danger({
+                title: 'Có lỗi xảy ra',
+                message,
+                duration: 1690,
+              })
+            } else {
+              this.notification.danger({
+                title: 'Có lỗi xảy ra',
+                message: 'Bạn không thể tạo tài khoản vào lúc này.',
+                duration: 1690,
+              })
+            }
           }
         }
       })

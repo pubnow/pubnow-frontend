@@ -3,6 +3,11 @@ export default {
   /*
    ** Headers of the page
    */
+  env: {
+    API_URL: process.env.API_URL,
+    WS_URL: process.env.WS_URL,
+    mode: process.env.NODE_ENV,
+  },
   head: {
     title: 'Publish your content',
     meta: [
@@ -23,7 +28,17 @@ export default {
       {
         rel: 'stylesheet',
         href:
+          'https://fonts.googleapis.com/css?family=Roboto:300,400,500,900&display=swap&subset=vietnamese',
+      },
+      {
+        rel: 'stylesheet',
+        href:
           'https://fonts.googleapis.com/css?family=Alegreya+Sans:400,700&display=swap&subset=vietnamese',
+      },
+      {
+        rel: 'stylesheet',
+        href:
+          'https://fonts.googleapis.com/css?family=Noto+Serif:400,400i,700,700i&display=swap&subset=vietnamese',
       },
     ],
   },
@@ -39,20 +54,33 @@ export default {
   /*
    ** Global CSS
    */
-  css: ['@/assets/scss/main.scss'],
+  css: [
+    '@/assets/scss/main.scss',
+    '@pubnow/ui/scss/pubnow-ui.scss',
+    '@egoist/snackbar/dist/snackbar.css',
+  ],
   /*
    ** Plugins to load before mounting the App
    */
   plugins: [
     {
-      src: '~/plugins/pubnow-ui',
-      ssr: false,
+      src: '~/plugins/vue-atlas',
+      mode: 'client',
     },
     {
-      src: '~/plugins/vue-atlas',
-      ssr: false,
+      src: '~/plugins/vuelidate',
+      mode: 'client',
+    },
+    {
+      src: '~/plugins/echo',
+      mode: 'client',
+    },
+    {
+      src: '~/plugins/carousel',
+      mode: 'client',
     },
     '~/plugins/http',
+    '~/plugins/common',
   ],
   /*
    ** Nuxt.js modules
@@ -61,7 +89,9 @@ export default {
     'bootstrap-vue/nuxt',
     '@nuxt/http',
     'vue-wait/nuxt',
+    'vue-scrollto/nuxt',
     ['cookie-universal-nuxt', { alias: 'cookiz' }],
+    '~/modules/froala',
   ],
   http: {},
   wait: { useVuex: true },
@@ -75,6 +105,7 @@ export default {
     extend(config, ctx) {},
   },
   router: {
+    middleware: 'init',
     scrollBehavior(to, from, savedPosition) {
       // savedPosition is only available for popstate navigations (back button)
       if (savedPosition) {

@@ -1,12 +1,20 @@
 <template>
   <div class="back-area">
-    <va-tooltip content="Quay lại trang chủ!" placement="right" effect="tooltip-fade-right" arrow>
-      <va-button icon-before="home">
-        <nuxt-link class="back-btn" to="/">Trang chủ</nuxt-link>
-      </va-button>
+    <va-tooltip content="Quay lại" placement="right" effect="tooltip-fade-right" arrow>
+      <va-button icon-before="chevron-left" @click="back">Quay lại</va-button>
     </va-tooltip>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    back() {
+      this.$router.back()
+    },
+  },
+}
+</script>
 
 <style lang="scss" scoped>
 @import '@pubnow/ui/scss/_sizes.scss';
