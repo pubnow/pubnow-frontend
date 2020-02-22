@@ -10,7 +10,7 @@
   Publish your content
 </p>
 
-[![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
+[![Nuxtjs](https://img.shields.io/badge/built%20with-nuxt-%2300C58E?style=for-the-badge&logo=nuxt.js)](https://nuxtjs.org/) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=for-the-badge)](https://lerna.js.org/)
 
 ### Structure
 
