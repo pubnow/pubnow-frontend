@@ -28,3 +28,7 @@
 - `ui` - Shared UI Components - Vue.js Components.
 - `admin` - The admin control panel frontend, built with Nuxt.js static.
 - `website` - The user website frontend, built with Nuxt.js SSR.
+
+### Hire me
+
+Looking for a developer to build your next idea or need a developer to work remotely? Get in touch: team@procolla.com
